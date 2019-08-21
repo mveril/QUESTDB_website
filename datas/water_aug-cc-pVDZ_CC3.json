@@ -1,0 +1,102 @@
+{
+    "molecule": "water",
+    "remark": "",
+    "code": {
+        "name": "",
+        "version": ""
+    },
+    "basis": {
+        "type": "gaussian",
+        "name": "aug-cc-pVDZ",
+        "size": 3
+    },
+    "parameters": {    },
+    "method": "CC3",
+    "exitations": [
+        {
+            "type": "",
+            "start": {
+                "num": 1,
+                "multiplicity": 1,
+                "symetry": "A_1"
+            },
+            "end": {
+                "num": 1,
+                "multiplicity": 1,
+                "symetry": "B_1"
+            },
+            "energy": 7.51
+        },
+        {
+            "type": "",
+            "start": {
+                "num": 1,
+                "multiplicity": 1,
+                "symetry": "A_1"
+            },
+            "end": {
+                "num": 1,
+                "multiplicity": 1,
+                "symetry": "A_2"
+            },
+            "energy": 9.29
+        },
+        {
+            "type": "",
+            "start": {
+                "num": 1,
+                "multiplicity": 1,
+                "symetry": "A_1"
+            },
+            "end": {
+                "num": 2,
+                "multiplicity": 1,
+                "symetry": "A_1"
+            },
+            "energy": 9.92
+        },
+        {
+            "type": "",
+            "start": {
+                "num": 1,
+                "multiplicity": 1,
+                "symetry": "A_1"
+            },
+            "end": {
+                "num": 1,
+                "multiplicity": 3,
+                "symetry": "B_1"
+            },
+            "energy": 7.13
+        },
+        {
+            "type": "",
+            "start": {
+                "num": 1,
+                "multiplicity": 1,
+                "symetry": "A_1"
+            },
+            "end": {
+                "num": 1,
+                "multiplicity": 3,
+                "symetry": "A_2"
+            },
+            "energy": 9.12
+        },
+        {
+            "type": "",
+            "start": {
+                "num": 1,
+                "multiplicity": 1,
+                "symetry": "A_1"
+            },
+            "end": {
+                "num": 1,
+                "multiplicity": 3,
+                "symetry": "A_1"
+            },
+            "energy": 9.47
+        }
+    ],
+    "doi": "10.1021/acs.jctc.8b00406"
+}
