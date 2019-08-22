@@ -1,0 +1,14 @@
+# title  : Water
+# code
+# method : CC3
+# basis  : aug-cc-pVDZ,gaussian
+# doi    : 10.1021/acs.jctc.8b00406
+
+       start                  end
+###################   ############################
+#  type  Spin  number  Symm      Spin  number  Symm     eV
+    ver    1     1      A_1       1     1       B_1    7.51
+    ver    1     1      A_1       1     1       A_2    9.29
+    ver    1     1      A_1       1     2       A_1    9.92
+    ver    1     1      A_1       3     1       A_2    9.12
+    ver    1     1      A_1       3     1       A_1    9.47

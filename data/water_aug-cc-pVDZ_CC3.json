@@ -1,22 +1,19 @@
 {
     "molecule": "water",
-    "remark": "",
     "code": {
         "name": "",
         "version": ""
     },
     "basis": {
         "type": "gaussian",
-        "name": "aug-cc-pVDZ",
-        "size": 3
+        "name": "aug-cc-pVDZ"
     },
-    "parameters": {    },
     "method": "CC3",
     "exitations": [
         {
-            "type": "",
+            "type": "vert",
             "start": {
-                "num": 1,
+                "number": 1,
                 "multiplicity": 1,
                 "symetry": "A_1"
             },
@@ -28,70 +25,71 @@
             "energy": 7.51
         },
         {
-            "type": "",
+            "type": "vert",
             "start": {
-                "num": 1,
+                "number": 1,
                 "multiplicity": 1,
                 "symetry": "A_1"
             },
             "end": {
-                "num": 1,
+                "number": 1,
                 "multiplicity": 1,
                 "symetry": "A_2"
             },
             "energy": 9.29
         },
         {
-            "type": "",
+            "type": "vert",
             "start": {
-                "num": 1,
+                "number": 1,
                 "multiplicity": 1,
                 "symetry": "A_1"
             },
             "end": {
-                "num": 2,
+                "number": 2,
                 "multiplicity": 1,
                 "symetry": "A_1"
             },
             "energy": 9.92
         },
         {
-            "type": "",
+            "type": "vert",
             "start": {
-                "num": 1,
+                "number": 1,
                 "multiplicity": 1,
                 "symetry": "A_1"
             },
             "end": {
-                "num": 1,
+                "number": 1,
                 "multiplicity": 3,
                 "symetry": "B_1"
             },
             "energy": 7.13
         },
         {
-            "type": "",
+            "type": "vert",
             "start": {
-                "num": 1,
+                "number": 1,
                 "multiplicity": 1,
                 "symetry": "A_1"
             },
             "end": {
-                "num": 1,
+                "number": 1,
                 "multiplicity": 3,
                 "symetry": "A_2"
             },
-            "energy": 9.12
+            "energy": 9.12,
+            "error": 0.0
         },
         {
-            "type": "",
+            "type": "vert",
             "start": {
-                "num": 1,
+                "number": 1,
                 "multiplicity": 1,
-                "symetry": "A_1"
+                "symmetry": "A_1"
             },
             "end": {
-                "num": 1,
+                "number": 1,
                 "multiplicity": 3,
                 "symetry": "A_1"
             },
