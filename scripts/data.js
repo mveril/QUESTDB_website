@@ -1,13 +1,16 @@
-function getDataFromFile(file) {
+function getDataFromFile(file,fn) {
   var result = null;
   var xmlhttp = new XMLHttpRequest();
   xmlhttp
-  xmlhttp.open("GET",getFullDataPath(file), false);
-  xmlhttp.send();
-  if (xmlhttp.status==200) {
-    text = xmlhttp.responseText;
+  xmlhttp.open("GET",getFullDataPath(file), true);
+  xmlhttp.onreadystatechange = function() { 
+    if (this.readyState == 4 && this.status == 200) {//when a good response is given do this
+
+        var data = JSON.parse(this.responseText); // convert the response to a json object
+        fn(data)
+    }
   }
-  return JSON.parse(text);
+  xmlhttp.send();
 }
 
 function getDoiUrl(data) {
