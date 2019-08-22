@@ -13,8 +13,8 @@ function getDataFromFile(file,fn) {
   xmlhttp.send();
 }
 
-function getDoiUrl(data) {
-  return 'https://doi.org/'+data.doi
+function getDoiUrl(doi) {
+  return 'https://doi.org/'+doi
 }
 function getFullDataPath(path) {
   return 'data/'+path
