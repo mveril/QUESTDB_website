@@ -2,20 +2,21 @@
 <html>
   <head>
     <script src="scripts/data.js" type="text/javascript"></script>
+    <script src="scripts/getFullDataPath.js" type="text/javascript"></script>
     <script src="https://cdn.rawgit.com/larsgw/citation.js/archive/citation.js/citation-0.4.0-9.js" type="text/javascript"></script>
     <script>
       function update_file(filename) {
-        file=filename+'.json'
+        file=filename+'.dat'
         lnk_file.setAttribute('href',getFullDataPath(file));
         lnk_file=document.getElementById('lnk_file');
-        getDataFromFile(file,onApplyData);
+        data.load(file,onApplyData);
       }
-      function onApplyData(data) {
+      function onApplyData(dat) {
         lnk_doi=document.getElementById('lnk_doi');
-        doiurl=getDoiUrl(data.doi);
+        doiurl=dat.doi.url;
         lnk_doi.setAttribute('href',doiurl);
         const Cite = require('citation-js');
-        let publi = new Cite(data.doi)
+        let publi = new Cite(dat.doi.string)
         lnk_doi.innerHTML=publi.format('citation');
       }
     </script>
