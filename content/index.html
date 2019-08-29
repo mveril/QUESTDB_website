@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="scripts/data.js" type="text/javascript"></script>
-    <script src="scripts/getFullDataPath.js" type="text/javascript"></script>
+      <title>Welcome</title>
+      <meta name="saveas" content="index.html"></meta>
+      <meta name="url" content=""> </meta>
+      <meta name="date" content="2019-08-29 09:00"></meta>
+  </head>
+  <body>
+    <script src="{static}/scripts/data.js" type="text/javascript"></script>
+    <script src="{static}/scripts/getFullDataPath.js" type="text/javascript"></script>
     <script src="https://cdn.rawgit.com/larsgw/citation.js/archive/citation.js/citation-0.4.0-9.js" type="text/javascript"></script>
     <script>
       function update_file(filename) {
@@ -31,8 +37,7 @@
         );
       }
     </script>
-  </head>
-  <body>
+
     <label>Write a data file name without extension<br/>
       <input type="text" id='inp_filename'></input>
     </label><br/>
