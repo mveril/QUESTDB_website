@@ -6,7 +6,7 @@
 
 #       start                  end             data
 ###################   ####################### #######
-#  Spin  number  Symm      Spin  number  Symm  E_vert  
+#  Spin  number  Symm      Spin  number  Symm  E_abs  
      1     1      A_1       1     1       B_1   7.51
      1     1      A_1       1     1       A_2   9.29
      1     1      A_1       1     2       A_1   9.92

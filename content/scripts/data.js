@@ -27,10 +27,10 @@ class doi{
   }
 }
 class excitation{
-  constructor(start,end,Evert){
+  constructor(start,end,Eabs){
     this.start=start;
     this.end=end;
-    this.Evert=Evert;
+    this.Eabs=Eabs;
   }
 }
 
