@@ -95,9 +95,9 @@ class data {
     }
     function readrow(line){
       var vals=line.split(/\s+/);             
-      var start=new state(vals[0],vals[1],vals[2]);
-      var end=new state(vals[3],vals[4],vals[5]);
-      var ex=new excitation(start,end,vals[6]);
+      var start=new state(parseInt(vals[0],10),parseInt(vals[1],10),vals[2]);
+      var end=new state(parseInt(vals[3],10),vals[4],vals[5]);
+      var ex=new excitation(start,end,parseFloat(vals[6],10));
       dat.excitations.push(ex);
     };
 
