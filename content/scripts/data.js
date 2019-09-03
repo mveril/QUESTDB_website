@@ -1,13 +1,27 @@
 class code {
   constructor(name,version){
-    this.name=name
-    this.version=version
+    this.name=name;
+    this.version=version;
+  };
+  toString() { 
+    var str=this.name;
+    if (this.version) {
+      str=str+' ('+this.version+')';
+    }
+    return str;
   }
 }
 class basis {
   constructor(name,type){
-    this.name=name
-    this.type=type
+    this.name=name;
+    this.type=type;
+  }
+  toString() { 
+    var str=this.name;
+    if (this.type) {
+      str=str+' ('+this.type+')';
+    }
+    return str;
   }
 }
 
@@ -16,15 +30,27 @@ class state{
     this.number=number;
     this.multiplicity=multiplicity;
     this.symetry=symetry;
-  }
+  };
+  toString() { 
+    var str=this.number+ ' ^'+this.multiplicity+this.symetry;
+    return str;
+  };
+  toLaTeX() {
+    var tex=this.number;
+    tex+= String.raw` \vphantom{${this.symetry.charAt(0)}}^{${this.multiplicity}}${this.symetry}`;
+    return tex;
+  };
 }
 class doi{
   constructor(doistring){
     this.string=doistring
-  }
+  };
+  toString() { 
+    return this.string;
+  };
   get url() {
-    return 'https://doi.org/'+doi 
-  }
+    return 'https://doi.org/'+this.string;
+  };
 }
 class excitation{
   constructor(start,end,Eabs){
@@ -32,11 +58,14 @@ class excitation{
     this.end=end;
     this.Eabs=Eabs;
   }
+  toString() {
+    return this.start+ ', ' + this.end +', '+ this.Eabs;
+  }
 }
 
 class data {
   constructor(){
-    this.title="";
+    this.title='';
     this.code=null;
     this.basis=null;
     this.doi=null;
