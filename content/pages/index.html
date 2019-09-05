@@ -17,7 +17,7 @@
         var file=filename+'.dat';
         var lnk_file=document.getElementById('lnk_file');
         lnk_file.setAttribute('href',getFullDataPath(file));
-        dat= await data.loadAsnyc(file);
+        dat= await data.loadAsync(file);
         await applyData(dat);
       }
       async function applyData(dat) {
@@ -71,7 +71,7 @@
     </script>
 
     <label>Write a data file name without extension<br/>
-      <input type="text" id='inp_filename' onkeydown="onKeyDown(e)"></input>
+      <input type="text" id='inp_filename' onkeydown="onKeyDown(event)"></input>
     </label><br/>
     <p id=data_par></p>
     <a target="_blank" id='lnk_file' type='text/plain'>Go to file</a>
