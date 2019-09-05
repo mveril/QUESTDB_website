@@ -14,15 +14,15 @@
     </script>
     <script>
       function update_file(filename) {
-        file=filename+'.dat'
+        var file=filename+'.dat';
+        var lnk_file=document.getElementById('lnk_file');
         lnk_file.setAttribute('href',getFullDataPath(file));
-        lnk_file=document.getElementById('lnk_file');
         data.load(file,onApplyData);
       }
       function onApplyData(dat) {
         const Cite = require('citation-js');
-        const LatexInline=['\\(','\\)']
-        par=document.getElementById("data_par")
+        const LatexInline=['\\(','\\)'];
+        var par=document.getElementById("data_par");
         par.innerHTML='';
         var md=[];
         var els=[];
@@ -45,7 +45,7 @@
           par.appendChild(node);
           
         });
-        let publi = new Cite(dat.doi.string)
+        var publi = new Cite(dat.doi.string)
         var lnkdoi = document.createElement("a");
         let output = publi.format('bibliography', {
          format: 'html',
@@ -59,20 +59,15 @@
       }
     </script>
     <script>
-      window.onload=function() {
-        console.info("Loaded")
-        var inp = document.getElementById("inp_filename");
-        inp.addEventListener("keydown", function (e) {
-          if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
-            update_file(inp.value);
+      function onKeyDown(e) {
+        if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
+          update_file(e.target.value);
           }
         }
-        );
-      }
     </script>
 
     <label>Write a data file name without extension<br/>
-      <input type="text" id='inp_filename'></input>
+      <input type="text" id='inp_filename' onkeydown="onKeyDown(event)"></input>
     </label><br/>
     <p id=data_par></p>
     <a target="_blank" id='lnk_file' type='text/plain'>Go to file</a>
