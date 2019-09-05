@@ -13,16 +13,19 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
     </script>
     <script>
-      function update_file(filename) {
+     async function update_file(filename) {
         var file=filename+'.dat';
         var lnk_file=document.getElementById('lnk_file');
         lnk_file.setAttribute('href',getFullDataPath(file));
-        data.load(file,onApplyData);
+        dat= await data.loadAsnyc(file);
+        await applyData(dat);
       }
-      function onApplyData(dat) {
+      async function applyData(dat) {
         const Cite = require('citation-js');
-        const LatexInline=['\\(','\\)'];
-        var par=document.getElementById("data_par");
+        // Start a async task to get publi
+        let publitask = Cite.async(dat.doi.string)
+        const LatexInline=['\\(','\\)']
+        var par=document.getElementById("data_par")
         par.innerHTML='';
         var md=[];
         var els=[];
@@ -45,8 +48,9 @@
           par.appendChild(node);
           
         });
-        var publi = new Cite(dat.doi.string)
         var lnkdoi = document.createElement("a");
+        // Wait for the value of publi when required
+        let publi=await publitask;
         let output = publi.format('bibliography', {
          format: 'html',
          template: 'apa',
@@ -67,7 +71,7 @@
     </script>
 
     <label>Write a data file name without extension<br/>
-      <input type="text" id='inp_filename' onkeydown="onKeyDown(event)"></input>
+      <input type="text" id='inp_filename' onkeydown="onKeyDown(e)"></input>
     </label><br/>
     <p id=data_par></p>
     <a target="_blank" id='lnk_file' type='text/plain'>Go to file</a>

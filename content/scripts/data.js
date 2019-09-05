@@ -70,18 +70,25 @@ class data {
     this.doi=null;
     this.excitations=[];
   }
-  static load(file,fn) {
-    var req = new XMLHttpRequest();
-    req.open("GET",getFullDataPath(file), true);
-    req.onreadystatechange = function() { 
-      if (req.readyState == 4 && req.status == 200) {//when a good response is given do this
-        var text = req.responseText;
-        fn(data.loadstring(text));
-      }
-    }
+    static async loadAsync(file) {
+     return new Promise(function (resolve, reject) {
+      var req = new XMLHttpRequest();
+      req.open("GET",getFullDataPath(file), true);
+      req.onreadystatechange = function() { 
+        if (req.readyState == 4 && req.status == 200) {//when a good response is given do this
+          var text = req.responseText;
+          resolve(data.loadString(text))
+        } else {
+          reject({
+            status: req.status,
+            statusText: req.statusText
+          });
+        }
+      };
     req.send();
+    });
   }
-  static loadstring(text) {
+  static loadString(text) {
     // for each line with metadata
     var ismetaArea=true;
     //metadata RegExp (start with #; maybe somme spaces; : ; maybe somme space; datas)
