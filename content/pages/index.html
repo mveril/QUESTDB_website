@@ -23,7 +23,7 @@
       }
       async function applyData(dat) {
         const Cite = require('citation-js');
-        // Start a async task to get publi
+        // Start an async task to get publi data
         let publitask = Cite.async(dat.doi.string)
         const LatexInline=['\\(','\\)']
         var par=document.getElementById("data_par")
@@ -39,15 +39,19 @@
           node.innerText= element[0]+': '+element[1];
           par.appendChild(node);
         });
-        var node = document.createElement("h");
-        node.innerText= "Excitations";
-        par.appendChild(node);
+        var exDiv= document.createElement("div");
+        par.appendChild(exDiv);
+        var exTitle = document.createElement("h2");
+        exTitle.innerText= "Excitations";
+        exDiv.appendChild(exTitle);
+        var exPar= document.createElement("p");
+        exDiv.appendChild(exPar);
         await dat.excitations.reduce(async (promise,el)=> {
           await promise;
           var node = document.createElement("div");
           node.innerHTML= String.raw`${LatexInline[0]} ${el.start.toLaTeX()} \rightarrow ${el.end.toLaTeX()}${LatexInline[1]}, ${LatexInline[0]}${el.Eabs}\:\mathrm{eV}${LatexInline[1]}`;
           node.hidden=true
-          par.appendChild(node);
+          exPar.appendChild(node);
           await MathJax.typesetPromise();
           node.hidden=false;
         });
@@ -78,6 +82,7 @@
     <label>Write a data file name without extension<br/>
       <input type="text" id='inp_filename' onkeydown="onKeyDown(event)"></input>
     </label><br/>
+    <h1>Data</h1>
     <p id=data_par></p>
     <a target="_blank" id='lnk_file' type='text/plain'>Go to file</a>
   </body>
