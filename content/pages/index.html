@@ -9,8 +9,9 @@
     <script src="{static}/scripts/data.js" type="text/javascript"></script>
     <script src="{static}/scripts/getFullDataPath.js" type="text/javascript"></script>
     <script src="https://cdn.rawgit.com/larsgw/citation.js/archive/citation.js/citation-0.4.0-9.js" type="text/javascript"></script>
-    <script type="text/javascript" async
-      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
     </script>
     <script>
      async function update_file(filename) {
@@ -41,13 +42,17 @@
         var node = document.createElement("h");
         node.innerText= "Excitations";
         par.appendChild(node);
-        dat.excitations.forEach(function(el) {
+        await dat.excitations.reduce(async (promise,el)=> {
+          await promise;
           var node = document.createElement("div");
           node.innerHTML= String.raw`${LatexInline[0]} ${el.start.toLaTeX()} \rightarrow ${el.end.toLaTeX()}${LatexInline[1]}, ${LatexInline[0]}${el.Eabs}\:\mathrm{eV}${LatexInline[1]}`;
-          MathJax.Hub.Queue(["Typeset",MathJax.Hub,node]);
           par.appendChild(node);
-          
+          node.style='none';
+          await MathJax.typesetPromise();
+          node.style='block';
         });
+        
+        
         var lnkdoi = document.createElement("a");
         // Wait for the value of publi when required
         let publi=await publitask;
