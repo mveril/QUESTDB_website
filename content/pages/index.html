@@ -46,10 +46,10 @@
           await promise;
           var node = document.createElement("div");
           node.innerHTML= String.raw`${LatexInline[0]} ${el.start.toLaTeX()} \rightarrow ${el.end.toLaTeX()}${LatexInline[1]}, ${LatexInline[0]}${el.Eabs}\:\mathrm{eV}${LatexInline[1]}`;
+          node.hidden=true
           par.appendChild(node);
-          node.style='none';
           await MathJax.typesetPromise();
-          node.style='block';
+          node.hidden=false;
         });
         
         
