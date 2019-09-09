@@ -24,7 +24,7 @@
       async function applyData(dat) {
         const Cite = require('citation-js');
         // Start an async task to get publi data
-        let publitask = Cite.async(dat.doi.string)
+        let publiPromise = Cite.async(dat.doi.string)
         const LatexInline=['\\(','\\)']
         var par=document.getElementById("data_par")
         par.innerHTML='';
@@ -59,7 +59,7 @@
         
         var lnkdoi = document.createElement("a");
         // Wait for the value of publi when required
-        let publi=await publitask;
+        let publi=await publiPromise;
         let output = publi.format('bibliography', {
          format: 'html',
          template: 'apa',
