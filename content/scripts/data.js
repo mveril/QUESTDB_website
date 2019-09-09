@@ -71,24 +71,7 @@ class data {
     this.excitations=[];
   }
   static async loadAsync(file) {
-    return new Promise(function (resolve, reject) {
-    var req = new XMLHttpRequest();
-    req.open("GET",getFullDataPath(file), true);
-    req.onreadystatechange = function() {
-      if (req.readyState == 4) {
-        if (req.status == 200) {//when a good response is given do this
-          var text = req.responseText;
-          resolve(data.loadString(text));
-        } else {
-          reject({
-            status: req.status,
-            statusText: req.statusText
-          });
-        }
-      }
-    }
-    req.send();
-    });
+   return data.loadString(await getTextFromFileAsync(getFullDataPath(file)));
   }
   static loadString(text) {
     // for each line with metadata
