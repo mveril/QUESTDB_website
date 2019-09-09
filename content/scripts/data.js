@@ -58,7 +58,7 @@ class excitation{
     this.Eabs=Eabs;
   }
   toString() {
-    return this.start+ ', ' + this.end +', '+ this.Eabs;
+    return this.start+ ', ' + this.end +', '+ this.Eabs.toPrecision(3);
   }
 }
 
