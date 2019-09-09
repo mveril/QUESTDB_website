@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>view</title>
+      <meta name="save_as" content="view.html"></meta>
+      <meta name="date" content="2019-08-29 09:00"></meta>
+  </head>
+  <body>
+      <script src="{static}/scripts/getFullDataPath.js" type="text/javascript"></script>
+      <script src="{static}/scripts/getTextFromFile.js" type="text/javascript"></script>
+    <script>
+
+      window.onload=async function(){
+      if(typeof(navigator.clipboard) == 'undefined' || typeof(navigator.clipboard.writeText) === 'undefined'){
+        btn_clip=document.getElementById("btn_clip");
+        btn_clip.disabled = true;
+        btn_clip.title="This feature is not supported in this bowser\n we recomend to use Firefox or a Chromium based browser like Google Chrome"
+      }
+      if(location.hash.length>1){       
+        var filename=location.hash.substr(1);
+        var path=getFullDataPath(filename);
+        var textPromise=getTextFromFileAsync(path) 
+        btn_download=document.getElementById("btn_download");
+        btn_download.onclick=function(){
+          window.open(path,"_self");
+        }
+        var preNode= document.getElementById('fileContent');
+        preNode.hidden=false;
+        preNode.innerText=await textPromise;
+        document.getElementById("div_btn").hidden=false;
+      }
+      else {
+        document.getElementById('error_P').hidden=false;
+        errNode;
+
+
+      }
+    }
+    </script>
+<script>
+  function Copy()
+  {
+    navigator.clipboard.writeText(document.getElementById('fileContent').innerText);
+};
+
+</script>
+    </script>
+    </script>
+    <div>
+      <p id="error_P" style="color: red; font-weight: bold" hidden=true>
+        Error
+      </p>
+      <pre id="fileContent" hidden=true></pre>  
+    </div>
+    <div id="div_btn" hidden=true>
+      <button id="btn_clip" onclick="Copy()">Copy content</button>
+      <button id='btn_download'>Download</button>
+    </div>
+  </body>
+</html>
