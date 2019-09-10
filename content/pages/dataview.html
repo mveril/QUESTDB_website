@@ -36,9 +36,9 @@
         btn_download.onclick=function(){
           window.open(path,"_self");
         }
-        var preNode= document.getElementById('fileContent');
-        preNode.hidden=false;
-        preNode.innerText=await textPromise;
+        document.getElementById('fileTitle').innerText=filename;
+        document.getElementById('fileContent').innerText=await textPromise;
+        document.getElementById('file').hidden=false;
         document.getElementById("div_btn").hidden=false;
       }
       else {
@@ -60,7 +60,10 @@
       <p id="error_P" style="color: red; font-weight: bold" hidden=true>
         Error
       </p>
-      <pre id="fileContent" hidden=true></pre>  
+      <div id="file" hidden=true>
+      <h2 id="fileTitle"></h2>
+      <pre id="fileContent"></pre>
+    </div>
     </div>
     <div id="div_btn" hidden=true>
       <button id="btn_clip" onclick="Copy()">Copy content</button>
