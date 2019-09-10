@@ -14,7 +14,16 @@
       if(typeof(navigator.clipboard) == 'undefined' || typeof(navigator.clipboard.writeText) === 'undefined'){
         btn_clip=document.getElementById("btn_clip");
         btn_clip.disabled = true;
-        btn_clip.title="This feature is not supported in this bowser\n we recomend to use Firefox or a Chromium based browser like Google Chrome"
+        var browsers= {};
+        browsers["Chromium"]="https://www.mozilla.org/fr/firefox";
+        browsers["Firefox"]="https://chromium.woolyss.com/download";
+        var recomsting="We recomend to use Firefox or a Chromium based browser like Google Chrome";
+        btn_clip.title='This feature is not supported in this bowser\n'+recomsting;
+        var mystr='navigator.clipboard.writeText() not supported in this browser\n'+recomsting;
+        for(var key in browsers) {
+          mystr+="\n"+String.raw`Download ${key} : ${browsers[key]}`;
+        }
+        console.warn(mystr);
       }
       if(location.hash.length>1){       
         var filename=location.hash.substr(1);
@@ -32,8 +41,6 @@
       else {
         document.getElementById('error_P').hidden=false;
         errNode;
-
-
       }
     }
     </script>
