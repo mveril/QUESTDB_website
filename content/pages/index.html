@@ -18,7 +18,7 @@
      async function update_file(filename) {
         var file=filename+'.dat';
         var lnk_file=document.getElementById('lnk_file');
-        lnk_file.setAttribute('href',String.raw`view#${file}`);
+        lnk_file.setAttribute('href',String.raw`view?dataFile=${file}`);
         dat= await data.loadAsync(file);
         await applyData(dat);
       }
