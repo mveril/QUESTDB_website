@@ -1,10 +1,11 @@
 <script>
-{{- $files := readDir "/static/data" -}}
+{{- $files := readDir "/static/data" }}
+{{- $list := slice }}
 function getDataFilesName(){
- var files=[]
 {{- range $files }}
-    files.push({{ .Name }})
+    {{- $list = $list | append .Name }}
 {{- end }}
+  var files=JSON.parse({{ jsonify $list }})
  return files
 }
 </script>
