@@ -1,3 +1,3 @@
 function getFullDataPath(path) {
-  return 'data/' + path;
+  return '/data/' + path;
 }

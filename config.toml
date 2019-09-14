@@ -1,0 +1,6 @@
+baseURL = "localhost:8080"
+languageCode = "en-us"
+DateForm = "12-30-2006"
+title = "exdatabaseLCPQ"
+DefaultContentLanguage = "en"
+theme = "beautifulhugo"
