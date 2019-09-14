@@ -11,9 +11,19 @@ draft: false
     <script type="text/javascript" id="MathJax-script" async
       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
     </script>
+     {{< getDataFilesName >}}
     <script>
-      async function update_file(filename) {
-        var file=filename+'.dat';
+      window.onload=function()
+      {
+        fsel=document.getElementById("fileSelect")
+        getDataFilesName().forEach(function(element) {
+          op=document.createElement("option");
+          op.value=element;
+          op.innerText=element.split('.')[0];
+          fsel.appendChild(op);
+        });
+      }
+      async function update_file(file) {
         var lnk_file=document.getElementById('lnk_file');
         lnk_file.setAttribute('href',String.raw`view?dataFile=${file}`);
         dat= await data.loadAsync(file);
@@ -70,15 +80,15 @@ draft: false
       }
     </script>
     <script>
-      function onKeyDown(e) {
-        if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
+      function onValueChange(e) {
           update_file(e.target.value);
-          }
         }
     </script>
 
     <label>Write a data file name without extension<br/>
-      <input type="text" id='inp_filename' onkeydown="onKeyDown(event)"></input>
+      <select id="fileSelect" onchange="onValueChange(event)">
+        <option value="" disabled=true selected=true>Select a file</option>
+      </select>
     </label><br/>
     <h1>Data</h1>
     <p id=data_par></p>

@@ -1,0 +1,10 @@
+<script>
+{{- $files := readDir "/static/data" -}}
+function getDataFilesName(){
+ var files=[]
+{{- range $files }}
+    files.push({{ .Name }})
+{{- end }}
+ return files
+}
+</script>
