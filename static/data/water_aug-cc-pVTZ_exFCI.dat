@@ -1,6 +1,6 @@
 # title  : Water
 # code   :
-# method : CCSDTQ
+# method : exFCI
 # basis  : aug-cc-pVTZ,gaussian
 # doi    : 10.1021/acs.jctc.8b00406
 
