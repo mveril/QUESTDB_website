@@ -24,6 +24,19 @@ class basis {
     return str;
   }
 }
+class geometry {
+  constructor(method,basis){
+    this.method=method
+    this.basis=basis
+  }
+  toString() { 
+    var str=this.method;
+    if (this.basis) {
+      str=str+'/'+this.basis.name;
+    }
+    return str;
+  }
+}
 
 class state{
   constructor(number,multiplicity,symetry){
@@ -66,6 +79,7 @@ class data {
   constructor(){
     this.title='';
     this.code=null;
+    this.geometry=null;
     this.method=null;
     this.basis=null;
     this.doi=null;
@@ -98,6 +112,20 @@ class data {
               dat.code=new code(vals[0],vals[1]);
             } else {
               dat.code=new code(vals[0],null);
+            }
+            break;
+          case "geometry":
+            var vals=val.split(",")
+            switch(vals.length){
+              case 1:
+                dat.geometry=new geometry(vals[0],null);
+                break;
+              case 2:
+                dat.geometry=new geometry(vals[0],new basis(vals[1],null));
+                break;
+              case 3:
+                dat.geometry=new geometry(vals[0],new basis(vals[1],vals[2]));                  
+                break;
             }
             break;
           case "method":
