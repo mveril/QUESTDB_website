@@ -1,5 +1,5 @@
 # title  : Water
-# code   :
+# code   : MRCC
 # geometry: CC3,aug-cc-pVTZ,gaussian
 # method : CCSDTQ
 # basis  : aug-cc-pVDZ,gaussian
