@@ -1,5 +1,6 @@
 # title  : Water
 # code   :
+# geometry: CC3,aug-cc-pVTZ,gaussian
 # method : CCSDTQ
 # basis  : aug-cc-pVDZ,gaussian
 # doi    : 10.1021/acs.jctc.8b00406
