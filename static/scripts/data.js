@@ -66,6 +66,7 @@ class data {
   constructor(){
     this.title='';
     this.code=null;
+    this.method=null;
     this.basis=null;
     this.doi=null;
     this.excitations=[];
@@ -99,6 +100,9 @@ class data {
               dat.code=new code(vals[0],null);
             }
             break;
+          case "method":
+            dat.method=val;
+            break;   
           case "basis":
             var vals=val.split(",")
             if(vals.length>=2){
@@ -106,7 +110,7 @@ class data {
             } else {
               dat.basis=new basis(vals[0],null);
             }
-            break;
+            break;       
           case "doi":
             dat.doi=new doi(val);
             break;
