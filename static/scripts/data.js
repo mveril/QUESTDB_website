@@ -11,38 +11,35 @@ class code {
     return str;
   }
 }
-class basis {
-  constructor(name,type){
+class method {
+  constructor(name,basis){
     this.name=name;
-    this.type=type;
+    this.basis=basis;
   }
   toString() { 
     var str=this.name;
-    if (this.type) {
-      str=str+' ('+this.type+')';
+    if (this.name) {
+      str=str+'/'+this.basis;
     }
     return str;
   }
 }
 class geometry {
-  constructor(method,basis){
-    this.method=method
-    this.basis=basis
+  constructor(symetry,method){
+    this.symetry=method
+    this.symetry=method
   }
-  toString() { 
-    var str=this.method;
-    if (this.basis) {
-      str=str+'/'+this.basis.name;
-    }
-    return str;
+  toString(){
+    return String.raw `${this.symetry}-${this.method}`
   }
 }
 
 class state{
-  constructor(number,multiplicity,symetry){
+  constructor(number,multiplicity,symetry,geometry){
     this.number=number;
     this.multiplicity=multiplicity;
     this.symetry=symetry;
+    this.geometry=geometry
   };
   toString() { 
     var str=this.number+ ' ^'+this.multiplicity+this.symetry;
@@ -79,9 +76,8 @@ class data {
   constructor(){
     this.title='';
     this.code=null;
-    this.geometry=null;
+    this.ZPE=null;
     this.method=null;
-    this.basis=null;
     this.doi=null;
     this.excitations=[];
   }
@@ -114,31 +110,14 @@ class data {
               dat.code=new code(vals[0],null);
             }
             break;
-          case "geometry":
-            var vals=val.split(",")
-            switch(vals.length){
-              case 1:
-                dat.geometry=new geometry(vals[0],null);
-                break;
-              case 2:
-                dat.geometry=new geometry(vals[0],new basis(vals[1],null));
-                break;
-              case 3:
-                dat.geometry=new geometry(vals[0],new basis(vals[1],vals[2]));                  
-                break;
-            }
-            break;
           case "method":
-            dat.method=val;
-            break;   
-          case "basis":
-            var vals=val.split(",")
-            if(vals.length>=2){
-              dat.basis=new basis(vals[0],vals[1])
-            } else {
-              dat.basis=new basis(vals[0],null);
-            }
-            break;       
+            var vals=val.split(",")            
+            dat.method=new method(vals[0],vals[1]);
+            break;
+          case "zpe":
+            var vals=val.split(",")            
+            dat.ZPE=new method(vals[0],vals[1]);
+            break;         
           case "doi":
             dat.doi=new doi(val);
             break;
@@ -146,10 +125,12 @@ class data {
       }
     }
     function readrow(line){
-      var vals=line.split(/\s+/);             
-      var start=new state(parseInt(vals[0],10),parseInt(vals[1],10),vals[2]);
-      var end=new state(parseInt(vals[3],10),vals[4],vals[5]);
-      var ex=new excitation(start,end,parseFloat(vals[6],10));
+      var vals=line.split(/\s+/);                 
+      var geom=vals[3].split(",")
+      var start=new state(parseInt(vals[0],10),parseInt(vals[1],10),vals[2], new geometry(geom[0],new method(geom[1],geom[2])));
+      geom=vals[7].split(",")
+      var end=new state(parseInt(vals[4],10),vals[5],vals[6], new geometry(geom[0],new method(geom[1],geom[2])));
+      var ex=new excitation(start,end,parseFloat(vals[8],10));
       dat.excitations.push(ex);
     };
 

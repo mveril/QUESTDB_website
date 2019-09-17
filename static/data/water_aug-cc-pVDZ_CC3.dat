@@ -4,9 +4,9 @@
 # ZPE    : B3LYP,6-31+G*
 # doi    : 10.1021/acs.jctc.8b00406
 
-#                 start                                 end                                       data
+#                 start                                 end                                       Energes (eV)
 ########################################## ##########################################    #######################
-#  Spin  number  Symm             geom        Spin  number   Symm            geom        E_abs  Delta_ZPE E_Fluo 
+#  Spin  number  Symm             geom        Spin  number   Symm            geom        E_abs  E_Fluo  Delta_ZPE
      1     1      A_1  C_2V,CC3,aug-cc-pVTZ     1     1       B_1  C_2V,CC3,aug-cc-pVTZ   7.51
      1     1      A_1  C_2V,CC3,aug-cc-pVTZ     1     1       A_2  C_2V,CC3,aug-cc-pVTZ   9.29
      1     1      A_1  C_2V,CC3,aug-cc-pVTZ     1     2       A_1  C_2V,CC3,aug-cc-pVTZ   9.92
