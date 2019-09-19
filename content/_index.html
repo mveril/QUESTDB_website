@@ -71,7 +71,7 @@ draft: false
           var row=document.createElement("tr")
           var rowd=[]
           rowd.push(String.raw`${LatexInline[0]} ${el.start.toLaTeX()} \rightarrow ${el.end.toLaTeX()}${LatexInline[1]}`)
-          var e=[el.Eabs,el.Efluo,el.EZPE,el.Ezz]
+          var e=[el.Eabs,el.Efluo,el.EZPE,el.Eadia,el.Ezz]
           e.forEach((val)=>rowd.push(val.toFixed(2)))
           rowd.forEach((d)=>{
             td=document.createElement("td")
@@ -118,6 +118,7 @@ draft: false
           <th>\(E_{abs}\)</th>
           <th>\(E_{fluo}\)</th>
           <th>\(\Delta E_{ZPE}\)</th>
+          <th>\(E_{adia}\)</th>
           <th>\(E_{00}\)</th>
         </tr>
       </table>
