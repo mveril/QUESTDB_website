@@ -38,35 +38,50 @@ draft: false
         par.innerHTML='';
         var md=[];
         var els=[];
-        md.push(["Title",dat.title]);
-        md.push(["Code",dat.code]);
-        md.push(["ZPE geometry",dat.ZPE])
-        md.push(["Method",dat.method])
-        md.push(["Basis",dat.basis]);
+        md.push(["Molecule",dat.molecule]);
+        md.push(["Comment",dat.comment])
+        var dict = {
+          "Ground state": dat.GS,
+          "exited states": dat.ES,
+        };
+        for (var key in dict){
+          md.push(key)
+          md.push(["Code",dict[key].code])
+          md.push(["Method",dict[key].method])
+          md.push(["Geometry",dict[key].geometry])
+        }
+        md.push("ZPE")
+        md.push(["Code",dat.ZPE.code])
+        md.push(["Method",dat.ZPE.method])
         md.push(["DOI",dat.doi]);
+        div=document.getElementById("meta_div")
         md.forEach(function(element){
-          var node = document.createElement("div");
-          node.innerText= element[0]+': '+element[1];
-          par.appendChild(node);
+          var node =null;
+          if(typeof element==="string"){
+            node= document.createElement("h2");
+            node.innerText=element;
+          } else {
+            node = document.createElement("div");
+            node.innerText= element[0]+': '+element[1]; 
+          }
+          div.appendChild(node);
         });
-        var exDiv= document.createElement("div");
-        par.appendChild(exDiv);
-        var exTitle = document.createElement("h2");
-        exTitle.innerText= "Excitations";
-        exDiv.appendChild(exTitle);
-        var exPar= document.createElement("p");
-        exDiv.appendChild(exPar);
-        await dat.excitations.reduce(async (promise,el)=> {
-          await promise;
-          var node = document.createElement("div");
-          node.innerHTML= String.raw`${LatexInline[0]} ${el.start.toLaTeX()} \rightarrow ${el.end.toLaTeX()}${LatexInline[1]}, ${LatexInline[0]}${el.Eabs.toPrecision(3)}\:\mathrm{eV}${LatexInline[1]}`;
-          node.hidden=true
-          exPar.appendChild(node);
-          await MathJax.typesetPromise();
-          node.hidden=false;
+        var t=document.getElementById("ex_table")
+        dat.excitations.forEach(el=> {
+          var row=document.createElement("tr")
+          var rowd=[]
+          rowd.push(String.raw`${LatexInline[0]} ${el.start.toLaTeX()} \rightarrow ${el.end.toLaTeX()}${LatexInline[1]}`)
+          var e=[el.Eabs,el.Efluo,el.EZPE,el.Ezz]
+          e.forEach((val)=>rowd.push(val.toFixed(2)))
+          rowd.forEach((d)=>{
+            td=document.createElement("td")
+            td.innerText=d
+            row.appendChild(td)
+          })
+          t.appendChild(row)
         });
-        
-        
+        await MathJax.typesetPromise();
+        document.getElementById("ex_div").hidden=false
         var lnkdoi = document.createElement("a");
         // Wait for the value of publi when required
         let publi=await publiPromise;
@@ -93,5 +108,19 @@ draft: false
       </select>
     </label><br/>
     <h1>Data</h1>
-    <p id=data_par></p>
+    <p id=data_par>
+      <div id="meta_div"></div>
+      <div id="ex_div" hidden=true>
+      <h2>exitation</h2>
+      <table id="ex_table">
+        <tr>
+          <th>Transition</th>
+          <th>\(E_{abs}\)</th>
+          <th>\(E_{fluo}\)</th>
+          <th>\(\Delta E_{ZPE}\)</th>
+          <th>\(E_{00}\)</th>
+        </tr>
+      </table>
+    </div>
+    </p>
     <a target="_blank" id='lnk_file'>Go to file</a>

@@ -1,0 +1,21 @@
+# Molecule   : Water
+# Comment    : 0-0 energies of the water molecule
+# GS_code    : Dalton
+# GS_method  : CC3,aug-cc-pVDZ
+# GS_geom    : CC3,aug-cc-pVTZ 
+# ES_code    : Molpro
+# ES_method  : CCSD,aug-cc-pVQZ
+# ES_geom    : CC2,cc-pVDZ 
+# ZPE_code   : Gaussian16
+# ZPE_method : B3LYP,6-31+G*
+# DOI        : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state               Energies (eV)
+#######################  #######################   #######################
+# Spin  Number  Symm       Spin  Number  Symm        E_abs  E_fluo  E_zpe
+  1     1       A_1        1     1       B_1         7.51   0.23    0.01
+  1     1       A_1        1     1       A_2         9.29   4.23    -0.02
+  1     1       A_1        1     2       A_1         9.92   8.38    -0.03
+  1     1       A_1        1     3       B_1         7.13
+  1     1       A_1        3     1       A_2         9.12
+  1     1       A_1        3     1       A_1         9.47

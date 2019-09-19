@@ -10,11 +10,23 @@ class code {
     }
     return str;
   }
+  static fromString(str) {
+    var vals=str.split(",")
+    if(vals.length>=2){
+      return new code(vals[0],vals[1]);
+    } else {
+      return new code(vals[0],null);
+    }
+  }
 }
 class method {
   constructor(name,basis){
     this.name=name;
     this.basis=basis;
+  }
+  static fromString(str) {
+    var vals=str.split(",")            
+    return new method(vals[0],vals[1]);
   }
   toString() { 
     var str=this.name;
@@ -24,22 +36,12 @@ class method {
     return str;
   }
 }
-class geometry {
-  constructor(symetry,method){
-    this.symetry=method
-    this.symetry=method
-  }
-  toString(){
-    return String.raw `${this.symetry}-${this.method}`
-  }
-}
 
 class state{
-  constructor(number,multiplicity,symetry,geometry){
+  constructor(number,multiplicity,symetry){
     this.number=number;
     this.multiplicity=multiplicity;
     this.symetry=symetry;
-    this.geometry=geometry
   };
   toString() { 
     var str=this.number+ ' ^'+this.multiplicity+this.symetry;
@@ -62,22 +64,41 @@ class doi{
   };
 }
 class excitation{
-  constructor(start,end,Eabs){
+  constructor(start,end,Eabs,Efluo,EZPE){
     this.start=start;
     this.end=end;
     this.Eabs=Eabs;
+    this.Efluo=Efluo;
+    this.EZPE=EZPE;
+  }
+  get Ezz() {
+     return this.Eabs-this.Efluo+this.EZPE
   }
   toString() {
     return this.start+ ', ' + this.end +', '+ this.Eabs.toPrecision(3);
   }
 }
 
+class CalcParams {
+  constructor(){
+    this.code=null;
+    this.method=null;
+  }
+}
+class StateCalcParams extends CalcParams {
+  constructor(){
+    super()
+    this.geometry;
+  }
+}
+
 class data {
   constructor(){
-    this.title='';
-    this.code=null;
-    this.ZPE=null;
-    this.method=null;
+    this.molecule='';
+    this.comment;
+    this.GS=new StateCalcParams();
+    this.ES=new StateCalcParams();
+    this.ZPE=new CalcParams();
     this.doi=null;
     this.excitations=[];
   }
@@ -88,7 +109,7 @@ class data {
     // for each line with metadata
     var ismetaArea=true;
     //metadata RegExp (start with #; maybe somme spaces; : ; maybe somme space; datas)
-    var meta=/^#\s*([A-Za-z]+)\s*:\s*(.*)$/;
+    var meta=/^#\s*([A-Za-z_]+)\s*:\s*(.*)$/;
     var dat=new data();
     function readmeta(line){
       // get key value
@@ -99,24 +120,35 @@ class data {
       if(match.length==3 && match[2]) {
         var val=match[2];
         switch(key) {
-          case "title":
-            dat.title=val;
+          case "molecule":
+            dat.molecule=val
             break;
-          case "code":
-            var vals=val.split(",")
-            if(vals.length>=2){
-              dat.code=new code(vals[0],vals[1]);
-            } else {
-              dat.code=new code(vals[0],null);
-            }
+          case "comment":
+            dat.comment=val
             break;
-          case "method":
-            var vals=val.split(",")            
-            dat.method=new method(vals[0],vals[1]);
+          case "gs_code":
+            dat.GS.code=code.fromString(val)
             break;
-          case "zpe":
-            var vals=val.split(",")            
-            dat.ZPE=new method(vals[0],vals[1]);
+          case "gs_method":
+            dat.GS.method=method.fromString(val)
+            break;
+          case "gs_geom":
+            dat.GS.geometry=method.fromString(val)
+            break;
+          case "es_code":
+            dat.ES.code=code.fromString(val)
+            break
+          case "es_method":
+            dat.ES.method=method.fromString(val)
+            break;
+          case "es_geom":
+            dat.ES.geometry=method.fromString(val)
+            break;
+          case "zpe_code":
+            dat.ZPE.code=code.fromString(val)
+            break
+          case "zpe_method":
+            dat.ZPE.method=method.fromString(val)
             break;         
           case "doi":
             dat.doi=new doi(val);
@@ -125,12 +157,13 @@ class data {
       }
     }
     function readrow(line){
-      var vals=line.split(/\s+/);                 
-      var geom=vals[3].split(",")
-      var start=new state(parseInt(vals[0],10),parseInt(vals[1],10),vals[2], new geometry(geom[0],new method(geom[1],geom[2])));
-      geom=vals[7].split(",")
-      var end=new state(parseInt(vals[4],10),vals[5],vals[6], new geometry(geom[0],new method(geom[1],geom[2])));
-      var ex=new excitation(start,end,parseFloat(vals[8],10));
+      var vals=line.split(/\s+/);
+      while (vals.length<8){
+        vals.push(null);
+      }
+      var start=new state(parseInt(vals[0],10),parseInt(vals[1],10),vals[2]);
+      var end=new state(parseInt(vals[3],10),vals[4],vals[5]);
+      var ex=new excitation(start,end,parseFloat(vals[6],10),parseFloat(vals[7],10),parseFloat(vals[8],10));
       dat.excitations.push(ex);
     };
 
