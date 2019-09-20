@@ -98,7 +98,8 @@ draft: false
           plotdat[0].y.push(ext.Eabs-exexp.Eabs)
         }
         await MathJax.typesetPromise();
-        Plotly.newPlot('abs_plot', plotdat);
+        var layout={title: "Absorption theory deviation"}
+        Plotly.newPlot('abs_plot', plotdat,layout);
         document.getElementById("graph_div").hidden=false
         var lnkdoi = document.createElement("a");
         // Wait for the value of publi when required
@@ -145,7 +146,6 @@ draft: false
       </table>
     </div>
     <div id="graph_div" hidden=true>
-      <h2>Absorption theory deviation</h2>
       <div id="abs_plot">
       </div>
     </div>
