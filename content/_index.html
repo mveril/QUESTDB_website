@@ -56,6 +56,7 @@ draft: false
         md.push(["Method",dat.ZPE.method])
         md.push(["DOI",dat.doi]);
         div=document.getElementById("meta_div")
+        div.innerHTML=""
         md.forEach(function(element){
           var node =null;
           if(typeof element==="string"){
