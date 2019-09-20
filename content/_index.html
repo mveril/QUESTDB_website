@@ -11,6 +11,7 @@ draft: false
     <script type="text/javascript" id="MathJax-script" async
       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
     </script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
      {{< getDataFilesName >}}
     <script>
       window.onload=function()
@@ -83,6 +84,22 @@ draft: false
         });
         await MathJax.typesetPromise();
         document.getElementById("ex_div").hidden=false
+        var plotdat = [{
+  x: [],
+  y: [],
+  type: 'bar'
+}];
+        var expdat= await data.loadAsync("/"+dat.molecule.toLowerCase()+"_exp.dat")
+        var i;
+        for (i = 0; i < dat.excitations.length; i++) {
+          var ext=dat.excitations[i];
+          var exexp=expdat.excitations[i]
+          plotdat[0].x.push(ext.end.toString())
+          plotdat[0].y.push(ext.Eabs-exexp.Eabs)
+        }
+        await MathJax.typesetPromise();
+        Plotly.newPlot('abs_plot', plotdat);
+        document.getElementById("graph_div").hidden=false
         var lnkdoi = document.createElement("a");
         // Wait for the value of publi when required
         let publi=await publiPromise;
@@ -126,6 +143,11 @@ draft: false
 
         </tbody>
       </table>
+    </div>
+    <div id="graph_div" hidden=true>
+      <h2>Absorbtion theory deviation</h2>
+      <div id="abs_plot">
+      </div>
     </div>
     </p>
     <a target="_blank" id='lnk_file'>Go to file</a>
