@@ -66,7 +66,8 @@ draft: false
           }
           div.appendChild(node);
         });
-        var t=document.getElementById("ex_table")
+        var tb=document.getElementById("ex_table_b");
+        tb.innerHTML=''
         dat.excitations.forEach(el=> {
           var row=document.createElement("tr")
           var rowd=[]
@@ -78,7 +79,7 @@ draft: false
             td.innerText=d
             row.appendChild(td)
           })
-          t.appendChild(row)
+          tb.appendChild(row)
         });
         await MathJax.typesetPromise();
         document.getElementById("ex_div").hidden=false
@@ -113,14 +114,17 @@ draft: false
       <div id="ex_div" hidden=true>
       <h2>exitation</h2>
       <table id="ex_table">
-        <tr>
+        <thead>
           <th>Transition</th>
           <th>\(E_{abs}\)</th>
           <th>\(E_{fluo}\)</th>
           <th>\(\Delta E_{ZPE}\)</th>
           <th>\(E_{adia}\)</th>
           <th>\(E_{00}\)</th>
-        </tr>
+        </thead>
+        <tbody id="ex_table_b">
+
+        </tbody>
       </table>
     </div>
     </p>
