@@ -75,7 +75,7 @@ class excitation{
     return (this.Eabs+this.Efluo)/2
  }
   get Ezz() {
-     return this.Eadia+this.EZPE
+     return this.Eadia-this.EZPE
   }
   toString() {
     return this.start+ ', ' + this.end +', '+ this.Eabs.toPrecision(3);
