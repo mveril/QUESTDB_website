@@ -1,16 +1,13 @@
-# Molecule   : Water
-# Comment    : Water experimental
-# GS_code    : experimental
-# GS_method  : experimental
-# GS_geom    : experimental
-# ES_code    : experimental
-# ES_method  : experimental
-# ES_geom    : experimental
-# DOI        : 10.1021/acs.jctc.8b00406
+# Molecule : Water
+# Comment  : Absorption energies of the water molecule from experimental datas
+# code     : experimental
+# method   : experimental
+# geom     : experimental
+# DOI      : 10.1021/acs.jctc.8b00406
 
 # Initial state            Final state               Energies (eV)
-#######################  #######################   #######################
-# Spin  Number  Symm       Spin  Number  Symm        E_abs  E_fluo  E_zpe
+#######################  #######################   ###############
+# Spin  Number  Symm       Spin  Number  Symm        E_abs
   1     1       A_1        1     1       B_1         7.41
   1     1       A_1        1     1       A_2         9.20
   1     1       A_1        1     2       A_1         9.67 

@@ -1,0 +1,14 @@
+# Molecule   : Water
+# Comment    : 0-0 energies of the water molecule
+# code   : Gaussian16
+# GS    : CC3,aug-cc-pVTZ 
+# ES    : CC2,cc-pVDZ 
+# method : B3LYP,6-31+G*
+# DOI        : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state               Energies (eV)
+#######################  #######################   ###############
+# Spin  Number  Symm       Spin  Number  Symm         E_zpe
+  1     1       A_1        1     1       B_1          0.01
+  1     1       A_1        1     1       A_2          -0.02
+  1     1       A_1        1     2       A_1          -0.03

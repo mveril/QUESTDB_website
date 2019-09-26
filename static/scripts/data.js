@@ -25,8 +25,13 @@ class method {
     this.basis=basis;
   }
   static fromString(str) {
-    var vals=str.split(",")            
-    return new method(vals[0],vals[1]);
+    var vals=str.split(",")
+    if(vals.length==2){
+      return new method(vals[0],vals[1]);
+    }
+    else{
+      return new method(vals[0],null)
+    }
   }
   toString() { 
     var str=this.name;
@@ -63,13 +68,26 @@ class doi{
     return 'https://doi.org/'+this.string;
   };
 }
-class excitation{
-  constructor(start,end,Eabs,Efluo,EZPE){
-    this.start=start;
-    this.end=end;
-    this.Eabs=Eabs;
-    this.Efluo=Efluo;
-    this.EZPE=EZPE;
+
+class excitationBase{
+  constructor(initial,final){
+    this.initial=initial;
+    this.final=final
+  }
+}
+class excitationValue extends excitationBase{
+  constructor(initial,final,value){
+    super(initial,final)
+    this.value=value
+  }
+}
+
+class excitation extends excitationBase{
+  constructor(initial,final,Eabs,Efluo,EZPE){
+    super(initial,final)
+    this.Eabs=Eabs
+    this.Efluo=Efluo
+    this.EZPE=EZPE
   }
   get Eadia() {
     return (this.Eabs+this.Efluo)/2
@@ -82,81 +100,54 @@ class excitation{
   }
 }
 
-class CalcParams {
+class dataFileBase {
   constructor(){
-    this.code=null;
-    this.method=null;
-  }
-}
-class StateCalcParams extends CalcParams {
-  constructor(){
-    super()
-    this.geometry;
-  }
-}
-
-class data {
-  constructor(){
-    this.molecule='';
-    this.comment;
-    this.GS=new StateCalcParams();
-    this.ES=new StateCalcParams();
-    this.ZPE=new CalcParams();
-    this.doi=null;
-    this.excitations=[];
+    this.molecule=''
+    this.comment=null
+    this.code=null
+    this.method=null
+    this.excitations=[]
+    this.DOI=null
   }
   static async loadAsync(file) {
-   return data.loadString(await getTextFromFileAsync(getFullDataPath(file)));
+   return this.loadString(await getTextFromFileAsync(getFullDataPath(file)));
+  }
+  static readmetaPair(key, value,dat){
+    switch(key) {
+      case "molecule":
+        dat.molecule=value
+        break;
+      case "comment":
+        dat.comment=value
+        break;
+      case "code":
+        dat.code=code.fromString(value)
+        break;
+      case "method":
+        dat.method=method.fromString(value)
+        break;     
+      case "doi":
+        dat.DOI=new doi(value);
+        break;
+      default:
+    }
   }
   static loadString(text) {
     // for each line with metadata
     var ismetaArea=true;
     //metadata RegExp (start with #; maybe somme spaces; : ; maybe somme space; datas)
     var meta=/^#\s*([A-Za-z_]+)\s*:\s*(.*)$/;
-    var dat=new data();
+    var classname=this.name
+    var dat=eval(String.raw`new ${this.name}()`)
     function readmeta(line){
       // get key value
-      var match=line.match(meta);
+      var match=line.match(meta)
       // normalize key to lower
-      var key=match[1].toLowerCase();
+      var key=match[1].toLowerCase()
       //if data has value
       if(match.length==3 && match[2]) {
-        var val=match[2];
-        switch(key) {
-          case "molecule":
-            dat.molecule=val
-            break;
-          case "comment":
-            dat.comment=val
-            break;
-          case "gs_code":
-            dat.GS.code=code.fromString(val)
-            break;
-          case "gs_method":
-            dat.GS.method=method.fromString(val)
-            break;
-          case "gs_geom":
-            dat.GS.geometry=method.fromString(val)
-            break;
-          case "es_code":
-            dat.ES.code=code.fromString(val)
-            break
-          case "es_method":
-            dat.ES.method=method.fromString(val)
-            break;
-          case "es_geom":
-            dat.ES.geometry=method.fromString(val)
-            break;
-          case "zpe_code":
-            dat.ZPE.code=code.fromString(val)
-            break
-          case "zpe_method":
-            dat.ZPE.method=method.fromString(val)
-            break;         
-          case "doi":
-            dat.doi=new doi(val);
-            break;
-        }
+        var val=match[2]
+        eval(String.raw`${classname}.readmetaPair(key,val,dat)`)
       }
     }
     function readrow(line){
@@ -164,9 +155,10 @@ class data {
       while (vals.length<8){
         vals.push(null);
       }
+      
       var start=new state(parseInt(vals[0],10),parseInt(vals[1],10),vals[2]);
       var end=new state(parseInt(vals[3],10),vals[4],vals[5]);
-      var ex=new excitation(start,end,parseFloat(vals[6],10),parseFloat(vals[7],10),parseFloat(vals[8],10));
+      var ex= new excitationValue(start,end,parseFloat(vals[6],10));
       dat.excitations.push(ex);
     };
 
@@ -188,4 +180,107 @@ class data {
     });
     return dat
   }
+}
+
+class oneStateDataFile extends dataFileBase {
+  constructor(){
+    super()
+    this.geometry=null
+  }
+  static readmetaPair(key,value,dat)
+  {
+    if(key=="geom")
+    {
+      dat.geometry=method.fromString(value)
+    }
+    else{
+      dataFileBase.readmetaPair(key,value,dat)
+    }
+  }
+}
+class AbsDataFile extends oneStateDataFile {
+
+}
+class FluoDataFile extends oneStateDataFile {
+
+}
+class twoStateDataFileBase extends dataFileBase{
+  constructor(){
+    super()
+    this.GS=null
+    this.ES=null
+  }
+  static readmetaPair(key,value,dat){
+    switch(key) {
+      case "gs":
+        dat.GS=method.fromString(value)
+        break;
+      case "es":
+        dat.ES=method.fromString(value)
+        break;
+        default:
+          dataFileBase.readmetaPair(key,value,dat)
+    }
+  }
+}
+class ZPEDataFile extends twoStateDataFileBase {
+  
+}
+class CombinedData{
+  constructor(){
+    this.Abs=null
+    this.Fluo=null
+    this.ZPE=null
+  }
+  get excitations() {
+    var exs=[]
+    var dic=new Map()
+    if(this.Abs!=null){
+      this.Abs.excitations.forEach((el)=>{
+        var key=JSON.stringify([el.initial,el.final])
+        if(!dic.has(key)){
+          dic.set(key,{})
+        }
+        dic.get(key)["abs"]=el.value
+    })
+  }
+    if(this.Fluo!=null){
+      this.Fluo.excitations.forEach((el)=>{
+        var key=JSON.stringify([el.initial,el.final])
+        if(!dic.has(key)){
+          dic.set(key,{})
+        }
+        dic.get(key)["fluo"]=el.value
+      })
+    }
+    if(this.ZPE!=null){
+      this.ZPE.excitations.forEach((el)=>{
+        var key=JSON.stringify([el.initial,el.final])
+        if(!dic.has(key)){
+          dic.set(key,{})
+        }
+        dic.get(key)["ZPE"]=el.value
+      })
+    }
+    dic.forEach((value,key)=>{
+      var eabs=NaN
+      var efluo=NaN
+      var eZPE=NaN
+      var mykey=JSON.parse(key)
+      mykey.forEach(el=>{
+        Reflect.setPrototypeOf(el,state.prototype)
+      })
+      if("abs" in value){
+       eabs=value["abs"]
+      }
+      if("fluo" in value){
+        efluo=value["fluo"]
+      }
+      if("ZPE" in value){
+        eZPE=value["ZPE"]
+      }
+      exs.push(new excitation(mykey[0],mykey[1],eabs,efluo,eZPE))
+    })
+    return exs
+  };
 }

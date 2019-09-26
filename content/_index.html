@@ -4,8 +4,10 @@ date: 2019-08-29 09:00
 draft: false
 ---
     <script src="/scripts/data.js" type="text/javascript"></script>
+    <script src="/scripts/loadAllData.js" type="text/javascript"></script>
     <script src="/scripts/getFullDataPath.js" type="text/javascript"></script>
     <script src="/scripts/getTextFromFile.js" type="text/javascript"></script>
+    <script src="/scripts/trueTypeOf.js" type="text/javascript"></script>
     <script src="https://cdn.rawgit.com/larsgw/citation.js/archive/citation.js/citation-0.4.0-9.js" type="text/javascript"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/javascript" id="MathJax-script" async
@@ -14,15 +16,58 @@ draft: false
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
      {{< getDataFilesName >}}
     <script>
-      window.onload=function()
+      window.onload=async function()
       {
-        fsel=document.getElementById("fileSelect")
-        getDataFilesName().forEach(function(element) {
-          op=document.createElement("option");
-          op.value=element;
-          op.innerText=element.split('.')[0];
-          fsel.appendChild(op);
-        });
+        window.Cite = require('citation-js');
+        window.dats=await loadAllData()
+        window.data=new CombinedData()
+        molecules=new Set(Object.values(window.dats).flat().map((d)=>d.molecule))
+        molecules.forEach(el=>{
+          op=document.createElement("option")
+          op.value=el
+          op.innerText=el
+          document.getElementById("select_mol").appendChild(op)
+        })
+      }
+      function select_mol_onchange(event){
+        update_mol(event.target.value)
+      }
+      function select_abs_onchange(event){
+        update_abs(window.dats["abs"][event.target.value])
+      }
+      function select_fluo_onchange(event){
+        update_fluo(window.dats["fluo"][event.target.value])
+      }
+      function select_ZPE_onchange(event){
+        update_ZPE(window.dats["ZPE"][event.target.value])
+      }
+      async function update_mol(molecule){
+        Object.keys(window.dats).forEach((key)=>{
+          var s=document.getElementById(String.raw`select_${key}`)
+          while (s.options[s.options.length-1].value!= "") {
+            s.options.remove(s.options[s.options.length-1])
+          }
+          window.dats[key].forEach(val=>{
+            if(val.molecule==molecule){
+              var op=document.createElement("option")
+              op.value=window.dats[key].indexOf(val)
+              op.innerText=val.method.toString()
+              s.appendChild(op)
+            }
+          })
+        })
+      }
+      async function update_abs(abs){
+        window.data.Abs=abs
+        reload()
+      }
+      async function update_fluo(fluo){
+        window.data.Fluo=fluo
+        reload()
+      }
+      async function update_ZPE(ZPE){
+        window.data.ZPE=ZPE
+        reload()
       }
       async function update_file(file) {
         var lnk_file=document.getElementById('lnk_file');
@@ -30,50 +75,61 @@ draft: false
         dat= await data.loadAsync(file);
         await applyData(dat);
       }
-      async function applyData(dat) {
-        const Cite = require('citation-js');
-        // Start an async task to get publi data
-        let publiPromise = Cite.async(dat.doi.string)
+      async function reload() {
         const LatexInline=['\\(','\\)']
         var par=document.getElementById("data_par")
         par.innerHTML='';
         var md=[];
         var els=[];
-        md.push(["Molecule",dat.molecule]);
-        md.push(["Comment",dat.comment])
-        var dict = {
-          "Ground state": dat.GS,
-          "Excited states": dat.ES,
-        };
-        for (var key in dict){
-          md.push(key)
-          md.push(["Code",dict[key].code])
-          md.push(["Method",dict[key].method])
-          md.push(["Geometry",dict[key].geometry])
+        var customRenderingProp=["excitations"]
+        for (const key of Object.keys(window.data)) {
+          if (window.data[key]!=null){
+            md.push(key)
+            for (const prop of Object.keys(window.data[key])) {
+              if(!(customRenderingProp.includes(prop)))
+                md.push([prop,window.data[key][prop]])
+            }
+            md.push(window.data[key].DOI)
+          }
         }
-        md.push("ZPE")
-        md.push(["Code",dat.ZPE.code])
-        md.push(["Method",dat.ZPE.method])
-        md.push(["DOI",dat.doi]);
         div=document.getElementById("meta_div")
         div.innerHTML=""
-        md.forEach(function(element){
+        for (element of md) {
           var node =null;
-          if(typeof element==="string"){
-            node= document.createElement("h2");
-            node.innerText=element;
-          } else {
-            node = document.createElement("div");
-            node.innerText= element[0]+': '+element[1]; 
+          switch (trueTypeOf(element)) {
+            case "string":
+              node= document.createElement("h2");
+              node.innerText=element;   
+              break;
+            case "doi":
+              var doi=element
+              var publi=await Cite.async(element.string)
+              var output = publi.format('bibliography', {
+                format: 'html',
+                template: 'apa',
+                lang: 'en-US'
+              })
+              node=document.createElement("a")
+              node.innerHTML=output
+              node.target='_blank'
+              node.href=element.url       
+              break
+            case "Array":
+              k=element[0]
+              v=element[1]
+              k=k.charAt(0).toUpperCase() + k.slice(1)
+              node = document.createElement("div");
+              node.innerText= k+': '+v; 
+              break;
           }
           div.appendChild(node);
-        });
+        }
         var tb=document.getElementById("ex_table_b");
         tb.innerHTML=''
-        dat.excitations.forEach(el=> {
+        window.data.excitations.forEach(el=> {
           var row=document.createElement("tr")
           var rowd=[]
-          rowd.push(String.raw`${LatexInline[0]} ${el.start.toLaTeX()} \rightarrow ${el.end.toLaTeX()}${LatexInline[1]}`)
+          rowd.push(String.raw`${LatexInline[0]} ${el.initial.toLaTeX()} \rightarrow ${el.final.toLaTeX()}${LatexInline[1]}`)
           var e=[el.Eabs,el.Efluo,el.EZPE,el.Eadia,el.Ezz]
           e.forEach((val)=>rowd.push(val.toFixed(2)))
           rowd.forEach((d)=>{
@@ -90,30 +146,18 @@ draft: false
   y: [],
   type: 'bar'
 }];
-        var expdat= await data.loadAsync("/"+dat.molecule.toLowerCase()+"_exp.dat")
+        var expAbsData= await AbsDataFile.loadAsync("/abs/"+window.data.Abs.molecule.toLowerCase()+"_exp.dat")
         var i;
-        for (i = 0; i < dat.excitations.length; i++) {
-          var ext=dat.excitations[i];
-          var exexp=expdat.excitations[i]
-          plotdat[0].x.push(ext.end.toString())
-          plotdat[0].y.push(ext.Eabs-exexp.Eabs)
+        for (i = 0; i < window.data.excitations.length; i++) {
+          var ext=window.data.excitations[i];
+          var exexp=expAbsData.excitations[i]
+          plotdat[0].x.push(ext.final.toString())
+          plotdat[0].y.push(ext.Eabs-exexp.value)
         }
         await MathJax.typesetPromise();
         var layout={title: "Absorption theory deviation"}
         Plotly.newPlot('abs_plot', plotdat,layout);
         document.getElementById("graph_div").hidden=false
-        var lnkdoi = document.createElement("a");
-        // Wait for the value of publi when required
-        let publi=await publiPromise;
-        let output = publi.format('bibliography', {
-         format: 'html',
-         template: 'apa',
-         lang: 'en-US'
-          })
-        lnkdoi.innerHTML=output
-        lnkdoi.setAttribute('target','_blank');
-        lnkdoi.setAttribute('href',dat.doi.url);
-        par.appendChild(lnkdoi);
       }
     </script>
     <script>
@@ -121,12 +165,31 @@ draft: false
           update_file(e.target.value);
         }
     </script>
-
-    <label>Select a data file name<br/>
-      <select id="fileSelect" onchange="onValueChange(event)">
-        <option value="" disabled=true selected=true>Select a file</option>
+    <div>
+    <label>Select a molecule<br/>
+      <select id="select_mol" onchange="select_mol_onchange(event)">
+        <option value="" disabled=true selected=true>Select a molecule</option>
       </select>
-    </label><br/>
+    </label>
+  </div>
+  <div>
+    <label>Select an absorption method<br/>
+      <select id="select_abs" onchange="select_abs_onchange(event)">
+        <option value="" disabled=true selected=true>Select an absorption method</option>
+      </select>
+    </label>
+  
+    <label>Select a fluorescence method<br/>
+      <select id="select_fluo" onchange="select_fluo_onchange(event)">
+        <option value="" disabled=true selected=true>Select a fluorescence method</option>
+      </select>
+    </label>
+    <label>Select a ZPE method<br/>
+      <select id="select_ZPE" onchange="select_ZPE_onchange(event)">
+        <option value="" disabled=true selected=true>Select a ZPE method</option>
+      </select>
+    </label>
+  </div>
     <h1>Data</h1>
     <p id=data_par>
       <div id="meta_div"></div>
