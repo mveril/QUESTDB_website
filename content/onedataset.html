@@ -19,12 +19,12 @@ draft: false
         window.dats=await loadAllData()
         window.data=new CombinedData()
         molecules=new Set(Object.values(window.dats).flat().map((d)=>d.molecule))
-        molecules.forEach(el=>{
+        for (const el of molecules) {
           op=document.createElement("option")
           op.value=el
           op.innerText=el
           document.getElementById("select_mol").appendChild(op)
-        })
+        }
       }
       function select_mol_onchange(event){
         update_mol(event.target.value)
@@ -39,20 +39,20 @@ draft: false
         update_ZPE(window.dats["ZPE"][event.target.value])
       }
       async function update_mol(molecule){
-        Object.keys(window.dats).forEach((key)=>{
+        for (const [key,dat] of Object.entries(window.dats)) {
           var s=document.getElementById(String.raw`select_${key}`)
           while (s.options[s.options.length-1].value!= "") {
             s.options.remove(s.options[s.options.length-1])
           }
-          window.dats[key].forEach(val=>{
+          dat.forEach((val,index)=>{
             if(val.molecule==molecule){
               var op=document.createElement("option")
-              op.value=window.dats[key].indexOf(val)
+              op.value=index
               op.innerText=val.method.toString()
               s.appendChild(op)
             }
           })
-        })
+        }
       }
       async function update_abs(abs){
         window.data.Abs=abs
@@ -91,7 +91,7 @@ draft: false
         }
         div=document.getElementById("meta_div")
         div.innerHTML=""
-        for (element of md) {
+        for (const element of md) {
           var node =null;
           switch (trueTypeOf(element)) {
             case "string":
@@ -123,19 +123,19 @@ draft: false
         }
         var tb=document.getElementById("ex_table_b");
         tb.innerHTML=''
-        window.data.excitations.forEach(el=> {
+        for (const el of window.data.excitations) {
           var row=document.createElement("tr")
           var rowd=[]
           rowd.push(String.raw`${LatexInline[0]} ${el.initial.toLaTeX()} \rightarrow ${el.final.toLaTeX()}${LatexInline[1]}`)
           var e=[el.Eabs,el.Efluo,el.EZPE,el.Eadia,el.Ezz]
           e.forEach((val)=>rowd.push(noNanPrecision(val,3)))
-          rowd.forEach((d)=>{
+          for(d of rowd) {
             td=document.createElement("td")
             td.innerText=d
             row.appendChild(td)
-          })
+          }
           tb.appendChild(row)
-        });
+        }
         await MathJax.typesetPromise();
         document.getElementById("ex_div").hidden=false
         var plotdat = [{
