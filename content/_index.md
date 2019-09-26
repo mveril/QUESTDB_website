@@ -10,18 +10,10 @@ On this website you can watch reference data for excitations the base data are
 - fluorescence \\(\Delta E_\text{Fluo}\\).
 - ZPE delta \\(\Delta E_\text{ZPE}\\).
 
-Other data are calculated with this quantities With the following equations.
+Other data are calculated with this quantities With the following equations :
 
-<!--Commented because it's not working-->
-<!--
-$$
-E_\text{Adia} \simeq \frac{E_{Abs}+E_{Fluo}}{2}\
-$$
-
-$$
-E_\text{0-0} \simeq E_\text{Adia}-E_\text{ZPE}
-$$
--->
+<div>$$ E_\text{Adia} \simeq \frac{E_{Abs}+E_{Fluo}}{2}\ $$</div>
+<div>$$ E_\text{0-0} \simeq E_\text{Adia}-E_\text{ZPE} $$</div>
 
 [Watch one dataset]({{< ref "onedataset.html" >}})
 
