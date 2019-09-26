@@ -96,7 +96,7 @@ class excitation extends excitationBase{
      return this.Eadia-this.EZPE
   }
   toString() {
-    return this.start+ ', ' + this.end +', '+ this.Eabs.toPrecision(3);
+    return this.start+ ', ' + this.end +', '+ noNanPrecision(this.Eabs,3);
   }
 }
 
