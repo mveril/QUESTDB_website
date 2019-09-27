@@ -5,8 +5,8 @@
 # geom     : experimental
 # DOI      : 10.1021/acs.jctc.8b00406
 
-# Initial state            Final state               Energies (eV)
-#######################  #######################   ###############
+# Initial state            Final state             Energies (eV)
+#######################  #######################   ############
 # Spin  Number  Symm       Spin  Number  Symm        E_abs
   1     1       A_1        1     1       B_1         7.41
   1     1       A_1        1     1       A_2         9.20
