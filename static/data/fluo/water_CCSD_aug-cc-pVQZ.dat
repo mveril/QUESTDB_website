@@ -1,9 +1,9 @@
-# Molecule   : Water
-# Comment    : 0-0 energies of the water molecule
-# code    : Molpro
-# method  : CCSD,aug-cc-pVQZ
-# geom    : CC2,cc-pVDZ 
-# DOI        : 10.1021/acs.jctc.8b00406
+# Molecule : Water
+# Comment  : Fluorescence energies of the water molecule
+# code     : Molpro
+# method   : CCSD,aug-cc-pVQZ
+# geom     : CC2,cc-pVDZ 
+# DOI      : 10.1021/acs.jctc.8b00406
 
 # Initial state            Final state             Energies (eV)
 #######################  #######################   #############
