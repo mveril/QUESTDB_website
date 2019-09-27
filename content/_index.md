@@ -17,6 +17,8 @@ Other data are calculated with this quantities With the following equations :
 
 [Watch one dataset]({{< ref "onedataset.html" >}})
 
+[Watch multiple dataset]({{< ref "multipledataset.html" >}})
+
 Useful links
 
 - [Laboratoire de Chimie et Physique Quantique](http://www.lcpq.ups-tlse.fr/)
