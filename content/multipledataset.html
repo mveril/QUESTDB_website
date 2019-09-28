@@ -16,19 +16,19 @@ draft: false
   window.onload= async ()=>{
     $('#form input[type=radio]').on('change', async function(event) {
       var result = $(this).val();
-      var files=[];
+      var proms=[];
       switch (result) {
         case "abs":
-          files=getAbsFilesName();
+          proms==getAbsFilesName().map((f) => AbsDataFile.loadAsync(f));
           break;
         case "fluo":
-          files=getFluoFilesName();
+          proms=getFluoFilesName().map((f) => FluoDataFile.loadAsync(f));
           break;
         case "zpe":
-          files=getZPEFilesName();
+          proms=getZPEFilesName().map((f) => ZPEDataFile.loadAsync(f));
           break;
       }
-      window.dats=await Promise.all(files.map((f) => ZPEDataFile.loadAsync(f)))
+      window.dats=await Promise.all(proms)
       reloadSelect()
       reloadContent()
     })
@@ -47,16 +47,14 @@ draft: false
   }
   function reloadContent(){
     var filt=window.dats
-    $('#dat_table > thead > tr > th > select').each(function(){
-      const prop=$(this).data("prop")
-      const value=$(this).val()
+    $('#form > select').each(function(){
+      const prop=$(this).attr("name")
+      const values=$(this).val()
       filt=filt.filter((d)=>{
-        if(value==""){
-          return true
+        if(typeof values=="undefined" || values==null){
+         return false 
         }
-        else {
-          return d[prop]==value
-        }
+        return values.map((v)=>JSON.stringify(v)).includes(JSON.stringify(d[prop]))
       })
     })
     var tb=document.getElementById("table_b");
@@ -84,21 +82,13 @@ draft: false
     <input type="radio" id="zpe" value="zpe" name="datatype">
     <label for="zpe">\(\Delta \text{ZPE}\)</label>
     <br/>
-    <select id="mol_select" onchange="reloadContent()" name="molecule">
-      <option value="">All</option>
-    </select>
+    <select multiple id="mol_select" onchange="reloadContent()" name="molecule"></select>
     <label for="mol_select">Molecule</label>
-    <select id="code_select" onchange="reloadContent()" name="code">
-      <option value="">All</option>
-    </select>
+    <select multiple id="code_select" onchange="reloadContent()" name="code"></select>
     <label for="code_select">Code</label>
-    <select id="method_select" onchange="reloadContent()" name="method">
-      <option value="">All</option>
-    </select>
+    <select multiple id="method_select" onchange="reloadContent()" name="method"></select>
     <label for="method_select">Method</label>
-    <select id="DOI_select" onchange="reloadContent()" name="DOI">
-      <option value="">All</option>
-    </select>
+    <select multiple id="DOI_select" onchange="reloadContent()" name="DOI"></select>
     <label for="DOI_select">DOI</label>
   </form>
   <br/>
