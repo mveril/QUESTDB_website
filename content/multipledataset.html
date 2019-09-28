@@ -19,7 +19,7 @@ draft: false
       var proms=[];
       switch (result) {
         case "abs":
-          proms==getAbsFilesName().map((f) => AbsDataFile.loadAsync(f));
+          proms=getAbsFilesName().map((f) => AbsDataFile.loadAsync(f));
           break;
         case "fluo":
           proms=getFluoFilesName().map((f) => FluoDataFile.loadAsync(f));
