@@ -15,7 +15,7 @@ Other data are calculated with this quantities With the following equations :
 <div>$$ E_\text{Adia} \simeq \frac{E_{Abs}+E_{Fluo}}{2}\ $$</div>
 <div>$$ E_\text{0-0} \simeq E_\text{Adia}-E_\text{ZPE} $$</div>
 
-[Watch one dataset]({{< ref "onedataset.html" >}})
+{{< figure src="/images/figure-geom-1.png" title="Figure 1" caption="Representation of transition energies and energy differences" >}}
 
 [Watch multiple dataset]({{< ref "multipledataset.html" >}})
 
