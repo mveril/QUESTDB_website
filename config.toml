@@ -26,3 +26,8 @@ theme = "beautifulhugo"
     name = "One dataset"
     url = "onedataset"
     weight = 1
+
+[[menu.main]]
+    name = "Multiple dataset"
+    url = "multipledataset"
+    weight = 2
