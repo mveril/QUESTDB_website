@@ -35,7 +35,7 @@ class method {
   }
   toString() {
     var str = this.name;
-    if (this.name) {
+    if (this.basis) {
       str = str + '/' + this.basis;
     }
     return str;
