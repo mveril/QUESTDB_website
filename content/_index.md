@@ -17,8 +17,6 @@ Other data are calculated with this quantities With the following equations :
 
 {{< figure src="/images/figure-geom-1.png" title="Figure 1" caption="Representation of transition energies and energy differences" >}}
 
-[Watch one dataset]({{< ref "onedataset.html" >}})
-
 Useful links
 
 - [Laboratoire de Chimie et Physique Quantique](http://www.lcpq.ups-tlse.fr/)

@@ -21,3 +21,8 @@ theme = "beautifulhugo"
 #  bandcamp = "username"
 #  itchio = "username"
 #  keybase = "username"
+
+[[menu.main]]
+    name = "One dataset"
+    url = "onedataset"
+    weight = 1
