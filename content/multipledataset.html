@@ -40,7 +40,7 @@ draft: false
       const vals=uniq(window.dats.map((d)=>{return d[$(this).attr("name")]}))
       for (const val of vals){
         op=document.createElement("option")
-        op.value=val
+        op.value=JSON.stringify(val)
         op.innerText=val.toString()
         $(this).append(op)
     }
@@ -55,7 +55,7 @@ draft: false
         if(typeof values=="undefined" || values==null){
          return false 
         }
-        return values.map((v)=>JSON.stringify(v)).includes(JSON.stringify(d[prop]))
+        return values.includes(JSON.stringify(d[prop]))
       })
     })
     var tb=document.getElementById("table_b");
