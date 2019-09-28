@@ -14,7 +14,7 @@ draft: false
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
   window.onload= async ()=>{
-    $('#dtypeform input[type=radio]').on('change', async function(event) {
+    $('#form input[type=radio]').on('change', async function(event) {
       var result = $(this).val();
       var files=[];
       switch (result) {
@@ -34,9 +34,9 @@ draft: false
     })
   }
   function reloadSelect(){
-    $('#dat_table > thead > tr > th > select').each(function(){
+    $('#form > select').each(function(){
       $(this).find('option[value!=""]').remove()
-      const vals=new Set(window.dats.map((d)=>{return d[$(this).data("prop")]}))
+      const vals=new Set(window.dats.map((d)=>{return d[$(this).attr("name")]}))
       for (const val of vals){
         op=document.createElement("option")
         op.value=val
@@ -49,7 +49,7 @@ draft: false
     var filt=window.dats
     $('#dat_table > thead > tr > th > select').each(function(){
       const prop=$(this).data("prop")
-      const value=$(this).attr("value")
+      const value=$(this).val()
       filt=filt.filter((d)=>{
         if(value==""){
           return true
@@ -59,16 +59,15 @@ draft: false
         }
       })
     })
-    var tb=document.getElementById("ex_table_b");
+    var tb=document.getElementById("table_b");
     tb.innerHTML=''
-    for (const el of filt) {
+    for (const d of filt) {
       var row=document.createElement("tr")
       var rowd=[]
-      var e=[d.Molecule,d.Comment,d.Code,d.DOI]
-      e.forEach((val)=>rowd.push(noNanPrecision(val,3)))
-      for(d of rowd) {
+      var e=[d.molecule,d.comment,d.code,d.method,d.DOI]
+      for(el of e){
         td=document.createElement("td")
-        td.innerText=d
+        td.innerText=el
           row.appendChild(td)
       }
       tb.appendChild(row)
@@ -76,36 +75,43 @@ draft: false
   }
 </script>
 {{< getDataFilesName >}}
-  <form id="dtypeform" action="" method="post">
+  <form id="form" action="" method="post">
     <legend>Data type</legend>
     <input type="radio" id="abs" value="abs" name="datatype">
     <label for="abs">Absorption</label>
     <input type="radio" id="fluo" value="fluo" name="datatype">
-    <label for="Fluorescence">Fluorescence</label>
+    <label for="fluo">Fluorescence</label>
     <input type="radio" id="zpe" value="zpe" name="datatype">
-    <label for="Fluorescence">\(\Delta \text{ZPE}\)</label>
+    <label for="zpe">\(\Delta \text{ZPE}\)</label>
+    <br/>
+    <select id="mol_select" onchange="reloadContent()" name="molecule">
+      <option value="">All</option>
+    </select>
+    <label for="mol_select">Molecule</label>
+    <select id="code_select" onchange="reloadContent()" name="code">
+      <option value="">All</option>
+    </select>
+    <label for="code_select">Code</label>
+    <select id="method_select" onchange="reloadContent()" name="method">
+      <option value="">All</option>
+    </select>
+    <label for="method_select">Method</label>
+    <select id="DOI_select" onchange="reloadContent()" name="DOI">
+      <option value="">All</option>
+    </select>
+    <label for="DOI_select">DOI</label>
   </form>
+  <br/>
 <div id="data_div">
   <table id="dat_table">
     <thead>
-      <th>Molecule :
-        <select id="mol_select" onchange="reloadContent()" data-prop="molecule">
-          <option value="">All</option>
-        </select>
-      </th>
+      <th>Molecule</th>
       <th>Comment</th>
-      <th>Code :
-        <select id="code_select" onchange="reloadContent()" data-prop="code">
-          <option value="">All</option>
-        </select>
-      </th>
-      <th>DOI :
-        <select id="DOI_select" onchange="reloadContent()" data-prop="DOI">
-          <option value="">All</option>
-        </select>
-      </th>
+      <th>Code</th>
+      <th>Method</th>
+      <th>DOI</th>
     </thead>
-    <tbody id="ex_table_b">
+    <tbody id="table_b">
     </tbody>
   </table>
 </div>
