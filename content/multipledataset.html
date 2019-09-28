@@ -1,0 +1,117 @@
+---
+title: "Multiple dataset"
+date: 2019-09-27 16:41
+draft: false
+---
+<script src="/scripts/data.js" type="text/javascript"></script>
+<script src="/scripts/loadAllData.js" type="text/javascript"></script>
+<script src="/scripts/getFullDataPath.js" type="text/javascript"></script>
+<script src="/scripts/getTextFromFile.js" type="text/javascript"></script>
+<script src="/scripts/trueTypeOf.js" type="text/javascript"></script>
+<script src="/scripts/uniq.js"></script>
+<script src="https://cdn.rawgit.com/larsgw/citation.js/archive/citation.js/citation-0.4.0-9.js"
+  type="text/javascript"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  window.onload= async ()=>{
+    $('#form input[type=radio]').on('change', async function(event) {
+      var result = $(this).val();
+      var files=[];
+      switch (result) {
+        case "abs":
+          files=getAbsFilesName();
+          break;
+        case "fluo":
+          files=getFluoFilesName();
+          break;
+        case "zpe":
+          files=getZPEFilesName();
+          break;
+      }
+      window.dats=await Promise.all(files.map((f) => ZPEDataFile.loadAsync(f)))
+      reloadSelect()
+      reloadContent()
+    })
+  }
+  function reloadSelect(){
+    $('#form > select').each(function(){
+      $(this).find('option[value!=""]').remove()
+      const vals=uniq(window.dats.map((d)=>{return d[$(this).attr("name")]}))
+      for (const val of vals){
+        op=document.createElement("option")
+        op.value=val
+        op.innerText=val.toString()
+        $(this).append(op)
+    }
+    })
+  }
+  function reloadContent(){
+    var filt=window.dats
+    $('#dat_table > thead > tr > th > select').each(function(){
+      const prop=$(this).data("prop")
+      const value=$(this).val()
+      filt=filt.filter((d)=>{
+        if(value==""){
+          return true
+        }
+        else {
+          return d[prop]==value
+        }
+      })
+    })
+    var tb=document.getElementById("table_b");
+    tb.innerHTML=''
+    for (const d of filt) {
+      var row=document.createElement("tr")
+      var rowd=[]
+      var e=[d.molecule,d.comment,d.code,d.method,d.DOI]
+      for(el of e){
+        td=document.createElement("td")
+        td.innerText=el
+          row.appendChild(td)
+      }
+      tb.appendChild(row)
+    }
+  }
+</script>
+{{< getDataFilesName >}}
+  <form id="form" action="" method="post">
+    <legend>Data type</legend>
+    <input type="radio" id="abs" value="abs" name="datatype">
+    <label for="abs">Absorption</label>
+    <input type="radio" id="fluo" value="fluo" name="datatype">
+    <label for="fluo">Fluorescence</label>
+    <input type="radio" id="zpe" value="zpe" name="datatype">
+    <label for="zpe">\(\Delta \text{ZPE}\)</label>
+    <br/>
+    <select id="mol_select" onchange="reloadContent()" name="molecule">
+      <option value="">All</option>
+    </select>
+    <label for="mol_select">Molecule</label>
+    <select id="code_select" onchange="reloadContent()" name="code">
+      <option value="">All</option>
+    </select>
+    <label for="code_select">Code</label>
+    <select id="method_select" onchange="reloadContent()" name="method">
+      <option value="">All</option>
+    </select>
+    <label for="method_select">Method</label>
+    <select id="DOI_select" onchange="reloadContent()" name="DOI">
+      <option value="">All</option>
+    </select>
+    <label for="DOI_select">DOI</label>
+  </form>
+  <br/>
+<div id="data_div">
+  <table id="dat_table">
+    <thead>
+      <th>Molecule</th>
+      <th>Comment</th>
+      <th>Code</th>
+      <th>Method</th>
+      <th>DOI</th>
+    </thead>
+    <tbody id="table_b">
+    </tbody>
+  </table>
+</div>
