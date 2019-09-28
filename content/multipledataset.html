@@ -8,7 +8,7 @@ draft: false
 <script src="/scripts/getFullDataPath.js" type="text/javascript"></script>
 <script src="/scripts/getTextFromFile.js" type="text/javascript"></script>
 <script src="/scripts/trueTypeOf.js" type="text/javascript"></script>
-<script src="/scripts/noNan.js"></script>
+<script src="/scripts/uniq.js"></script>
 <script src="https://cdn.rawgit.com/larsgw/citation.js/archive/citation.js/citation-0.4.0-9.js"
   type="text/javascript"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -36,7 +36,7 @@ draft: false
   function reloadSelect(){
     $('#form > select').each(function(){
       $(this).find('option[value!=""]').remove()
-      const vals=new Set(window.dats.map((d)=>{return d[$(this).attr("name")]}))
+      const vals=uniq(window.dats.map((d)=>{return d[$(this).attr("name")]}))
       for (const val of vals){
         op=document.createElement("option")
         op.value=val
