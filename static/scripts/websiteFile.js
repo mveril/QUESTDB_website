@@ -3,6 +3,6 @@ class websiteFile{
     this.path=path
   }
   get viewerUrl(){
-    return String.raw`view?dataFile=${this.path}`
+    return String.raw`/view?dataFile=${this.path}`
   }
 }
