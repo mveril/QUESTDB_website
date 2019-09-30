@@ -19,11 +19,3 @@ On this website you can watch reference data for excitations the base data are
 <div>$$ E_\text{0-0} \simeq E_\text{adia}-\Delta E_\text{ZPE} $$</div>
 
 {{< figure src="/images/figure-geom-1.png" title="Figure 1" caption="Representation of transition energies and energy differences" >}}
-
-## Useful links
-
-- [Laboratoire de Chimie et Physique Quantique](http://www.lcpq.ups-tlse.fr/)
-
-- [Quantum Package](https://quantumpackage.github.io/qp2/)
-
-- [EMSL Basis set](https://www.basissetexchange.org/)
