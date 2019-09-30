@@ -16,6 +16,7 @@ draft: false
 <script src="https://unpkg.com/simple-statistics@7.0.2/dist/simple-statistics.min.js"></script>
 <script>
   window.onload= async ()=>{
+    window.Cite = require('citation-js');
     $('#form input[type=radio]').on('change', async function(event) {
       var result = $(this).val();
       var proms=[];
@@ -72,8 +73,22 @@ draft: false
       var els=[d.molecule,d.comment,d.code,d.method,d.DOI]
       for(const el of els){
         td=document.createElement("td")
-        td.innerText=el
-          row.appendChild(td)
+        if(trueTypeOf(el)=="doi"){
+          var publipromise=window.Cite.async(el.string)
+          var lnkdoi=document.createElement("a")
+          lnkdoi.href=el.url
+          lnkdoi.target="_blank"
+          publi=await publipromise
+          lnkdoi.innerHTML=publi.format('citation', {
+                format: 'html',
+                lang: 'en-US'
+              })
+          td.appendChild(lnkdoi)
+        }
+        else{
+         td.innerText=el
+        }
+        row.appendChild(td)
       }
       dtb.appendChild(row)
       row=[]      
@@ -146,7 +161,7 @@ draft: false
       <th>Comment</th>
       <th>Code</th>
       <th>Method</th>
-      <th>DOI</th>
+      <th>Reference</th>
     </thead>
     <tbody id="dat_table_b">
     </tbody>
