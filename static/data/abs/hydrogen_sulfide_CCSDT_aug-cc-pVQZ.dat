@@ -1,0 +1,14 @@
+# Molecule : Hydrogen sulfide
+# Comment  : Absorption energies of the hydrogen sulfide molecule
+# code     : MRCC
+# method   : CCSDT,aug-cc-pVQZ
+# geom     : CC3,aug-cc-pVTZ
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state             Energies (eV)
+#######################  #######################   ############
+# Spin  Number  Symm       Spin  Number  Symm        E_abs  
+  1     1       A_1        1     1       A_2         6.15
+  1     1       A_1        1     1       B_1         6.29
+  1     1       A_1        3     1       A_2         5.79
+  1     1       A_1        3     1       B_1         5.93
