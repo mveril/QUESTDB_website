@@ -6,14 +6,14 @@ draft: false
 Welcome to this webiste.
 On this website you can watch reference data for excitations the base data are
 
-- Absorptions \\(E_\text{Abs}\\).
-- fluorescence \\(\Delta E_\text{Fluo}\\).
+- Absorptions \\(E_\text{abs}\\).
+- fluorescence \\(\Delta E_\text{fluo}\\).
 - ZPE delta \\(\Delta E_\text{ZPE}\\).
 
-Other data are calculated with this quantities With the following equations :
+Other data are calculated with this quantities with the following equations :
 
-<div>$$ E_\text{Adia} \simeq \frac{E_{Abs}+E_{Fluo}}{2}\ $$</div>
-<div>$$ E_\text{0-0} \simeq E_\text{Adia}-E_\text{ZPE} $$</div>
+<div>$$ E_\text{adia} \simeq \frac{E_{abs}+E_{fluo}}{2}\ $$</div>
+<div>$$ E_\text{0-0} \simeq E_\text{adia}-\Delta E_\text{ZPE} $$</div>
 
 {{< figure src="/images/figure-geom-1.png" title="Figure 1" caption="Representation of transition energies and energy differences" >}}
 
