@@ -108,9 +108,12 @@ class dataFileBase {
     this.method = null
     this.excitations = []
     this.DOI = null
+    this.sourceFile=null
   }
   static async loadAsync(file) {
-    return this.loadString(await getTextFromFileAsync(getFullDataPath(file)));
+    var dat = this.loadString(await getTextFromFileAsync(getFullDataPath(file)));
+    dat.sourceFile=new websiteFile(file)
+    return dat
   }
   static readmetaPair(key, value, dat) {
     switch (key) {
