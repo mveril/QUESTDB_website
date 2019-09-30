@@ -37,10 +37,10 @@ theme = "beautifulhugo"
     url = "multipledataset"
     weight = 3
 
-#[[menu.main]]
-#    name = "Papers"
-#    url = "papers"
-#    weight = 4
+[[menu.main]]
+    name = "Papers"
+    url = "papers"
+    weight = 4
 
 [[menu.main]]
     name = "About"
