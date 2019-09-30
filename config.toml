@@ -23,11 +23,26 @@ theme = "beautifulhugo"
 #  keybase = "username"
 
 [[menu.main]]
+    name = "Home"
+    url = ""
+    weight = 1
+
+[[menu.main]]
     name = "One dataset"
     url = "onedataset"
-    weight = 1
+    weight = 2
 
 [[menu.main]]
     name = "Multiple dataset"
     url = "multipledataset"
-    weight = 2
+    weight = 3
+
+#[[menu.main]]
+#    name = "Papers"
+#    url = "papers"
+#    weight = 4
+
+#[[menu.main]]
+#    name = "About"
+#    url = "about"
+#    weight = 5
