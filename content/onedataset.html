@@ -99,7 +99,6 @@ draft: false
               node.innerText=element;   
               break;
             case "doi":
-              var doi=element
               var publi=await Cite.async(element.string)
               var output = publi.format('bibliography', {
                 format: 'html',
