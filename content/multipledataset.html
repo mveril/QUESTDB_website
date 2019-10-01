@@ -9,8 +9,8 @@ draft: false
 <script src="/scripts/getTextFromFile.js" type="text/javascript"></script>
 <script src="/scripts/trueTypeOf.js" type="text/javascript"></script>
 <script src="/scripts/uniq.js"></script>
-<script src="/scripts/websiteFile.js"></script>
 <script src="/scripts/noNan.js"></script>
+<script src="/scripts/websiteFile.js"></script>
 <script src="https://cdn.rawgit.com/larsgw/citation.js/archive/citation.js/citation-0.4.0-9.js"
   type="text/javascript"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -18,7 +18,7 @@ draft: false
 <script>
   window.onload= async ()=>{
     window.Cite = require('citation-js');
-    $('#form input[type=radio]').on('change', async function(event) {
+    $('#form_dat input[type=radio]').on('change', async function(event) {
       var result = $(this).val();
       var proms=[];
       switch (result) {
@@ -39,7 +39,7 @@ draft: false
     })
   }
   function reloadSelect(){
-    $('#form > select').each(function(){
+    $('#form_dat > select').each(function(){
       $(this).find('option[value!=""]').remove()
       const vals=uniq(window.dats.map((d)=>{return d[$(this).attr("name")]}))
       for (const val of vals){
@@ -50,13 +50,78 @@ draft: false
     }
     })
   }
+  async function reloadStat(){
+    var stb=document.getElementById("stat_table_b");
+    stb.innerHTML=''
+    const sel_ref=document.getElementById("sel_ref")
+    const refstr=((sel_ref.selectedIndex>=0) ? sel_ref.options[sel_ref.selectedIndex].value : null)
+    var sdatdic=new Map()
+    for (const d of window.filt) {
+      const key=JSON.stringify([d.code,d.method,d.DOI])
+      if(!(sdatdic.has(key)))
+      {
+        sdatdic.set(key,new Map())
+      }
+      for(const exc of d.excitations){
+        const key2=JSON.stringify([d.molecule,exc.initial,exc.final])
+        const keydic=sdatdic.get(key)
+        if(!(keydic.has(key2))){
+          keydic.set(key2,[])
+        }
+        keydic.get(key2).push(exc.value)
+      } 
+    }
+    var sdic= new Map()
+    for(const [key,sdat] of sdatdic){
+      for(const [key2,exval] of sdat){
+        if(!(sdic.has(key))){
+          sdic.set(key,[])
+        }
+        sdic.get(key).push(exval-((sdatdic.has(refstr)) ? sdatdic.get(refstr).get(key2) : NaN))
+      }
+    }
+    for(const[keystr,vals] of sdic){
+      row=document.createElement("tr")
+      key=JSON.parse(keystr)
+      Reflect.setPrototypeOf(key[0], code.prototype)
+      Reflect.setPrototypeOf(key[1], method.prototype)
+      Reflect.setPrototypeOf(key[2], doi.prototype)
+      for(const el of key){
+        var td=document.createElement("td")
+        if(trueTypeOf(el)=="doi"){
+          var publipromise=window.Cite.async(el.string)
+          var lnkdoi=document.createElement("a")
+          lnkdoi.href=el.url
+          lnkdoi.target="_blank"
+          publi=await publipromise
+          lnkdoi.innerHTML=publi.format('citation', {
+                format: 'html',
+                lang: 'en-US'
+          })
+          td.appendChild(lnkdoi)
+        }
+        else{
+          td.innerText=el
+        }
+        row.appendChild(td)
+      }
+
+      const avals=vals.map(v=>Math.abs(v))
+      for(const val of [ss.min(vals),ss.max(vals),ss.mean(vals),ss.mean(avals),ss.median(vals),ss.median(avals),ss.rootMeanSquare(vals),ss.variance(vals),ss.standardDeviation(vals)]){
+        var td=document.createElement("td")
+        td.innerText=noNanPrecision(val,3)
+        row.appendChild(td)
+      }
+      stb.appendChild(row)
+    }
+  }
   async function reloadContent(){
     const LatexInline=['\\(','\\)']
-    var filt=window.dats
-    $('#form > select').each(function(){
+    window.filt=window.dats
+    $('#form_dat > select').each(function(){
       const prop=$(this).attr("name")
       const values=$(this).val()
-      filt=filt.filter((d)=>{
+      window.filt=window.filt.filter((d)=>{
         if(typeof values=="undefined" || values==null){
          return false 
         }
@@ -64,14 +129,17 @@ draft: false
       })
     })
     var dtb=document.getElementById("dat_table_b");
-    var stb=document.getElementById("stat_table_b");
     dtb.innerHTML=''
-    stb.innerHTML=''
-    var sdic=new Map()
-    for (const d of filt) {
+    sel_ref=document.getElementById("sel_ref")
+    for (const d of window.filt) {
       var row=document.createElement("tr")
       var rowd=[]
       var els=[d.molecule,d.comment,d.code,d.method,d.DOI]
+      var op=document.createElement("option")
+      var opObjVal=els.slice(2)
+      op.value=JSON.stringify(opObjVal)
+      op.innerText=opObjVal.join(" ")
+      sel_ref.appendChild(op)
       for(const el of els){
         td=document.createElement("td")
         if(trueTypeOf(el)=="doi"){
@@ -87,56 +155,17 @@ draft: false
           td.appendChild(lnkdoi)
         }
         else{
-         td.innerText=el
+          td.innerText=el
         }
         row.appendChild(td)
       }
       dtb.appendChild(row)
-      row=[]      
-      if(!(sdic.has(d.molecule)))
-      {
-        sdic.set(d.molecule,new Map())
-      }
-      var exdic=sdic.get(d.molecule)
-      for(const exc of d.excitations){
-        var key=JSON.stringify([exc.initial,exc.final])
-        if(!(exdic.has(key))){
-          exdic.set(key,[])
-        }
-        exdic.get(key).push(exc.value)
-      }
     }
-    for(const [mol,exs] of sdic){
-      var defmol=true
-      for (const [exstr,values] of exs) {
-        var row=document.createElement("tr")
-        if(defmol){
-          var td=document.createElement("td")
-          td.innerText=mol
-          td.rowSpan=exs.leight
-          row.appendChild(td)
-          defmol=false
-        }
-        ex=JSON.parse(exstr).map(v=>{
-          return Object.setPrototypeOf(v,state.prototype)
-        })
-        var td=document.createElement("td")
-        td.innerText=String.raw`${LatexInline[0]} ${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()}${LatexInline[1]}`
-        row.appendChild(td)
-        e=[ss.min(values),ss.max(values),ss.mean(values),ss.median(values),ss.variance(values),ss.standardDeviation(values),ss.medianAbsoluteDeviation(values)]
-        e.forEach(v =>{
-          td=document.createElement("td")
-          td.innerText=noNanPrecision(v,3);
-          row.appendChild(td)
-        })
-        stb.appendChild(row) 
-      }
-    }
-    await MathJax.typesetPromise()
+    await reloadStat()
   }
 </script>
 {{< getDataFilesName >}}
-  <form id="form" action="" method="post">
+  <form id="form_dat" action="" method="post">
     <legend>Data type</legend>
     <input type="radio" id="abs" value="abs" name="datatype">
     <label for="abs">Absorption</label>
@@ -153,6 +182,11 @@ draft: false
     <select multiple id="method_select" onchange="reloadContent()" name="method"></select>
     <label for="DOI_select">DOI</label>
     <select multiple id="DOI_select" onchange="reloadContent()" name="DOI"></select>
+  </form>
+  <form id="form_ref">
+    <label for="sel_ref">Reference</label>
+    <select id="sel_ref" onchange="reloadStat()">
+    </select>
   </form>
   <br/>
 <div id="data_div">
@@ -171,15 +205,18 @@ draft: false
 <div id="stat_div">
   <table id="stat_table">
     <thead>
-      <th>Molecule</th>
-      <th>Transition</th>
+      <th>Code</th>
+      <th>Method</th>
+      <th>Paper</th>
       <th>Min</th>
       <th>Max</th>
       <th>Mean</th>
+      <th>Absolute Mean</th>
       <th>Median</th>
+      <th>Absolute Median</th>
+      <th>RMS</th>
       <th>Variance</th>
       <th>Standard deviation</th>
-      <th>Median absolute deviation</th>
     </thead>
     <tbody id="stat_table_b">
     </tbody>
