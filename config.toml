@@ -72,6 +72,18 @@ theme = "beautifulhugo"
 
 [[menu.main]]
     parent="external"
+    name = "Dalton"
+    url = "https://daltonprogram.org"
+    weight = 6
+
+[[menu.main]]
+    parent="external"
+    name = "MRCC"
+    url = "https://www.mrcc.hu/"
+    weight = 6
+
+[[menu.main]]
+    parent="external"
     name = "EMSL Basis set"
     url = "https://www.basissetexchange.org"
     weight = 6
