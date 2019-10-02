@@ -1,8 +1,18 @@
 class websiteFile{
-  constructor(path){
-    this.path=path
+  constructor(file){
+    this.file=file
   }
-  get viewerUrl(){
-    return String.raw`/view?dataFile=${this.path}`
+
+  async getViewerURL(){
+    var urlbase="/view"
+    switch (trueTypeOf(this.file)) {
+      case "string":
+        return String.raw`${urlbase}?file=${this.file}`
+        break
+      case "File":
+        var base64=btoa(await getTextFromUploadedFileAsync(this.file))
+        return String.raw`${urlbase}?fileBase64=${base64}`;
+        break
+    }
   }
 }

@@ -34,11 +34,34 @@ draft: false
           break;
       }
       window.dats=await Promise.all(proms)
-      reloadSelect()
-      await reloadContent()
+      reloadFileSelector()
+      await reloadSelect()
     })
   }
-  function reloadSelect(){
+  function reloadFileSelector(){
+    document.getElementById("customFiles_input").value = ""
+  }
+
+  async function reloadSelect(){
+    radioval=$('#form_dat > input[name=datatype]:checked').val();
+    for(file of Array.from(document.getElementById("customFiles_input").files))
+    {
+      switch (radioval) {
+        case "abs":
+          var dat=await AbsDataFile.loadAsync(file)
+          window.dats.push(dat)
+          break;
+      
+        case "fluo":
+          dat=await FluoDataFile.loadAsync(file)
+          window.dats.push(dat)
+          break;
+        case "ZPE":
+          dat=await ZPEDataFile.loadAsync(file)
+          window.dats.push(dat)
+          break;
+      }
+    }
     $('#form_dat > select').each(function(){
       $(this).find('option[value!=""]').remove()
       const vals=uniq(window.dats.map((d)=>{return d[$(this).attr("name")]}))
@@ -49,6 +72,7 @@ draft: false
         $(this).append(op)
     }
     })
+    await reloadContent()
   }
   async function reloadStat(){
     var stb=document.getElementById("stat_table_b");
@@ -162,7 +186,7 @@ draft: false
       var lnkfile=document.createElement("a")
       lnkfile.target="_blank"
       lnkfile.innerText="Go to file"
-      lnkfile.href=d.sourceFile.viewerUrl
+      lnkfile.href=await d.sourceFile.getViewerURL()
       row.appendChild(lnkfile)
       dtb.appendChild(row)
     }
@@ -178,6 +202,9 @@ draft: false
     <label for="fluo">Fluorescence</label>
     <input type="radio" id="zpe" value="zpe" name="datatype">
     <label for="zpe">\(\Delta \text{ZPE}\)</label>
+    <br/>
+    <label for="customFiles">Add custom data file</label>
+    <input type="file" multiple onchange="reloadSelect()" id="customFiles_input"></input>
     <br/>
     <label for="mol_select">Molecule</label>
     <select multiple id="mol_select" onchange="reloadContent()" name="molecule"></select>

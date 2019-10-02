@@ -111,7 +111,16 @@ class dataFileBase {
     this.sourceFile=null
   }
   static async loadAsync(file) {
-    var dat = this.loadString(await getTextFromFileAsync(getFullDataPath(file)));
+    switch (trueTypeOf(file)) {
+      case "string":
+        file=getFullDataPath(file)
+        var str=await getTextFromFileUrlAsync(file)
+        break;
+      case "File":
+        var str=await getTextFromUploadedFileAsync(file)
+        break
+    }
+    var dat = this.loadString(str);
     dat.sourceFile=new websiteFile(file)
     return dat
   }

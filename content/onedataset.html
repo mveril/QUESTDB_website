@@ -114,7 +114,7 @@ draft: false
               node=document.createElement("a")
               node.innerText="Go to file"
               node.target='_blank'
-              node.href=element.viewerUrl
+              node.href= await element.getViewerURL()
               break
             case "Array":
               k=element[0]

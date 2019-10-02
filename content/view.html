@@ -24,21 +24,30 @@ draft: false
         console.warn(mystr);
       }
       queryDic=parseQueryStringToDictionary()
-      key="dataFile"
-      if(queryDic[key]!=undefined){       
-        var filename=queryDic[key];
-        var path=getFullDataPath(filename);
-        var textPromise=getTextFromFileAsync(path) 
+      key=["file","fileBase64"]
+      if(key[0] in queryDic){
+        var filename=queryDic[key[0]];
+        var textPromise=getTextFromFileUrlAsync(filename) 
         btn_download=document.getElementById("btn_download");
         btn_download.onclick=function(){
-          window.open(path,"_self");
+          window.open(filename,"_self");
         }
         document.getElementById('fileTitle').innerText=filename;
         document.getElementById('fileContent').innerText=await textPromise;
         document.getElementById('file').hidden=false;
         document.getElementById("div_btn").hidden=false;
+      } else if(key[1] in queryDic){
+        var base64=queryDic[key[1]];
+        btn_download=document.getElementById("btn_download");
+        btn_download.onclick=function(){
+          window.open(String.raw`data:application/pdf;base64,${Base64}`,"_self")
+        }
+        document.getElementById('fileTitle').hudden=true
+        document.getElementById('fileContent').innerText=atob(base64)
+        document.getElementById('file').hidden=false;
+        document.getElementById("div_btn").hidden=false;
       }
-      else {
+      else{
         document.getElementById('error_P').hidden=false;
         errNode;
       }
