@@ -159,6 +159,11 @@ draft: false
         }
         row.appendChild(td)
       }
+      var lnkfile=document.createElement("a")
+      lnkfile.target="_blank"
+      lnkfile.innerText="Go to file"
+      lnkfile.href=d.sourceFile.viewerUrl
+      row.appendChild(lnkfile)
       dtb.appendChild(row)
     }
     await reloadStat()
@@ -197,6 +202,7 @@ draft: false
       <th>Code</th>
       <th>Method</th>
       <th>Reference</th>
+      <th>File</th>
     </thead>
     <tbody id="dat_table_b">
     </tbody>
