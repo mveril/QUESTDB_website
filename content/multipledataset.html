@@ -194,6 +194,23 @@ draft: false
   }
 </script>
 {{< getDataFilesName >}}
+  <p>
+    In this page you can compare multiple dataset and have somme statistics to evaluate method or basis accuracy.
+    For this follow this steps
+    <ol>
+      <li>Select a value type (Absorbtion, fluorescence or \(\Delta \text{ZPE}\))</li>
+      <li>You can add custom files if you want</li>
+      <li>Choose each parameters (Of course you can select multiples values for each)</li>
+        <ul>
+          <li>Molecule</li>
+          <li>Code</li>
+          <li>Method</li>
+          <li>Paper</li>
+        </ul>
+      <li>Select a reference from already selected data (by default the first is already selected)</li>
+      <li>Now you can see the list of selected data and some statistics about these data</li>
+    </ol>
+  </p>
   <form id="form_dat" action="" method="post">
     <legend>Data type</legend>
     <input type="radio" id="abs" value="abs" name="datatype">
