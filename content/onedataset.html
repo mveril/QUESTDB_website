@@ -42,9 +42,9 @@ draft: false
       async function update_mol(molecule){
         for (const [key,dat] of Object.entries(window.dats)) {
           var s=document.getElementById(String.raw`select_${key}`)
-          while (s.options[s.options.length-1].value!= "") {
-            s.options.remove(s.options[s.options.length-1])
-          }
+          $(s).find('option[value!=""]').remove()
+          $(s).find('option[value=""]').first().prop('selected', true)
+          
           dat.forEach((val,index)=>{
             if(val.molecule==molecule){
               var op=document.createElement("option")
@@ -71,10 +71,16 @@ draft: false
         dat= await data.loadAsync(file);
         await applyData(dat);
       }
+      async function clear(){
+        for(id of ["ex_table_b","data_par","abs_plot"]){
+          document.getElementById(id).innerHTML=""
+        }
+
+      }
       async function reload() {
+        clear()
         const LatexInline=['\\(','\\)']
         var par=document.getElementById("data_par")
-        par.innerHTML='';
         var md=[];
         var els=[];
         var customRenderingProp=["excitations","sourceFile"]
@@ -127,7 +133,6 @@ draft: false
           div.appendChild(node);
         }
         var tb=document.getElementById("ex_table_b");
-        tb.innerHTML=''
         for (const el of window.data.excitations) {
           var row=document.createElement("tr")
           var rowd=[]
