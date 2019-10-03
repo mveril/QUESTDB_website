@@ -129,9 +129,9 @@ draft: false
         }
         row.appendChild(td)
       }
-
-      const avals=vals.map(v=>Math.abs(v))
-      for(const val of [ss.min(vals),ss.max(vals),ss.mean(vals),ss.mean(avals),ss.median(vals),ss.median(avals),ss.rootMeanSquare(vals),ss.variance(vals),ss.standardDeviation(vals)]){
+      const noNanVals=vals.filter((v)=>!Number.isNaN(v))
+      const avals=noNanVals.map(v=>Math.abs(v))
+      for(const val of [ss.min(noNanVals),ss.max(noNanVals),ss.mean(noNanVals),ss.mean(avals),ss.median(noNanVals),ss.median(avals),ss.rootMeanSquare(noNanVals),ss.variance(noNanVals),ss.standardDeviation(noNanVals)]){
         var td=document.createElement("td")
         td.innerText=noNanPrecision(val,3)
         row.appendChild(td)
