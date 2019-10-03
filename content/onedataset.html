@@ -11,7 +11,6 @@ draft: false
     <script src="/scripts/noNan.js"></script>
     <script src="/scripts/websiteFile.js"></script>
     <script src="https://cdn.rawgit.com/larsgw/citation.js/archive/citation.js/citation-0.4.0-9.js" type="text/javascript"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
      {{< getDataFilesName >}}
     <script>
       window.onload=async function()
@@ -72,7 +71,7 @@ draft: false
         await applyData(dat);
       }
       async function clear(){
-        for(id of ["ex_table_b","data_par","abs_plot"]){
+        for(id of ["ex_table_b","data_par"]){
           document.getElementById(id).innerHTML=""
         }
 
@@ -148,23 +147,7 @@ draft: false
         }
         await MathJax.typesetPromise();
         document.getElementById("ex_div").hidden=false
-        var plotdat = [{
-  x: [],
-  y: [],
-  type: 'bar'
-}];
-        var expAbsData= await AbsDataFile.loadAsync("/abs/"+window.data.Abs.molecule.toLowerCase()+"_exp.dat")
-        var i;
-        for (i = 0; i < window.data.excitations.length; i++) {
-          var ext=window.data.excitations[i];
-          var exexp=expAbsData.excitations[i]
-          plotdat[0].x.push(ext.final.toString())
-          plotdat[0].y.push(ext.Eabs-exexp.value)
-        }
         await MathJax.typesetPromise();
-        var layout={title: "Absorption theory deviation"}
-        Plotly.newPlot('abs_plot', plotdat,layout);
-        document.getElementById("graph_div").hidden=false
       }
     </script>
     <script>
@@ -219,9 +202,5 @@ draft: false
 
         </tbody>
       </table>
-    </div>
-    <div id="graph_div" hidden=true>
-      <div id="abs_plot">
-      </div>
     </div>
     </p>
