@@ -1,0 +1,47 @@
+.paper h1 {
+  font-size: 20pt
+}
+
+.paper ul.authors-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 0
+}
+
+.paper ul.authors-list li{
+  display: inline
+}
+
+.paper ul.authors-list li strong.star{
+  font-weight: bold;
+}
+
+.paper ul.authors-list li:after
+{
+  content: ", "
+}
+
+.paper ul.authors-list li:nth-last-child(2):after
+{
+  content: " and "
+}
+
+.paper ul.authors-list li:last-child:after
+{
+  content: ""
+}
+
+.orcid-id img {
+  vertical-align: middle;
+  float: left;
+  margin-right: 4px;
+}
+
+.orcid-id a {
+  vertical-align: middle;
+  display: inline;
+}
+.author-info {
+  font-size: 18x
+}

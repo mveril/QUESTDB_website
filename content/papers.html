@@ -3,6 +3,7 @@ title: "Papers"
 date: 2019-09-30 11:30
 draft: false
 ---
+<link rel="stylesheet" type="text/css" href="/css/paper.css" />
 <script src="/scripts/data.js" type="text/javascript"></script>
 <script src="/scripts/loadAllData.js" type="text/javascript"></script>
 <script src="/scripts/getFullDataPath.js" type="text/javascript"></script>
@@ -14,21 +15,61 @@ draft: false
 <script>
   window.onload = async function () {
     var div=document.getElementById("papers_div")
-    var Cite = require("citation-js")
-    var dois =uniq(Object.values(await loadAllData()).flat().map(d => d.DOI))
-    for (doi of dois) {
-      var publi = await Cite.async(doi.string)
-      var output = publi.format('bibliography', {
-        format: 'html',
-        template: 'apa',
-        lang: 'en-US'
-      })
-      lnk = document.createElement("a")
-      lnk.innerHTML = output
-      lnk.target = '_blank'
-      lnk.href = doi.url
-      div.appendChild(lnk)
-    }
+    const Cite = require("citation-js")
+    const dois =uniq(Object.values(await loadAllData()).flat().map(d => d.DOI.string))
+    const publiscite = await Cite.async(dois)
+    const publis=publiscite.format('data', {format: 'object'})
+    for (const publi of publis){
+      const art=document.createElement("article")
+      art.className="paper"
+      const titlelink=document.createElement("a")
+      const titleh=document.createElement("h1")
+      titleh.innerText=publi.title
+      titlelink.appendChild(titleh)
+      titlelink.href=publi.URL     
+      art.appendChild(titlelink)
+      const authors=publi.author
+      const ulauths=document.createElement("ul")
+      ulauths.className="authors-list"
+      for(const author of authors){
+        const liauth=document.createElement("li")
+        const spanAuth=document.createElement("span")
+        spanAuth.innerText=String.raw`${author.given} ${author.family}`
+        liauth.appendChild(spanAuth)
+        if(author.sequence==="first"){
+          star=document.createElement("strong")
+          star.innerText="*"
+          liauth.appendChild(star)
+        }
+        var notifycontent=document.createElement("div")
+        for(const a of author.affiliation){
+          var div=document.createElement("div")
+          div.innerText=a.name
+          notifycontent.className="author-info"
+          notifycontent.appendChild(div)
+        }
+        if(author["authenticated-orcid"]){
+          const html=$.parseHTML(String.raw`<div class="orcid-id"><a href="https://orcid.org" target="_blank"><img alt="ORCID logo" src="https://orcid.org/sites/default/files/images/orcid_16x16.png" width="16" height="16"/></a> <a href="${author.ORCID}" target="_blank">${author.ORCID} </a></div>`)
+          notifycontent.appendChild(html[0])
+        }
+        tippy(spanAuth, {
+         content: notifycontent,
+         theme: 'light',
+         interactive: true,
+        });
+        ulauths.appendChild(liauth)
+      }
+      art.appendChild(ulauths)
+      const journaldiv=document.createElement("div")
+      journaldiv.innerText=(("container-title-short" in publi) ? publi["container-title-short"] : publi["container-title"])
+      journaldiv.innerText+=publi.issued["date-parts"][0][0]
+      journaldiv.innerHTML+=String.raw` ${publi.volume}(${publi.issue}), ${publi.page}`
+      art.appendChild(journaldiv)
+      const doilink=document.createElement("a")
+      doilink.href=publi.URL
+      doilink.innerText=String.raw`DOI: ${publi.URL}`
+      document.getElementById("papers_div").appendChild(art)
+    }    
   }
 </script>
 <div id="papers_div">
