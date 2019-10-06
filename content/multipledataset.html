@@ -141,7 +141,7 @@ draft: false
       var box = {
                     x: noNanVals,
                     amean: ss.mean(avals).toFixed(3),
-                    name:  key.map(k=>k.toString()).join(" ") + " MAD : " + ss.mean(avals).toPrecision(4),
+                    name:  key[0].toString() + " MAD : " + ss.mean(avals).toPrecision(4),
                     type: 'box',
                     boxmean: 'sd'
       };
