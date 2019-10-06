@@ -71,7 +71,8 @@ draft: false
       art.appendChild(journaldiv)
       const doilink=document.createElement("a")
       doilink.href=publi.URL
-      doilink.innerText=String.raw`DOI: ${publi.URL}`
+      doilink.innerText=String.raw`DOI: ${publi.DOI}`
+      art.appendChild(doilink)
       document.getElementById("papers_div").appendChild(art)
     }    
   }
