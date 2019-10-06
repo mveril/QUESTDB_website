@@ -13,10 +13,6 @@
   display: inline
 }
 
-.paper ul.authors-list li strong.star{
-  font-weight: bold;
-}
-
 .paper ul.authors-list li:after
 {
   content: ", "
