@@ -9,21 +9,21 @@
   border: 0
 }
 
-.paper ul.authors-list li{
+.paper ul.authors-list li.author-item{
   display: inline
 }
 
-.paper ul.authors-list li:after
+.paper ul.authors-list li.author-item:after
 {
   content: ", "
 }
 
-.paper ul.authors-list li:nth-last-child(2):after
+.paper ul.authors-list li.author-item:nth-last-child(2):after
 {
   content: " and "
 }
 
-.paper ul.authors-list li:last-child:after
+.paper ul.authors-list li.author-item:last-child:after
 {
   content: ""
 }
@@ -40,4 +40,10 @@
 }
 .author-info {
   font-size: 18x
+}
+.author-info ul.affiliation-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 0
 }

@@ -33,6 +33,7 @@ draft: false
       ulauths.className="authors-list"
       for(const author of authors){
         const liauth=document.createElement("li")
+        liauth.className="author-item"
         const spanAuth=document.createElement("span")
         spanAuth.innerText=String.raw`${author.given} ${author.family}`
         liauth.appendChild(spanAuth)
@@ -43,10 +44,13 @@ draft: false
         }
         var notifycontent=document.createElement("div")
         notifycontent.className="author-info"
+        const ulaff=document.createElement("ul")
+        ulaff.className="affiliation-list"
+        notifycontent.appendChild(ulaff)
         for(const a of author.affiliation){
-          var div=document.createElement("div")
-          div.innerText=a.name
-          notifycontent.appendChild(div)
+          const liaff=document.createElement("li")
+          liaff.innerText=a.name
+          ulaff.appendChild(liaff)
         }
         if(author["authenticated-orcid"]){
           const html=$.parseHTML(String.raw`<div class="orcid-id"><a href="https://orcid.org" target="_blank"><img alt="ORCID logo" src="https://orcid.org/sites/default/files/images/orcid_16x16.png" width="16" height="16"/></a> <a href="${author.ORCID}" target="_blank">${author.ORCID} </a></div>`)
