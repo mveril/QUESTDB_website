@@ -42,10 +42,10 @@ draft: false
           liauth.appendChild(star)
         }
         var notifycontent=document.createElement("div")
+        notifycontent.className="author-info"
         for(const a of author.affiliation){
           var div=document.createElement("div")
           div.innerText=a.name
-          notifycontent.className="author-info"
           notifycontent.appendChild(div)
         }
         if(author["authenticated-orcid"]){
