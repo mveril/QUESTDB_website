@@ -79,8 +79,15 @@ theme = "beautifulhugo"
 [[menu.main]]
     parent="external"
     name = "MRCC"
-    url = "https://www.mrcc.hu/"
+    url = "https://gaussian.com/"
     weight = 6
+
+[[menu.main]]
+    parent="external"
+    name = "Gaussian"
+    url = "https://gaussian.com/"
+    weight = 6
+
 
 [[menu.main]]
     parent="external"
