@@ -79,13 +79,13 @@ theme = "beautifulhugo"
 [[menu.main]]
     parent="external"
     name = "MRCC"
-    url = "https://gaussian.com/"
+    url = "https://gaussian.com"
     weight = 6
 
 [[menu.main]]
     parent="external"
     name = "Gaussian"
-    url = "https://gaussian.com/"
+    url = "https://gaussian.com"
     weight = 6
 
 
