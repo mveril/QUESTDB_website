@@ -108,9 +108,9 @@ draft: false
     for(const[keystr,vals] of sdic){
       row=document.createElement("tr")
       key=JSON.parse(keystr)
-      Reflect.setPrototypeOf(key[0], code.prototype)
-      Reflect.setPrototypeOf(key[1], method.prototype)
-      Reflect.setPrototypeOf(key[2], doi.prototype)
+      key.shift()
+      Reflect.setPrototypeOf(key[0], method.prototype)
+      Reflect.setPrototypeOf(key[1], doi.prototype)
       for(const el of key){
         var td=document.createElement("td")
         if(trueTypeOf(el)=="doi"){
@@ -256,8 +256,6 @@ draft: false
     <br/>
     <label for="mol_select">Molecule</label>
     <select multiple id="mol_select" onchange="reloadContent()" name="molecule"></select>
-    <label for="code_select">Code</label>
-    <select multiple id="code_select" onchange="reloadContent()" name="code"></select>
     <label for="method_select">Method</label>
     <select multiple id="method_select" onchange="reloadContent()" name="method"></select>
     <label for="DOI_select">Paper</label>
@@ -286,7 +284,6 @@ draft: false
 <div id="stat_div">
   <table id="stat_table">
     <thead>
-      <th>Code</th>
       <th>Method</th>
       <th>Paper</th>
       <th>Min</th>
