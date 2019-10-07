@@ -84,6 +84,7 @@ draft: false
         $(this).append(op)
     }
     })
+    $('#form_dat > input[type="submit"').prop('disabled', false);
     processingIndicator.isActive=false
     await reloadContent()
   }
@@ -266,7 +267,7 @@ draft: false
       <li>Now you can see the list of selected data and some statistics about these data</li>
     </ol>
   </p>
-  <form id="form_dat" action="" method="post">
+  <form id="form_dat" action="javascript:reloadContent()" method="post">
     <legend>Data type</legend>
     <input type="radio" id="abs" value="abs" name="datatype">
     <label for="abs">Absorption</label>
@@ -279,11 +280,12 @@ draft: false
     <input type="file" multiple onchange="reloadSelect()" id="customFiles_input" disabled=true></input>
     <br/>
     <label for="mol_select">Molecule</label>
-    <select multiple id="mol_select" onchange="reloadContent()" name="molecule"></select>
+    <select multiple id="mol_select" name="molecule"></select>
     <label for="method_select">Method</label>
-    <select multiple id="method_select" onchange="reloadContent()" name="method"></select>
+    <select multiple id="method_select" name="method"></select>
     <label for="DOI_select">Paper</label>
-    <select multiple id="DOI_select" onchange="reloadContent()" name="DOI"></select>
+    <select multiple id="DOI_select" name="DOI"></select>
+    <input type="submit" disabled=true value="Calculate"></input>
   </form>
   <form id="form_ref">
     <label for="sel_ref">Reference</label>
