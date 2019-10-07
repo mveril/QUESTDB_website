@@ -44,6 +44,9 @@ draft: false
         }
         var notifycontent=document.createElement("div")
         notifycontent.className="author-info"
+        const notifyhead=document.createElement("h1")
+        notifyhead.innerText=String.raw`${author.given} ${author.family}`
+        notifycontent.appendChild(notifyhead)
         const ulaff=document.createElement("ul")
         ulaff.className="affiliation-list"
         notifycontent.appendChild(ulaff)

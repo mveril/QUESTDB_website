@@ -14,7 +14,8 @@ ul.papers-list{
 }
 
 .paper ul.authors-list li.author-item{
-  display: inline
+  display: inline;
+  cursor: default
 }
 
 .paper ul.authors-list li.author-item:after
@@ -43,7 +44,11 @@ ul.papers-list{
   display: inline;
 }
 .author-info {
-  font-size: 18x
+  font-size: 14px;
+  cursor: initial
+}
+.author-info h1 {
+  font-size: larger
 }
 .author-info ul.affiliation-list{
   list-style: none;
