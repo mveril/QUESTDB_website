@@ -73,10 +73,12 @@ draft: false
       doilink.href=publi.URL
       doilink.innerText=String.raw`DOI: ${publi.DOI}`
       art.appendChild(doilink)
-      document.getElementById("papers_div").appendChild(art)
+      const lipub=document.createElement("li")
+      lipub.appendChild(art)
+      document.getElementById("papers_ul").appendChild(lipub)
     }    
   }
 </script>
-<div id="papers_div">
+<ul class="papers-list" id="papers_ul">
 
-</div>
+</ul>

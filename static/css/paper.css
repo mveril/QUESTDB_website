@@ -2,6 +2,10 @@
   font-size: 20pt
 }
 
+ul.papers-list{
+  list-style: none
+}
+
 .paper ul.authors-list {
   list-style: none;
   margin: 0;
