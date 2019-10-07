@@ -1,0 +1,11 @@
+# Molecule : Hydrogen chloride
+# Comment  : Absorption energies of the hydrogen chloride molecule
+# code     : MRCC
+# method   : CCSDT,aug-cc-pVDZ
+# geom     : CC3,aug-cc-pVTZ
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state             Energies (eV)
+#######################  #######################   ############
+# Spin  Number  Symm       Spin  Number  Symm        E_abs  
+  1     1       A_1        1     1       \Pi         7.81
