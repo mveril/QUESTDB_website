@@ -1,14 +1,14 @@
 class processingIndicator{
   static get isActive(){
-    return document.body.style.cursor==="wait"
+    return document.body.classList.contains("loading")
   }
   static set isActive(value){
     if(value!=this.isActive){
       if(value){
-        document.body.style.cursor="wait"
+        document.body.classList.add("loading")
       }
       else{
-        document.body.style.cursor="default"
+        document.body.classList.remove("loading")
       }
     }
   }
