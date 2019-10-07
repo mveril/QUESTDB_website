@@ -47,7 +47,9 @@ draft: false
     })
   }
   function reloadFileSelector(){
-    document.getElementById("customFiles_input").value = ""
+    const fsel=document.getElementById("customFiles_input")
+    fsel.value=""
+    fsel.disabled=false    
   }
 
   async function reloadSelect(){
@@ -273,7 +275,7 @@ draft: false
     <label for="zpe">\(\Delta \text{ZPE}\)</label>
     <br/>
     <label for="customFiles">Add custom data file</label>
-    <input type="file" multiple onchange="reloadSelect()" id="customFiles_input"></input>
+    <input type="file" multiple onchange="reloadSelect()" id="customFiles_input" disabled=true></input>
     <br/>
     <label for="mol_select">Molecule</label>
     <select multiple id="mol_select" onchange="reloadContent()" name="molecule"></select>
