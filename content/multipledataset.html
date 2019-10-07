@@ -9,6 +9,7 @@ draft: false
 <script src="/js/getTextFromFile.js" type="text/javascript"></script>
 <script src="/js/trueTypeOf.js" type="text/javascript"></script>
 <script src="/js/uniq.js"></script>
+<script src="/js/processingIndicator.js"></script>
 <script src="/js/noNan.js"></script>
 <script src="/js/websiteFile.js"></script>
 <script src="https://cdn.rawgit.com/larsgw/citation.js/archive/citation.js/citation-0.4.0-9.js"
@@ -18,6 +19,7 @@ draft: false
   window.onload= async ()=>{
     window.Cite = require('citation-js');
     $('#form_dat input[type=radio]').on('change', async function(event) {
+      processingIndicator.isActive=true
       document.getElementById("Geom_th").hidden=true
       document.getElementById("GSGeom_th").hidden=true
       document.getElementById("ESGeom_th").hidden=true
@@ -39,6 +41,7 @@ draft: false
           break;
       }
       window.dats=await Promise.all(proms)
+      processingIndicator.isActive=false
       reloadFileSelector()
       await reloadSelect()
     })
@@ -48,6 +51,7 @@ draft: false
   }
 
   async function reloadSelect(){
+    processingIndicator.isActive=true
     radioval=$('#form_dat > input[name=datatype]:checked').val();
     for(file of Array.from(document.getElementById("customFiles_input").files))
     {
@@ -77,9 +81,11 @@ draft: false
         $(this).append(op)
     }
     })
+    processingIndicator.isActive=false
     await reloadContent()
   }
   async function reloadStat(){
+    processingIndicator.isActive=true
     var stb=document.getElementById("stat_table_b");
     document.getElementById("graph_div").inerrHTML=""
     stb.innerHTML=''
@@ -175,8 +181,10 @@ draft: false
              },
     }
     Plotly.newPlot('graph_div', graphdat, layout);
+    processingIndicator.isActive=false
   }
   async function reloadContent(){
+    processingIndicator.isActive=true
     const LatexInline=['\\(','\\)']
     window.filt=window.dats
     $('#form_dat > select').each(function(){
@@ -234,6 +242,7 @@ draft: false
       row.appendChild(lnkfile)
       dtb.appendChild(row)
     }
+    processingIndicator.isActive=true
     await reloadStat()
   }
 </script>

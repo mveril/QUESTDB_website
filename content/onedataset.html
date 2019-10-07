@@ -38,6 +38,7 @@ draft: false
         update_ZPE(window.dats["ZPE"][event.target.value])
       }
       async function update_mol(molecule){
+        processingIndicator.isActive=true
         for (const [key,dat] of Object.entries(window.dats)) {
           var s=document.getElementById(String.raw`select_${key}`)
           $(s).find('option[value!=""]').remove()
@@ -52,6 +53,7 @@ draft: false
             }
           })
         }
+        processingIndicator.isActive=false
       }
       async function update_abs(abs){
         window.data.Abs=abs
@@ -72,6 +74,7 @@ draft: false
 
       }
       async function reload() {
+        processingIndicator.isActive=true
         clear()
         const LatexInline=['\\(','\\)']
         var par=document.getElementById("data_par")
@@ -143,6 +146,7 @@ draft: false
         await MathJax.typesetPromise();
         document.getElementById("ex_div").hidden=false
         await MathJax.typesetPromise();
+        processingIndicator.isActive=false
       }
     </script>
     <p>
