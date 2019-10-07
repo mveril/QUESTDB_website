@@ -65,10 +65,6 @@ draft: false
         window.data.ZPE=ZPE
         reload()
       }
-      async function update_file(file) {
-        dat= await data.loadAsync(file);
-        await applyData(dat);
-      }
       async function clear(){
         for(id of ["ex_table_b","data_par"]){
           document.getElementById(id).innerHTML=""
@@ -148,11 +144,6 @@ draft: false
         document.getElementById("ex_div").hidden=false
         await MathJax.typesetPromise();
       }
-    </script>
-    <script>
-      function onValueChange(e) {
-          update_file(e.target.value);
-        }
     </script>
     <p>
       In this page you can calculate \(E_\text{adia}\) \(E_\text{0-0}\) from \(E_\text{abs}\) \(E_\text{fluo}\) and \(\Delta E_\text{ZPE}\)
