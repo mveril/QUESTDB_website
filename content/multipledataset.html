@@ -18,18 +18,24 @@ draft: false
   window.onload= async ()=>{
     window.Cite = require('citation-js');
     $('#form_dat input[type=radio]').on('change', async function(event) {
+      document.getElementById("Geom_th").hidden=true
+      document.getElementById("GSGeom_th").hidden=true
+      document.getElementById("ESGeom_th").hidden=true
       var result = $(this).val();
       var proms=[];
       switch (result) {
         case "abs":
-
           proms=getAbsFilesName().map((f) => AbsDataFile.loadAsync(f));
+          document.getElementById("Geom_th").hidden=false
           break;
         case "fluo":
           proms=getFluoFilesName().map((f) => FluoDataFile.loadAsync(f));
+          document.getElementById("Geom_th").hidden=false
           break;
         case "zpe":
           proms=getZPEFilesName().map((f) => ZPEDataFile.loadAsync(f));
+          document.getElementById("GSGeom_th").hidden=false
+          document.getElementById("ESGeom_th").hidden=false
           break;
       }
       window.dats=await Promise.all(proms)
@@ -189,13 +195,20 @@ draft: false
     for (const d of window.filt) {
       var row=document.createElement("tr")
       var rowd=[]
-      var els=[d.molecule,d.comment,d.code,d.method,d.DOI]
+      const els=[d.molecule,d.comment,d.code,d.method,d.DOI]
       var op=document.createElement("option")
       var opObjVal=els.slice(2)
       op.value=JSON.stringify(opObjVal)
       op.innerText=opObjVal.join(" ")
       sel_ref.appendChild(op)
-      for(const el of els){
+      var tableels=els.slice()
+      if(d instanceof oneStateDataFileBase){
+        tableels.splice(3,0,d.geometry)
+      }
+      else if(d instanceof twoStateDataFileBase){
+        tableels.splice(3,0,[d.GS,d.ES])
+      }
+      for(const el of tableels){
         td=document.createElement("td")
         if(trueTypeOf(el)=="doi"){
           var publipromise=window.Cite.async(el.string)
@@ -273,6 +286,9 @@ draft: false
       <th>Molecule</th>
       <th>Comment</th>
       <th>Code</th>
+      <th id="Geom_th" hidden=true>Geometry</th>
+      <th id="GSGeom_th" hidden=true>Ground state geometry</th>
+      <th id="ESGeom_th" hidden=true>Excited state geometry</th>
       <th>Method</th>
       <th>Paper</th>
       <th>File</th>
