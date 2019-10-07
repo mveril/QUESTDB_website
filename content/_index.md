@@ -18,4 +18,4 @@ On this website you can watch reference data for excitations the base data are
 <div>$$ E_\text{adia} \simeq \frac{E_{abs}+E_{fluo}}{2}\ $$</div>
 <div>$$ E_\text{0-0} \simeq E_\text{adia}-\Delta E_\text{ZPE} $$</div>
 
-{{< figure src="/images/figure-geom-1.png" title="Figure 1" caption="Representation of transition energies and energy differences" >}}
+{{< figure src="/img/figure-geom-1.png" title="Figure 1" caption="Representation of transition energies and energy differences" >}}
