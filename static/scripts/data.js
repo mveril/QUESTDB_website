@@ -194,7 +194,7 @@ class dataFileBase {
   }
 }
 
-class oneStateDataFile extends dataFileBase {
+class oneStateDataFileBase extends dataFileBase {
   constructor() {
     super()
     this.geometry = null
@@ -208,10 +208,10 @@ class oneStateDataFile extends dataFileBase {
     }
   }
 }
-class AbsDataFile extends oneStateDataFile {
+class AbsDataFile extends oneStateDataFileBase {
 
 }
-class FluoDataFile extends oneStateDataFile {
+class FluoDataFile extends oneStateDataFileBase {
 
 }
 class twoStateDataFileBase extends dataFileBase {
