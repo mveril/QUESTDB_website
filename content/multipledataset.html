@@ -211,7 +211,7 @@ draft: false
       var op=document.createElement("option")
       var opObjVal=els.slice(2)
       op.value=JSON.stringify(opObjVal)
-      op.innerText=opObjVal.join(" ")
+      op.innerText=d.method
       sel_ref.appendChild(op)
       var tableels=els.slice()
       if(d instanceof oneStateDataFileBase){
