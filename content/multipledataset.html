@@ -120,6 +120,7 @@ draft: false
         sdic.get(key).push(exval-((sdatdic.has(refstr)) ? sdatdic.get(refstr).get(key2) : NaN))
       }
     }
+    sdic.delete(refstr)
     var graphdat=[]
     for(const[keystr,vals] of sdic){
       row=document.createElement("tr")
@@ -211,7 +212,7 @@ draft: false
       var op=document.createElement("option")
       var opObjVal=els.slice(2)
       op.value=JSON.stringify(opObjVal)
-      op.innerText=d.method
+      op.innerText=opObjVal.join(" ")
       sel_ref.appendChild(op)
       var tableels=els.slice()
       if(d instanceof oneStateDataFileBase){
