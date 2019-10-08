@@ -56,25 +56,31 @@ theme = "beautifulhugo"
     parent="external"
     name = "Laboratoire de Chimie et Physique Quantique"
     url = "http://www.lcpq.ups-tlse.fr"
-    weight = 6
+    weight = 1
 
 [[menu.main]]
     parent="external"
     name = "CIESAM"
     url = "http://www.sciences.univ-nantes.fr/CEISAM"
-    weight = 6
+    weight = 2
+
+[[menu.main]]
+    parent="external"
+    name = "EMSL Basis set"
+    url = "https://www.basissetexchange.org"
+    weight = 3
 
 [[menu.main]]
     parent="external"
     name = "Quantum Package"
     url = "https://quantumpackage.github.io/qp2"
-    weight = 6
+    weight = 4
 
 [[menu.main]]
     parent="external"
     name = "Dalton"
     url = "https://daltonprogram.org"
-    weight = 6
+    weight = 5
 
 [[menu.main]]
     parent="external"
@@ -86,11 +92,5 @@ theme = "beautifulhugo"
     parent="external"
     name = "Gaussian"
     url = "https://gaussian.com"
-    weight = 6
-
-
-[[menu.main]]
-    parent="external"
-    name = "EMSL Basis set"
-    url = "https://www.basissetexchange.org"
-    weight = 6
+    weight = 7
+    
