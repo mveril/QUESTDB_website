@@ -3,186 +3,189 @@ title: "One dataset"
 date: 2019-08-29 09:00
 draft: false
 ---
-    <link rel="stylesheet" type="text/css" href="/css/modal.css" />
-    <script src="/js/processingIndicator.js" type="text/javascript"></script>
-    <script src="/js/data.js" type="text/javascript"></script>
-    <script src="/js/loadAllData.js" type="text/javascript"></script>
-    <script src="/js/getFullDataPath.js" type="text/javascript"></script>
-    <script src="/js/getTextFromFile.js" type="text/javascript"></script>
-    <script src="/js/trueTypeOf.js" type="text/javascript"></script>
-    <script src="/js/noNan.js"></script>
-    <script src="/js/websiteFile.js"></script>
-     {{< getDataFilesName >}}
-    <script>
-      window.onload=async function()
-      {
-        window.Cite = require('citation-js');
-        window.dats=await loadAllData()
-        window.data=new CombinedData()
-        molecules=new Set(Object.values(window.dats).flat().map((d)=>d.molecule))
-        for (const el of molecules) {
-          $("<option/>",{value:el}).text(el).appendTo($("#select_mol"))
-        }
-      }
-      function select_mol_onchange(event){
-        update_mol(event.target.value)
-      }
-      function select_abs_onchange(event){
-        update_abs(window.dats["abs"][event.target.value])
-      }
-      function select_fluo_onchange(event){
-        update_fluo(window.dats["fluo"][event.target.value])
-      }
-      function select_ZPE_onchange(event){
-        update_ZPE(window.dats["ZPE"][event.target.value])
-      }
-      async function update_mol(molecule){
-        processingIndicator.isActive=true
-        for (const [key,dat] of Object.entries(window.dats)) {
-          var s=$(String.raw`#select_${key}`)
-          $(s).find('option[value!=""]').remove()
-          $(s).find('option[value=""]').first().prop('selected', true)
-          
-          dat.forEach((val,index)=>{
-            if(val.molecule==molecule){
-              $("<option/>",{value:index}).text(val.method.toString()).appendTo(s)
-            }
-          })
-        }
-        processingIndicator.isActive=false
-      }
-      async function update_abs(abs){
-        window.data.Abs=abs
-        reload()
-      }
-      async function update_fluo(fluo){
-        window.data.Fluo=fluo
-        reload()
-      }
-      async function update_ZPE(ZPE){
-        window.data.ZPE=ZPE
-        reload()
-      }
-      async function clear(){
-        $("#ex_table > tbody,data_par").each(()=>{
-          $(this).empty()
-        })
+<link rel="stylesheet" type="text/css" href="/css/modal.css" />
+<script src="/js/processingIndicator.js" type="text/javascript"></script>
+<script src="/js/data.js" type="text/javascript"></script>
+<script src="/js/loadAllData.js" type="text/javascript"></script>
+<script src="/js/getFullDataPath.js" type="text/javascript"></script>
+<script src="/js/getTextFromFile.js" type="text/javascript"></script>
+<script src="/js/trueTypeOf.js" type="text/javascript"></script>
+<script src="/js/noNan.js"></script>
+<script src="/js/websiteFile.js"></script>
+{{< getDataFilesName >}}
+<script>
+  window.onload = async function () {
+    window.Cite = require('citation-js');
+    window.dats = await loadAllData()
+    window.data = new CombinedData()
+    molecules = new Set(Object.values(window.dats).flat().map((d) => d.molecule))
+    for (const el of molecules) {
+      $("<option/>", { value: el }).text(el).appendTo($("#select_mol"))
+    }
+  }
+  function select_mol_onchange(event) {
+    update_mol(event.target.value)
+  }
+  function select_abs_onchange(event) {
+    update_abs(window.dats["abs"][event.target.value])
+  }
+  function select_fluo_onchange(event) {
+    update_fluo(window.dats["fluo"][event.target.value])
+  }
+  function select_ZPE_onchange(event) {
+    update_ZPE(window.dats["ZPE"][event.target.value])
+  }
+  async function update_mol(molecule) {
+    processingIndicator.isActive = true
+    for (const [key, dat] of Object.entries(window.dats)) {
+      var s = $(String.raw`#select_${key}`)
+      $(s).find('option[value!=""]').remove()
+      $(s).find('option[value=""]').first().prop('selected', true)
 
+      dat.forEach((val, index) => {
+        if (val.molecule == molecule) {
+          $("<option/>", { value: index }).text(val.method.toString()).appendTo(s)
+        }
+      })
+    }
+    processingIndicator.isActive = false
+  }
+  async function update_abs(abs) {
+    window.data.Abs = abs
+    reload()
+  }
+  async function update_fluo(fluo) {
+    window.data.Fluo = fluo
+    reload()
+  }
+  async function update_ZPE(ZPE) {
+    window.data.ZPE = ZPE
+    reload()
+  }
+  async function clear() {
+    $("#ex_table > tbody,data_par").each(() => {
+      $(this).empty()
+    })
+
+  }
+  async function reload() {
+    processingIndicator.isActive = true
+    clear()
+    const LatexInline = ['\\(', '\\)']
+    var md = [];
+    var els = [];
+    var customRenderingProp = ["excitations", "sourceFile"]
+    for (const key of Object.keys(window.data)) {
+      if (window.data[key] != null) {
+        md.push(key)
+        for (const prop of Object.keys(window.data[key])) {
+          if (!(customRenderingProp.includes(prop)))
+            md.push([prop, window.data[key][prop]])
+        }
+        md.push(window.data[key].DOI)
+        md.push(window.data[key].sourceFile)
       }
-      async function reload() {
-        processingIndicator.isActive=true
-        clear()
-        const LatexInline=['\\(','\\)']
-        var md=[];
-        var els=[];
-        var customRenderingProp=["excitations","sourceFile"]
-        for (const key of Object.keys(window.data)) {
-          if (window.data[key]!=null){
-            md.push(key)
-            for (const prop of Object.keys(window.data[key])) {
-              if(!(customRenderingProp.includes(prop)))
-                md.push([prop,window.data[key][prop]])
-            }
-            md.push(window.data[key].DOI)
-            md.push(window.data[key].sourceFile)
-          }
-        }
-        div=$("#meta_div")
-        $(div).empty()
-        for (const element of md) {
-          switch (trueTypeOf(element)) {
-            case "string":
-              $("<h2/>").text(element).appendTo(div)
-              break;
-            case "doi":
-              var publi=await Cite.async(element.string)
-              var output = publi.format('bibliography', {
-                format: 'html',
-                template: 'apa',
-                lang: 'en-US'
-              })
-              $("<a/>",{
-                href:element.url,
-                target:"_blank"}).html(output).appendTo(div)
-              break
-            case "websiteFile":
-              $("<a/>",{href:element.url,
-              target:"_blank",
-              href: element.getViewerURL()
-              }).text("Go to file").appendTo(div)
-              break
-            case "Array":
-              k=element[0]
-              v=element[1]
-              k=k.charAt(0).toUpperCase() + k.slice(1)
-              $("<div/>").text(k+': '+v).appendTo(div)
-              break;
-          }
-        }
-        var tb=$("#ex_table > tbody");
-        $(tb).empty()
-        for (const el of window.data.excitations) {
-          row=$("<tr/>")
-          var rowd=[]
-          rowd.push(String.raw`${LatexInline[0]} ${el.initial.toLaTeX()} \rightarrow ${el.final.toLaTeX()}${LatexInline[1]}`)
-          var e=[el.Eabs,el.Efluo,el.EZPE,el.Eadia,el.Ezz]
-          e.forEach((val)=>rowd.push(noNanPrecision(val,3)))
-          for(d of rowd) {
-            $("<td/>").text(d).appendTo(row)
-          }
-          tb.append(row)
-        }
-        await MathJax.typesetPromise();
-        $("#ex_div").attr("hidden",false)
-        await MathJax.typesetPromise();
-        processingIndicator.isActive=false
+    }
+    sec = $("#meta_sec")
+    $(sec).empty()
+    for (const element of md) {
+      switch (trueTypeOf(element)) {
+        case "string":
+          $("<h2/>").text(element).appendTo(sec)
+          break;
+        case "doi":
+          var publi = await Cite.async(element.string)
+          var output = publi.format('bibliography', {
+            format: 'html',
+            template: 'apa',
+            lang: 'en-US'
+          })
+          $("<a/>", {
+            href: element.url,
+            target: "_blank"
+          }).html(output).appendTo(sec)
+          break
+        case "websiteFile":
+          $("<a/>", {
+            href: element.url,
+            target: "_blank",
+            href: element.getViewerURL()
+          }).text("Go to file").appendTo(sec)
+          break
+        case "Array":
+          k = element[0]
+          v = element[1]
+          k = k.charAt(0).toUpperCase() + k.slice(1)
+          $("<div/>").text(k + ': ' + v).appendTo(sec)
+          break;
       }
-    </script>
-    <p>
-      In this page you can calculate \(E_\text{adia}\) \(E_\text{0-0}\) from \(E_\text{abs}\) \(E_\text{fluo}\) and \(\Delta E_\text{ZPE}\)
-      For this select a method for absorption, fluorescence or ZPE
-    </p> 
-    <div>
-    <label>Select a molecule<br/>
-      <select id="select_mol" onchange="select_mol_onchange(event)">
-        <option value="" disabled=true selected=true>Select a molecule</option>
-      </select>
-    </label>
+    }
+    var tb = $("#ex_table > tbody");
+    $(tb).empty()
+    for (const el of window.data.excitations) {
+      row = $("<tr/>")
+      var rowd = []
+      rowd.push(String.raw`${LatexInline[0]} ${el.initial.toLaTeX()} \rightarrow ${el.final.toLaTeX()}${LatexInline[1]}`)
+      var e = [el.Eabs, el.Efluo, el.EZPE, el.Eadia, el.Ezz]
+      e.forEach((val) => rowd.push(noNanPrecision(val, 3)))
+      for (d of rowd) {
+        $("<td/>").text(d).appendTo(row)
+      }
+      tb.append(row)
+    }
+    await MathJax.typesetPromise();
+    $("#ex_sec").attr("hidden", false)
+    await MathJax.typesetPromise();
+    processingIndicator.isActive = false
+  }
+</script>
+<p>
+  In this page you can calculate \(E_\text{adia}\) \(E_\text{0-0}\) from \(E_\text{abs}\) \(E_\text{fluo}\) and \(\Delta
+  E_\text{ZPE}\)
+  For this select a method for absorption, fluorescence or ZPE
+</p>
+<form>
+  <div>
+    <label for="select_mol">Select a molecule</label>
+    <select id="select_mol" onchange="select_mol_onchange(event)">
+      <option value="" disabled=true selected=true>Select a molecule</option>
+    </select>
   </div>
   <div>
-    <label>Select an absorption method<br/>
-      <select id="select_abs" onchange="select_abs_onchange(event)">
-        <option value="" disabled=true selected=true>Select an absorption method</option>
-      </select>
-    </label>
-  
-    <label>Select a fluorescence method<br/>
-      <select id="select_fluo" onchange="select_fluo_onchange(event)">
-        <option value="" disabled=true selected=true>Select a fluorescence method</option>
-      </select>
-    </label>
-    <label>Select a ZPE method<br/>
-      <select id="select_ZPE" onchange="select_ZPE_onchange(event)">
-        <option value="" disabled=true selected=true>Select a ZPE method</option>
-      </select>
-    </label>
+    <label for="select_abs">Select an absorption method</label>
+    <select id="select_abs" onchange="select_abs_onchange(event)">
+      <option value="" disabled=true selected=true>Select an absorption method</option>
+    </select>
   </div>
-    <h1>Data</h1>
-    <p id=data_par>
-      <div id="meta_div"></div>
-      <div id="ex_div" hidden=true>
-      <h2>Excitation</h2>
-      <table id="ex_table">
-        <thead>
-          <th>Transition</th>
-          <th>\(E_\text{abs}\)</th>
-          <th>\(E_\text{fluo}\)</th>
-          <th>\(\Delta E_\text{ZPE}\)</th>
-          <th>\(E_\text{adia}\)</th>
-          <th>\(E_\text{0-0}\)</th>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    </p>
-    {{< waitModal >}}
+  <div>
+    <label for="select_fluo">Select a fluorescence method</label>
+    <select id="select_fluo" onchange="select_fluo_onchange(event)">
+      <option value="" disabled=true selected=true>Select a fluorescence method</option>
+    </select>
+  </div>
+  <div>
+    <label for="select_ZPE">Select a ZPE method</label>
+    <select id="select_ZPE" onchange="select_ZPE_onchange(event)">
+      <option value="" disabled=true selected=true>Select a ZPE method</option>
+    </select>
+  </div>
+</form>
+<h1>Data</h1>
+<section id=data>
+  <section id="meta_sec"></section>
+  <section id="ex_sec" hidden=true>
+    <h2>Excitation</h2>
+    <table id="ex_table">
+      <thead>
+        <th>Transition</th>
+        <th>\(E_\text{abs}\)</th>
+        <th>\(E_\text{fluo}\)</th>
+        <th>\(\Delta E_\text{ZPE}\)</th>
+        <th>\(E_\text{adia}\)</th>
+        <th>\(E_\text{0-0}\)</th>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</section>
+{{< waitModal >}}
