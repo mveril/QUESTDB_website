@@ -53,7 +53,9 @@ draft: false
       }
       journalpar=$("<div/>").appendTo(art)
       $("<span/>").text((("container-title-short" in publi) ? publi["container-title-short"] : publi["container-title"])).appendTo(journalpar)
-      $("<span/>").text(publi.issued["date-parts"][0][0]).appendTo(journalpar)
+      var datArr=publi.issued["date-parts"][0]
+      var date=new Date(datArr[0],datArr[1]-1,datArr[2])
+      $("<span/>").text(date.getFullYear().toString()).appendTo(journalpar)
       journalpar.append(" ")
       $("<span/>").text(publi.volume).appendTo(journalpar)
       $("<span/>").addClass("issue").text(publi.issue).appendTo(journalpar)
@@ -63,6 +65,13 @@ draft: false
         href:publi.URL,
         target:"_blank"  
       }).text(String.raw`DOI: ${publi.DOI}`).appendTo(art)
+      $("<p/>").append("Published on ").append($("<time/>",{
+        datetime:JSON.stringify(date)
+      }).text(date.toLocaleDateString("en-us",{
+        day:"numeric",
+        month:"short",
+        year:"numeric"
+      }))).appendTo(art)
       $(art).appendTo("<li/>").appendTo("#papers_ul")
     }    
   }
