@@ -21,10 +21,7 @@ draft: false
         window.data=new CombinedData()
         molecules=new Set(Object.values(window.dats).flat().map((d)=>d.molecule))
         for (const el of molecules) {
-          op=document.createElement("option")
-          op.value=el
-          op.innerText=el
-          document.getElementById("select_mol").appendChild(op)
+          $("<option/>",{value:el}).text(el).appendTo($("#select_mol"))
         }
       }
       function select_mol_onchange(event){
@@ -42,16 +39,13 @@ draft: false
       async function update_mol(molecule){
         processingIndicator.isActive=true
         for (const [key,dat] of Object.entries(window.dats)) {
-          var s=document.getElementById(String.raw`select_${key}`)
+          var s=$(String.raw`#select_${key}`)
           $(s).find('option[value!=""]').remove()
           $(s).find('option[value=""]').first().prop('selected', true)
           
           dat.forEach((val,index)=>{
             if(val.molecule==molecule){
-              var op=document.createElement("option")
-              op.value=index
-              op.innerText=val.method.toString()
-              s.appendChild(op)
+              $("<option/>",{value:index}).text(val.method.toString()).appendTo(s)
             }
           })
         }
@@ -70,16 +64,15 @@ draft: false
         reload()
       }
       async function clear(){
-        for(id of ["ex_table_b","data_par"]){
-          document.getElementById(id).innerHTML=""
-        }
+        $("#ex_table > tbody,data_par").each(()=>{
+          $(this).empty()
+        })
 
       }
       async function reload() {
         processingIndicator.isActive=true
         clear()
         const LatexInline=['\\(','\\)']
-        var par=document.getElementById("data_par")
         var md=[];
         var els=[];
         var customRenderingProp=["excitations","sourceFile"]
@@ -94,14 +87,12 @@ draft: false
             md.push(window.data[key].sourceFile)
           }
         }
-        div=document.getElementById("meta_div")
-        div.innerHTML=""
+        div=$("#meta_div")
+        $(div).empty()
         for (const element of md) {
-          var node =null;
           switch (trueTypeOf(element)) {
             case "string":
-              node= document.createElement("h2");
-              node.innerText=element;   
+              $("<h2/>").text(element).appendTo(div)
               break;
             case "doi":
               var publi=await Cite.async(element.string)
@@ -110,43 +101,39 @@ draft: false
                 template: 'apa',
                 lang: 'en-US'
               })
-              node=document.createElement("a")
-              node.innerHTML=output
-              node.target='_blank'
-              node.href=element.url       
+              $("<a/>",{
+                href:element.url,
+                target:"_blank"}).html(output).appendTo(div)
               break
             case "websiteFile":
-              node=document.createElement("a")
-              node.innerText="Go to file"
-              node.target='_blank'
-              node.href= await element.getViewerURL()
+              $("<a/>",{href:element.url,
+              target:"_blank",
+              href: element.getViewerURL()
+              }).text("Go to file").appendTo(div)
               break
             case "Array":
               k=element[0]
               v=element[1]
               k=k.charAt(0).toUpperCase() + k.slice(1)
-              node = document.createElement("div");
-              node.innerText= k+': '+v; 
+              $("<div/>").text(k+': '+v).appendTo(div)
               break;
           }
-          div.appendChild(node);
         }
-        var tb=document.getElementById("ex_table_b");
+        var tb=$("#ex_table > tbody");
+        $(tb).empty()
         for (const el of window.data.excitations) {
-          var row=document.createElement("tr")
+          row=$("<tr/>")
           var rowd=[]
           rowd.push(String.raw`${LatexInline[0]} ${el.initial.toLaTeX()} \rightarrow ${el.final.toLaTeX()}${LatexInline[1]}`)
           var e=[el.Eabs,el.Efluo,el.EZPE,el.Eadia,el.Ezz]
           e.forEach((val)=>rowd.push(noNanPrecision(val,3)))
           for(d of rowd) {
-            td=document.createElement("td")
-            td.innerText=d
-            row.appendChild(td)
+            $("<td/>").text(d).appendTo(row)
           }
-          tb.appendChild(row)
+          tb.append(row)
         }
         await MathJax.typesetPromise();
-        document.getElementById("ex_div").hidden=false
+        $("#ex_div").attr("hidden",false)
         await MathJax.typesetPromise();
         processingIndicator.isActive=false
       }
@@ -194,9 +181,7 @@ draft: false
           <th>\(E_\text{adia}\)</th>
           <th>\(E_\text{0-0}\)</th>
         </thead>
-        <tbody id="ex_table_b">
-
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
     </p>

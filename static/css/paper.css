@@ -33,6 +33,14 @@ ul.papers-list{
   content: ""
 }
 
+.paper .issue::before{
+  content: "(" 
+}
+
+.paper .issue::after{
+  content: ")"
+}
+
 .orcid-id img {
   vertical-align: middle;
   float: left;
