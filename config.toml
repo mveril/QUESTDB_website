@@ -38,8 +38,8 @@ theme = "beautifulhugo"
     weight = 3
 
 [[menu.main]]
-    name = "Papers"
-    url = "papers"
+    name = "Publications"
+    url = "publications"
     weight = 4
 
 [[menu.main]]
