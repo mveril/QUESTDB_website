@@ -75,9 +75,14 @@ draft: false
     var md = [];
     var els = [];
     var customRenderingProp = ["excitations", "sourceFile"]
+    const fullNames={
+      Abs:'Absorption',
+      Fluo:"Fluorescence",
+      ZPE:"ZPE"
+    }
     for (const key of Object.keys(window.data)) {
-      if (window.data[key] != null) {
-        md.push(key)
+      if (window.data[key] != null) {      
+        md.push(fullNames[key])
         for (const prop of Object.keys(window.data[key])) {
           if (!(customRenderingProp.includes(prop)))
             md.push([prop, window.data[key][prop]])
