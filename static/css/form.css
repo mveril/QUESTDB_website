@@ -13,4 +13,5 @@ form fieldset.table input, form fieldset.table select, form fieldset.table label
 
 form fieldset.table label {
   text-align: right;
+  vertical-align:middle;
 }
