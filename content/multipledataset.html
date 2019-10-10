@@ -62,7 +62,6 @@ draft: false
           var dat = await AbsDataFile.loadAsync(file)
           window.dats.push(dat)
           break;
-
         case "fluo":
           dat = await FluoDataFile.loadAsync(file)
           window.dats.push(dat)
@@ -73,8 +72,10 @@ draft: false
           break;
       }
     }
-    $('#form_dat > fieldset > div > select').each(function () {
+    $('#form_dat > fieldset > div > select,#sel_ref').each(function () {
       $(this).find('option[value!=""]').remove()
+    })
+    $('#form_dat > fieldset > div > select').each(function () {
       const vals = uniq(window.dats.map((d) => { return d[$(this).attr("name")] }))
       for (const val of vals) {
         $("<option/>", {
