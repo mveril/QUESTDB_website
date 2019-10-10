@@ -1,0 +1,16 @@
+form fieldset.table {
+  display: table;
+}
+
+form fieldset.table div {
+  display: table-row;
+}
+
+form fieldset.table input, form fieldset.table select, form fieldset.table label {
+  display: table-cell;
+  margin: 3px;
+}
+
+form fieldset.table label {
+  text-align: right;
+}
