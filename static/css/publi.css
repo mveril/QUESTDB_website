@@ -1,43 +1,43 @@
-.paper h1 {
+.publi h1 {
   font-size: 20pt
 }
 
-ul.papers-list{
+ul.publis-list{
   list-style: none
 }
 
-.paper ul.authors-list {
+.publi ul.authors-list {
   list-style: none;
   margin: 0;
   padding: 0;
   border: 0
 }
 
-.paper ul.authors-list li.author-item{
+.publi ul.authors-list li.author-item{
   display: inline;
   cursor: default
 }
 
-.paper ul.authors-list li.author-item:after
+.publi ul.authors-list li.author-item:after
 {
   content: ", "
 }
 
-.paper ul.authors-list li.author-item:nth-last-child(2):after
+.publi ul.authors-list li.author-item:nth-last-child(2):after
 {
   content: " and "
 }
 
-.paper ul.authors-list li.author-item:last-child:after
+.publi ul.authors-list li.author-item:last-child:after
 {
   content: ""
 }
 
-.paper .issue::before{
+.publi .issue::before{
   content: "(" 
 }
 
-.paper .issue::after{
+.publi .issue::after{
   content: ")"
 }
 

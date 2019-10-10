@@ -3,7 +3,7 @@ title: "Publications"
 date: 2019-09-30 11:30
 draft: false
 ---
-<link rel="stylesheet" type="text/css" href="/css/paper.css" />
+<link rel="stylesheet" type="text/css" href="/css/publi.css" />
 <script src="/js/data.js" type="text/javascript"></script>
 <script src="/js/loadAllData.js" type="text/javascript"></script>
 <script src="/js/getFullDataPath.js" type="text/javascript"></script>
@@ -14,14 +14,14 @@ draft: false
 {{< getDataFilesName >}}
 <script>
   window.onload = async function () {
-    var div = document.getElementById("papers_div")
+    var div = document.getElementById("publis_div")
     const Cite = require("citation-js")
     const dois = uniq(Object.values(await loadAllData()).flat().map(d => d.DOI.string))
     const publiscite = await Cite.async(dois)
     const publis = publiscite.format('data', { format: 'object' })
     for (const publi of publis) {
-      const art = $("<article/>").addClass("paper")
-      art.className = "paper"
+      const art = $("<article/>").addClass("publi")
+      art.className = "publi"
       $("<a/>", {
         href: publi.URL,
         target: "_blank"
@@ -82,10 +82,10 @@ draft: false
         month: "short",
         year: "numeric"
       }))).appendTo(art)
-      $(art).appendTo("<li/>").appendTo("#papers_ul")
+      $(art).appendTo("<li/>").appendTo("#publis_ul")
     }
   }
 </script>
-<ul class="papers-list" id="papers_ul">
+<ul class="publis-list" id="publis_ul">
 
 </ul>
