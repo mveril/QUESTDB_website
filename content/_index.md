@@ -4,7 +4,7 @@ date: 2019-08-29 09:00
 draft: false
 ---
 
-Welcome to this webiste.
+Welcome to this website.
 On this website you can watch reference data for excitations the base data are
 
 ## Data present on datafiles
