@@ -5,7 +5,6 @@ draft: false
 ---
       <script src="/js/getFullDataPath.js" type="text/javascript"></script>
       <script src="/js/getTextFromFile.js" type="text/javascript"></script>
-      <script src="/js/parseQueryStringToDictionary.js" type="text/javascript"></script>
     <script>
 
       window.onload=async function(){
@@ -23,10 +22,10 @@ draft: false
         }
         console.warn(mystr);
       }
-      var queryDic=parseQueryStringToDictionary()
+      var params=new URL(window.location.href).searchParams
       var key=["file","fileBase64"]
-      if(key[0] in queryDic){
-        var filename=queryDic[key[0]];
+      if(params.has(key[0])){
+        var filename=params.get(key[0]);
         var textPromise=getTextFromFileUrlAsync(filename) 
         $("#btn_download").click(function(){
           window.open(filename,"_self");
@@ -35,8 +34,9 @@ draft: false
         document.getElementById('fileContent').innerText=await textPromise;
         document.getElementById('file').hidden=false;
         document.getElementById("div_btn").hidden=false;
-      } else if(key[1] in queryDic){
-        var base64=queryDic[key[1]];
+
+      } else if(params.has(key[1])){
+        var base64=params.get(key[1]);
         $("#btn_download").click(function(){
           window.open(String.raw`data:text/plain;base64,${base64}`,"_self")
         })
