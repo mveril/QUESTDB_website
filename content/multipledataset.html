@@ -222,10 +222,11 @@ draft: false
       else if (d instanceof twoStateDataFileBase) {
         tableels.splice(3, 0, [d.GS, d.ES])
       }
-      for (const el of tableels) {
-        td = $("<td/>", {
+      tdtemp=$("<td/>", {
           style: "white-space: nowrap;"
         })
+      for (const el of tableels) {
+        td=$(tdtemp).clone()
         if (trueTypeOf(el) == "doi") {
           var publi = await window.Cite.async(el.string)
           $("<a/>", {
@@ -241,11 +242,10 @@ draft: false
         }
         $(row).append(td)
       }
-      $("<a/>", {
+      $(tdtemp).clone().append($("<a/>", {
         target: "_blank",
-        innerText: "Go to file",
         href: await d.sourceFile.getViewerURL()
-      }).appendTo($("<td/>")).appendTo(row)
+      }).text("Go to file")).appendTo(row)
       $(dtb).append(row)
     }
     processingIndicator.isActive = true
