@@ -39,7 +39,7 @@ draft: false
       } else if(key[1] in queryDic){
         var base64=queryDic[key[1]];
         btn_download=document.getElementById("btn_download");
-        btn.btn_download.onclick=function(){
+        btn_download.onclick=function(){
           window.open(String.raw`data:text/plain;base64,${base64}`,"_self")
         }
         document.getElementById('fileTitle').hudden=true
