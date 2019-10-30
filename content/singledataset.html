@@ -115,7 +115,7 @@ draft: false
           $("<a/>", {
             href: element.url,
             target: "_blank",
-            href: element.getViewerURL()
+            href: await element.getViewerURL()
           }).text("Go to file").appendTo(sec)
           break
         case "Array":
