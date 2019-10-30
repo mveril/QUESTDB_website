@@ -28,20 +28,18 @@ draft: false
       if(key[0] in queryDic){
         var filename=queryDic[key[0]];
         var textPromise=getTextFromFileUrlAsync(filename) 
-        btn_download=document.getElementById("btn_download");
-        btn_download.onclick=function(){
+        $("#btn_download").click(function(){
           window.open(filename,"_self");
-        }
+        })
         document.getElementById('fileTitle').innerText=filename;
         document.getElementById('fileContent').innerText=await textPromise;
         document.getElementById('file').hidden=false;
         document.getElementById("div_btn").hidden=false;
       } else if(key[1] in queryDic){
         var base64=queryDic[key[1]];
-        var btn_download=document.getElementById("btn_download");
-        btn_download.onclick=function(){
+        $("#btn_download").click(function(){
           window.open(String.raw`data:text/plain;base64,${base64}`,"_self")
-        }
+        })
         document.getElementById('fileTitle').hudden=true
         document.getElementById('fileContent').innerText=atob(base64)
         document.getElementById('file').hidden=false;
