@@ -23,8 +23,8 @@ draft: false
         }
         console.warn(mystr);
       }
-      queryDic=parseQueryStringToDictionary()
-      key=["file","fileBase64"]
+      var queryDic=parseQueryStringToDictionary()
+      var key=["file","fileBase64"]
       if(key[0] in queryDic){
         var filename=queryDic[key[0]];
         var textPromise=getTextFromFileUrlAsync(filename) 
@@ -38,7 +38,7 @@ draft: false
         document.getElementById("div_btn").hidden=false;
       } else if(key[1] in queryDic){
         var base64=queryDic[key[1]];
-        btn_download=document.getElementById("btn_download");
+        var btn_download=document.getElementById("btn_download");
         btn_download.onclick=function(){
           window.open(String.raw`data:text/plain;base64,${base64}`,"_self")
         }
