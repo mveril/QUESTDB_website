@@ -30,10 +30,10 @@ draft: false
         $("#btn_download").click(function(){
           window.open(filename,"_self");
         })
-        document.getElementById('fileTitle').innerText=filename;
-        document.getElementById('fileContent').innerText=await textPromise;
-        document.getElementById('file').hidden=false;
-        document.getElementById("div_btn").hidden=false;
+        $('#fileTitle').text(filename);
+        $('#fileContent').text(await textPromise)
+        $('#file').show();
+        $("#div_btn").show();
 
       } else if(params.has(key[1])){
         var base64=params.get(key[1]);
