@@ -57,7 +57,7 @@ class state {
     return tex;
   };
 }
-class doi {
+class DOI {
   constructor(doistring) {
     this.string = doistring
   };
@@ -139,7 +139,7 @@ class dataFileBase {
         dat.method = method.fromString(value)
         break;
       case "doi":
-        dat.DOI = new doi(value);
+        dat.DOI = new DOI(value);
         break;
       default:
     }

@@ -99,7 +99,7 @@ draft: false
         case "string":
           $("<h2/>").text(element).appendTo(sec)
           break;
-        case "doi":
+        case "DOI":
           var publi = await Cite.async(element.string)
           var output = publi.format('bibliography', {
             format: 'html',

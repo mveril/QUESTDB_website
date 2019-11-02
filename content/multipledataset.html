@@ -125,12 +125,12 @@ draft: false
       key = JSON.parse(keystr)
       key.shift()
       Reflect.setPrototypeOf(key[0], method.prototype)
-      Reflect.setPrototypeOf(key[1], doi.prototype)
+      Reflect.setPrototypeOf(key[1], DOI.prototype)
       for (const el of key) {
         var td = $("<td/>", {
           style: "white-space: nowrap;"
         })
-        if (trueTypeOf(el) == "doi") {
+        if (trueTypeOf(el) == "DOI") {
           var publi = await window.Cite.async(el.string)
           $("<a/>", {
             href: el.url,
@@ -227,7 +227,7 @@ draft: false
         })
       for (const el of tableels) {
         td=$(tdtemp).clone()
-        if (trueTypeOf(el) == "doi") {
+        if (trueTypeOf(el) == "DOI") {
           var publi = await window.Cite.async(el.string)
           $("<a/>", {
             href: el.url,
