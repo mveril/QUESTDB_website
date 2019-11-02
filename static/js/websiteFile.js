@@ -4,7 +4,7 @@ class websiteFile{
   }
 
   async getViewerURL(){
-    params=new URLSearchParams()
+    var params=new URLSearchParams()
     var urlbase="/view"
     switch (trueTypeOf(this.file)) {
       case "string":
@@ -16,7 +16,7 @@ class websiteFile{
         break
     }
     if ([...params].length>0){
-      return urlbase+"?"+params.tostring()
+      return urlbase+"?"+params.toString()
     }
     else{
       return urlbase   
