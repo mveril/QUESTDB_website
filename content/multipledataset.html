@@ -131,7 +131,7 @@ draft: false
         var td = $("<td/>", {
           style: "white-space: nowrap;"
         })
-        if (trueTypeOf(el) == "DOI") {
+        if (trueTypeOf(el) == DOI.name) {
           var publi = doiCache.get(el.string)
           $("<a/>", {
             href: el.url,
@@ -230,7 +230,7 @@ draft: false
         })
       for (const el of tableels) {
         td=$(tdtemp).clone()
-        if (trueTypeOf(el) == "DOI") {
+        if (trueTypeOf(el) == DOI.name) {
           var publi = doiCache.get(el.string)
           $("<a/>", {
             href: el.url,

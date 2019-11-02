@@ -96,10 +96,10 @@ draft: false
     $(sec).empty()
     for (const element of md) {
       switch (trueTypeOf(element)) {
-        case "string":
+        case String.name:
           $("<h2/>").text(element).appendTo(sec)
           break;
-        case "DOI":
+        case DOI.name:
           var publi = await Cite.async(element.string)
           var output = publi.format('bibliography', {
             format: 'html',
@@ -111,14 +111,14 @@ draft: false
             target: "_blank"
           }).html(output).appendTo(sec)
           break
-        case "websiteFile":
+        case websiteFile.name:
           $("<a/>", {
             href: element.url,
             target: "_blank",
             href: await element.getViewerURL()
           }).text("Go to file").appendTo(sec)
           break
-        case "Array":
+        case Array.name:
           k = element[0]
           v = element[1]
           k = k.charAt(0).toUpperCase() + k.slice(1)

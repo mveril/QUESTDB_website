@@ -112,11 +112,11 @@ class dataFileBase {
   }
   static async loadAsync(file) {
     switch (trueTypeOf(file)) {
-      case "string":
+      case String.name:
         file=getFullDataPath(file)
         var str=await getTextFromFileUrlAsync(file)
         break;
-      case "File":
+      case File.name:
         var str=await getTextFromUploadedFileAsync(file)
         break
     }

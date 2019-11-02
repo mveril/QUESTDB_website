@@ -7,10 +7,10 @@ class websiteFile{
     var params=new URLSearchParams()
     var urlbase="/view"
     switch (trueTypeOf(this.file)) {
-      case "string":
+      case String.name:
         params.append("file",this.file)
         break
-      case "File":
+      case File.name:
         var base64=btoa(await getTextFromUploadedFileAsync(this.file))
         params.append("fileBase64",base64);
         break
