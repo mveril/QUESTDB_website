@@ -13,6 +13,7 @@ draft: false
 <script src="/js/trueTypeOf.js" type="text/javascript"></script>
 <script src="/js/noNan.js"></script>
 <script src="/js/websiteFile.js"></script>
+<script src="/js/QueryUpdater.js"></script>
 {{< getDataFilesName >}}
 <script>
   window.onload = async function () {
@@ -23,22 +24,57 @@ draft: false
     for (const el of molecules) {
       $("<option/>", { value: el }).text(el).appendTo($("#select_mol"))
     }
+    await reloadFromQuery()
+  }
+
+ async function reloadFromQuery() {
+    const url=new URL(window.location.toString())
+    const params=url.searchParams
+    if(params.has("mol")){
+      s=$("#select_mol")
+      val=decodeURI(params.get("mol"))
+      $(s).val(val)
+      await update_mol(val)
+    }
+    for(key of ['abs','fluo','ZPE']){
+      if(params.has(key)){
+        text=decodeURI(params.get(key))
+        s=$("#select_"+key)
+        op=$(s).find("option").filter(function() {
+          return $(this).text() == text
+        })
+        $(op).prop('selected', true)
+        val=$(op).val()
+        eval(String.raw`await update_${key}(${val})`)
+      }
+    }
   }
   function select_mol_onchange(event) {
     update_mol(event.target.value)
   }
   function select_abs_onchange(event) {
-    update_abs(window.dats["abs"][event.target.value])
+    if(event.target.value!=""){
+      QueryUpdater.set("abs",$(event.target).find("option:selected").text())
+      update_abs(window.dats["abs"][event.target.value])
+    }    
   }
   function select_fluo_onchange(event) {
-    update_fluo(window.dats["fluo"][event.target.value])
+    if(event.target.value!=""){
+      QueryUpdater.set("fluo",$(event.target).find("option:selected").text())
+      update_fluo(window.dats["fluo"][event.target.value])
+    }
   }
   function select_ZPE_onchange(event) {
-    update_ZPE(window.dats["ZPE"][event.target.value])
+    if(event.target.value!=""){
+      QueryUpdater.set("ZPE",$(event.target).find("option:selected").text())
+      update_ZPE(window.dats["ZPE"][event.target.value])
+    }
   }
   async function update_mol(molecule) {
     processingIndicator.isActive = true
+    QueryUpdater.set("mol",molecule)
     for (const [key, dat] of Object.entries(window.dats)) {
+      QueryUpdater.delete(key)
       var s = $(String.raw`#select_${key}`)
       $(s).find('option[value!=""]').remove()
       $(s).find('option[value=""]').first().prop('selected', true)
@@ -159,25 +195,25 @@ draft: false
 <form>
   <fieldset class="table">
     <div>
-      <label for="select_mol">Select a molecule</label>
+      <label for="select_mol" name="mol">Select a molecule</label>
       <select id="select_mol" onchange="select_mol_onchange(event)">
         <option value="" disabled=true selected=true>Select a molecule</option>
       </select>
     </div>
     <div>
-      <label for="select_abs">Select an absorption method</label>
+      <label for="select_abs" name="abs">Select an absorption method</label>
       <select id="select_abs" onchange="select_abs_onchange(event)">
         <option value="" disabled=true selected=true>Select an absorption method</option>
       </select>
     </div>
     <div>
-      <label for="select_fluo">Select a fluorescence method</label>
+      <label for="select_fluo" name="fluo">Select a fluorescence method</label>
       <select id="select_fluo" onchange="select_fluo_onchange(event)">
         <option value="" disabled=true selected=true>Select a fluorescence method</option>
       </select>
     </div>
     <div>
-      <label for="select_ZPE">Select a ZPE method</label>
+      <label for="select_ZPE" name="zpe">Select a ZPE method</label>
       <select id="select_ZPE" onchange="select_ZPE_onchange(event)">
         <option value="" disabled=true selected=true>Select a ZPE method</option>
       </select>
