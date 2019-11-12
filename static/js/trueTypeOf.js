@@ -1,3 +1,8 @@
 function trueTypeOf(object){
-  return object.constructor.name
+  if (object==null){
+    return "null"
+  }
+  else {
+   return object.constructor.name
+  }
 }
