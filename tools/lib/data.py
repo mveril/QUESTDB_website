@@ -69,7 +69,7 @@ class dataFileBase(object):
     subpath=datadir/self.GetFileType().name.lower()
     if not subpath.exists():
       subpath.mkdir()
-    file=subpath/"{}_{}_{}.dat".format(self.molecule.lower(),self.method.name,self.method.basis)
+    file=subpath/"{}_{}_{}.dat".format(self.molecule.lower().replace(" ","_"),self.method.name,self.method.basis)
     if not file.exists():
       with file.open("w") as f:
         for key,value in self.getMetadata().items():
