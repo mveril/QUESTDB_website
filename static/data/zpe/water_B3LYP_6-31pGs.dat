@@ -1,9 +1,9 @@
 # Molecule  : Water
 # Comment   : Delta ZPE energies of the water molecule
 # code      : Gaussian16
+# method    : B3LYP,6-31+G*
 # GS        : CC3,aug-cc-pVTZ 
 # ES        : CC2,cc-pVDZ 
-# method    : B3LYP,6-31+G*
 # DOI       : 10.1021/acs.jctc.8b00406
 
 # Initial state            Final state               Energies (eV)
