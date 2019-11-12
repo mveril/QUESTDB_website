@@ -1,9 +1,9 @@
 # Molecule : Dinitrogen
-# Comment  : 
-# code     : 
-# method   : Exp.$^a$,Litt.
-# geom     : 
-# DOI      : 
+# Comment  : Absorption energies of the dinitrogen molecule
+# code     : experimental
+# method   : experimental.
+# geom     : experimental
+# DOI      : 10.1021/acs.jctc.8b00406
 
 # Initial state            Final state               Energies (eV)
 #######################  #######################   ###############
