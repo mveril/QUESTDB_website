@@ -53,7 +53,7 @@ class state {
     return str;
   };
   toLaTeX() {
-    var tex = String.raw`${this.number}\:\vphantom{\mathrm{${this.symetry.charAt(0)}}}^{${this.multiplicity}}\mathrm{${this.symetry}}`;
+    var tex = String.raw`${this.number}\:^{${this.multiplicity}}\mathrm{${this.symetry}}`;
     return tex;
   };
 }
