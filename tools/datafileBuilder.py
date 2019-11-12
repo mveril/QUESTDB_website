@@ -7,7 +7,7 @@ from lib import LaTeX
 from TexSoup import TexSoup
 from lib.data import AbsDataFile,ZPEDataFile,FluoDataFile,dataType
 import argparse
-DEBUG=True
+DEBUG=False
 parser = argparse.ArgumentParser()
 parser.add_argument('--file', type=argparse.FileType('r'))
 parser.add_argument('--type', type=str, choices=[t.name for t in list(dataType)])
