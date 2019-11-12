@@ -60,8 +60,8 @@ class dataFileBase(object):
     dic=OrderedDict()
     dic["Molecule"]=self.molecule
     dic["Comment"]=self.comment
-    dic["Code"]="" if self.code is None else self.code.toDataString()
-    dic["Method"]="" if self.method is None else self.method.toDataString()
+    dic["code"]="" if self.code is None else self.code.toDataString()
+    dic["method"]="" if self.method is None else self.method.toDataString()
     dic["DOI"]="" if self.DOI is None else self.DOI
     return dic
   
@@ -74,7 +74,7 @@ class dataFileBase(object):
       with file.open("w") as f:
         for key,value in self.getMetadata().items():
           if value is not None:
-            f.write("# {}: {}\n".format(key,value))
+            f.write("# {:9s}: {}\n".format(key,value))
         f.write("""
 # Initial state            Final state               Energies (eV)
 #######################  #######################   ###############
@@ -125,7 +125,7 @@ class oneStateDataFileBase(dataFileBase):
   
   def getMetadata(self):
     dic=super(oneStateDataFileBase,self).getMetadata()
-    dic["Geometry"]= "" if self.geometry is None else self.geometry.toDataString()
+    dic["geom"]= "" if self.geometry is None else self.geometry.toDataString()
     dic.move_to_end("DOI")
     return dic
 
