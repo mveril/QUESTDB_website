@@ -1,9 +1,9 @@
 # Molecule : Dinitrogen
-# Comment  : 
-# code     : 
+# Comment  : Absorption energies of the dinitrogen molecule
+# code     : MRCC
 # method   : exFCI,aug-cc-pVQZ
-# geom     : 
-# DOI      : 
+# geom     : CC3,aug-cc-pVTZ
+# DOI      : 10.1021/acs.jctc.8b00406
 
 # Initial state            Final state               Energies (eV)
 #######################  #######################   ###############
