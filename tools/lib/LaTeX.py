@@ -121,8 +121,9 @@ def tabularToData(table,commands=None):
       lnewtable.append(r)
     lens=[len(x) for x in lnewtable]
     #Check if all rows have the same dimension
-    if(len(set(lens))!=1):
-      raise ValueError("This tabular is not supported")
+    slens=set(lens)
+    if(len(slens)!=1):
+      raise ValueError("This tabular is not supported because lines have not the same column numbers the culumns size are {}".format(lens))
     import numpy as np
     table=np.array(lnewtable,TexNode)
     return table
