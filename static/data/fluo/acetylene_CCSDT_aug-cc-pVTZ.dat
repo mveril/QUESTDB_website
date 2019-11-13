@@ -1,0 +1,12 @@
+# Molecule : Acetylene
+# Comment  : Fluorescence energies of the acetylene molecule
+# code     : MRCC
+# method   : CCSDT,aug-cc-pVTZ
+# geom     : 
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state               Energies (eV)
+#######################  #######################   ###############
+# Spin  Number  Symm       Spin  Number  Symm         E_fluo
+  1     1        A_1       1     1       A_u          3.66
+  1     1        A_1       1     1       A_2          3.86

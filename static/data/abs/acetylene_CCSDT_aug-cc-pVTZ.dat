@@ -1,0 +1,14 @@
+# Molecule : Acetylene
+# Comment  : Absorption energies of the acetylene molecule
+# code     : MRCC
+# method   : CCSDT,aug-cc-pVTZ
+# geom     : CC3,aug-cc-pVTZ 
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state               Energies (eV)
+#######################  #######################   ###############
+# Spin  Number  Symm       Spin  Number  Symm         E_abs
+  1     1        A_1       1     1       \Sigma_u^-   7.09
+  1     1        A_1       1     1       \Delta_u     7.43
+  1     1        A_1       1     3       \Sigma_u^+   5.51
+  1     1        A_1       1     3       \Delta_u     6.39
