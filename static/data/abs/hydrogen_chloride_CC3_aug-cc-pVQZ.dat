@@ -7,5 +7,5 @@
 
 # Initial state            Final state             Energies (eV)
 #######################  #######################   ############
-# Spin  Number  Symm       Spin  Number  Symm        E_abs  
-  1     1       A_1        1     1       \Pi         7.89
+# Number  Spin  Symm       Number  Spin  Symm        E_abs  
+  1       1     A_1        1       1     \Pi         7.89

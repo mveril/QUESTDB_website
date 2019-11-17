@@ -7,14 +7,14 @@
 
 # Initial state            Final state               Energies (eV)
 #######################  #######################   ###############
-# Spin  Number  Symm       Spin  Number  Symm         E_abs
-  1     1        A_1       1     1       \Pi          8.48
-  1     1        A_1       1     1       \Sigma^-     9.93
-  1     1        A_1       1     1       \Delta       10.07
-  1     1        A_1       1     1       \Sigma^+     10.96
-  1     1        A_1       2     1       \Sigma^+     11.52
-  1     1        A_1       2     1       \Pi          11.72
-  1     1        A_1       1     3       \Pi          6.28
-  1     1        A_1       1     3       \Sigma^+     8.44
-  1     1        A_1       1     3       \Delta       9.26
-  1     1        A_1       2     3       \Sigma^+     10.48
+# Number  Spin  Symm       Number  Spin  Symm         E_abs
+  1       1      A_1       1       1     \Pi          8.48
+  1       1      A_1       1       1     \Sigma^-     9.93
+  1       1      A_1       1       1     \Delta       10.07
+  1       1      A_1       1       1     \Sigma^+     10.96
+  1       1      A_1       2       1     \Sigma^+     11.52
+  1       1      A_1       2       1     \Pi          11.72
+  1       1      A_1       1       3     \Pi          6.28
+  1       1      A_1       1       3     \Sigma^+     8.44
+  1       1      A_1       1       3     \Delta       9.26
+  1       1      A_1       2       3     \Sigma^+     10.48  

@@ -7,8 +7,8 @@
 
 # Initial state            Final state             Energies (eV)
 #######################  #######################   ############
-# Spin  Number  Symm       Spin  Number  Symm        E_abs  
-  1     1       A_1        1     1       A_2         6.29
-  1     1       A_1        1     1       B_1         6.10
-  1     1       A_1        3     1       A_2         5.91
-  1     1       A_1        3     1       B_1         5.75
+# Number  Spin  Symm       Number  Spin  Symm        E_abs  
+  1       1     A_1        1       1     A_2         6.29
+  1       1     A_1        1       1     B_1         6.10
+  1       1     A_1        3       1     A_2         5.91
+  1       1     A_1        3       1     B_1         5.75

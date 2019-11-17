@@ -1,4 +1,4 @@
-# Molecule : Water
+  #olecule : Water
 # Comment  : Fluorescence energies of the water molecule
 # code     : Molpro
 # method   : CCSD,aug-cc-pVQZ
@@ -7,7 +7,7 @@
 
 # Initial state            Final state             Energies (eV)
 #######################  #######################   #############
-# Spin  Number  Symm       Spin  Number  Symm       E_fluo 
-  1     1       A_1        1     1       B_1        0.23   
-  1     1       A_1        1     1       A_2        4.23   
-  1     1       A_1        1     2       A_1        8.38   
+# Number  Spin  Symm       Number  Spin  Symm       E_fluo 
+  1       1     A_1        1       1     B_1        0.23   
+  1       1     A_1        1       1     A_2        4.23   
+  1       1     A_1        1       2     A_1        8.38   

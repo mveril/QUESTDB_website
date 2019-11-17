@@ -78,7 +78,7 @@ class dataFileBase(object):
         f.write("""
 # Initial state            Final state               Energies (eV)
 #######################  #######################   ###############
-# Spin  Number  Symm       Spin  Number  Symm         E_{}\n""".format(self.GetFileType().name.lower()))
+# Number  Spin  Symm       Number  Spin  Symm         E_{}\n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
           mystr="  {:6s}{:9s}{:10s}{:6s}{:8s}{:13s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,str(ex.value))
           f.write(mystr)
