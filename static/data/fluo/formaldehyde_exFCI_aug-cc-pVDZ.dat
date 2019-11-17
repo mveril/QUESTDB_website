@@ -1,0 +1,11 @@
+# Molecule : Formaldehyde
+# Comment  : Fluores cence energies of the formaldehyde molecule
+# code     : MRCC
+# method   : exFCI,aug-cc-pVDZ
+# geom     : 
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state               Energies (eV)
+#######################  #######################   ###############
+# Spin  Number  Symm       Spin  Number  Symm         E_fluo
+  1     1        A_1       1     1       A''          2.86
