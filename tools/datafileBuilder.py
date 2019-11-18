@@ -29,5 +29,5 @@ switcher={
   dataType.ZPE: ZPEDataFile
 }
 filecls=switcher.get(dataType[args.type])
-for col in range(3,np.size(dat,1)):
+for col in range(1,np.size(dat,1)):
   filecls.readFromTable(dat,col).toFile(datapath)
