@@ -123,7 +123,7 @@ def tabularToData(table,commands=None):
     #Check if all rows have the same dimension
     slens=set(lens)
     if(len(slens)!=1):
-      raise ValueError("This tabular is not supported because lines have not the same column numbers the culumns size are {}".format(lens))
+      raise ValueError("This tabular is not supported because lines have not the same column numbers for each row the coulumns numbers are {}".format(lens))
     import numpy as np
     table=np.array(lnewtable,TexNode)
     return table
