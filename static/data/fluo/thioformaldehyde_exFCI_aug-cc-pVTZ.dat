@@ -1,0 +1,11 @@
+# Molecule : Thioformaldehyde
+# Comment  : Fluorescence energies of the thioformaldehyde molecule
+# code     : MRCC
+# method   : exFCI,aug-cc-pVTZ
+# geom     : CC3,aug-cc-pVTZ
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state               Energies (eV)
+#######################  #######################   ###############
+# Number  Spin  Symm       Number  Spin  Symm         E_fluo
+  1       1      A_1       1       1     A_2          1.95
