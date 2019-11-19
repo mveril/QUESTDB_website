@@ -1,0 +1,66 @@
+\newcommand{\TDDFT}{TD-DFT}
+\newcommand{\CASSCF}{CASSCF}
+\newcommand{\CASPT}{CASPT2}
+\newcommand{\ADC}[1]{ADC(#1)}
+\newcommand{\CC}[1]{CC#1}
+\newcommand{\CCSD}{CCSD}
+\newcommand{\EOMCCSD}{EOM-CCSD}
+\newcommand{\CCSDT}{CCSDT}
+\newcommand{\CCSDTQ}{CCSDTQ}
+\newcommand{\CCSDTQP}{CCSDTQP}
+\newcommand{\CI}{CI}
+\newcommand{\sCI}{sCI}
+\newcommand{\exCI}{exFCI}
+\newcommand{\FCI}{FCI}
+
+% basis
+\newcommand{\AVDZ}{\emph{aug}-cc-pVDZ}
+\newcommand{\AVTZ}{\emph{aug}-cc-pVTZ}
+\newcommand{\DAVTZ}{d-\emph{aug}-cc-pVTZ}
+\newcommand{\AVQZ}{\emph{aug}-cc-pVQZ}
+\newcommand{\DAVQZ}{d-\emph{aug}-cc-pVQZ}
+\newcommand{\TAVQZ}{t-\emph{aug}-cc-pVQZ}
+\newcommand{\AVPZ}{\emph{aug}-cc-pV5Z}
+\newcommand{\DAVPZ}{d-\emph{aug}-cc-pV5Z}
+\newcommand{\PopleDZ}{6-31+G(d)}
+
+\begin{tabular}{ll|ccc|ccc|cc}
+        &		& \multicolumn{3}{c}{\AVDZ} & \multicolumn{3}{c}{\AVTZ} & \multicolumn{2}{c}{Litt.}\\
+  Molecule &State 	& {\CC{3}} & {\CCSDT}  &  {\exCI} & {\CC{3}} & {\CCSDT}  & {\exCI}& Exp. & Theo. \\
+    Acetaldehyde	&$^1A'' (n \rightarrow \pis)$			&4.34&4.32&4.34&	4.31&4.29&4.31	& 4.27$^a$ &4.29$^b$	\\
+        &$^3A'' (n \rightarrow \pis)$			&3.96&3.95&3.98&	3.95&3.94&4.0$^c$  & 3.97$^a$ &3.97$^b$	\\
+    Cyclopropene	&$^1B_1 (\sigma \rightarrow \pis)$		&6.72&6.71&6.7$^c$&6.68&6.68&6.6$^c$& 6.45$^d$ & 6.89$^e$	\\
+        &$^1B_2 (\pi \rightarrow \pis)$			&6.77&6.78&6.82&	6.73&6.75&6.7$^c$	& 7.00$^f$  & 7.11$^e$	\\
+        &$^3B_2 (\pi \rightarrow \pis)$			&4.34&4.35&4.35&	4.34&	&4.38	& 4.16$^f$  & 4.28$^g$	\\
+        &$^3B_1 (\sigma \rightarrow \pis)$		&6.43&6.43&6.43&	6.40&	&6.45	&		  & 6.40$^g$	\\
+    Diazomethane	&$^1A_2 (\pi \rightarrow \pis)$ 			&3.10&3.10&3.09&	3.07&3.07&3.14	& 3.14$^h$ &3.21$^i$	\\
+        &$^1B_1 (\pi \rightarrow 3s)$ 			&5.32&5.35&5.35&	5.45&5.48&5.54	&		   &5.33$^i$	\\
+        &$^1A_1 (\pi \rightarrow \pis)$			&5.80&5.82&5.79&	5.84&5.86&5.90	& 5.9$^h$	   &5.85$^i$	\\
+        &$^3A_2 (\pi \rightarrow \pis)$ 			&2.84&2.84&2.81&	2.83&2.82&2.8$^c$	&		   &2.92$^j$	\\
+        &$^3A_1 (\pi \rightarrow \pis)$			&4.05&4.04&4.03&	4.03&4.02&4.05	&		   &3.97$^j$	\\
+        &$^3B_1 (\pi \rightarrow 3s)$ 			&5.17&5.20&5.18&	5.31&5.34&5.35	&		   &			\\
+        &$^3A_1 (\pi \rightarrow 3p)$			&6.83&6.83&6.81&	6.80&       &6.82	&		   &7.02$^j$	\\
+        &$^1A'' [\mathrm{F}]	(\pi \rightarrow \pis)$	&0.68&0.67&0.65&	0.68&0.67&0.71	&	 	   &			\\
+    Formamide	&$^1A'' (n \rightarrow \pis)$			&5.71&5.68&5.70	&5.66&5.63&5.7$^c$&5.8$^k$		&5.63$^l$	\\
+        &$^1A' (n \rightarrow 3s)$				&6.65&6.64&6.67	&6.74&6.74&		&6.35$^k$	&6.62$^l$	\\	
+        &$^1A' (\pi \rightarrow \pis)$$^m$		&7.63&7.62&7.64	&7.62&	&7.63	&7.37$^k$	&7.22$^l$	\\
+        &$^1A' (n \rightarrow 3p)$$^m$			&7.31&7.29&		&7.40&7.38&		&7.73$^k$	&7.66$^l$	\\
+        &$^3A'' (n \rightarrow \pis)$			&5.42&5.39&5.42	&5.38&	&5.4$^c$	&5.2$^k$		&5.34$^l$	\\
+        &$^3A' (\pi \rightarrow \pis)$			&5.83&5.81&5.82	&5.82&	&5.7$^c$	&	&5.74$^l$	\\
+    Ketene		&$^1A_2 (\pi \rightarrow \pis)$ 			&3.89&3.88&3.84&	3.88&3.87&3.86	&3.7$^n$	&3.74$^o$	\\
+        &$^1B_1 (n \rightarrow 3s)$ 			&5.83&5.86&5.88&	5.96&5.99&6.01	&5.86$^n$&5.82$^o$	\\
+        &$^1A_2 (\pi \rightarrow 3p)$ 			&7.05&7.09&7.08&	7.16&7.20&7.18	&		&7.00$^o$	\\
+        &$^3A_2 (n \rightarrow \pis)$ 			&3.79&3.78&3.79&	3.78&3.78&3.77	&3.8$^p$	&3.62$^q$\\
+        &$^3A_1 (\pi \rightarrow \pis)$ 			&5.62&5.61&5.64&	5.61&5.60&5.61	&5$^p$	&5.42$^q$\\
+        &$^3B_1 (n \rightarrow 3s)$ 			&5.63&5.66&5.68&	5.76&5.80&5.79	&5.8$^p$	&5.69$^q$\\
+        &$^3A_2 (\pi \rightarrow 3p)$ 			&7.01&7.05&7.07&	7.12&7.17&7.12	&		&		\\
+        &$^1A''[\mathrm{F}]	(\pi \rightarrow \pis)$	&1.00&0.99&0.96&	1.00&1.00&1.00	&		&	\\
+    Nitrosomethane&$^1A'' (n \rightarrow \pis)$			&2.00&1.98&1.99&	1.96&1.95&2.0$^c$	&1.83$^r$&1.76$^s$\\
+        &$^1A' (n,n \rightarrow \pis,\pis)$		&5.75&5.26&4.81&	5.76&5.29	&4.72	&		&4.96$^s$\\
+        &$^1A' (n \rightarrow 3s/3p)$ 			&6.20&6.19&6.29&	6.31&6.30&6.4$^c$	&		&6.54$^s$\\
+        &$^3A'' (n \rightarrow \pis)$			&1.13&1.12&1.15&	1.14&1.13&1.16	&		&1.42$^t$\\
+        &$^3A' (\pi \rightarrow \pis)$			&5.54&5.54&5.56&	5.51&	&5.60	&		&5.55$^t$\\
+        &$^1A'' [\mathrm{F}]	(n \rightarrow \pis)$	&1.70&1.69&1.70&	1.69&1.66	&1.7$^c$	&		&	\\
+    Streptocyanine-C1&$^1B_2 (\pi \rightarrow \pis)$ 		&7.14&7.12&7.14&	7.13&7.11&7.1$^c$   &		&7.16$^u$\\
+        &	$^3B_2 (\pi \rightarrow \pis)$ 		&5.48&5.47&5.47&	5.48&5.47&5.52	&		&		\\
+     \end{tabular}

@@ -1,6 +1,8 @@
 from collections import OrderedDict
 from enum import IntEnum,auto,unique
+from .Orientation import Orientation
 import re
+import numpy as np
 
 class state:
   def __init__(self,number, multiplicity, symetry):
@@ -43,19 +45,43 @@ class dataFileBase(object):
     return lst
 
   @classmethod
-  def readFromTable(cls, table,column,firstState=state(1,1,"A_1")):
-    data=cls()
-    col=table[:,column]
-    data.molecule=str(col[0])
-    data.method=method(str(col[2]),str(col[1]))
-    finsts=cls.convertState(table[3:,0],firstState)
-    for index,cell in enumerate(col[3:]):
-      if str(cell)!="":
-        val= list(cell.contents)[0]
-        val=float(str(val))
-        data.excitations.append(excitationValue(firstState,finsts[index],val))
-    return data
-  
+  def readFromTable(cls, table,orientation=Orientation.LINE ,firstState=state(1,1,"A_1")):
+    datalist=list()
+    if orientation==Orientation.LINE:
+      for col in range(1,np.size(table,1)):
+        data=cls()
+        col=table[:,col]
+        data.molecule=str(col[0])
+        data.method=method(str(col[2]),str(col[1]))
+        finsts=cls.convertState(table[3:,0],firstState)
+        for index,cell in enumerate(col[3:]):
+          if str(cell)!="":
+            val= list(cell.contents)[0]
+            val=float(str(val))
+            data.excitations.append(excitationValue(firstState,finsts[index],val))
+        datalist.append(data)
+      return datalist
+    else:
+      subtablesindex=list()
+      firstindex=2
+      for i in range(3,np.size(table,0)):
+        if str(table[i,0])!="":
+          subtablesindex.append((firstindex,i-1))
+          firstindex=i
+      for first, last in subtablesindex:
+        for col in range(2,np.size(table,1)):
+          data=cls()
+          col=table[:,col]
+          data.molecule=str(table[first,0])
+          data.method=method(str(col[1]),str(col[0]))
+          finsts=cls.convertState(table[first:last+1,1],firstState)
+          for index,cell in enumerate(col[first:last+1]):
+            if str(cell)!="":
+              val= list(cell.contents)[0]
+              val=float(str(val))
+              data.excitations.append(excitationValue(firstState,finsts[index],val))
+          datalist.append(data)
+      return datalist
   def getMetadata(self):
     dic=OrderedDict()
     dic["Molecule"]=self.molecule
@@ -130,8 +156,8 @@ class oneStateDataFileBase(dataFileBase):
     return dic
 
   @classmethod
-  def readFromTable(cls, table,column,firstState=state(1,1,"A_1")):
-    data=super().readFromTable(table,column,firstState=firstState)
+  def readFromTable(cls, table,orientation=Orientation.LINE,firstState=state(1,1,"A_1")):
+    data=super().readFromTable(table,orientation,firstState=firstState)
     return data
 class AbsDataFile(oneStateDataFileBase):
   def __init__(self):
@@ -156,8 +182,8 @@ class twoStateDataFileBase(dataFileBase):
     self.ES=None
 
   @classmethod
-  def readFromTable(cls, table,column,firstState=state(1,1,"A_1")):
-    data=super().readFromTable(table,column,firstState=firstState)
+  def readFromTable(cls, table,orientation=Orientation.LINE,firstState=state(1,1,"A_1")):
+    data=super().readFromTable(table,Orientation,firstState=firstState)
     return data
   def getMetadata(self):
     dic=super(twoStateDataFileBase,self).getMetadata()
