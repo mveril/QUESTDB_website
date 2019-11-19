@@ -1,0 +1,18 @@
+# Molecule : Ketene
+# Comment  : 
+# code     : MRCC
+# method   : CCSDT,aug-cc-pVDZ
+# geom     : CC3,aug-cc-pVTZ
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state               Energies (eV)
+#######################  #######################   ###############
+# Number  Spin  Symm       Number  Spin  Symm         E_abs
+  1       1      A_1       1       1     A_2          3.88
+  1       1      A_1       1       1     B_1          5.86
+  1       1      A_1       2       1     A_2          7.09
+  1       1      A_1       1       3     A_2          3.78
+  1       1      A_1       1       3     A_1          5.61
+  1       1      A_1       1       3     B_1          5.66
+  1       1      A_1       2       3     A_2          7.05
+  1       1      A_1       1       1     A''[\mathrm{F}]0.99

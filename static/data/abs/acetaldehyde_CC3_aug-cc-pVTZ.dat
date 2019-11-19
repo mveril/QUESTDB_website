@@ -1,0 +1,12 @@
+# Molecule : Acetaldehyde
+# Comment  : 
+# code     : Dalton
+# method   : CC3,aug-cc-pVTZ
+# geom     : CC3,aug-cc-pVTZ
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state               Energies (eV)
+#######################  #######################   ###############
+# Number  Spin  Symm       Number  Spin  Symm         E_abs
+  1       1      A_1       1       1     A''          4.31
+  1       1      A_1       1       3     A''          3.95
