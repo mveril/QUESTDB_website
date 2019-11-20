@@ -145,28 +145,31 @@ class dataFileBase(object):
           mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,str(ex.value))
           f.write(mystr)
 class method:
-  def __init__(self,name, basis):
+  def __init__(self,name, *args):
     self.name = name
-    self.basis = basis
+    self.basis=args[0] if len(args)>0 else None
+    self.TBECorr=args if len(args)>1 else None
 
   @staticmethod
   def fromString(string):
     vals = string.split(",")
-    if (vals.length == 2):
-      return method(vals[0], vals[1])
-    else:
-      return method(vals[0], None)
+    return method(*vals)
+
 
   def __str__(self):
     string = self.name
     if (self.basis):
       string+= '/' + self.basis
+      if (self.TBECorr)
+      string+=" ("+ self.TBECorr+")"
     return string
 
   def toDataString(self):
     string=self.name
     if (self.basis):
       string+=","+self.basis
+      if (self.TBECorr)
+        string+=","+self.TBECorr
     return string
 
 class code:

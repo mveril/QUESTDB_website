@@ -20,23 +20,32 @@ class code {
   }
 }
 class method {
-  constructor(name, basis) {
+  constructor(name, basis=null,TBEcorr=null) {
     this.name = name;
     this.basis = basis;
+    this.TBEcorr=TBEcorr
   }
   static fromString(str) {
     var vals = str.split(",")
-    if (vals.length == 2) {
-      return new method(vals[0], vals[1]);
-    }
-    else {
-      return new method(vals[0], null)
+    switch (vals.lenght) {
+      case 3:
+        return new method(vals[0], vals[1],vals[2]);  
+        break;
+      case 2:
+        return new method(vals[0], vals[1])
+        break;
+      case 1:
+        return new method(vals[0])
+        break;
     }
   }
   toString() {
     var str = this.name;
     if (this.basis) {
       str = str + '/' + this.basis;
+      if (this.TBEcorr) {
+        str+=" ("+this.TBEcorr +")"
+      }
     }
     return str;
   }
@@ -79,6 +88,14 @@ class excitationValue extends excitationBase {
   constructor(initial, final, value) {
     super(initial, final)
     this.value = value
+  }
+}
+
+class excitationValueCorrected extends excitationBase {
+  constructor(initial, final, value) {
+    super(initial, final)
+    this.value = value
+    this.Correction=value
   }
 }
 
