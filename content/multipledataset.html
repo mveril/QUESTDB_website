@@ -146,7 +146,7 @@ draft: false
         }
         $(row).append(td)
       }
-      const noNanVals = vals.filter((v) => !Number.isNaN(v))
+      const noNanVals=(vals.every((v)=> Number.isNaN(v)))? vals : (vals.filter((v) => !Number.isNaN(v)))
       const avals = noNanVals.map(v => Math.abs(v))
       for (const val of [ss.min(noNanVals), ss.max(noNanVals), ss.mean(noNanVals), ss.mean(avals), ss.median(noNanVals), ss.median(avals), ss.rootMeanSquare(noNanVals), ss.variance(noNanVals), ss.standardDeviation(noNanVals)]) {
         $("<td/>").text(noNanPrecision(val, 3)).appendTo(row)
