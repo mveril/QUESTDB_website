@@ -73,6 +73,7 @@ class excitationBase {
   constructor(initial, final) {
     this.initial = initial;
     this.final = final
+    this.T1=NaN
   }
 }
 class excitationValue extends excitationBase {
