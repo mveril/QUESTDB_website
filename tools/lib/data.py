@@ -33,9 +33,10 @@ class dataFileBase(object):
   def convertState(StateTablelist,firstState=state(1,1,"A_1")):
     tmplst=[]
     for TexState in StateTablelist:
-      st=list(TexState.find("$").contents)[0]
-      m=re.match(r"^\^(?P<multiplicity>\d)(?P<GPS>\S+)",st)
-      seq=m.groups()
+      lst=list(TexState.find("$").contents)
+      st=str(lst[0])
+      m=re.match(r"^\^(?P<multiplicity>\d)(?P<symm>[^\s\[(]*)\s*(?:\[(?:\\mathrm{)?(?P<special>\w)(?:})\])?\s*\((?P<type>[^\)]*)\)",st)
+      seq=m.group("multiplicity","symm")
       tmplst.append(seq)
     lst=[]
     for index,item in enumerate(tmplst):
