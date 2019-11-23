@@ -30,37 +30,56 @@ class dataFileBase(object):
     pass
 
   @staticmethod
-  def convertState(StateTablelist,firstState=state(1,1,"A_1")):
+  def convertState(StateTablelist,default=dataType.ABS,firstState=state(1,1,"A_1")):
     tmplst=[]
     for TexState in StateTablelist:
+      trtype=default
       lst=list(TexState.find("$").contents)
       st=str(lst[0])
       m=re.match(r"^\^(?P<multiplicity>\d)(?P<symm>[^\s\[(]*)\s*(?:\[(?:\\mathrm{)?(?P<special>\w)(?:})\])?\s*\((?P<type>[^\)]*)\)",st)
       seq=m.group("multiplicity","symm")
-      tmplst.append(seq)
+      spgrp=m.group("special")
+      if spgrp is not None and spgrp=="F":
+        trtype=dataType.FLUO
+      tmplst.append((*seq,trtype))
     lst=[]
     for index,item in enumerate(tmplst):
       unformfirststate=(str(firstState.multiplicity),firstState.symetry)
       count=([unformfirststate]+tmplst[:index+1]).count(item)
-      lst.append(state(count,int(item[0]),item[1]))
+      lst.append((state(count,int(item[0]),item[1]),item[2]))
     return lst
 
-  @classmethod
-  def readFromTable(cls, table,orientation=Orientation.LINE ,firstState=state(1,1,"A_1")):
+  @staticmethod
+  def readFromTable(table,orientation=Orientation.LINE,default=dataType.ABS ,firstState=state(1,1,"A_1")):
     datalist=list()
+    switcher={
+      dataType.ABS:AbsDataFile,
+      dataType.FLUO:FluoDataFile,
+      dataType.ZPE:ZPEDataFile
+    }
     if orientation==Orientation.LINE:
       for col in range(1,np.size(table,1)):
-        data=cls()
         col=table[:,col]
-        data.molecule=str(col[0])
-        data.method=method(str(col[2]),str(col[1]))
-        finsts=cls.convertState(table[3:,0],firstState)
+        mymolecule=str(col[0])
+        mymethod=method(str(col[2]),str(col[1]))
+        finsts=dataFileBase.convertState(table[3:,0],firstState)
+        datacls=dict()
         for index,cell in enumerate(col[3:]):
           if str(cell)!="":
             val= list(cell.contents)[0]
             val=float(str(val))
-            data.excitations.append(excitationValue(firstState,finsts[index],val))
-        datalist.append(data)
+            finst=finsts[index]
+            dt=finst[1]
+            if dt in datacls:
+              data=datacls[dt]
+            else:
+              cl=switcher[dt]
+              data=cl()
+              data.molecule=mymolecule
+              data.method=mymethod
+            data.excitations.append(excitationValue(firstState,finst[0],val))
+        for value in datacls.values():
+          datalist.append(value)
       return datalist
     else:
       subtablesindex=list()
@@ -71,17 +90,33 @@ class dataFileBase(object):
           firstindex=i
       for first, last in subtablesindex:
         for col in range(2,np.size(table,1)):
-          data=cls()
           col=table[:,col]
-          data.molecule=str(table[first,0])
-          data.method=method(str(col[1]),str(col[0]))
-          finsts=cls.convertState(table[first:last+1,1],firstState)
+          mymolecule=str(table[first,0])
+          mymethod=method(str(col[1]),str(col[0]))
+          finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState)
+        for col in range(2,np.size(table,1)):
+          datacls=dict()
+          col=table[:,col]
+          mymolecule=str(table[first,0])
+          mymethod=method(str(col[1]),str(col[0]))
+          finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState)
           for index,cell in enumerate(col[first:last+1]):
             if str(cell)!="":
               val= list(cell.contents)[0]
               val=float(str(val))
-              data.excitations.append(excitationValue(firstState,finsts[index],val))
-          datalist.append(data)
+              finst=finsts[index]
+              dt=finst[1]
+              if dt in datacls:
+                data=datacls[dt]
+              else:
+                cl=switcher[dt]
+                data=cl()
+                data.molecule=mymolecule
+                data.method=mymethod
+                datacls[dt]=data
+              data.excitations.append(excitationValue(firstState,finst[0],val))
+          for value in datacls.values():
+            datalist.append(value)
       return datalist
   def getMetadata(self):
     dic=OrderedDict()
@@ -156,10 +191,6 @@ class oneStateDataFileBase(dataFileBase):
     dic.move_to_end("DOI")
     return dic
 
-  @classmethod
-  def readFromTable(cls, table,orientation=Orientation.LINE,firstState=state(1,1,"A_1")):
-    data=super().readFromTable(table,orientation,firstState=firstState)
-    return data
 class AbsDataFile(oneStateDataFileBase):
   def __init__(self):
     super(AbsDataFile,self).__init__()
@@ -182,10 +213,6 @@ class twoStateDataFileBase(dataFileBase):
     self.GS=None
     self.ES=None
 
-  @classmethod
-  def readFromTable(cls, table,orientation=Orientation.LINE,firstState=state(1,1,"A_1")):
-    data=super().readFromTable(table,Orientation,firstState=firstState)
-    return data
   def getMetadata(self):
     dic=super(twoStateDataFileBase,self).getMetadata()
     dic["GS"]= "" if self.GS is None else self.GS.toDataString()

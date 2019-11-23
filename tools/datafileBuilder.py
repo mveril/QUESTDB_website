@@ -7,12 +7,12 @@ from pathlib import Path
 from lib import LaTeX
 from lib.Orientation import Orientation
 from TexSoup import TexSoup
-from lib.data import AbsDataFile,ZPEDataFile,FluoDataFile,dataType
+from lib.data import dataFileBase,dataType
 import argparse
-DEBUG=True
+DEBUG=False
 parser = argparse.ArgumentParser()
 parser.add_argument('--file', type=argparse.FileType('r'))
-parser.add_argument('--type', type=str, choices=[t.name for t in list(dataType)])
+parser.add_argument('--defaultType', type=str, choices=[t.name for t in list(dataType)])
 parser.add_argument('--MoleculeOrentation',type=str, choices=[t.name for t in list(Orientation)],default=Orientation.LINE.name)
 args = parser.parse_args()
 print(args)
@@ -26,12 +26,6 @@ if DEBUG:
   datapath=datapath/"test"
 if not datapath.exists():
   datapath.mkdir()
-switcher={
-  dataType.ABS: AbsDataFile,
-  dataType.FLUO: FluoDataFile,
-  dataType.ZPE: ZPEDataFile
-}
-filecls=switcher.get(dataType[args.type])
-datalst=filecls.readFromTable(dat,Orientation[args.MoleculeOrentation])
+datalst=dataFileBase.readFromTable(dat,orientation=Orientation[args.MoleculeOrentation],default=dataType[args.defaultType])
 for data in datalst:
   data.toFile(datapath)
