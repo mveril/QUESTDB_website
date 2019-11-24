@@ -22,8 +22,13 @@ class dataFileBase(object):
     self.comment = ''
     self.code = None
     self.method = None
+    self.TBECorrMethod=None
     self.excitations = []
     self.DOI = ''
+
+  @property
+  def IsTBE():
+    return self.TBECorrMethod is not None
 
   @staticmethod
   def GetFileType():
@@ -124,6 +129,8 @@ class dataFileBase(object):
     dic["Comment"]=self.comment
     dic["code"]="" if self.code is None else self.code.toDataString()
     dic["method"]="" if self.method is None else self.method.toDataString()
+    if self.TBECorrMethod is not None:      
+      dic["TBECorrMethod"]=self.TBECorrMethod.toDataString()
     dic["DOI"]="" if self.DOI is None else self.DOI
     return dic
   
@@ -140,15 +147,14 @@ class dataFileBase(object):
         f.write("""
 # Initial state            Final state               Energies (eV)
 #######################  #######################   ###############
-# Number  Spin  Symm       Number  Spin  Symm         E_{}\n""".format(self.GetFileType().name.lower()))
+# Number  Spin  Symm       Number  Spin  Symm         E_{} Correction\n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,str(ex.value))
+          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{5s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,str(ex.value) if ex.value is not None else "_",str(ex.Correction) if ex.Correction is not None else "_")
           f.write(mystr)
 class method:
   def __init__(self,name, *args):
     self.name = name
     self.basis=args[0] if len(args)>0 else None
-    self.TBECorr=args if len(args)>1 else None
 
   @staticmethod
   def fromString(string):
@@ -237,6 +243,8 @@ class excitationBase:
     self.final = final
 
 class excitationValue(excitationBase):
-  def __init__(self,initial, final, value):
+  def __init__(self,initial, final, value,*args):
     super(excitationValue,self).__init__(initial, final)
     self.value = value
+    if len(args)>0:
+      self.Correction=args[0]

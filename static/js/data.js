@@ -20,32 +20,23 @@ class code {
   }
 }
 class method {
-  constructor(name, basis=null,TBEcorr=null) {
+  constructor(name, basis=null) {
     this.name = name;
     this.basis = basis;
-    this.TBEcorr=TBEcorr
   }
   static fromString(str) {
     var vals = str.split(",")
-    switch (vals.lenght) {
-      case 3:
-        return new method(vals[0], vals[1],vals[2]);  
-        break;
-      case 2:
-        return new method(vals[0], vals[1])
-        break;
-      case 1:
-        return new method(vals[0])
-        break;
+    if (vals.length == 2) {
+      return new method(vals[0], vals[1]);
+    }
+    else {
+      return new method(vals[0], null)
     }
   }
   toString() {
     var str = this.name;
     if (this.basis) {
       str = str + '/' + this.basis;
-      if (this.TBEcorr) {
-        str+=" ("+this.TBEcorr +")"
-      }
     }
     return str;
   }
@@ -85,17 +76,10 @@ class excitationBase {
   }
 }
 class excitationValue extends excitationBase {
-  constructor(initial, final, value) {
+  constructor(initial, final, value,Correction) {
     super(initial, final)
     this.value = value
-  }
-}
-
-class excitationValueCorrected extends excitationBase {
-  constructor(initial, final, value) {
-    super(initial, final)
-    this.value = value
-    this.Correction=value
+    this.correction = correction
   }
 }
 
@@ -123,9 +107,13 @@ class dataFileBase {
     this.comment = null
     this.code = null
     this.method = null
+    this.TBEmethod=null
     this.excitations = []
     this.DOI = null
     this.sourceFile=null
+  }
+  get isTBE(){
+    return this.TBEmethod!==null;
   }
   static async loadAsync(file) {
     switch (trueTypeOf(file)) {
@@ -158,6 +146,9 @@ class dataFileBase {
       case "doi":
         dat.DOI = new DOI(value);
         break;
+      case "tbemethod":
+        dat.TBEmethod=new method.fromString(value)
+        break;
       default:
     }
   }
@@ -187,7 +178,9 @@ class dataFileBase {
 
       var start = new state(parseInt(vals[0], 10), parseInt(vals[1], 10), vals[2]);
       var end = new state(parseInt(vals[3], 10), parseInt(vals[4],10), vals[5]);
-      var ex = new excitationValue(start, end, parseFloat(vals[6], 10));
+      val=((vals.length>=5) ? parseFloat(vals[6], 10): NaN)
+      cor=((vals.length>=6) ? parseFloat(vals[7], 10): NaN)
+      var ex = new excitationValue(start, end, val,cor);
       dat.excitations.push(ex);
     };
 
