@@ -76,10 +76,11 @@ class excitationBase {
   }
 }
 class excitationValue extends excitationBase {
-  constructor(initial, final, value,corrected=null) {
+  constructor(initial, final, value,corrected=null,oscilatorForces) {
     super(initial, final)
     this.value = value
     this.corrected = corrected
+    this.oscilatorForces = oscilatorForces
   }
 }
 
@@ -176,7 +177,8 @@ class dataFileBase {
       var end = new state(parseInt(vals[3], 10), parseInt(vals[4],10), vals[5]);
       var val=((vals.length>=5) ? parseFloat(vals[6], 10): NaN)
       var cor=((vals.length>=6) ? parseFloat(vals[7], 10): NaN)
-      var ex = new excitationValue(start, end, val,cor);
+      var oscilatorForces=((vals.length>=7) ? parseFloat(vals[7],10): NaN)
+      var ex = new excitationValue(start, end, val,cor,oscilatorForces);
       dat.excitations.push(ex);
     };
 
