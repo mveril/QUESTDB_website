@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from enum import IntEnum,auto,unique
+from enum import IntEnum,auto,unique,IntFlag
 from .Orientation import Orientation
 import re
 import numpy as np
@@ -146,10 +146,10 @@ class dataFileBase(object):
             f.write("# {:9s}: {}\n".format(key,value))
         f.write("""
 # Initial state            Final state               Energies (eV)
-#######################  #######################   ###############
-# Number  Spin  Symm       Number  Spin  Symm         E_{} Correction\n""".format(self.GetFileType().name.lower()))
+#######################  #######################   #################
+# Number  Spin  Symm       Number  Spin  Symm         E_{:5s} Corr\n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{5s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,str(ex.value) if ex.value is not None else "_",str(ex.Correction) if ex.Correction is not None else "_")
+          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:8s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,str(ex.value) if ex.value is not None else "_",str(ex.Correction) if ex.Correction is not None else "_")
           f.write(mystr)
 class method:
   def __init__(self,name, *args):
@@ -241,5 +241,4 @@ class excitationValue(excitationBase):
   def __init__(self,initial, final, value,*args):
     super(excitationValue,self).__init__(initial, final)
     self.value = value
-    if len(args)>0:
-      self.Correction=args[0]
+    self.Correction=args[0] if len(args)>0 else None
