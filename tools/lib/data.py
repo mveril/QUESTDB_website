@@ -22,13 +22,12 @@ class dataFileBase(object):
     self.comment = ''
     self.code = None
     self.method = None
-    self.TBECorrMethod=None
     self.excitations = []
     self.DOI = ''
 
   @property
-  def IsTBE():
-    return self.TBECorrMethod is not None
+  def IsTBE(self):
+    return self.method.name=="TBE"
 
   @staticmethod
   def GetFileType():
@@ -129,8 +128,6 @@ class dataFileBase(object):
     dic["Comment"]=self.comment
     dic["code"]="" if self.code is None else self.code.toDataString()
     dic["method"]="" if self.method is None else self.method.toDataString()
-    if self.TBECorrMethod is not None:      
-      dic["TBECorrMethod"]=self.TBECorrMethod.toDataString()
     dic["DOI"]="" if self.DOI is None else self.DOI
     return dic
   

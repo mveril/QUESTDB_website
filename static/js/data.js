@@ -107,13 +107,12 @@ class dataFileBase {
     this.comment = null
     this.code = null
     this.method = null
-    this.TBEmethod=null
     this.excitations = []
     this.DOI = null
     this.sourceFile=null
   }
   get isTBE(){
-    return this.TBEmethod!==null;
+    return this.method.name="TBE"
   }
   static async loadAsync(file) {
     switch (trueTypeOf(file)) {
@@ -145,9 +144,6 @@ class dataFileBase {
         break;
       case "doi":
         dat.DOI = new DOI(value);
-        break;
-      case "tbemethod":
-        dat.TBEmethod=new method.fromString(value)
         break;
       default:
     }
