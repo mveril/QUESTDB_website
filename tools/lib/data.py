@@ -142,11 +142,11 @@ class dataFileBase(object):
           if value is not None:
             f.write("# {:9s}: {}\n".format(key,value))
         f.write("""
-# Initial state            Final state               Energies (eV)
-#######################  #######################   #################
-# Number  Spin  Symm       Number  Spin  Symm         E_{:5s} Corr\n""".format(self.GetFileType().name.lower()))
+# Initial state            Final state               Energies (eV)    Oscilator forces
+#######################  #######################   ################# ################### 
+# Number  Spin  Symm       Number  Spin  Symm         E_{:5s} Corr      \n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:8s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,str(ex.value) if ex.value is not None else "_",str(ex.corrected) if ex.corrected is not None else "_")
+          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:8s}{:8s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,str(ex.value) if ex.value is not None else "_",str(ex.corrected) if ex.corrected is not None else "_",str(ex.OscilatorForces) if ex.OscilatorForces is not None else "_")
           f.write(mystr)
 class method:
   def __init__(self,name, *args):
@@ -238,4 +238,5 @@ class excitationValue(excitationBase):
   def __init__(self,initial, final, value,*args):
     super(excitationValue,self).__init__(initial, final)
     self.value = value
-    self.corrected=args[0] if len(args)>0 else None
+    self.Corrcorrectedection=args[0] if len(args)>0 else None
+    self.OscilatorForces=args[1] if len(args)>1 else None
