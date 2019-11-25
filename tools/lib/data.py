@@ -166,17 +166,12 @@ class method:
     string = self.name
     if (self.basis):
       string+= '/' + self.basis
-      if (self.TBECorr)
-      string+=" ("+ self.TBECorr+")"
     return string
 
   def toDataString(self):
     string=self.name
     if (self.basis):
       string+=","+self.basis
-      if (self.TBECorr)
-        string+=","+self.TBECorr
-    return string
 
 class code:
   def __init__(self,name, version):
