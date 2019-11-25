@@ -76,7 +76,7 @@ class excitationBase {
   }
 }
 class excitationValue extends excitationBase {
-  constructor(initial, final, value,Correction) {
+  constructor(initial, final, value,correction=null) {
     super(initial, final)
     this.value = value
     this.correction = correction
