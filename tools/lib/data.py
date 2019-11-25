@@ -4,6 +4,15 @@ from .Orientation import Orientation
 import re
 import numpy as np
 
+
+class excitationType(IntFlag):
+  VALENCE=1
+  RYDBERG=2
+  PiPis=4
+  nPis=8
+  Singulet=16
+  Doublet=32
+
 class state:
   def __init__(self,number, multiplicity, symetry):
     self.number = number
