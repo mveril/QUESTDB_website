@@ -174,8 +174,8 @@ class dataFileBase {
 
       var start = new state(parseInt(vals[0], 10), parseInt(vals[1], 10), vals[2]);
       var end = new state(parseInt(vals[3], 10), parseInt(vals[4],10), vals[5]);
-      val=((vals.length>=5) ? parseFloat(vals[6], 10): NaN)
-      cor=((vals.length>=6) ? parseFloat(vals[7], 10): NaN)
+      var val=((vals.length>=5) ? parseFloat(vals[6], 10): NaN)
+      var cor=((vals.length>=6) ? parseFloat(vals[7], 10): NaN)
       var ex = new excitationValue(start, end, val,cor);
       dat.excitations.push(ex);
     };
