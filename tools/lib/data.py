@@ -46,15 +46,31 @@ class dataFileBase(object):
   def convertState(StateTablelist,default=dataType.ABS,firstState=state(1,1,"A_1")):
     tmplst=[]
     for TexState in StateTablelist:
-      trtype=default
       lst=list(TexState.find("$").contents)
       st=str(lst[0])
       m=re.match(r"^\^(?P<multiplicity>\d)(?P<symm>[^\s\[(]*)\s*(?:\[(?:\\mathrm{)?(?P<special>\w)(?:})\])?\s*\((?P<type>[^\)]*)\)",st)
       seq=m.group("multiplicity","symm")
       spgrp=m.group("special")
       if spgrp is not None and spgrp=="F":
-        trtype=dataType.FLUO
-      tmplst.append((*seq,trtype))
+        trsp=dataType.FLUO
+      else:
+        trsp=default
+      tygrp=m.group("type")
+      tys=tygrp.split(";")
+      for ty in tys:
+        if r"\rightarrow" in ty:
+          initial,final=ty.split(r"\rightarrow",2)
+          initials=initial.split(",")
+          finals=[item.strip() for item in final.split(",")]
+          if "n" in initials and r"\pis" in finals:
+            trty=trty|excitationType.nPis
+          elif r"\pi" in initials and r"\pis" in finals:
+            trty=trty|excitationType.PiPis
+        elif r"\Ryd" in ty:
+          trty=trty|excitationType.RYDBERG
+        elif r"\Val" in ty:
+          trty=trty|excitationType.VALENCE
+      tmplst.append((*seq,trsp,trty))
     lst=[]
     for index,item in enumerate(tmplst):
       unformfirststate=(str(firstState.multiplicity),firstState.symetry)
