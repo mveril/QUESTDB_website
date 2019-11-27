@@ -12,6 +12,7 @@ draft: false
 <script src="/js/getTextFromFile.js" type="text/javascript"></script>
 <script src="/js/trueTypeOf.js" type="text/javascript"></script>
 <script src="/js/noNan.js"></script>
+<script src="/js/getSets.js"></script>
 <script src="/js/websiteFile.js"></script>
 {{< getDataFilesName >}}
 <script>
@@ -101,6 +102,11 @@ draft: false
           break;
         case DOI.name:
           var publi = await Cite.async(element.string)
+          var publiel=$("<div/>")
+          const sets=await getSets()
+          if(sets.has(element.string)){
+            $(publiel).append(sets.get(element.string))
+          }
           var output = publi.format('bibliography', {
             format: 'html',
             template: 'apa',
@@ -109,7 +115,8 @@ draft: false
           $("<a/>", {
             href: element.url,
             target: "_blank"
-          }).html(output).appendTo(sec)
+          }).html(output).appendTo(publiel)
+          $(sec).append(publiel)
           break
         case websiteFile.name:
           $("<a/>", {

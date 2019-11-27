@@ -10,6 +10,7 @@ draft: false
 <script src="/js/getTextFromFile.js" type="text/javascript"></script>
 <script src="/js/trueTypeOf.js" type="text/javascript"></script>
 <script src="/js/uniq.js"></script>
+<script src="/js/getSets.js"></script>
 <script src="/js/websiteFile.js"></script>
 {{< getDataFilesName >}}
 <script>
@@ -18,14 +19,18 @@ draft: false
     const Cite = require("citation-js")
     const dois = uniq(Object.values(await loadAllData()).flat().map(d => d.DOI.string))
     const publiscite = await Cite.async(dois)
+    const sets= await getSets()
+    console.log(sets)
     const publis = publiscite.format('data', { format: 'object' })
     for (const publi of publis) {
       const art = $("<article/>").addClass("publi")
       art.className = "publi"
+      console.log(sets.get(publi.DOI))
+      $("<h1/>").text(sets.get(publi.DOI)).appendTo(art)
       $("<a/>", {
         href: publi.URL,
         target: "_blank"
-      }).html($("<h1/>").text(publi.title)).appendTo(art)
+      }).html($("<h2/>").text(publi.title)).appendTo(art)
       const authors = publi.author
       const ulauthors = $("<ul/>").addClass("authors-list").appendTo(art)
       for (const author of authors) {

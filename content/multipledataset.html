@@ -14,6 +14,7 @@ draft: false
 <script src="/js/processingIndicator.js"></script>
 <script src="/js/noNan.js"></script>
 <script src="/js/websiteFile.js"></script>
+<script src="/js/getSets.js"></script>
 <script src="https://cdn.rawgit.com/larsgw/citation.js/archive/citation.js/citation-0.4.0-9.js"
   type="text/javascript"></script>
 <script src="/js/DOICache.js"></script>
@@ -77,12 +78,20 @@ draft: false
     $('#form_dat > fieldset > div > select,#sel_ref').each(function () {
       $(this).find('option[value!=""]').remove()
     })
-    $('#form_dat > fieldset > div > select').each(function () {
+    $('#form_dat > fieldset > div > select').each(async function () {
       const vals = uniq(window.dats.map((d) => { return d[$(this).attr("name")] }))
+      var sets=await getSets()
       for (const val of vals) {
-        $("<option/>", {
+        var op=$("<option/>", {
           value: JSON.stringify(val)
-        }).text(val.toString()).appendTo($(this))
+        })
+        if ($(this).attr("name")=="DOI" && sets.has(val.toString())){
+            $(op).text(sets.get(val.toString()))
+        }
+        else{
+          $(op).text(val.toString())
+        }
+        op.appendTo(this)
       }
     })
     $('#form_dat > input[type="submit"').prop('disabled', false);
@@ -133,6 +142,10 @@ draft: false
         })
         if (trueTypeOf(el) == DOI.name) {
           var publi = doiCache.get(el.string)
+          const sets=await getSets()
+          if(sets.has(el.toString())){
+            $(td).append(sets.get(el.toString()))
+          }
           $("<a/>", {
             href: el.url,
             target: "_blank"
@@ -232,6 +245,10 @@ draft: false
         td=$(tdtemp).clone()
         if (trueTypeOf(el) == DOI.name) {
           var publi = doiCache.get(el.string)
+          const sets=await getSets()
+          if(sets.has(el.toString())){
+            $(td).append(sets.get(el.toString()))
+          }
           $("<a/>", {
             href: el.url,
             target: "_blank",
