@@ -70,15 +70,15 @@ class DOI {
 }
 
 class excitationBase {
-  constructor(initial, final) {
+  constructor(initial, final,T1=null) {
     this.initial = initial;
     this.final = final
-    this.T1=NaN
+    this.T1=T1
   }
 }
 class excitationValue extends excitationBase {
-  constructor(initial, final, value,corrected=null,oscilatorForces) {
-    super(initial, final)
+  constructor(initial, final, value,corrected=null,oscilatorForces=null,T1=null) {
+    super(initial, final,T1=null)
     this.value = value
     this.corrected = corrected
     this.oscilatorForces = oscilatorForces
@@ -106,7 +106,7 @@ class excitation extends excitationBase {
 class dataFileBase {
   constructor() {
     this.molecule = ''
-    this.comment = null
+    this.comment = ""
     this.code = null
     this.method = null
     this.excitations = []
@@ -179,7 +179,8 @@ class dataFileBase {
       var val=((vals.length>=5) ? parseFloat(vals[6], 10): NaN)
       var cor=((vals.length>=6) ? parseFloat(vals[7], 10): NaN)
       var oscilatorForces=((vals.length>=7) ? parseFloat(vals[7],10): NaN)
-      var ex = new excitationValue(start, end, val,cor,oscilatorForces);
+      var T1=((vals.length>=8) ? parseFloat(vals[8],10): NaN)
+      var ex = new excitationValue(start, end, val,cor,oscilatorForces,T1);
       dat.excitations.push(ex);
     };
 
