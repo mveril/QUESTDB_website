@@ -1,3 +1,11 @@
+class excitationType {
+  static get VALENCE(){return 1}
+  static get RYDBERG(){return 2}
+  static get PiPis(){return 4}
+  static get nPis(){return 8}
+  static get Singulet(){return 16}
+  static get Doublet(){return 32}
+}
 class code {
   constructor(name, version) {
     this.name = name;
@@ -70,15 +78,35 @@ class DOI {
 }
 
 class excitationBase {
-  constructor(initial, final,T1=null) {
+  constructor(initial, final, type, T1=null) {
     this.initial = initial;
     this.final = final
-    this.T1=T1
+    if (type !== null) {
+      tys = type.split(";")
+      const arrow = String.raw('\rightarrow')
+      for (ty in tys) {
+        if (ty.include(arrow)) {
+          initial, final = ty.split(arrow, 2)
+          initials = initial.split(",")
+          finals = final.split(",").map(x => x.strip())
+          if (initials.include("n") && finals.include(String.raw('\pis'))) {
+            trty = trty | excitationType.PiPis
+          } else if (initials.include(String.raw('\pi')) in initials && finals.include(String.raw('\pis'))) {
+            trty = trty | excitationType.PiPis
+          } else if (ty.include(String.raw('\Ryd'))) {
+            trty = trty | excitationType.RYDBERG
+          } else if (ty.include(String.raw('\Val'))) {
+            trty = trty | excitationType.VALENCE
+          }
+        }
+      }
+    }
+    this.T1 = T1
   }
 }
 class excitationValue extends excitationBase {
-  constructor(initial, final, value,corrected=null,oscilatorForces=null,T1=null) {
-    super(initial, final,T1=null)
+  constructor(initial, final, type, value,corrected=null,oscilatorForces=null,T1=null) {
+    super(initial, final, type, T1=null)
     this.value = value
     this.corrected = corrected
     this.oscilatorForces = oscilatorForces
@@ -176,11 +204,13 @@ class dataFileBase {
 
       var start = new state(parseInt(vals[0], 10), parseInt(vals[1], 10), vals[2]);
       var end = new state(parseInt(vals[3], 10), parseInt(vals[4],10), vals[5]);
-      var val=((vals.length>=5) ? parseFloat(vals[6], 10): NaN)
-      var cor=((vals.length>=6) ? parseFloat(vals[7], 10): NaN)
-      var oscilatorForces=((vals.length>=7) ? parseFloat(vals[7],10): NaN)
-      var T1=((vals.length>=8) ? parseFloat(vals[8],10): NaN)
-      var ex = new excitationValue(start, end, val,cor,oscilatorForces,T1);
+      var hasType=vals.length>=7 && parseFloat(vals[6],10)==NaN
+      var type=((vals.length>=7 && hasType) ? vals[6] : null)
+      var val=((vals.length>=7+hasType) ? parseFloat(vals[6+hasType], 10): NaN)
+      var cor=((vals.length>=8+hasType) ? parseFloat(vals[7+hasType], 10): NaN)
+      var oscilatorForces=((vals.length>=9+hasType) ? parseFloat(vals[8+hasType],10): NaN)
+      var T1=((vals.length>=10+hasType) ? parseFloat(vals[9+hasType],10): NaN)
+      var ex = new excitationValue(start, end, type, val,cor,oscilatorForces,T1);
       dat.excitations.push(ex);
     };
 

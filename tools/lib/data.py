@@ -5,14 +5,6 @@ import re
 import numpy as np
 
 
-class excitationType(IntFlag):
-  VALENCE=1
-  RYDBERG=2
-  PiPis=4
-  nPis=8
-  Singulet=16
-  Doublet=32
-
 class state:
   def __init__(self,number, multiplicity, symetry):
     self.number = number
@@ -56,21 +48,7 @@ class dataFileBase(object):
       else:
         trsp=default
       tygrp=m.group("type")
-      tys=tygrp.split(";")
-      for ty in tys:
-        if r"\rightarrow" in ty:
-          initial,final=ty.split(r"\rightarrow",2)
-          initials=initial.split(",")
-          finals=[item.strip() for item in final.split(",")]
-          if "n" in initials and r"\pis" in finals:
-            trty=trty|excitationType.nPis
-          elif r"\pi" in initials and r"\pis" in finals:
-            trty=trty|excitationType.PiPis
-        elif r"\Ryd" in ty:
-          trty=trty|excitationType.RYDBERG
-        elif r"\Val" in ty:
-          trty=trty|excitationType.VALENCE
-      tmplst.append((*seq,trsp,trty))
+      tmplst.append((*seq,trsp,tygrp))
     lst=[]
     for index,item in enumerate(tmplst):
       unformfirststate=(str(firstState.multiplicity),firstState.symetry)
