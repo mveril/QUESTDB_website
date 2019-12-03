@@ -88,6 +88,12 @@ class excitationBase {
         if (ty.include(arrow)) {
           initial, final = ty.split(arrow, 2)
           initials = initial.split(",")
+          if (initials.length==2||initials.length==2){
+            trty = trty| excitationType.Singulet
+          }
+          else{
+            trty = trty | excitationType.Doublet
+          }
           finals = final.split(",").map(x => x.strip())
           if (initials.include("n") && finals.include(String.raw('\pis'))) {
             trty = trty | excitationType.PiPis
