@@ -5,15 +5,15 @@ from enum import IntEnum,auto,unique
 import numpy as np
 from pathlib import Path
 from lib import LaTeX
-from lib.Orientation import Orientation
+from lib.Format import Format
 from TexSoup import TexSoup
 from lib.data import dataFileBase,dataType
 import argparse
-DEBUG=False
+DEBUG=True
 parser = argparse.ArgumentParser()
 parser.add_argument('--file', type=argparse.FileType('r'))
 parser.add_argument('--defaultType', type=str, choices=[t.name for t in list(dataType)])
-parser.add_argument('--MoleculeOrentation',type=str, choices=[t.name for t in list(Orientation)],default=Orientation.LINE.name)
+parser.add_argument('--format',type=str, choices=[t.name for t in list(Format)],default=Format.LINE.name)
 args = parser.parse_args()
 print(args)
 lines=args.file.readlines()
@@ -26,6 +26,6 @@ if DEBUG:
   datapath=datapath/"test"
 if not datapath.exists():
   datapath.mkdir()
-datalst=dataFileBase.readFromTable(dat,orientation=Orientation[args.MoleculeOrentation],default=dataType[args.defaultType])
+datalst=dataFileBase.readFromTable(dat,format=Format[args.format],default=dataType[args.defaultType])
 for data in datalst:
   data.toFile(datapath)

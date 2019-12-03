@@ -78,7 +78,7 @@ class DOI {
 }
 
 class excitationBase {
-  constructor(initial, final, type, T1=null) {
+  constructor(initial, final, type=null, T1=null) {
     this.initial = initial;
     this.final = final
     if (type !== null) {

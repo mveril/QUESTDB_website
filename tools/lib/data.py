@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from enum import IntEnum,auto,unique,IntFlag
-from .Orientation import Orientation
+from .Format import Format
 import re
 import numpy as np
 
@@ -53,18 +53,18 @@ class dataFileBase(object):
     for index,item in enumerate(tmplst):
       unformfirststate=(str(firstState.multiplicity),firstState.symetry)
       count=([unformfirststate]+tmplst[:index+1]).count(item)
-      lst.append((state(count,int(item[0]),item[1]),item[2]))
+      lst.append((state(count,int(item[0]),item[1]),item[2],item[3]))
     return lst
 
   @staticmethod
-  def readFromTable(table,orientation=Orientation.LINE,default=dataType.ABS ,firstState=state(1,1,"A_1")):
+  def readFromTable(table,format=Format.LINE,default=dataType.ABS ,firstState=state(1,1,"A_1")):
     datalist=list()
     switcher={
       dataType.ABS:AbsDataFile,
       dataType.FLUO:FluoDataFile,
       dataType.ZPE:ZPEDataFile
     }
-    if orientation==Orientation.LINE:
+    if format==Format.LINE:
       for col in range(1,np.size(table,1)):
         col=table[:,col]
         mymolecule=str(col[0])
@@ -84,11 +84,11 @@ class dataFileBase(object):
               data=cl()
               data.molecule=mymolecule
               data.method=mymethod
-            data.excitations.append(excitationValue(firstState,finst[0],val))
+            data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2]))
         for value in datacls.values():
           datalist.append(value)
       return datalist
-    else:
+    elif format==Format.COLUMN:
       subtablesindex=list()
       firstindex=2
       for i in range(3,np.size(table,0)):
@@ -96,11 +96,6 @@ class dataFileBase(object):
           subtablesindex.append((firstindex,i-1))
           firstindex=i
       for first, last in subtablesindex:
-        for col in range(2,np.size(table,1)):
-          col=table[:,col]
-          mymolecule=str(table[first,0])
-          mymethod=method(str(col[1]),str(col[0]))
-          finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState)
         for col in range(2,np.size(table,1)):
           datacls=dict()
           col=table[:,col]
@@ -121,10 +116,41 @@ class dataFileBase(object):
                 data.molecule=mymolecule
                 data.method=mymethod
                 datacls[dt]=data
-              data.excitations.append(excitationValue(firstState,finst[0],val))
+              data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2]))
           for value in datacls.values():
             datalist.append(value)
       return datalist
+    elif format==Format.TBE:
+      subtablesindex=list()
+      firstindex=2
+      for i in range(2,np.size(table,0)):
+        if str(table[i,0])!="":
+          subtablesindex.append((firstindex,i-1))
+          firstindex=i
+      for first, last in subtablesindex:
+        mymolecule=str(table[first,0])
+        mymethod="TBE"
+        finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState)
+        for row in table[first,last+1]:
+          OscilatorForces=float(str(cell.contents)[2])
+          T1 = float(str(list(cell.contents)[3]))
+          val = float(str(list(cell.contents)[4]))
+          corr = float(str(list(cell.contents[7])))
+          finst=finsts[index]
+          dt=finst[1]
+          if dt in datacls:
+            data = datacls[dt]
+          else:
+            cl=switcher[dt]
+            data=cl()
+            data.molecule=mymolecule
+            data.method=mymethod
+            datacls[dt]=data
+          data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],T1=T1,corrected=corr))
+        for value in datacls.values():
+          datalist.append(value)
+      return datalist
+
   def getMetadata(self):
     dic=OrderedDict()
     dic["Molecule"]=self.molecule
@@ -145,11 +171,11 @@ class dataFileBase(object):
           if value is not None:
             f.write("# {:9s}: {}\n".format(key,value))
         f.write("""
-# Initial state            Final state               Energies (eV)    Oscilator forces
-#######################  #######################   ################# ################### 
-# Number  Spin  Symm       Number  Spin  Symm         E_{:5s} Corr      \n""".format(self.GetFileType().name.lower()))
+# Initial state            Final state               Transition       Energies (eV)     %T1    Oscilator forces
+#######################  #######################  ################  ################# ####### ################### 
+# Number  Spin  Symm       Number  Spin  Symm         type            E_{:5s} Corr      %T1            f        \n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:8s}{:8s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,str(ex.value) if ex.value is not None else "_",str(ex.corrected) if ex.corrected is not None else "_",str(ex.OscilatorForces) if ex.OscilatorForces is not None else "_")
+          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:16s}{:8s}{:10s}{:15s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,str(ex.type) if ex.type is not None else "_",str(ex.value) if ex.value is not None else "_",str(ex.corrected) if ex.corrected is not None else "_",str(ex.T1) if ex.T1 is not None else "_", str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_")
           f.write(mystr)
 class method:
   def __init__(self,name, *args):
@@ -233,13 +259,19 @@ class ZPEDataFile(twoStateDataFileBase):
     return dataType.ZPE
 
 class excitationBase:
-  def __init__(self,initial, final):
+  def __init__(self,initial, final, **kwargs):
     self.initial = initial
     self.final = final
+    self.type = kwargs["type"] if "type" in kwargs else None
+    self.T1 = kwargs["T1"] if "T1" in kwargs else None
 
 class excitationValue(excitationBase):
-  def __init__(self,initial, final, value,*args):
-    super(excitationValue,self).__init__(initial, final)
+  def __init__(self,initial, final, value,**kwarg):
+    supkwarg=kwarg.copy()
+    for item in ["forces","corrected"]:
+      if item in supkwarg:
+        supkwarg.pop(item)
+    super(excitationValue,self).__init__(initial, final,**supkwarg)
     self.value = value
-    self.Corrcorrectedection=args[0] if len(args)>0 else None
-    self.OscilatorForces=args[1] if len(args)>1 else None
+    self.corrected=kwarg["corrected"] if "corrected" in kwarg else None
+    self.oscilatorForces=kwarg["forces"] if "forces" in kwarg else None
