@@ -123,19 +123,25 @@ class dataFileBase(object):
     elif format==Format.TBE:
       subtablesindex=list()
       firstindex=2
-      for i in range(2,np.size(table,0)):
+      for i in range(3,np.size(table,0)):
         if str(table[i,0])!="":
           subtablesindex.append((firstindex,i-1))
           firstindex=i
       for first, last in subtablesindex:
+        datacls=dict()
         mymolecule=str(table[first,0])
-        mymethod="TBE"
+        mymethod=method("TBE",None)
         finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState)
-        for row in table[first,last+1]:
-          OscilatorForces=float(str(cell.contents)[2])
-          T1 = float(str(list(cell.contents)[3]))
-          val = float(str(list(cell.contents)[4]))
-          corr = float(str(list(cell.contents[7])))
+        for index,row in enumerate(table[first:last+1,]):
+          def toFloat(x):
+            try:
+              return float(x)
+            except ValueError:
+              return None
+          oscilatorForces=toFloat(str(row[2]))
+          T1 = toFloat(str(row[3]))
+          val = toFloat(str(row[4]))
+          corr = toFloat(str(row[7]))
           finst=finsts[index]
           dt=finst[1]
           if dt in datacls:
@@ -146,7 +152,7 @@ class dataFileBase(object):
             data.molecule=mymolecule
             data.method=mymethod
             datacls[dt]=data
-          data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],T1=T1,corrected=corr))
+          data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],T1=T1,corrected=corr,oscilatorForces=oscilatorForces))
         for value in datacls.values():
           datalist.append(value)
       return datalist
