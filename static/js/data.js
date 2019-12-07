@@ -203,7 +203,7 @@ class dataFileBase {
       }
     }
     function readrow(line) {
-      var vals = line.split(/\s+/);
+      var vals = line.match(/{[^\}]+}|\S+/g);
       while (vals.length < 8) {
         vals.push(null);
       }

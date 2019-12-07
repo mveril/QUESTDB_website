@@ -181,7 +181,7 @@ class dataFileBase(object):
 #######################  #######################  ################  ################# ####### ################### 
 # Number  Spin  Symm       Number  Spin  Symm         type            E_{:5s} Corr      %T1            f        \n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:16s}{:8s}{:10s}{:15s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,str(ex.type) if ex.type is not None else "_",str(ex.value) if ex.value is not None else "_",str(ex.corrected) if ex.corrected is not None else "_",str(ex.T1) if ex.T1 is not None else "_", str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_")
+          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:16s}{:8s}{:10s}{:15s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,"{"+str(ex.type)+"}" if ex.type is not None else "_",str(ex.value) if ex.value is not None else "_",str(ex.corrected) if ex.corrected is not None else "_",str(ex.T1) if ex.T1 is not None else "_", str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_")
           f.write(mystr)
 class method:
   def __init__(self,name, *args):
