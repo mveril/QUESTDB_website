@@ -117,7 +117,7 @@ draft: false
         if (!(keydic.has(key2))) {
           keydic.set(key2, [])
         }
-        keydic.get(key2).push(exc.value)
+        keydic.get(key2).push(exc.correctedValue)
       }
     }
     var sdic = new Map()
