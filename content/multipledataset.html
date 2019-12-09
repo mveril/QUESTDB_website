@@ -222,15 +222,15 @@ draft: false
     dtb.empty()
     sel_ref = $("#sel_ref")
     await doiCache.addRange(window.filt.map((x)=>x.DOI.string))
+    for (const el of uniq(window.filt.map(d=>[d.code,d.method,d.DOI]))){
+      $("<option/>", {
+        value: JSON.stringify(el)
+      }).text(el[1]).appendTo(sel_ref)
+    }
     for (const d of window.filt) {
       var row = $("<tr/>")
       var rowd = []
       const els = [d.molecule, d.comment, d.code, d.method, d.DOI]
-      var op = document.createElement("option")
-      var opObjVal = els.slice(2)
-      $("<option/>", {
-        value: JSON.stringify(opObjVal)
-      }).text(d.method).appendTo(sel_ref)
       var tableels = els.slice()
       if (d instanceof oneStateDataFileBase) {
         tableels.splice(3, 0, d.geometry)
