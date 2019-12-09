@@ -161,7 +161,7 @@ class dataFileBase {
     this.sourceFile=null
   }
   get isTBE(){
-    return this.method.name="TBE"
+    return this.method.name=="TBE"
   }
   static async loadAsync(file) {
     switch (trueTypeOf(file)) {
