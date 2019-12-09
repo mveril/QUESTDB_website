@@ -1,0 +1,14 @@
+# Molecule : Hydrogen sulfide
+# Comment  : 
+# code     : 
+# method   : TBE
+# geom     : 
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state                        Transition                      Energies (eV)     %T1    Oscilator forces
+#######################  #######################  ########################################  ################# ####### ################### 
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs   Corr      %T1            f        
+  1       1      A_1       1       1     A_2          {\Ryd;n \rightarrow 4p}                 6.18    6.1       94.6           _
+  1       1      A_1       1       1     B_1          {\Ryd;n \rightarrow 4s}                 6.24    6.29      94.3           0.063
+  1       1      A_1       1       3     A_2          {\Ryd;n \rightarrow 4p}                 5.81    5.74      98.7           _
+  1       1      A_1       1       3     B_1          {\Ryd;n \rightarrow 4s}                 5.88    5.94      98.4           _

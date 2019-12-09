@@ -1,0 +1,21 @@
+# Molecule : Carbon monoxyde
+# Comment  : 
+# code     : 
+# method   : TBE
+# geom     : 
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state                        Transition                      Energies (eV)     %T1    Oscilator forces
+#######################  #######################  ########################################  ################# ####### ################### 
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs   Corr      %T1            f        
+  1       1      A_1       1       1     \Pi          {\mathrm{V};n \rightarrow \pis}         8.49    8.48      93.1           0.084
+  1       1      A_1       1       1     \Sigma^-     {\mathrm{V};\pi \rightarrow \pis}       9.92    9.98      93.3           _
+  1       1      A_1       1       1     \Delta       {\mathrm{V};\pi \rightarrow \pis}       10.06   10.1      91.8           _
+  1       1      A_1       1       1     \Sigma^+     {\Ryd}                                  10.95   10.8      91.5           0.003
+  1       1      A_1       2       1     \Sigma^+     {\Ryd}                                  11.52   11.42     92.9           0.2
+  1       1      A_1       1       1     \Pi          {\Ryd}                                  11.72   11.55     92.4           0.053
+  1       1      A_1       1       3     \Pi          {\mathrm{V};n \rightarrow \pis}         6.28    6.28      98.7           _
+  1       1      A_1       1       3     \Sigma^+     {\mathrm{V};\pi \rightarrow \pis}       8.45    8.49      98.7           _
+  1       1      A_1       1       3     \Delta       {\mathrm{V};\pi \rightarrow \pis}       9.27    9.28      98.4           _
+  1       1      A_1       1       3     \Sigma^-     {\mathrm{V};\pi \rightarrow \pis}       9.8     9.77      97.5           _
+  1       1      A_1       1       3     \Sigma^+     {\Ryd}                                  10.47   10.37     98.0           _

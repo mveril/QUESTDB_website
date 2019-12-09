@@ -1,0 +1,12 @@
+# Molecule : Streptocyanine-C1
+# Comment  : 
+# code     : 
+# method   : TBE
+# geom     : 
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state                        Transition                      Energies (eV)     %T1    Oscilator forces
+#######################  #######################  ########################################  ################# ####### ################### 
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs   Corr      %T1            f        
+  1       1      A_1       1       1     B_2          {\mathrm{V};\pi \rightarrow \pis}       _       7.12      88.7           0.347
+  1       1      A_1       1       3     B_2          {\mathrm{V};\pi \rightarrow \pis}       5.52    5.52      98.3           _
