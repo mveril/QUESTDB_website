@@ -152,7 +152,7 @@ class dataFileBase(object):
             data.molecule=mymolecule
             data.method=mymethod
             datacls[dt]=data
-          data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],T1=T1,corrected=corr,oscilatorForces=oscilatorForces))
+          data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],T1=T1,corrected=corr,forces=oscilatorForces))
         for value in datacls.values():
           datalist.append(value)
       return datalist
@@ -170,18 +170,19 @@ class dataFileBase(object):
     subpath=datadir/self.GetFileType().name.lower()
     if not subpath.exists():
       subpath.mkdir()
-    file=subpath/"{}_{}_{}.dat".format(self.molecule.lower().replace(" ","_"),self.method.name,self.method.basis)
+    fileName="{}_{}.dat".format(self.molecule.lower().replace(" ","_"),self.method.name) if self.method.basis==None else "{}_{}_{}.dat".format(self.molecule.lower().replace(" ","_"),self.method.name,self.method.basis)
+    file=subpath/fileName
     if not file.exists():
       with file.open("w") as f:
         for key,value in self.getMetadata().items():
           if value is not None:
             f.write("# {:9s}: {}\n".format(key,value))
         f.write("""
-# Initial state            Final state               Transition       Energies (eV)     %T1    Oscilator forces
-#######################  #######################  ################  ################# ####### ################### 
-# Number  Spin  Symm       Number  Spin  Symm         type            E_{:5s} Corr      %T1            f        \n""".format(self.GetFileType().name.lower()))
+# Initial state            Final state                        Transition                      Energies (eV)     %T1    Oscilator forces
+#######################  #######################  ########################################  ################# ####### ################### 
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_{:5s} Corr      %T1            f        \n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:16s}{:8s}{:10s}{:15s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,"{"+str(ex.type)+"}" if ex.type is not None else "_",str(ex.value) if ex.value is not None else "_",str(ex.corrected) if ex.corrected is not None else "_",str(ex.T1) if ex.T1 is not None else "_", str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_")
+          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:40s}{:8s}{:10s}{:15s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,"{"+str(ex.type)+"}" if ex.type is not None else "_",str(ex.value) if ex.value is not None else "_",str(ex.corrected) if ex.corrected is not None else "_",str(ex.T1) if ex.T1 is not None else "_", str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_")
           f.write(mystr)
 class method:
   def __init__(self,name, *args):
@@ -204,6 +205,7 @@ class method:
     string=self.name
     if (self.basis):
       string+=","+self.basis
+    return string
 
 class code:
   def __init__(self,name, version):
