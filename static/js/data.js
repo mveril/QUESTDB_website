@@ -65,8 +65,8 @@ class DOI {
     return this.string;
   };
   get url() {
-    return 'https://doi.org/' + this.string;
-  };
+    return new URL(this.string,'https://doi.org').toString()
+  }
 }
 
 class excitationBase {
