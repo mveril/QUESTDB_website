@@ -117,8 +117,8 @@ class excitationValue extends excitationBase {
     this.corrected = corrected
     this.oscilatorForces = oscilatorForces
   }
-  get CorrectedValue(){
-    if(this.corrected && getCorrected) {
+  get correctedValue(){
+    if(this.corrected) {
       return this.corrected
     }
     else{
