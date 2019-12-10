@@ -112,24 +112,10 @@ class excitationBase {
   }
 }
 class excitationValue extends excitationBase {
-  constructor(initial, final, type, value,corrected=null,oscilatorForces=null,T1=null) {
+  constructor(initial, final, type, value,oscilatorForces=null,T1=null) {
     super(initial, final, type, T1)
     this.value = value
-    this.corrected = corrected
     this.oscilatorForces = oscilatorForces
-  }
-  get correctedValue(){
-    if(this.corrected) {
-      return this.corrected
-    }
-    else{
-      return this.value
-    }
-  }
-  get Correction(){
-    if(this.corrected){
-      return this.corrected-this.value
-    }
   }
 }
 
@@ -162,7 +148,10 @@ class dataFileBase {
     this.sourceFile=null
   }
   get isTBE(){
-    return this.method.name=="TBE"
+    return this.method.name.test(/^TBE/)
+  }
+  get isCorrected(){
+    return this.method.name.test(/corr$/)
   }
   static async loadAsync(file) {
     switch (trueTypeOf(file)) {
