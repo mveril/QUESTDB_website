@@ -234,7 +234,7 @@ draft: false
         $(sel_ref).append(op)
       }
     }
-    sel_ref.selectedIndex=0;
+    $(sel_ref).prop("selectedIndex",0);
     for (const d of window.filt) {
       var row = $("<tr/>")
       var rowd = []
@@ -297,7 +297,7 @@ draft: false
       <li>Method</li>
       <li>Publication</li>
     </ul>
-    <li>Select a reference from <strong>already selected data</strong> (by default the first is already selected)</li>
+    <li>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr title="Theoretical best estimate">TBE</abbr> if present- is already selected)</li>
     <li>Now you can see the list of selected data and some statistics about these data</li>
   </ol>
 </p>

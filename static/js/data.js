@@ -81,28 +81,29 @@ class excitationBase {
   constructor(initial, final, type=null, T1=null) {
     this.initial = initial;
     this.final = final
+    this.type=0
     if (type !== null) {
-      tys = type.split(";")
-      const arrow = String.raw('\rightarrow')
-      for (ty in tys) {
-        if (ty.include(arrow)) {
-          initial, final = ty.split(arrow, 2)
-          initials = initial.split(",")
-          if (initials.length==2||initials.length==2){
-            trty = trty| excitationType.Singulet
+      const tys = type.split(";")
+      const arrow = String.raw`\rightarrow`
+      for (const ty of tys) {
+        if (ty.includes(arrow)) {
+          const [initialt, finalt] = ty.split(arrow, 2)
+          const initialts = initialt.split(",")
+          if (initialts.length==2||initialts.length==2){
+            this.type = this.type | excitationType.Singulet
           }
           else{
-            trty = trty | excitationType.Doublet
+            this.type  = this.type  | excitationType.Doublet
           }
-          finals = final.split(",").map(x => x.strip())
-          if (initials.include("n") && finals.include(String.raw('\pis'))) {
-            trty = trty | excitationType.PiPis
-          } else if (initials.include(String.raw('\pi')) in initials && finals.include(String.raw('\pis'))) {
-            trty = trty | excitationType.PiPis
-          } else if (ty.include(String.raw('\Ryd'))) {
-            trty = trty | excitationType.RYDBERG
-          } else if (ty.include(String.raw('\Val'))) {
-            trty = trty | excitationType.VALENCE
+          const finalts = finalt.split(",").map(x => x.trim())
+          if (initialts.includes("n") && finalts.includes(String.raw`\pis`)) {
+            this.type  = this.type  | excitationType.PiPis
+          } else if (initialts.includes(String.raw`\pi`) in initialts && finals.includes(String.raw`\pis`)) {
+            this.type  = this.type  | excitationType.PiPis
+          } else if (ty.includes(String.raw`\Ryd`)) {
+            this.type  = this.type  | excitationType.RYDBERG
+          } else if (ty.includes(String.raw`\Val`)) {
+            this.type  = this.type  | excitationType.VALENCE
           }
         }
       }
@@ -112,7 +113,7 @@ class excitationBase {
 }
 class excitationValue extends excitationBase {
   constructor(initial, final, type, value,corrected=null,oscilatorForces=null,T1=null) {
-    super(initial, final, type, T1=null)
+    super(initial, final, type, T1)
     this.value = value
     this.corrected = corrected
     this.oscilatorForces = oscilatorForces
@@ -223,8 +224,14 @@ class dataFileBase {
 
       var start = new state(parseInt(vals[0], 10), parseInt(vals[1], 10), vals[2]);
       var end = new state(parseInt(vals[3], 10), parseInt(vals[4],10), vals[5]);
-      var hasType=vals.length>=7 && parseFloat(vals[6],10)==NaN
+      var hasType=vals.length>=7 && isNaN(vals[6])
       var type=((vals.length>=7 && hasType) ? vals[6] : null)
+      if(type) {
+        const m=type.match(/^{([^\\}]*)}$/)
+        if (m) {
+          type=m[1]
+        }
+      }
       var val=((vals.length>=7+hasType) ? parseFloat(vals[6+hasType], 10): NaN)
       var cor=((vals.length>=8+hasType) ? parseFloat(vals[7+hasType], 10): NaN)
       var oscilatorForces=((vals.length>=9+hasType) ? parseFloat(vals[8+hasType],10): NaN)
