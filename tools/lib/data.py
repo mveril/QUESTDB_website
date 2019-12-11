@@ -3,7 +3,7 @@ from enum import IntEnum,auto,unique,IntFlag
 from .Format import Format
 import re
 import numpy as np
-
+import itertools
 
 class state:
   def __init__(self,number, multiplicity, symetry):
@@ -85,9 +85,9 @@ class dataFileBase(object):
               data.molecule=mymolecule
               data.method=mymethod
             data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2]))
-        for value in datacls.values():
-          datalist.append(value)
-      return datalist
+        for datamtbe in datacls.values():
+          datalist.append(datamtbe)
+      return list(itertools.chain.from_iterable(datalist))
     elif format==Format.COLUMN:
       subtablesindex=list()
       firstindex=2
@@ -130,7 +130,7 @@ class dataFileBase(object):
       for first, last in subtablesindex:
         datacls=dict()
         mymolecule=str(table[first,0])
-        mymethod=method("TBE",None)
+        mymethod=(method("TBE",None),method("TBE-corr"))
         finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState)
         for index,row in enumerate(table[first:last+1,]):
           def toFloat(x):
@@ -145,14 +145,20 @@ class dataFileBase(object):
           finst=finsts[index]
           dt=finst[1]
           if dt in datacls:
-            data = datacls[dt]
+            datamtbe = datacls[dt]
           else:
             cl=switcher[dt]
-            data=cl()
-            data.molecule=mymolecule
-            data.method=mymethod
-            datacls[dt]=data
-          data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],T1=T1,corrected=corr,forces=oscilatorForces))
+            datamtbe=[]
+            for met in mymethod:
+              data=cl()
+              datamtbe.append(cl())
+              data.molecule=mymolecule
+              data.method=met
+              datamtbe.append(data)
+            datacls[dt]=datamtbe
+            vs=[val,corr]
+          for i in range(2):
+            datamtbe[i].excitations.append(excitationValue(firstState,finst[0],vs[i],type=finst[2],T1=T1,forces=oscilatorForces))
         for value in datacls.values():
           datalist.append(value)
       return datalist
@@ -178,11 +184,11 @@ class dataFileBase(object):
           if value is not None:
             f.write("# {:9s}: {}\n".format(key,value))
         f.write("""
-# Initial state            Final state                        Transition                      Energies (eV)     %T1    Oscilator forces
-#######################  #######################  ########################################  ################# ####### ################### 
-# Number  Spin  Symm       Number  Spin  Symm         type                                    E_{:5s} Corr      %T1            f        \n""".format(self.GetFileType().name.lower()))
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces
+#######################  #######################  ########################################  ############# ####### ################### 
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_{:5s}       %T1            f        \n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:40s}{:8s}{:10s}{:15s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,"{"+str(ex.type)+"}" if ex.type is not None else "_",str(ex.value) if ex.value is not None else "_",str(ex.corrected) if ex.corrected is not None else "_",str(ex.T1) if ex.T1 is not None else "_", str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_")
+          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:40s}{:10s}{:15s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,"{"+str(ex.type)+"}" if ex.type is not None else "_",str(ex.value) if ex.value is not None else "_",str(ex.T1) if ex.T1 is not None else "_", str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_")
           f.write(mystr)
 class method:
   def __init__(self,name, *args):
@@ -281,5 +287,4 @@ class excitationValue(excitationBase):
         supkwarg.pop(item)
     super(excitationValue,self).__init__(initial, final,**supkwarg)
     self.value = value
-    self.corrected=kwarg["corrected"] if "corrected" in kwarg else None
     self.oscilatorForces=kwarg["forces"] if "forces" in kwarg else None
