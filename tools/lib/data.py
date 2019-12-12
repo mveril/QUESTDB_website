@@ -130,7 +130,7 @@ class dataFileBase(object):
       for first, last in subtablesindex:
         datacls=dict()
         mymolecule=str(table[first,0])
-        mymethod=(method("TBE",None),method("TBE-corr"))
+        mymethod=(method("TBE"),method("TBE-corr"))
         finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState)
         for index,row in enumerate(table[first:last+1,]):
           def toFloat(x):
