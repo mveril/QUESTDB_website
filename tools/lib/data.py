@@ -2,7 +2,7 @@ from collections import OrderedDict
 from enum import IntEnum,auto,unique,IntFlag
 from .Format import Format
 import re
-import numpy as npss
+import numpy as np
 
 class state:
   def __init__(self,number, multiplicity, symetry):
