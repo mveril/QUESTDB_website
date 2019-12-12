@@ -26,6 +26,6 @@ if DEBUG:
   datapath=datapath/"test"
 if not datapath.exists():
   datapath.mkdir()
-datalst=dataFileBase.readFromTable(dat,format=Format[args.format],default=dataType[args.defaultType])
+datalst=dataFileBase.readFromTable(dat,format=Format[args.format],default=dataType[args.defaultType],commands=commands)
 for data in datalst:
   data.toFile(datapath)

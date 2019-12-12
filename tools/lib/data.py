@@ -1,4 +1,6 @@
 from collections import OrderedDict
+from TexSoup import TexSoup
+from .LaTeX import newCommand
 from enum import IntEnum,auto,unique,IntFlag
 from .Format import Format
 import re
@@ -34,11 +36,15 @@ class dataFileBase(object):
     pass
 
   @staticmethod
-  def convertState(StateTablelist,default=dataType.ABS,firstState=state(1,1,"A_1")):
+  def convertState(StateTablelist,default=dataType.ABS,firstState=state(1,1,"A_1"),commands=[]):
     tmplst=[]
     for TexState in StateTablelist:
-      lst=list(TexState.find("$").contents)
-      st=str(lst[0])
+      math=TexState.find("$")
+      dec=math.contents
+      lst=list(math.contents)
+      mathsoup=TexSoup(str(lst[0]))
+      newCommand.runAll(mathsoup,commands)
+      st=str(mathsoup)
       m=re.match(r"^\^(?P<multiplicity>\d)(?P<symm>[^\s\[(]*)\s*(?:\[(?:\\mathrm{)?(?P<special>\w)(?:})\])?\s*\((?P<type>[^\)]*)\)",st)
       seq=m.group("multiplicity","symm")
       spgrp=m.group("special")
@@ -56,7 +62,7 @@ class dataFileBase(object):
     return lst
 
   @staticmethod
-  def readFromTable(table,format=Format.LINE,default=dataType.ABS ,firstState=state(1,1,"A_1")):
+  def readFromTable(table,format=Format.LINE,default=dataType.ABS ,firstState=state(1,1,"A_1"),commands=[]):
     datalist=list()
     switcher={
       dataType.ABS:AbsDataFile,
@@ -68,7 +74,7 @@ class dataFileBase(object):
         col=table[:,col]
         mymolecule=str(col[0])
         mymethod=method(str(col[2]),str(col[1]))
-        finsts=dataFileBase.convertState(table[3:,0],firstState)
+        finsts=dataFileBase.convertState(table[3:,0],firstState,commands=commands)
         datacls=dict()
         for index,cell in enumerate(col[3:]):
           if str(cell)!="":
@@ -100,7 +106,7 @@ class dataFileBase(object):
           col=table[:,col]
           mymolecule=str(table[first,0])
           mymethod=method(str(col[1]),str(col[0]))
-          finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState)
+          finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState,commands=commands)
           for index,cell in enumerate(col[first:last+1]):
             if str(cell)!="":
               val= list(cell.contents)[0]
@@ -130,7 +136,7 @@ class dataFileBase(object):
         datacls=dict()
         mymolecule=str(table[first,0])
         mymethod=(method("TBE"),method("TBE-corr"))
-        finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState)
+        finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState,commands=commands)
         for index,row in enumerate(table[first:last+1,]):
           def toFloat(x):
             try:
