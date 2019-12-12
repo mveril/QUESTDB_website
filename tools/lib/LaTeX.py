@@ -50,7 +50,7 @@ class newCommand(commandBase):
         soup=TexSoup(res)
         tex.replace(cmd,soup)
     
-    def tryrun():
+    def tryRun():
       cmds=list(tex.find_all(self.commandName))
       if len(cmds)!=0:
         for cmd in cmds:
