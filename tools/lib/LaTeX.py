@@ -43,12 +43,12 @@ class newCommand(commandBase):
     else:  
       for cmd in cmds:
         if self.argNum==0:
-          res=self.result
+          fres=self.result
         else:
           resultstr=str(self.result)
           res=TexSoup(re.sub('\#([1-{}])'.format(self.argNum),lambda m: cmd.args[int(m.group(1))-1].value,resultstr))
-        soup=TexSoup(res)
-        tex.replace(cmd,soup)
+          fres=TexSoup(res)
+        tex.replace(cmd,fres)
     
     def tryRun():
       cmds=list(tex.find_all(self.commandName))
