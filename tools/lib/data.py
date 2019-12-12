@@ -2,8 +2,7 @@ from collections import OrderedDict
 from enum import IntEnum,auto,unique,IntFlag
 from .Format import Format
 import re
-import numpy as np
-import itertools
+import numpy as npss
 
 class state:
   def __init__(self,number, multiplicity, symetry):
@@ -87,7 +86,7 @@ class dataFileBase(object):
             data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2]))
         for datamtbe in datacls.values():
           datalist.append(datamtbe)
-      return list(itertools.chain.from_iterable(datalist))
+      return datalist
     elif format==Format.COLUMN:
       subtablesindex=list()
       firstindex=2
@@ -151,7 +150,6 @@ class dataFileBase(object):
             datamtbe=[]
             for met in mymethod:
               data=cl()
-              datamtbe.append(cl())
               data.molecule=mymolecule
               data.method=met
               datamtbe.append(data)
@@ -160,7 +158,8 @@ class dataFileBase(object):
           for i in range(2):
             datamtbe[i].excitations.append(excitationValue(firstState,finst[0],vs[i],type=finst[2],T1=T1,forces=oscilatorForces))
         for value in datacls.values():
-          datalist.append(value)
+          for dat in value:
+            datalist.append(dat)
       return datalist
 
   def getMetadata(self):
