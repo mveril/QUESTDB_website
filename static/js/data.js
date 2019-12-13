@@ -96,13 +96,13 @@ class excitationBase {
             this.type  = this.type  | excitationType.Doublet
           }
           const finalts = finalt.split(",").map(x => x.trim())
-          if (initialts.includes("n") && finalts.includes(String.raw`\pis`)) {
+          if (initialts.includes("n") && finalts.includes(String.raw`\pi^\star`)) {
             this.type  = this.type  | excitationType.PiPis
-          } else if (initialts.includes(String.raw`\pi`) in initialts && finals.includes(String.raw`\pis`)) {
+          } else if (initialts.includes(String.raw`\pi`) in initialts && finals.includes(String.raw`\pi^\star`)) {
             this.type  = this.type  | excitationType.PiPis
-          } else if (ty.includes(String.raw`\Ryd`)) {
+          } else if (ty.includes(String.raw`\pi^\star`)) {
             this.type  = this.type  | excitationType.RYDBERG
-          } else if (ty.includes(String.raw`\Val`)) {
+          } else if (ty.includes(String.raw`\mathrm{V}`)) {
             this.type  = this.type  | excitationType.VALENCE
           }
         }
