@@ -40,7 +40,6 @@ class dataFileBase(object):
     tmplst=[]
     for TexState in StateTablelist:
       math=TexState.find("$")
-      dec=math.contents
       lst=list(math.contents)
       mathsoup=TexSoup(str(lst[0]))
       newCommand.runAll(mathsoup,commands)
@@ -193,7 +192,17 @@ class dataFileBase(object):
 #######################  #######################  ########################################  ############# ####### ################### ##############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_{:5s}       %T1            f            is unsafe\n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:40s}{:10s}{:15s}{10s}{10s}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,"{"+str(ex.type)+"}" if ex.type is not None else "_",str(ex.value) if ex.value is not None else "_",str(ex.T1) if ex.T1 is not None else "_", str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_", str(ex.isUnsafe).lower())
+          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:40s}{:10s}{:15s}{}\n".format(
+            str(ex.initial.number),
+            str(ex.initial.multiplicity),
+            ex.initial.symetry,
+            str(ex.final.number),
+            str(ex.final.multiplicity),
+            ex.final.symetry,"{"+str(ex.type)+"}" if ex.type is not None else "_",
+            str(ex.value) if ex.value is not None else "_",
+            str(ex.T1) if ex.T1 is not None else "_",
+            str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_",
+            str(ex.isUnsafe).lower())
           f.write(mystr)
 class method:
   def __init__(self,name, *args):
