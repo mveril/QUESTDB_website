@@ -88,7 +88,7 @@ class dataFileBase(object):
               data=cl()
               data.molecule=mymolecule
               data.method=mymethod
-            data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2]))
+            data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],isUnsafe=False))
         for datamtbe in datacls.values():
           datalist.append(datamtbe)
       return datalist
@@ -192,7 +192,7 @@ class dataFileBase(object):
 #######################  #######################  ########################################  ############# ####### ################### ##############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_{:5s}       %T1            f            is unsafe\n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:40s}{:10s}{:15s}{}\n".format(
+          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:40s}{:14s}{:15s}{:13s}{}\n".format(
             str(ex.initial.number),
             str(ex.initial.multiplicity),
             ex.initial.symetry,
@@ -292,7 +292,7 @@ class excitationBase:
     self.final = final
     self.type = kwargs["type"] if "type" in kwargs else None
     self.T1 = kwargs["T1"] if "T1" in kwargs else None
-    self.isUnsafe = kwargs["unsafe"] if "unsafe" in kwargs else False
+    self.isUnsafe = kwargs["isUnsafe"] if "isUnsafe" in kwargs else False
 
 class excitationValue(excitationBase):
   def __init__(self,initial, final, value,**kwarg):
