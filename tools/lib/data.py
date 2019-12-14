@@ -189,11 +189,11 @@ class dataFileBase(object):
           if value is not None:
             f.write("# {:9s}: {}\n".format(key,value))
         f.write("""
-# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces
-#######################  #######################  ########################################  ############# ####### ################### 
-# Number  Spin  Symm       Number  Spin  Symm         type                                    E_{:5s}       %T1            f        \n""".format(self.GetFileType().name.lower()))
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_{:5s}       %T1            f            is unsafe\n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:40s}{:10s}{:15s}{}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,"{"+str(ex.type)+"}" if ex.type is not None else "_",str(ex.value) if ex.value is not None else "_",str(ex.T1) if ex.T1 is not None else "_", str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_")
+          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:40s}{:10s}{:15s}{10s}{10s}\n".format(str(ex.initial.number),str(ex.initial.multiplicity),ex.initial.symetry,str(ex.final.number),str(ex.final.multiplicity),ex.final.symetry,"{"+str(ex.type)+"}" if ex.type is not None else "_",str(ex.value) if ex.value is not None else "_",str(ex.T1) if ex.T1 is not None else "_", str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_", str(ex.isUnsafe).lower())
           f.write(mystr)
 class method:
   def __init__(self,name, *args):
@@ -283,6 +283,7 @@ class excitationBase:
     self.final = final
     self.type = kwargs["type"] if "type" in kwargs else None
     self.T1 = kwargs["T1"] if "T1" in kwargs else None
+    self.isUnsafe = kwargs["unsafe"] if "unsafe" in kwargs else False
 
 class excitationValue(excitationBase):
   def __init__(self,initial, final, value,**kwarg):
