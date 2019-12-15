@@ -22,6 +22,19 @@ draft: false
 <script src="https://unpkg.com/simple-statistics@7.0.2/dist/simple-statistics.min.js"></script>
 <script>
   window.onload = async () => {
+    const LatexInline = ['\\(', '\\)']
+    var al=$("#AllowList")
+    var ef=$("#exitationFilter")
+    for (const prop of Object.getOwnPropertyNames(excitationTypes)) {
+      if(!Object.getOwnPropertyNames(URL).includes(prop)){
+        $("<li/>").text(LatexInline[0]+excitationTypes[prop].LaTeX+LatexInline[1]).appendTo(al)
+        $('<label />', { 'for': 'cb_'+prop, text:LatexInline[0]+excitationTypes[prop].LaTeX+LatexInline[1]}).appendTo(ef);
+        $("<input/>",{type:"checkbox",id:"cb_"+prop,value:excitationTypes[prop].Value}).appendTo(ef)
+      }
+    }
+    await MathJax.typesetPromise();
+    delete(al)
+    delete(ef)
     window.doiCache = new DOICache()
     $('#form_dat > fieldset > input[type=radio]').on('change', async function (event) {
       processingIndicator.isActive = true
@@ -296,6 +309,9 @@ draft: false
       <li>Molecule</li>
       <li>Method</li>
       <li>Publication</li>
+      <li>Allow:</li>
+      <ul id="AllowList">
+      </ul>
     </ul>
     <li>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr title="Theoretical best estimate">TBE</abbr> if present- is already selected)</li>
     <li>Now you can see the list of selected data and some statistics about these data</li>
@@ -332,6 +348,8 @@ draft: false
     </div>
   </fieldset>
   <input type="submit" disabled=true value="Load"></input>
+  <div id="exitationFilter">
+  </div>
 </form>
 <form id="form_ref">
   <label for="sel_ref">Reference</label>

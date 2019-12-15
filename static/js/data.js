@@ -1,10 +1,16 @@
-class excitationType {
-  static get VALENCE(){return 1}
-  static get RYDBERG(){return 2}
-  static get PiPis(){return 4}
-  static get nPis(){return 8}
-  static get Singulet(){return 16}
-  static get Doublet(){return 32}
+class excitationTypes {
+  static get VALENCE(){return new excitationType(1,String.raw`\mathrm{V}`)}
+  static get RYDBERG(){return new excitationType(2,String.raw`\mathrm{R}`)}
+  static get PiPis(){return new excitationType(4,String.raw`\pi \rightarrow \pi^\star`)}
+  static get nPis(){return new excitationType(8,String.raw`n \rightarrow \pi^\star`)}
+  static get Singulet(){return new excitationType(16,"S")}
+  static get Doublet(){return new excitationType(32,"D")}
+}
+class excitationType{
+  constructor(value,laTeX){
+    this.Value=value;
+    this.LaTeX=laTeX
+  }
 }
 class code {
   constructor(name, version) {
@@ -90,20 +96,20 @@ class excitationBase {
           const [initialt, finalt] = ty.split(arrow, 2)
           const initialts = initialt.split(",")
           if (initialts.length==2||initialts.length==2){
-            this.type = this.type | excitationType.Singulet
+            this.type = this.type | excitationTypes.Singulet
           }
           else{
-            this.type  = this.type  | excitationType.Doublet
+            this.type  = this.type  | excitationTypes.Doublet
           }
           const finalts = finalt.split(",").map(x => x.trim())
           if (initialts.includes("n") && finalts.includes(String.raw`\pi^\star`)) {
-            this.type  = this.type  | excitationType.PiPis
+            this.type  = this.type  | excitationTypes.PiPis
           } else if (initialts.includes(String.raw`\pi`) in initialts && finals.includes(String.raw`\pi^\star`)) {
-            this.type  = this.type  | excitationType.PiPis
+            this.type  = this.type  | excitationTypes.PiPis
           } else if (ty.includes(String.raw`\pi^\star`)) {
-            this.type  = this.type  | excitationType.RYDBERG
+            this.type  = this.type  | excitationTypes.RYDBERG
           } else if (ty.includes(String.raw`\mathrm{V}`)) {
-            this.type  = this.type  | excitationType.VALENCE
+            this.type  = this.type  | excitationTypes.VALENCE
           }
         }
       }
@@ -116,6 +122,7 @@ class excitationValue extends excitationBase {
     super(initial, final, type, T1)
     this.value = value
     this.oscilatorForces = oscilatorForces
+    this.isUnsafe = false
   }
 }
 
@@ -225,7 +232,8 @@ class dataFileBase {
       var cor=((vals.length>=8+hasType) ? parseFloat(vals[7+hasType], 10): NaN)
       var oscilatorForces=((vals.length>=9+hasType) ? parseFloat(vals[8+hasType],10): NaN)
       var T1=((vals.length>=10+hasType) ? parseFloat(vals[9+hasType],10): NaN)
-      var ex = new excitationValue(start, end, type, val,cor,oscilatorForces,T1);
+      var isUnsafe=((vals.length>=11+hasType) ? parseFloat(vals[10+hasType],10): false)
+      var ex = new excitationValue(start, end, type, val,cor,oscilatorForces,T1,isUnsafe);
       dat.excitations.push(ex);
     };
 
