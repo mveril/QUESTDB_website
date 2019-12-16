@@ -1,0 +1,11 @@
+# Molecule : Ketene
+# Comment  : 
+# code     : 
+# method   : TBE
+# geom     : 
+# DOI      : 10.1021/acs.jctc.8b00406
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_fluo        %T1            f            is unsafe
+  1       1      A_1       1       1     A''          {\mathrm{V};\pi \rightarrow \pi^\star}  1.0           87.9           _            false
