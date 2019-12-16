@@ -5,11 +5,29 @@ class excitationTypes {
   static get nPis(){return new excitationType(8,String.raw`n \rightarrow \pi^\star`)}
   static get Singulet(){return new excitationType(16,"S")}
   static get Doublet(){return new excitationType(32,"D")}
+  static get All(){
+    var lst=[]
+    for(const prop of Object.getOwnPropertyNames(excitationTypes)){
+      if (prop!="All") {
+        const value=excitationTypes[prop]
+        if (trueTypeOf(value)==excitationType.name) {
+          lst.push([prop,value])
+        }
+      }   
+    }
+    return lst
+  }
+  static GetFlags(value){
+    return this.All().filter((x)=>{value & x[1]})
+  }
 }
 class excitationType{
   constructor(value,laTeX){
     this.Value=value;
     this.LaTeX=laTeX
+  }
+  valueOf(){
+    return this.Value;
   }
 }
 class code {
