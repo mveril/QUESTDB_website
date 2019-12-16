@@ -198,7 +198,7 @@ class dataFileBase(object):
             ex.initial.symetry,
             str(ex.final.number),
             str(ex.final.multiplicity),
-            ex.final.symetry,"{"+str(ex.type)+"}" if ex.type is not None else "_",
+            ex.final.symetry,"("+str(ex.type)+")" if ex.type is not None else "_",
             str(ex.value) if ex.value is not None else "_",
             str(ex.T1) if ex.T1 is not None else "_",
             str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_",

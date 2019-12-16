@@ -173,10 +173,10 @@ class dataFileBase {
     this.sourceFile=null
   }
   get isTBE(){
-    return this.method.name.test(/^TBE/)
+    return /^TBE/.test(this.method.name)
   }
   get isCorrected(){
-    return this.method.name.test(/corr$/)
+    return /corr$/.test(this.method.name)
   }
   static async loadAsync(file) {
     switch (trueTypeOf(file)) {
@@ -231,7 +231,7 @@ class dataFileBase {
       }
     }
     function readrow(line) {
-      var vals = line.match(/{[^\}]+}|\S+/g);
+      var vals = line.match(/([^\)]+)|\S+/g);
       while (vals.length < 8) {
         vals.push(null);
       }
@@ -247,7 +247,6 @@ class dataFileBase {
         }
       }
       var val=((vals.length>=7+hasType) ? parseFloat(vals[6+hasType], 10): NaN)
-      var cor=((vals.length>=8+hasType) ? parseFloat(vals[7+hasType], 10): NaN)
       var oscilatorForces=((vals.length>=9+hasType) ? parseFloat(vals[8+hasType],10): NaN)
       var T1=((vals.length>=10+hasType) ? parseFloat(vals[9+hasType],10): NaN)
       var isUnsafe=((vals.length>=11+hasType) ? parseFloat(vals[10+hasType],10): false)
