@@ -73,7 +73,7 @@ class dataFileBase(object):
         col=table[:,col]
         mymolecule=str(col[0])
         mymethod=method(str(col[2]),str(col[1]))
-        finsts=dataFileBase.convertState(table[3:,0],firstState,commands=commands)
+        finsts=dataFileBase.convertState(table[3:,0],default=default,firstState=firstState,commands=commands)
         datacls=dict()
         for index,cell in enumerate(col[3:]):
           if str(cell)!="":
@@ -86,11 +86,11 @@ class dataFileBase(object):
             else:
               cl=switcher[dt]
               data=cl()
+              datacls[dt]=data
               data.molecule=mymolecule
               data.method=mymethod
             data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],isUnsafe=False))
-        for datamtbe in datacls.values():
-          datalist.append(datamtbe)
+        datalist.append(data)
       return datalist
     elif format==Format.COLUMN:
       subtablesindex=list()
