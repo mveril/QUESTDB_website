@@ -28,12 +28,12 @@ draft: false
     for (const [name,value] of excitationTypes.All) {
       $("<li/>").text(LatexInline[0]+value.LaTeX+LatexInline[1]).appendTo(al)
       $('<label />', { 'for': 'cb_'+name, text:LatexInline[0]+value.LaTeX+LatexInline[1]}).appendTo(ef);
-      $("<input/>",{type:"checkbox",id:"cb_"+name,value:Number(value)}).appendTo(ef)
+      $("<input/>",{type:"checkbox",id:"cb_"+name, name=name, value:Number(value)}).appendTo(ef)
     }
     await MathJax.typesetPromise();
     $("<li/>").text("Unsafe").appendTo(al)
     $('<label/>', { 'for': 'cb_unsafe', text:"Unsafe"}).appendTo(ef);
-    $("<input/>",{type:"checkbox",id:"cb_unsafe",value:true})
+    $("<input/>",{type:"checkbox",id:"cb_unsafe",nmae=unsafe,value:true})
     delete(al)
     delete(ef)
     window.doiCache = new DOICache()
