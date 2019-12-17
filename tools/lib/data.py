@@ -95,7 +95,8 @@ class dataFileBase(object):
               data.molecule=mymolecule
               data.method=mymethod
             data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],isUnsafe=unsafe))
-        datalist.append(data)
+        for value in datacls.values():
+          datalist.append(value)
       return datalist
     elif format==Format.COLUMN:
       subtablesindex=list()
