@@ -1,0 +1,15 @@
+# Molecule : Acetylene
+# Comment  : 
+# code     : 
+# method   : exFCI,aug-cc-pVDZ
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     \Sigma_u^-   (\pi \rightarrow \pi^\star)             7.2           _              _            false
+  1       1      A_1       1       1     \Delta_u     (\pi \rightarrow \pi^\star)             7.51          _              _            false
+  1       1      A_1       1       3     \Sigma_u^+   (\pi \rightarrow \pi^\star)             5.5           _              _            false
+  1       1      A_1       1       3     \Delta_u     (\pi \rightarrow \pi^\star)             6.46          _              _            false
+  1       1      A_1       1       3     \Sigma_u^-   (\pi \rightarrow \pi^\star)             7.14          _              _            false
