@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from TexSoup import TexSoup
 from .LaTeX import newCommand
+from .utils import getValFromCell
 from TexSoup import TexNode
 from enum import IntEnum,auto,unique,IntFlag
 from .Format import Format
@@ -42,7 +43,8 @@ class dataFileBase(object):
     for TexState in StateTablelist:
       math=TexState.find("$")
       lst=list(math.contents)
-      mathsoup=TexSoup(str(lst[0]))
+      mystr=str(lst[0])
+      mathsoup=TexSoup(mystr)
       newCommand.runAll(mathsoup,commands)
       st=str(mathsoup)
       m=re.match(r"^\^(?P<multiplicity>\d)(?P<symm>[^\s\[(]*)\s*(?:\[(?:\\mathrm{)?(?P<special>\w)(?:})\])?\s*\((?P<type>[^\)]*)\)",st)
@@ -78,12 +80,7 @@ class dataFileBase(object):
         datacls=dict()
         for index,cell in enumerate(col[3:]):
           if str(cell)!="":
-            unsafe=False
-            val= list(cell.contents)[0]
-            if type(val) is TexNode and val.name=='emph':
-              unsafe=True
-              val=val.string
-            val=float(str(val))
+            val,unsafe=getValFromCell(cell)
             finst=finsts[index]
             dt=finst[1]
             if dt in datacls:
@@ -114,7 +111,7 @@ class dataFileBase(object):
           finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState,commands=commands)
           for index,cell in enumerate(col[first:last+1]):
             if str(cell)!="":
-              val= list(cell.contents)[0]
+              val,unsafe=getValFromCell(cell)
               val=float(str(val))
               finst=finsts[index]
               dt=finst[1]

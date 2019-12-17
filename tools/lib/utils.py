@@ -21,3 +21,11 @@ def desarg(tex):
       myitem=item      
       lst.append(myitem)  
   return nodify(lst,tex.name,tex.parent)
+def getValFromCell(cell):
+    unsafe=False
+    val= list(cell.contents)[0]
+    if type(val) is TexNode and val.name=='emph':
+      unsafe=True
+      val=val.string
+      val=float(str(val))
+    return (val,unsafe)
