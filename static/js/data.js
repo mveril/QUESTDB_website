@@ -136,11 +136,11 @@ class excitationBase {
   }
 }
 class excitationValue extends excitationBase {
-  constructor(initial, final, type, value,oscilatorForces=null,T1=null) {
+  constructor(initial, final, type, value,oscilatorForces=null,T1=null,isUnsafe=false) {
     super(initial, final, type, T1)
     this.value = value
     this.oscilatorForces = oscilatorForces
-    this.isUnsafe = false
+    this.isUnsafe = isUnsafe
   }
 }
 
@@ -231,17 +231,13 @@ class dataFileBase {
       }
     }
     function readrow(line) {
-      var vals = line.match(/([^\)]+)|\S+/g);
-      while (vals.length < 8) {
-        vals.push(null);
-      }
-
+      var vals = line.match(/\([^\)]+\)|\S+/g)
       var start = new state(parseInt(vals[0], 10), parseInt(vals[1], 10), vals[2]);
       var end = new state(parseInt(vals[3], 10), parseInt(vals[4],10), vals[5]);
       var hasType=vals.length>=7 && isNaN(vals[6])
       var type=((vals.length>=7 && hasType) ? vals[6] : null)
       if(type) {
-        const m=type.match(/^{([^\\}]*)}$/)
+        const m=type.match(/^{([^\}]*)}$/)
         if (m) {
           type=m[1]
         }
@@ -250,7 +246,7 @@ class dataFileBase {
       var oscilatorForces=((vals.length>=9+hasType) ? parseFloat(vals[8+hasType],10): NaN)
       var T1=((vals.length>=10+hasType) ? parseFloat(vals[9+hasType],10): NaN)
       var isUnsafe=((vals.length>=11+hasType) ? parseFloat(vals[10+hasType],10): false)
-      var ex = new excitationValue(start, end, type, val,cor,oscilatorForces,T1,isUnsafe);
+      var ex = new excitationValue(start, end, type, val,oscilatorForces,T1,isUnsafe);
       dat.excitations.push(ex);
     };
 
