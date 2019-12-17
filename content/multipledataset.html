@@ -33,7 +33,7 @@ draft: false
     await MathJax.typesetPromise();
     $("<li/>").text("Unsafe").appendTo(al)
     $('<label/>', { 'for': 'cb_unsafe', text:"Unsafe"}).appendTo(ef);
-    $("<input/>",{type:"checkbox",id:"cb_unsafe",name:"unsafe"})
+    $("<input/>",{type:"checkbox",id:"cb_unsafe",name:"unsafe"}).appendTo(ef)
     delete(al)
     delete(ef)
     window.doiCache = new DOICache()
