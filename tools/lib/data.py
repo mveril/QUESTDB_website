@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from TexSoup import TexSoup
 from .LaTeX import newCommand
+from TexSoup import TexNode
 from enum import IntEnum,auto,unique,IntFlag
 from .Format import Format
 import re
@@ -77,7 +78,11 @@ class dataFileBase(object):
         datacls=dict()
         for index,cell in enumerate(col[3:]):
           if str(cell)!="":
+            unsafe=False
             val= list(cell.contents)[0]
+            if type(val) is TexNode and val.name=='emph':
+              unsafe=True
+              val=val.string
             val=float(str(val))
             finst=finsts[index]
             dt=finst[1]
@@ -89,7 +94,7 @@ class dataFileBase(object):
               datacls[dt]=data
               data.molecule=mymolecule
               data.method=mymethod
-            data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],isUnsafe=False))
+            data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],isUnsafe=unsafe))
         datalist.append(data)
       return datalist
     elif format==Format.COLUMN:
