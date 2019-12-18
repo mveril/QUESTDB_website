@@ -252,13 +252,13 @@ draft: false
     for (const d of window.filt) {
       var row = $("<tr/>")
       var rowd = []
-      const els = [d.molecule, d.comment, d.code, d.method, d.DOI]
+      const els = [d.molecule, d.code, d.method, d.DOI]
       var tableels = els.slice()
       if (d instanceof oneStateDataFileBase) {
-        tableels.splice(3, 0, d.geometry)
+        tableels.splice(2, 0, d.geometry)
       }
       else if (d instanceof twoStateDataFileBase) {
-        tableels.splice(3, 0, [d.GS, d.ES])
+        tableels.splice(2, 0, [d.GS, d.ES])
       }
       tdtemp=$("<td/>")
       for (const el of tableels) {
@@ -360,7 +360,6 @@ draft: false
   <table id="dat_table" class="datatable">
     <thead>
       <th>Molecule</th>
-      <th>Comment</th>
       <th>Code</th>
       <th id="Geom_th" hidden=true>Geometry</th>
       <th id="GSGeom_th" hidden=true>Ground state geometry</th>
