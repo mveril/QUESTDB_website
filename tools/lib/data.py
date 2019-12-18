@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from TexSoup import TexSoup
 from .LaTeX import newCommand
-from .utils import getValFromCell
+from .utils import getValFromCell,toFloat
 from TexSoup import TexNode
 from enum import IntEnum,auto,unique,IntFlag
 from .Format import Format
@@ -112,7 +112,6 @@ class dataFileBase(object):
           for index,cell in enumerate(col[first:last+1]):
             if str(cell)!="":
               val,unsafe=getValFromCell(cell)
-              val=float(str(val))
               finst=finsts[index]
               dt=finst[1]
               if dt in datacls:
@@ -140,15 +139,10 @@ class dataFileBase(object):
         mymethod=(method("TBE(FC)"),method("TBE"))
         finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState,commands=commands)
         for index,row in enumerate(table[first:last+1,]):
-          def toFloat(x):
-            try:
-              return float(x)
-            except ValueError:
-              return None
           oscilatorForces=toFloat(str(row[2]))
           T1 = toFloat(str(row[3]))
-          val = toFloat(str(row[4]))
-          corr = toFloat(str(row[7]))
+          val,unsafe = getValFromCell(row[4])
+          corr,unsafecorr = getValFromCell(row[7])
           finst=finsts[index]
           dt=finst[1]
           if dt in datacls:
@@ -163,8 +157,9 @@ class dataFileBase(object):
               datamtbe.append(data)
             datacls[dt]=datamtbe
             vs=[val,corr]
+            uns=[unsafe,unsafecorr]
           for i in range(2):
-            datamtbe[i].excitations.append(excitationValue(firstState,finst[0],vs[i],type=finst[2],T1=T1,forces=oscilatorForces))
+            datamtbe[i].excitations.append(excitationValue(firstState,finst[0],vs[i],type=finst[2],T1=T1,forces=oscilatorForces,isUnsafe=uns[i]))
         for value in datacls.values():
           for dat in value:
             datalist.append(dat)

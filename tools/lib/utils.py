@@ -27,5 +27,11 @@ def getValFromCell(cell):
     if type(val) is TexNode and val.name=='emph':
       unsafe=True
       val=val.string
-      val=float(str(val))
+      val=toFloat(str(val))
     return (val,unsafe)
+
+def toFloat(x):
+  try:
+    return float(x)
+  except ValueError:
+    return None
