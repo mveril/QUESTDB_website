@@ -257,7 +257,10 @@ draft: false
             lang: 'en-US'
           })).appendTo(td)
         }
-        else {
+        else if(el==null){
+          $(td).text(String.empty)
+        }
+        else{
           $(td).text(el)
         }
         $(row).append(td)
