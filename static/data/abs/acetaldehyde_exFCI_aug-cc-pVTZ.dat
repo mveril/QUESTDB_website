@@ -1,6 +1,6 @@
 # Molecule : Acetaldehyde
 # Comment  : 
-# code     : 
+# code     : MRCC
 # method   : exFCI,aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.8b00406
