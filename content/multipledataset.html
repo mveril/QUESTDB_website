@@ -240,7 +240,7 @@ draft: false
       op=$("<option/>", {
         value: JSON.stringify(el)
       }).text(el[1])
-      if(el[1].name=="TBE"){
+      if(el[1].name.includes("TBE")){
         $(sel_ref).prepend(op)
       }
       else
