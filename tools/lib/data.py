@@ -156,8 +156,8 @@ class dataFileBase(object):
               data.method=met
               datamtbe.append(data)
             datacls[dt]=datamtbe
-            vs=[val,corr]
-            uns=[unsafe,unsafecorr]
+          vs=[val,corr]
+          uns=[unsafe,unsafecorr]
           for i in range(2):
             datamtbe[i].excitations.append(excitationValue(firstState,finst[0],vs[i],type=finst[2],T1=T1,forces=oscilatorForces,isUnsafe=uns[i]))
         for value in datacls.values():
