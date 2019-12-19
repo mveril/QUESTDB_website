@@ -33,4 +33,8 @@ class DOICache{
   get size(){
     return this._doimap.size()
   }
+  keys() { return this._doimap.keys()}
+  values() { return this._doimap.values()}
+  entries() { return this._doimap.entries()}
+  [Symbol.iterator]() { return this.values()}
 }
