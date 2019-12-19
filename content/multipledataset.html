@@ -26,7 +26,26 @@ draft: false
     var al=$("#AllowList")
     var ef=$("#exitationFilter")
     for (const [name,value] of excitationTypes.All) {
-      $("<li/>").text(LatexInline[0]+value.LaTeX+LatexInline[1]).appendTo(al)
+      var description=null
+      switch (Number(value)) {
+        case Number(excitationTypes.VALENCE):
+          description=name.toLowerCase()
+          break;
+        case Number(excitationTypes.RYDBERG):
+          const word=name
+          description=word.charAt(0).toUpperCase()+word.substring(1).toLowerCase()
+          break;
+        case Number(excitationTypes.Singulet):
+          description=name.toLowerCase()
+          break;
+        case Number(excitationTypes.Doublet):
+          description=name.toLowerCase()
+          break;
+          default:
+            description=null;
+            break;
+      }
+      $("<li/>").text(LatexInline[0]+value.LaTeX+LatexInline[1]+(description==null ?'' : ": "+ description)).appendTo(al)
       $('<label />', { 'for': 'cb_'+name, text:LatexInline[0]+value.LaTeX+LatexInline[1]}).appendTo(ef);
       $("<input/>",{type:"checkbox",id:"cb_"+name, name:name, value:Number(value)}).appendTo(ef)
     }
