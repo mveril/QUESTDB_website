@@ -5,6 +5,7 @@ draft: false
 ---
 <link rel="stylesheet" type="text/css" href="/css/modal.css" />
 <link rel="stylesheet" type="text/css" href="/css/form.css" />
+<link rel="stylesheet" type="text/css" href="/css/table.css" />
 <script src="/js/data.js" type="text/javascript"></script>
 <script src="/js/loadAllData.js" type="text/javascript"></script>
 <script src="/js/getFullDataPath.js" type="text/javascript"></script>
@@ -137,9 +138,7 @@ draft: false
       Reflect.setPrototypeOf(key[0], method.prototype)
       Reflect.setPrototypeOf(key[1], DOI.prototype)
       for (const el of key) {
-        var td = $("<td/>", {
-          style: "white-space: nowrap;"
-        })
+        var td = $("<td/>")
         if (trueTypeOf(el) == DOI.name) {
           var publi = doiCache.get(el.string)
           const sets=await getSets()
@@ -238,11 +237,9 @@ draft: false
       else if (d instanceof twoStateDataFileBase) {
         tableels.splice(3, 0, [d.GS, d.ES])
       }
-      tdtemp=$("<td/>", {
-          style: "white-space: nowrap;"
-        })
+      tdtemp=$("<td/>")
       for (const el of tableels) {
-        td=$(tdtemp).clone()
+        td=$("<td/>")
         if (trueTypeOf(el) == DOI.name) {
           var publi = doiCache.get(el.string)
           const sets=await getSets()
@@ -328,7 +325,7 @@ draft: false
   <select id="sel_ref" onchange="reloadStat()"></select>
 </form>
 <section>
-  <table id="dat_table">
+  <table id="dat_table" class="datatable">
     <thead>
       <th>Molecule</th>
       <th>Comment</th>
@@ -345,7 +342,7 @@ draft: false
   </table>
 </section>
 <section>
-  <table id="stat_table">
+  <table id="stat_table" class="datatable">
     <thead>
       <th>Method</th>
       <th>Publication</th>
