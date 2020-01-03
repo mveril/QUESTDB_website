@@ -72,6 +72,12 @@ class method {
     }
     return str;
   }
+  get isTBE(){
+    return /^TBE/.test(this.name)
+  }
+  get isCorrected(){
+    return /corr$/.test(this.name)
+  }
 }
 
 class state {
@@ -102,11 +108,11 @@ class DOI {
 }
 
 class excitationBase {
-  constructor(initial, final, type=null, T1=null) {
+  constructor(initial, final, type='', T1=null) {
     this.initial = initial;
     this.final = final
-    this.type=0
-    if (type !== null) {
+    this.type=new excitationType(0,type)
+    if (type !== "") {
       const tys = type.split(";")
       const arrow = String.raw`\rightarrow`
       for (const ty of tys) {
@@ -114,20 +120,20 @@ class excitationBase {
           const [initialt, finalt] = ty.split(arrow, 2)
           const initialts = initialt.split(",")
           if (initialts.length==2||initialts.length==2){
-            this.type = this.type | excitationTypes.Singulet
+            this.type.value = this.type | excitationTypes.Singulet
           }
           else{
-            this.type  = this.type  | excitationTypes.Doublet
+            this.type.value  = this.type  | excitationTypes.Doublet
           }
           const finalts = finalt.split(",").map(x => x.trim())
           if (initialts.includes("n") && finalts.includes(String.raw`\pi^\star`)) {
-            this.type  = this.type  | excitationTypes.PiPis
+            this.type.value  = this.type  | excitationTypes.PiPis
           } else if (initialts.includes(String.raw`\pi`) in initialts && finals.includes(String.raw`\pi^\star`)) {
-            this.type  = this.type  | excitationTypes.PiPis
+            this.type.value  = this.type  | excitationTypes.PiPis
           } else if (ty.includes(String.raw`\pi^\star`)) {
-            this.type  = this.type  | excitationTypes.RYDBERG
+            this.type.value  = this.type  | excitationTypes.RYDBERG
           } else if (ty.includes(String.raw`\mathrm{V}`)) {
-            this.type  = this.type  | excitationTypes.VALENCE
+            this.type.value  = this.type  | excitationTypes.VALENCE
           }
         }
       }
@@ -171,12 +177,6 @@ class dataFileBase {
     this.excitations = []
     this.DOI = null
     this.sourceFile=null
-  }
-  get isTBE(){
-    return /^TBE/.test(this.method.name)
-  }
-  get isCorrected(){
-    return /corr$/.test(this.method.name)
   }
   static async loadAsync(file) {
     switch (trueTypeOf(file)) {
@@ -243,9 +243,9 @@ class dataFileBase {
         }
       }
       var val=((vals.length>=7+hasType) ? parseFloat(vals[6+hasType], 10): NaN)
-      var oscilatorForces=((vals.length>=9+hasType) ? parseFloat(vals[8+hasType],10): NaN)
-      var T1=((vals.length>=10+hasType) ? parseFloat(vals[9+hasType],10): NaN)
-      var isUnsafe=((vals.length>=11+hasType) ? parseFloat(vals[10+hasType],10): false)
+      var oscilatorForces=((vals.length>=8+hasType) ? parseFloat(vals[7+hasType],10): NaN)
+      var T1=((vals.length>=9+hasType) ? parseFloat(vals[8+hasType],10): NaN)
+      var isUnsafe=((vals.length>=10+hasType) ? vals[9+hasType]===true.toString(): false)
       var ex = new excitationValue(start, end, type, val,oscilatorForces,T1,isUnsafe);
       dat.excitations.push(ex);
     };

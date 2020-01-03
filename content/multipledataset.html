@@ -23,38 +23,38 @@ draft: false
 <script>
   window.onload = async () => {
     const LatexInline = ['\\(', '\\)']
-    var al=$("#AllowList")
-    var ef=$("#exitationFilter")
-    for (const [name,value] of excitationTypes.All) {
-      var description=null
+    var al = $("#AllowList")
+    var ef = $("#exitationFilter")
+    for (const [name, value] of excitationTypes.All) {
+      var description = null
       switch (Number(value)) {
         case Number(excitationTypes.VALENCE):
-          description=name.toLowerCase()
+          description = name.toLowerCase()
           break;
         case Number(excitationTypes.RYDBERG):
-          const word=name
-          description=word.charAt(0).toUpperCase()+word.substring(1).toLowerCase()
+          const word = name
+          description = word.charAt(0).toUpperCase() + word.substring(1).toLowerCase()
           break;
         case Number(excitationTypes.Singulet):
-          description=name.toLowerCase()
+          description = name.toLowerCase()
           break;
         case Number(excitationTypes.Doublet):
-          description=name.toLowerCase()
+          description = name.toLowerCase()
           break;
-          default:
-            description=null;
-            break;
+        default:
+          description = null;
+          break;
       }
-      $("<li/>").text(LatexInline[0]+value.LaTeX+LatexInline[1]+(description==null ?'' : ": "+ description)).appendTo(al)
-      $('<label />', { 'for': 'cb_'+name, text:LatexInline[0]+value.LaTeX+LatexInline[1]}).appendTo(ef);
-      $("<input/>",{type:"checkbox",id:"cb_"+name, name:name, value:Number(value)}).appendTo(ef)
+      $("<li/>").text(LatexInline[0] + value.LaTeX + LatexInline[1] + (description == null ? '' : ": " + description)).appendTo(al)
+      $('<label />', { 'for': 'cb_' + name, text: LatexInline[0] + value.LaTeX + LatexInline[1] }).appendTo(ef);
+      $("<input/>", { type: "checkbox", id: "cb_" + name, name: name, value: Number(value) }).appendTo(ef)
     }
     await MathJax.typesetPromise();
     $("<li/>").text("Unsafe").appendTo(al)
-    $('<label/>', { 'for': 'cb_unsafe', text:"Unsafe"}).appendTo(ef);
-    $("<input/>",{type:"checkbox",id:"cb_unsafe",name:"unsafe"}).appendTo(ef)
-    delete(al)
-    delete(ef)
+    $('<label/>', { 'for': 'cb_unsafe', text: "Unsafe" }).appendTo(ef);
+    $("<input/>", { type: "checkbox", id: "cb_unsafe", name: "unsafe" }).appendTo(ef)
+    delete (al)
+    delete (ef)
     window.doiCache = new DOICache()
     $('#form_dat > fieldset > input[type=radio]').on('change', async function (event) {
       processingIndicator.isActive = true
@@ -114,15 +114,15 @@ draft: false
     })
     $('#form_dat > fieldset > div > select').each(async function () {
       const vals = uniq(window.dats.map((d) => { return d[$(this).attr("name")] }))
-      var sets=await getSets()
+      var sets = await getSets()
       for (const val of vals) {
-        var op=$("<option/>", {
+        var op = $("<option/>", {
           value: JSON.stringify(val)
         })
-        if ($(this).attr("name")=="DOI" && sets.has(val.toString())){
-            $(op).text(sets.get(val.toString()))
+        if ($(this).attr("name") == "DOI" && sets.has(val.toString())) {
+          $(op).text(sets.get(val.toString()))
         }
-        else{
+        else {
           $(op).text(val.toString())
         }
         op.appendTo(this)
@@ -173,9 +173,9 @@ draft: false
       for (const el of key) {
         var td = $("<td/>")
         if (trueTypeOf(el) == DOI.name) {
-          var publi = doiCache.get(el.string)
-          const sets=await getSets()
-          if(sets.has(el.toString())){
+          var publi = doiCache.get(el.string, true)
+          const sets = await getSets()
+          if (sets.has(el.toString())) {
             $(td).append(sets.get(el.toString()))
           }
           $("<a/>", {
@@ -191,7 +191,7 @@ draft: false
         }
         $(row).append(td)
       }
-      const noNanVals=(vals.every((v)=> Number.isNaN(v)))? vals : (vals.filter((v) => !Number.isNaN(v)))
+      const noNanVals = (vals.every((v) => Number.isNaN(v))) ? vals : (vals.filter((v) => !Number.isNaN(v)))
       const avals = noNanVals.map(v => Math.abs(v))
       for (const val of [ss.min(noNanVals), ss.max(noNanVals), ss.mean(noNanVals), ss.mean(avals), ss.median(noNanVals), ss.median(avals), ss.rootMeanSquare(noNanVals), ss.variance(noNanVals), ss.standardDeviation(noNanVals)]) {
         $("<td/>").text(noNanPrecision(val, 3)).appendTo(row)
@@ -250,65 +250,104 @@ draft: false
         return values.includes(JSON.stringify(d[prop]))
       })
     })
-    var dtb = $("#dat_table > tbody");
-    dtb.empty()
-    sel_ref = $("#sel_ref")
-    await doiCache.addRange(window.filt.map((x)=>x.DOI.string))
-    for (const el of uniq(window.filt.map(d=>[d.code,d.method,d.DOI])))
-    {
-      op=$("<option/>", {
+    await window.doiCache.addRange(window.filt.map((d) => d.DOI.string))
+    for (const el of uniq(window.filt.map(d => [d.code, d.method, d.DOI]))) {
+      op = $("<option/>", {
         value: JSON.stringify(el)
       }).text(el[1])
-      if(el[1].name.includes("TBE")){
+      if (el[1].name.includes("TBE")) {
         $(sel_ref).prepend(op)
       }
-      else
-      {
+      else {
         $(sel_ref).append(op)
       }
     }
-    $(sel_ref).prop("selectedIndex",0);
-    for (const d of window.filt) {
-      var row = $("<tr/>")
-      var rowd = []
-      const els = [d.molecule, d.code, d.method, d.DOI]
-      var tableels = els.slice()
-      if (d instanceof oneStateDataFileBase) {
-        tableels.splice(2, 0, d.geometry)
-      }
-      else if (d instanceof twoStateDataFileBase) {
-        tableels.splice(2, 0, [d.GS, d.ES])
-      }
-      tdtemp=$("<td/>")
-      for (const el of tableels) {
-        td=$("<td/>")
-        if (trueTypeOf(el) == DOI.name) {
-          var publi = doiCache.get(el.string)
-          const sets=await getSets()
-          if(sets.has(el.toString())){
-            $(td).append(sets.get(el.toString()))
+    $(sel_ref).prop("selectedIndex", 0);
+    var data = $("#data")
+    if (window.filt.length > 0) {
+      var sets = await getSets()
+      for (const doi of doiCache.keys()) {
+        paperdata = window.filt.filter((d) => {
+          return d.DOI.string == doi
+        })
+        var methods = uniq(paperdata.map(d => d.method))
+        const sortedMethods = methods.sort((a, b) => {
+          if (a.isTBE && !b.isTBE) {
+            return -1
           }
-          $("<a/>", {
-            href: el.url,
-            target: "_blank",
-          }).html(publi.format('citation', {
-            format: 'html',
-            lang: 'en-US'
-          })).appendTo(td)
+          else if (a.isTBE && b.isTBE) {
+            if (!a.isCorrected && b.isCorrected) {
+              return -1
+            }
+            else {
+              return 1
+            }
+          }
+          else if (!a.isTBE && b.isTBE) {
+            return 1
+          }
+          else {
+            return 0
+          }
+        })
+        var div = $('<div/>').appendTo(data)
+        $("<h1/>").text(sets.get(doi)).appendTo(div)
+        var table = $("<table/>").addClass("datatable").appendTo(div)
+        var head = $("<tr/>")
+        $("<thead/>").append(head).appendTo(table)
+        var tbody = $("<tbody/>").appendTo(table)
+        head.append(["Molecule", "Transition"].map(x => $("<th/>").text(x)))
+        head.append(sortedMethods.map(x => $("<th/>").text(x.toString())))
+        datadic = new Map()
+        for (const dat of paperdata) {
+          const key1 = dat.molecule;
+          if (!datadic.has(key1)) {
+            datadic.set(key1, new Map())
+          }
+          const key3 = JSON.stringify(dat.method)
+          for (const ex of dat.excitations) {
+            const key2 = JSON.stringify([ex.initial, ex.final, ex.type])
+            if (!datadic.get(key1).has(key2)) {
+              datadic.get(key1).set(key2, new Map())
+            }
+            datadic.get(key1).get(key2).set(key3, [ex.value, ex.isUnsafe])
+          }
         }
-        else if(el==null){
-          $(td).text(String.empty)
+        for (const [molecule, moldat] of datadic.entries()) {
+          var printmol = true;
+          for (const [jsonex, exdat] of moldat.entries()) {
+            const ex = JSON.parse(jsonex)
+            Reflect.setPrototypeOf(ex[0], state.prototype)
+            Reflect.setPrototypeOf(ex[1], state.prototype)
+            Reflect.setPrototypeOf(ex[2], excitationType.prototype)
+            var tr = $("<tr/>")
+            var tdmol = $("<td/>")
+            if (printmol) {
+              $(tdmol).text(molecule)
+              printmol = false
+            }
+            tr.append(tdmol)
+            $("<td/>").text(String.raw`${LatexInline[0]}${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} (${ex[2].LaTeX}) ${LatexInline[1]}`).appendTo(tr)
+            var entries = Array.from(exdat.entries())
+            for (const method of sortedMethods) {
+              td = $("<td/>")
+              kv = entries.find(x => {
+                return JSON.stringify(method) == x[0]
+              })
+              if (kv !== undefined) {
+                const [val,unsafe]=kv[1]
+                if (unsafe) {
+                  td.append($("<div/>",{title:"unsafe value",style:"float: left"}).text('⚠'))                  
+                }
+                td.append(val)
+              }
+              tr.append(td)
+            }
+            tbody.append(tr)
+          }
         }
-        else{
-          $(td).text(el)
-        }
-        $(row).append(td)
       }
-      $(tdtemp).clone().append($("<a/>", {
-        target: "_blank",
-        href: await d.sourceFile.getViewerURL()
-      }).text("Go to file")).appendTo(row)
-      $(dtb).append(row)
+      await MathJax.typesetPromise()
     }
     await reloadStat()
   }
@@ -333,7 +372,8 @@ draft: false
       <ul id="AllowList">
       </ul>
     </ul>
-    <li>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr title="Theoretical best estimate">TBE</abbr> if present- is already selected)</li>
+    <li>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr
+        title="Theoretical best estimate">TBE</abbr> if present- is already selected)</li>
     <li>Now you can see the list of selected data and some statistics about these data</li>
   </ol>
 </p>
@@ -375,21 +415,7 @@ draft: false
   <label for="sel_ref">Reference</label>
   <select id="sel_ref" onchange="reloadStat()"></select>
 </form>
-<section>
-  <table id="dat_table" class="datatable">
-    <thead>
-      <th>Molecule</th>
-      <th>Code</th>
-      <th id="Geom_th" hidden=true>Geometry</th>
-      <th id="GSGeom_th" hidden=true>Ground state geometry</th>
-      <th id="ESGeom_th" hidden=true>Excited state geometry</th>
-      <th>Method</th>
-      <th>Publication</th>
-      <th>File</th>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
+<section id="data">
 </section>
 <section>
   <table id="stat_table" class="datatable">
