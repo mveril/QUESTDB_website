@@ -24,7 +24,7 @@ draft: false
   window.onload = async () => {
     const LatexInline = ['\\(', '\\)']
     var al = $("#AllowList")
-    var ef = $("#exitationFilter")
+    var ef = $("#excitationFilter")
     for (const [name, value] of excitationTypes.All) {
       var description = null
       switch (Number(value)) {
@@ -339,7 +339,12 @@ draft: false
                 if (unsafe) {
                   td.append($("<div/>",{title:"unsafe value",style:"float: left"}).text('⚠'))                  
                 }
-                td.append(val)
+                if (unsafe && !$("#cb_unsafe").is(':checked')){
+                  td.append($("<s/>").append(val))
+                }
+                else{
+                  td.append(val)
+                }
               }
               tr.append(td)
             }
@@ -407,9 +412,9 @@ draft: false
       <select multiple id="DOI_select" name="DOI"></select>
     </div>
   </fieldset>
+  <fieldset id="excitationFilter">
+  </fieldset>
   <input type="submit" disabled=true value="Load"></input>
-  <div id="exitationFilter">
-  </div>
 </form>
 <form id="form_ref">
   <label for="sel_ref">Reference</label>
