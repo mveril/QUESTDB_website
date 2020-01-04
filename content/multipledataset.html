@@ -264,6 +264,7 @@ draft: false
     }
     $(sel_ref).prop("selectedIndex", 0);
     var data = $("#data")
+    $(data).empty();
     if (window.filt.length > 0) {
       var sets = await getSets()
       for (const doi of doiCache.keys()) {
