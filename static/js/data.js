@@ -1,10 +1,10 @@
 class excitationTypes {
   static get VALENCE(){return new excitationType(1,String.raw`\mathrm{V}`)}
-  static get RYDBERG(){return new excitationType(2,String.raw`\mathrm{R}`)}
-  static get PiPis(){return new excitationType(4,String.raw`\pi \rightarrow \pi^\star`)}
-  static get nPis(){return new excitationType(8,String.raw`n \rightarrow \pi^\star`)}
-  static get Singulet(){return new excitationType(16,"S")}
-  static get Doublet(){return new excitationType(32,"D")}
+  static get RYDBERG(){return new excitationType(1<<1,String.raw`\mathrm{R}`)}
+  static get PiPis(){return new excitationType(1<<2,String.raw`\pi \rightarrow \pi^\star`)}
+  static get nPis(){return new excitationType(1<<3,String.raw`n \rightarrow \pi^\star`)}
+  static get Singulet(){return new excitationType(1<<4,"S")}
+  static get Doublet(){return new excitationType(1<<5,"D")}
   static get All(){
     var lst=[]
     for(const prop of Object.getOwnPropertyNames(excitationTypes)){
