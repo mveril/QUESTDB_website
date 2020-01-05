@@ -120,20 +120,20 @@ class excitationBase {
           const [initialt, finalt] = ty.split(arrow, 2)
           const initialts = initialt.split(",")
           if (initialts.length==2||initialts.length==2){
-            this.type.value = this.type | excitationTypes.Singulet
+            this.type.Value = this.type | excitationTypes.Singulet
           }
           else{
-            this.type.value  = this.type  | excitationTypes.Doublet
+            this.type.Value  = this.type  | excitationTypes.Doublet
           }
           const finalts = finalt.split(",").map(x => x.trim())
           if (initialts.includes("n") && finalts.includes(String.raw`\pi^\star`)) {
-            this.type.value  = this.type  | excitationTypes.PiPis
+            this.type.Value  = this.type  | excitationTypes.PiPis
           } else if (initialts.includes(String.raw`\pi`) in initialts && finals.includes(String.raw`\pi^\star`)) {
-            this.type.value  = this.type  | excitationTypes.PiPis
+            this.type.Value  = this.type  | excitationTypes.PiPis
           } else if (ty.includes(String.raw`\pi^\star`)) {
-            this.type.value  = this.type  | excitationTypes.RYDBERG
+            this.type.Value  = this.type  | excitationTypes.RYDBERG
           } else if (ty.includes(String.raw`\mathrm{V}`)) {
-            this.type.value  = this.type  | excitationTypes.VALENCE
+            this.type.Value  = this.type  | excitationTypes.VALENCE
           }
         }
       }
