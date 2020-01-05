@@ -236,7 +236,7 @@ draft: false
     processingIndicator.isActive = false
   }
   async function reloadContent() {
-    window.filterParams = ($("#cb_unsafe").prop("checked"), Array.from($("#cb_exTypeList>li>input[type=checkbox:checked]").map(el => el.value).reduce((pv, cv) => pv + cv, 0)))
+    window.filterParams = [$("#cb_unsafe").prop("checked"), Array.from(Array.from($("#cb_exTypeList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0)]
     doiCache.clear()
     processingIndicator.isActive = true
     const LatexInline = ['\\(', '\\)']
