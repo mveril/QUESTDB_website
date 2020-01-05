@@ -308,6 +308,7 @@ draft: false
           }
           const key3 = JSON.stringify(dat.method)
           for (const ex of dat.excitations) {
+            Reflect.setPrototypeOf(ex.type,excitationType.prototype)
             if (window.filterParams[1] & ex.type != 0) {
               const key2 = JSON.stringify([ex.initial, ex.final, ex.type])
               if (!datadic.get(key1).has(key2)) {
