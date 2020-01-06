@@ -49,7 +49,7 @@ draft: false
       $("<li/>").text(LatexInline[0] + value.LaTeX + LatexInline[1] + (description == null ? '' : ": " + description)).insertBefore(allc)
       var cbli = $("<li/>")
       $("<input/>", { type: "checkbox", id: "cb_" + name, name: name, value: Number(value) }).change(nestedCheckbox_change).appendTo(cbli);
-      $('<label />', { 'for': 'cb_' + name, text: LatexInline[0] + value.LaTeX + LatexInline[1] }).appendTo(cbli);
+      $('<label />', { 'for': 'cb_' + name, text: LatexInline[0] + value.LaTeX + LatexInline[1] + (description == null ? '' : ": " + description) }).appendTo(cbli);
       cbextl.append(cbli);
     }
     await MathJax.typesetPromise();
