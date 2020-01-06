@@ -1,7 +1,7 @@
 # Molecule : Hydrogen chloride
 # Comment  : 
 # code     : MRCC
-# method   : TBE
+# method   : TBE,cbs
 # geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.8b00406
 
