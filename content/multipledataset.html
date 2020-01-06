@@ -421,13 +421,13 @@ draft: false
     </div>
   </fieldset>
   <fieldset id="excitationFilter">
-    <ul style="list-style-type: none;">
+    <legend>Filters</legend>
+    <ul class="nestedCbList" style="padding-left: 0em;">
       <li>
-        <h1>excitations types</h1>
         <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_exType_All"></input>
         <label for="cb_exType_All"> All</label>
       </li>
-      <ul id="cb_exTypeList" style="list-style-type: none;">
+      <ul id="cb_exTypeList" class="nestedCbList">
       </ul>
       <li id="li_cb_unsafe">
         <input type="checkbox" id="cb_unsafe" name="unsafe">

@@ -1,7 +1,10 @@
 form fieldset.table {
   display: table;
 }
-
+ul.nestedCbList {
+  list-style-type: none;
+  padding-left: 1em;
+}
 form fieldset.table div {
   display: table-row;
 }
