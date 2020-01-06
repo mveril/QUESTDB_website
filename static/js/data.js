@@ -237,7 +237,7 @@ class dataFileBase {
       var hasType=vals.length>=7 && isNaN(vals[6])
       var type=((vals.length>=7 && hasType) ? vals[6] : null)
       if(type) {
-        const m=type.match(/^{([^\}]*)}$/)
+        const m=type.match(/^\(([^\)]*)\)$/)
         if (m) {
           type=m[1]
         }
