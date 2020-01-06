@@ -1,32 +1,32 @@
 class excitationTypes {
-  static get VALENCE(){return new excitationType(1,String.raw`\mathrm{V}`)}
-  static get RYDBERG(){return new excitationType(1<<1,String.raw`\mathrm{R}`)}
-  static get PiPis(){return new excitationType(1<<2,String.raw`\pi \rightarrow \pi^\star`)}
-  static get nPis(){return new excitationType(1<<3,String.raw`n \rightarrow \pi^\star`)}
-  static get Single(){return new excitationType(1<<4,"S")}
-  static get Double(){return new excitationType(1<<5,"D")}
-  static get All(){
-    var lst=[]
-    for(const prop of Object.getOwnPropertyNames(excitationTypes)){
-      if (prop!="All") {
-        const value=excitationTypes[prop]
-        if (trueTypeOf(value)==excitationType.name) {
-          lst.push([prop,value])
+  static get VALENCE() { return new excitationType(1, String.raw`\mathrm{V}`) }
+  static get RYDBERG() { return new excitationType(1 << 1, String.raw`\mathrm{R}`) }
+  static get PiPis() { return new excitationType(1 << 2, String.raw`\pi \rightarrow \pi^\star`) }
+  static get nPis() { return new excitationType(1 << 3, String.raw`n \rightarrow \pi^\star`) }
+  static get Single() { return new excitationType(1 << 4, "S") }
+  static get Double() { return new excitationType(1 << 5, "D") }
+  static get All() {
+    var lst = []
+    for (const prop of Object.getOwnPropertyNames(excitationTypes)) {
+      if (prop != "All") {
+        const value = excitationTypes[prop]
+        if (trueTypeOf(value) == excitationType.name) {
+          lst.push([prop, value])
         }
-      }   
+      }
     }
     return lst
   }
-  static GetFlags(value){
-    return this.All().filter((x)=>{value & x[1]})
+  static GetFlags(value) {
+    return this.All().filter((x) => { value & x[1] })
   }
 }
-class excitationType{
-  constructor(value,laTeX){
-    this.Value=value;
-    this.LaTeX=laTeX
+class excitationType {
+  constructor(value, laTeX) {
+    this.Value = value;
+    this.LaTeX = laTeX
   }
-  valueOf(){
+  valueOf() {
     return this.Value;
   }
 }
@@ -52,7 +52,7 @@ class code {
   }
 }
 class method {
-  constructor(name, basis=null) {
+  constructor(name, basis = null) {
     this.name = name;
     this.basis = basis;
   }
@@ -72,10 +72,10 @@ class method {
     }
     return str;
   }
-  get isTBE(){
+  get isTBE() {
     return /^TBE/.test(this.name)
   }
-  get isCorrected(){
+  get isCorrected() {
     return /corr$/.test(this.name)
   }
 }
@@ -103,38 +103,38 @@ class DOI {
     return this.string;
   };
   get url() {
-    return new URL(this.string,'https://doi.org').toString()
+    return new URL(this.string, 'https://doi.org').toString()
   }
 }
 
 class excitationBase {
-  constructor(initial, final, type='', T1=null) {
+  constructor(initial, final, type = '', T1 = null) {
     this.initial = initial;
     this.final = final
-    this.type=new excitationType(0,type)
+    this.type = new excitationType(0, type)
     if (type !== "") {
       const tys = type.split(";")
       const arrow = String.raw`\rightarrow`
       for (const ty of tys) {
         if (ty.includes(arrow)) {
           const [initialt, finalt] = ty.split(arrow, 2)
-          const initialts = initialt.split(",")
-          if (initialts.length==2||initialts.length==2){
-            this.type.Value = this.type | excitationTypes.Simple
-          }
-          else{
-            this.type.Value  = this.type  | excitationTypes.Double
-          }
+          const initialts = initialt.split(",").map(x => x.trim())
           const finalts = finalt.split(",").map(x => x.trim())
-          if (initialts.includes("n") && finalts.includes(String.raw`\pi^\star`)) {
-            this.type.Value  = this.type  | excitationTypes.PiPis
-          } else if (initialts.includes(String.raw`\pi`) in initialts && finals.includes(String.raw`\pi^\star`)) {
-            this.type.Value  = this.type  | excitationTypes.PiPis
-          } else if (ty.includes(String.raw`\pi^\star`)) {
-            this.type.Value  = this.type  | excitationTypes.RYDBERG
-          } else if (ty.includes(String.raw`\mathrm{V}`)) {
-            this.type.Value  = this.type  | excitationTypes.VALENCE
+          if (initialts.length == 2 && finalt.length == 2) {
+            this.type.Value = this.type | excitationTypes.Double
           }
+          else if (initialts.length == 1 && finalt.length == 1) {
+            this.type.Value = this.type | excitationTypes.Single
+          }
+          if (initialts.includes("n") && finalts.includes(String.raw`\pi^\star`)) {
+            this.type.Value = this.type | excitationTypes.nPis
+          } else if (initialts.includes(String.raw`\pi`) in initialts && finals.includes(String.raw`\pi^\star`)) {
+            this.type.Value = this.type | excitationTypes.PiPis
+          }
+        } else if (ty.includes(String.raw`\mathrm{R}`)) {
+          this.type.Value = this.type | excitationTypes.RYDBERG
+        } else if (ty.includes(String.raw`\mathrm{V}`)) {
+          this.type.Value = this.type | excitationTypes.VALENCE
         }
       }
     }
@@ -142,7 +142,7 @@ class excitationBase {
   }
 }
 class excitationValue extends excitationBase {
-  constructor(initial, final, type, value,oscilatorForces=null,T1=null,isUnsafe=false) {
+  constructor(initial, final, type, value, oscilatorForces = null, T1 = null, isUnsafe = false) {
     super(initial, final, type, T1)
     this.value = value
     this.oscilatorForces = oscilatorForces
@@ -176,20 +176,20 @@ class dataFileBase {
     this.method = null
     this.excitations = []
     this.DOI = null
-    this.sourceFile=null
+    this.sourceFile = null
   }
   static async loadAsync(file) {
     switch (trueTypeOf(file)) {
       case String.name:
-        file=getFullDataPath(file)
-        var str=await getTextFromFileUrlAsync(file)
+        file = getFullDataPath(file)
+        var str = await getTextFromFileUrlAsync(file)
         break;
       case File.name:
-        var str=await getTextFromUploadedFileAsync(file)
+        var str = await getTextFromUploadedFileAsync(file)
         break
     }
     var dat = this.loadString(str);
-    dat.sourceFile=new websiteFile(file)
+    dat.sourceFile = new websiteFile(file)
     return dat
   }
   static readmetaPair(key, value, dat) {
@@ -234,19 +234,19 @@ class dataFileBase {
       var vals = line.match(/\([^\)]+\)|\S+/g)
       var start = new state(parseInt(vals[0], 10), parseInt(vals[1], 10), vals[2]);
       var end = new state(parseInt(vals[3], 10), parseInt(vals[4],10), vals[5]);
-      var hasType=vals.length>=7 && isNaN(vals[6])
-      var type=((vals.length>=7 && hasType) ? vals[6] : null)
-      if(type) {
-        const m=type.match(/^\(([^\)]*)\)$/)
+      var hasType = vals.length >= 7 && isNaN(vals[6])
+      var type = ((vals.length >= 7 && hasType) ? vals[6] : null)
+      if (type) {
+        const m = type.match(/^\(([^\)]*)\)$/)
         if (m) {
-          type=m[1]
+          type = m[1]
         }
       }
-      var val=((vals.length>=7+hasType) ? parseFloat(vals[6+hasType], 10): NaN)
-      var oscilatorForces=((vals.length>=8+hasType) ? parseFloat(vals[7+hasType],10): NaN)
-      var T1=((vals.length>=9+hasType) ? parseFloat(vals[8+hasType],10): NaN)
-      var isUnsafe=((vals.length>=10+hasType) ? vals[9+hasType]===true.toString(): false)
-      var ex = new excitationValue(start, end, type, val,oscilatorForces,T1,isUnsafe);
+      var val = ((vals.length >= 7 + hasType) ? parseFloat(vals[6 + hasType], 10) : NaN)
+      var oscilatorForces = ((vals.length >= 8 + hasType) ? parseFloat(vals[7 + hasType], 10) : NaN)
+      var T1 = ((vals.length >= 9 + hasType) ? parseFloat(vals[8 + hasType], 10) : NaN)
+      var isUnsafe = ((vals.length >= 10 + hasType) ? vals[9 + hasType] === true.toString() : false)
+      var ex = new excitationValue(start, end, type, val, oscilatorForces, T1, isUnsafe);
       dat.excitations.push(ex);
     };
 
