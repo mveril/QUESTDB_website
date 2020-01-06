@@ -147,7 +147,7 @@ draft: false
       for (const exc of d.excitations) {
         const key2 = JSON.stringify([d.molecule, exc.initial, exc.final])
         const keydic = sdatdic.get(key)
-        if ((!exc.isUnsafe || window.filterParams[0]) && (exc.type & window.filterParams[1])) {
+        if ((!exc.isUnsafe || window.filterParams[0]) && ((exc.type & window.filterParams[1])==exc.type.Value)) {
           if (!(keydic.has(key2))) {
             keydic.set(key2, [])
           }
@@ -311,7 +311,7 @@ draft: false
           const key3 = JSON.stringify(dat.method)
           for (const ex of dat.excitations) {
             Reflect.setPrototypeOf(ex.type,excitationType.prototype)
-            if (window.filterParams[1] & ex.type != 0) {
+            if ((window.filterParams[1] & ex.type)==ex.type.Value) {
               const key2 = JSON.stringify([ex.initial, ex.final, ex.type])
               if (!datadic.get(key1).has(key2)) {
                 datadic.get(key1).set(key2, new Map())
