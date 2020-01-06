@@ -147,10 +147,12 @@ draft: false
       for (const exc of d.excitations) {
         const key2 = JSON.stringify([d.molecule, exc.initial, exc.final])
         const keydic = sdatdic.get(key)
-        if (!(keydic.has(key2))) {
-          keydic.set(key2, [])
+        if ((!exc.isUnsafe || window.filterParams[0]) && (exc.type & window.filterParams[1])) {
+          if (!(keydic.has(key2))) {
+            keydic.set(key2, [])
+          }
+          keydic.get(key2).push(exc.value) 
         }
-        keydic.get(key2).push(exc.value)
       }
     }
     var sdic = new Map()
