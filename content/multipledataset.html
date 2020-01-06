@@ -25,7 +25,7 @@ draft: false
   window.onload = async () => {
     const LatexInline = ['\\(', '\\)']
     var cbextl = $("#cb_exTypeList")
-    var allc = $("#AllowList:last-child")
+    var allc = $("#AllowList>li:last-child")
     for (const [name, value] of excitationTypes.All) {
       var description = null
       switch (Number(value)) {
