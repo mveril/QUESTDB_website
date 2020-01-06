@@ -3,8 +3,8 @@ class excitationTypes {
   static get RYDBERG(){return new excitationType(1<<1,String.raw`\mathrm{R}`)}
   static get PiPis(){return new excitationType(1<<2,String.raw`\pi \rightarrow \pi^\star`)}
   static get nPis(){return new excitationType(1<<3,String.raw`n \rightarrow \pi^\star`)}
-  static get Singulet(){return new excitationType(1<<4,"S")}
-  static get Doublet(){return new excitationType(1<<5,"D")}
+  static get Single(){return new excitationType(1<<4,"S")}
+  static get Double(){return new excitationType(1<<5,"D")}
   static get All(){
     var lst=[]
     for(const prop of Object.getOwnPropertyNames(excitationTypes)){
@@ -120,10 +120,10 @@ class excitationBase {
           const [initialt, finalt] = ty.split(arrow, 2)
           const initialts = initialt.split(",")
           if (initialts.length==2||initialts.length==2){
-            this.type.Value = this.type | excitationTypes.Singulet
+            this.type.Value = this.type | excitationTypes.Simple
           }
           else{
-            this.type.Value  = this.type  | excitationTypes.Doublet
+            this.type.Value  = this.type  | excitationTypes.Double
           }
           const finalts = finalt.split(",").map(x => x.trim())
           if (initialts.includes("n") && finalts.includes(String.raw`\pi^\star`)) {
