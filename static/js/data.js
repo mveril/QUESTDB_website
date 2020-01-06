@@ -5,6 +5,7 @@ class excitationTypes {
   static get nPis() { return new excitationType(1 << 3, String.raw`n \rightarrow \pi^\star`) }
   static get Single() { return new excitationType(1 << 4, "S") }
   static get Double() { return new excitationType(1 << 5, "D") }
+  static get Others() { return new excitationType(1 << 6, String.raw`\mathrm{Others}`) }
   static get All() {
     var lst = []
     for (const prop of Object.getOwnPropertyNames(excitationTypes)) {
@@ -137,6 +138,9 @@ class excitationBase {
           this.type.Value = this.type | excitationTypes.VALENCE
         }
       }
+    }
+    else{
+      this.type.Value=excitationTypes.Others
     }
     this.T1 = T1
   }
