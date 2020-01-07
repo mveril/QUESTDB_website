@@ -1,0 +1,15 @@
+# Molecule : Nitrosomethane
+# Comment  : 
+# code     : 
+# method   : CC3(FC),aug-cc-pVTZ
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     A''          (n \rightarrow \pi^\star)               1.96          _              _            false
+  1       1      A_1       1       1     A'           (n,n \rightarrow \pi^\star,\pi^\star)   5.76          _              _            false
+  1       1      A_1       1       1     A'           (n \rightarrow 3s/3p)                   6.31          _              _            false
+  1       1      A_1       1       3     A''          (n \rightarrow \pi^\star)               1.14          _              _            false
+  1       1      A_1       1       3     A'           (\pi \rightarrow \pi^\star)             5.51          _              _            false
