@@ -1,7 +1,7 @@
 # Molecule : Ammonia
 # Comment  : 
 # code     : MRCC
-# method   : TBE,cbs(FC),aug-cc-pVTZ,aug-cc-pVTZ 
+# method   : TBE(FC),aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.8b00406
 
