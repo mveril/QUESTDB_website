@@ -5,7 +5,8 @@ class excitationTypes {
   static get nPis() { return new excitationType(1 << 3, String.raw`n \rightarrow \pi^\star`) }
   static get Single() { return new excitationType(1 << 4, "S") }
   static get Double() { return new excitationType(1 << 5, "D") }
-  static get Others() { return new excitationType(1 << 6, String.raw`\mathrm{Others}`) }
+  // Max bit shifts is 31 because int are int32 So 1 << 31 are -2147483648
+  static get Others() { return new excitationType(1 << 31, String.raw`\mathrm{Others}`) }
   static get All() {
     var lst = []
     for (const prop of Object.getOwnPropertyNames(excitationTypes)) {
