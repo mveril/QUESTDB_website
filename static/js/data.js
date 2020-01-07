@@ -5,6 +5,8 @@ class excitationTypes {
   static get nPis() { return new excitationType(1 << 3, String.raw`n \rightarrow \pi^\star`) }
   static get Single() { return new excitationType(1 << 4, "S") }
   static get Double() { return new excitationType(1 << 5, "D") }
+  static get Singulet() { return new excitationType(1 << 6, "1") }
+  static get Triplet() { return new excitationType(1 << 7, "3") }
   // Max bit shifts is 31 because int are int32 So 1 << 31 are -2147483648
   static get Others() { return new excitationType(1 << 31, String.raw`\mathrm{Others}`) }
   static get All() {
@@ -139,6 +141,14 @@ class excitationBase {
           this.type.Value = this.type | excitationTypes.VALENCE
         }
       }
+    }
+    switch (final.multiplicity) {
+      case 1:
+        this.type.Value=this.type|excitationTypes.Singulet
+        break;
+      case 3:
+        this.type.Value=this.type|excitationTypes.Triplet
+        break;
     }
     if (this.type.Value==0) {
       this.type.Value=excitationTypes.Others.Value;
