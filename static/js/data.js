@@ -129,7 +129,7 @@ class excitationBase {
           }
           if (initialts.includes("n") && finalts.includes(String.raw`\pi^\star`)) {
             this.type.Value = this.type | excitationTypes.nPis
-          } else if (initialts.includes(String.raw`\pi`) in initialts && finals.includes(String.raw`\pi^\star`)) {
+          } else if (initialts.includes(String.raw`\pi`) && finalts.includes(String.raw`\pi^\star`)) {
             this.type.Value = this.type | excitationTypes.PiPis
           }
         } else if (ty.includes(String.raw`\mathrm{R}`)) {
