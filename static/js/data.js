@@ -139,8 +139,8 @@ class excitationBase {
         }
       }
     }
-    else{
-      this.type.Value=excitationTypes.Others
+    if (this.type.Value==0) {
+      this.type.Value=excitationTypes.Others.Value;
     }
     this.T1 = T1
   }
