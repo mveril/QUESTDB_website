@@ -1,0 +1,11 @@
+# Molecule : Formaldehyde
+# Comment  : 
+# code     : 
+# method   : CC3(Full),aug-cc-pVQZ
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_fluo        %T1            f            is unsafe
+  1       1      A_1       1       1     A^"          (n \rightarrow \pi^\star)               2.84          _              _            false
