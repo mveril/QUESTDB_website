@@ -106,11 +106,11 @@ class DOI {
   };
   static fromString(str){
     const vals=str.split(",")
-    if (vals.length>1) {
+    if (vals.length==1) {
       return new DOI(vals[0].toString())
     }
     else{
-      return new DOI(str[0].toString(),(true ? str[1]=== true.toString() : false))
+      return new DOI(vals[0].toString(),(true ? vals[1]=== true.toString() : false))
     }
   }
   toString() {
