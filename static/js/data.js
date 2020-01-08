@@ -137,7 +137,7 @@ class excitationBase {
           const [initialt, finalt] = ty.split(arrow, 2)
           const initialts = initialt.split(",").map(x => x.trim())
           const finalts = finalt.split(",").map(x => x.trim())
-          if (initialts.length == 2 && finalt.length == 2) {
+          if (initialts.length == 2 && finalts.length == 2) {
             this.type.Value = this.type | excitationTypes.Double
           }
           else if (initialts.length == 1 && finalt.length == 1) {
