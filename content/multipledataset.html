@@ -119,8 +119,12 @@ draft: false
         var op = $("<option/>", {
           value: JSON.stringify(val)
         })
-        if ($(this).attr("name") == "DOI" && sets.has(val.toString())) {
-          $(op).text(sets.get(val.toString()))
+        if ($(this).attr("name") == "DOI" && sets.has(val.string)) {
+          str=sets.get(val.string)
+          if(val.IsSupporting){
+            str+=" (SI)"
+          }
+          $(op).text(str)
         }
         else {
           $(op).text(val.toString())
@@ -177,8 +181,12 @@ draft: false
         if (trueTypeOf(el) == DOI.name) {
           var publi = doiCache.get(el.string, true)
           const sets = await getSets()
-          if (sets.has(el.toString())) {
-            $(td).append(sets.get(el.toString()))
+          if (sets.has(el.string)) {
+            var str=sets.get(el.string)
+            if(el.IsSupporting){
+              str+=" (SI)"
+            }
+            $(td).append(str)
           }
           $("<a/>", {
             href: el.url,

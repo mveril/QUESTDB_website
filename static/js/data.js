@@ -100,11 +100,24 @@ class state {
   };
 }
 class DOI {
-  constructor(doistring) {
+  constructor(doistring,IsSupporting=false) {
     this.string = doistring
+    this.IsSupporting = IsSupporting
   };
+  static fromString(str){
+    const vals=str.split(",")
+    if (vals.length>1) {
+      return new DOI(vals[0].toString())
+    }
+    else{
+      return new DOI(str[0].toString(),(true ? str[1]=== true.toString() : false))
+    }
+  }
   toString() {
-    return this.string;
+    var str=this.string;
+    if (this.IsSupporting) {
+      str+=" "+"(SI)"
+    }
   };
   get url() {
     return new URL(this.string, 'https://doi.org').toString()
@@ -222,7 +235,7 @@ class dataFileBase {
         dat.method = method.fromString(value)
         break;
       case "doi":
-        dat.DOI = new DOI(value);
+        dat.DOI = DOI.fromString(value);
         break;
       default:
     }
