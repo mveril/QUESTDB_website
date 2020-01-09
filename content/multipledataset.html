@@ -6,6 +6,7 @@ draft: false
 <link rel="stylesheet" type="text/css" href="/css/modal.css" />
 <link rel="stylesheet" type="text/css" href="/css/form.css" />
 <link rel="stylesheet" type="text/css" href="/css/table.css" />
+<link rel="stylesheet" type="text/css" href="/css/color-emoji-font.css" />
 <script src="/js/data.js" type="text/javascript"></script>
 <script src="/js/loadAllData.js" type="text/javascript"></script>
 <script src="/js/getFullDataPath.js" type="text/javascript"></script>
@@ -363,7 +364,7 @@ draft: false
               if (kv !== undefined) {
                 const [val, unsafe] = kv[1]
                 if (unsafe) {
-                  td.append($("<div/>", { title: "unsafe value", style: "float: left" }).text('⚠'))
+                  td.append($("<div/>", { title: "unsafe value", style: "float: left; font-family: color-emoji;" }).text('⚠'))
                 }
                 if (unsafe && !$("#cb_unsafe").is(':checked')) {
                   td.append($("<s/>").append(val))
