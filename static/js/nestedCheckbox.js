@@ -12,13 +12,13 @@ function nestedCheckbox_change(e) {
   var checkbox=$(ul).prev("li").children("input[type=checkbox]")
   checkboxes=ul.children("li").children("input[type=checkbox]")
   var checkeds=Array.from(checkboxes).map(el=>el.checked)
-  var scheckeds=new Set(checkeds)
-  if (scheckeds.size>1) {
-    $(checkbox).prop("checked",false);
+  var scheckeds=Array.from(new Set(checkeds))
+  if (scheckeds.length>1) {
+    checkbox.prop("checked",false);
     checkbox.prop("indeterminate",true);
   }
   else{
-    checkbox.indeterminate=false;
-    checkbox=scheckeds[0];
+    checkbox.prop("indeterminate",false);
+    checkbox.prop("checked",scheckeds[0]);
   }
 }
