@@ -125,10 +125,15 @@ draft: false
         var op = $("<option/>", {
           value: JSON.stringify(val)
         })
-        if ($(this).attr("name") == "DOI" && sets.has(val.string)) {
-          str=sets.get(val.string)
-          if(val.IsSupporting){
-            str+=" (SI)"
+        if ($(this).attr("name") == "DOI") {
+          if (sets.has(val.string)) {
+            str=sets.get(val.string)
+            if(val.IsSupporting){
+              str+=" (SI)"
+            } 
+          }
+          else{
+            str=val.toString()
           }
           $(op).text(str)
         }

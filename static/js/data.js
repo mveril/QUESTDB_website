@@ -118,6 +118,7 @@ class DOI {
     if (this.IsSupporting) {
       str+=" "+"(SI)"
     }
+    return str
   };
   get url() {
     return new URL(this.string, 'https://doi.org').toString()
