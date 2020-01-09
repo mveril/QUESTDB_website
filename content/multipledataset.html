@@ -270,6 +270,10 @@ draft: false
     }
     await reloadStat()
   }
+  async function submitdat(){
+    window.onbeforeunload = () => {return '';}
+    await reloadContent();
+  }
 </script>
 {{< getDataFilesName >}}
 <p>
@@ -288,7 +292,7 @@ draft: false
     <li>Now you can see the list of selected data and some statistics about these data</li>
   </ol>
 </p>
-<form id="form_dat" action="javascript:reloadContent()" method="post">
+<form id="form_dat" action="javascript:submitdat()" method="post">
   <fieldset>
     <legend>Data type</legend>
     <input type="radio" id="abs" value="abs" name="datatype">
