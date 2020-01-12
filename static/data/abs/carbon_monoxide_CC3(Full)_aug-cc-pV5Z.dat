@@ -1,6 +1,6 @@
 # Molecule : Carbon monoxide
 # Comment  : 
-# code     : 
+# code     : Dalton
 # method   : CC3(Full),aug-cc-pV5Z
 # geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.8b00406,true
