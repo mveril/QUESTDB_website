@@ -156,7 +156,7 @@ draft: false
     var refstr = $("#sel_ref option:selected").val()
     var sdatdic = new Map()
     for (const d of window.filtData) {
-      const key = JSON.stringify([d.code, d.method, d.DOI])
+      const key = JSON.stringify([d.code, d.method, d.DOI.string])
       if (!(sdatdic.has(key))) {
         sdatdic.set(key, new Map())
       }
@@ -187,21 +187,18 @@ draft: false
       key = JSON.parse(keystr)
       key.shift()
       Reflect.setPrototypeOf(key[0], method.prototype)
-      Reflect.setPrototypeOf(key[1], DOI.prototype)
-      for (const el of key) {
+      //Reflect.setPrototypeOf(key[1], DOI.prototype)
+      for (const [i,el] of key.entries()) {
         var td = $("<td/>")
-        if (trueTypeOf(el) == DOI.name) {
-          var publi = doiCache.get(el.string, true)
+        if (i===1) {
+          var publi = doiCache.get(el, true)
           const sets = await getSets()
-          if (sets.has(el.string)) {
-            var str=sets.get(el.string)
-            if(el.IsSupporting){
-              str+=" (SI)"
-            }
+          if (sets.has(el)) {
+            var str=sets.get(el)
             $(td).append(str)
           }
           $("<a/>", {
-            href: el.url,
+            href: new DOI(el).url,
             target: "_blank"
           }).html(publi.format('citation', {
             format: 'html',
@@ -274,7 +271,7 @@ draft: false
       })
     })
     await window.doiCache.addRange(window.filtData.map((d) => d.DOI.string))
-    for (const el of uniq(window.filtData.map(d => [d.code, d.method, d.DOI]))) {
+    for (const el of uniq(window.filtData.map(d => [d.code, d.method, d.DOI.string]))) {
       op = $("<option/>", {
         value: JSON.stringify(el)
       }).text(el[1])
