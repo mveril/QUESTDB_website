@@ -120,10 +120,22 @@ draft: false
       $(this).empty()
     })
     $('#form_dat > fieldset > div > select').each(async function () {
-      const vals = uniq(window.dats.map((d) => { return d[$(this).attr("name")] }))
+      const vals = uniq(window.dats.map((d) => {
+        switch ($(this).attr("name")) {
+          case "method":
+            return d.method.name
+            break;
+          case "basis":
+            return d.method.basis
+          default:
+            return d[$(this).attr("name")]
+            break;
+        }
+       }))
       var sets = await getSets()
       for (const val of vals) {
-        var op = $("<option/>", {
+        if(val!==null) {
+          var op = $("<option/>", {
           value: JSON.stringify(val)
         })
         if ($(this).attr("name") == "DOI") {
@@ -131,7 +143,7 @@ draft: false
             str=sets.get(val.string)
             if(val.IsSupporting){
               str+=" (SI)"
-            } 
+            }
           }
           else{
             str=val.toString()
@@ -141,7 +153,8 @@ draft: false
         else {
           $(op).text(val.toString())
         }
-        op.appendTo(this)
+        op.appendTo(this)          
+        }
       }
     })
     $('#form_dat > input[type="submit"').prop('disabled', false);
@@ -267,7 +280,20 @@ draft: false
         if (typeof values == "undefined" || values == null) {
           return false
         }
-        return values.includes(JSON.stringify(d[prop]))
+        var val=null
+        switch (prop) {
+          case "method":
+            val=d.method.name
+            break;
+          case "basis":
+            val=d.method.basis
+            break;
+          default:
+            val=d[prop]
+            break;
+        }
+        return values.includes(JSON.stringify(val))
+        delete(val)
       })
     })
     await window.doiCache.addRange(window.filtData.map((d) => d.DOI.string))
@@ -432,6 +458,10 @@ draft: false
     <div>
       <label for="method_select">Method</label>
       <select multiple id="method_select" name="method"></select>
+    </div>
+    <div>
+      <label for="basis_select">Basis</label>
+      <select multiple id="basis_select" name="basis"></select>
     </div>
     <div>
       <label for="DOI_select">Publication</label>
