@@ -156,7 +156,7 @@ draft: false
     var refstr = $("#sel_ref option:selected").val()
     var sdatdic = new Map()
     for (const d of window.filtData) {
-      const key = JSON.stringify([d.code, d.method.name, d.DOI.string])
+      const key = JSON.stringify([d.code, d.method, d.DOI.string])
       if (!(sdatdic.has(key))) {
         sdatdic.set(key, new Map())
       }
@@ -186,7 +186,7 @@ draft: false
       row = $("<tr/>")
       key = JSON.parse(keystr)
       key.shift()
-      //Reflect.setPrototypeOf(key[0], method.prototype)
+      Reflect.setPrototypeOf(key[0], method.prototype)
       //Reflect.setPrototypeOf(key[1], DOI.prototype)
       for (const [i,el] of key.entries()) {
         var td = $("<td/>")
@@ -272,11 +272,11 @@ draft: false
     })
     await window.doiCache.addRange(window.filtData.map((d) => d.DOI.string))
     $(sel_ref).empty()
-    for (const el of uniq(window.filtData.map(d => [d.code, d.method.name, d.DOI.string]))) {
+    for (const el of uniq(window.filtData.map(d => [d.code, d.method, d.DOI.string]))) {
       op = $("<option/>", {
         value: JSON.stringify(el)
       }).text(el[1])
-      if (el[1].includes("TBE")) {
+      if (el[1].name.includes("TBE")) {
         $(sel_ref).prepend(op)
       }
       else {
