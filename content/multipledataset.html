@@ -117,7 +117,7 @@ draft: false
       }
     }
     $('#form_dat > fieldset > div > select,#sel_ref').each(function () {
-      $(this).find('option[value!=""]').remove()
+      $(this).empty()
     })
     $('#form_dat > fieldset > div > select').each(async function () {
       const vals = uniq(window.dats.map((d) => { return d[$(this).attr("name")] }))
@@ -271,6 +271,7 @@ draft: false
       })
     })
     await window.doiCache.addRange(window.filtData.map((d) => d.DOI.string))
+    $(sel_ref).empty()
     for (const el of uniq(window.filtData.map(d => [d.code, d.method.name, d.DOI.string]))) {
       op = $("<option/>", {
         value: JSON.stringify(el)
