@@ -1,0 +1,14 @@
+# Molecule : Formamide
+# Comment  : 
+# code     : 
+# method   : CC(3),aug-cc-pVTZ
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     A''          (\mathrm{V};n \rightarrow \pi^\star)    5.66          _              _            false
+  1       1      A_1       1       1     A'           (\mathrm{R};n \rightarrow 3s)           6.83          _              _            false
+  1       1      A_1       1       1     A'           (\mathrm{V};\pi \rightarrow \pi^\star)  7.44          _              _            false
+  1       1      A_1       1       1     A'           (\mathrm{R};n \rightarrow 3p)           7.65          _              _            false
