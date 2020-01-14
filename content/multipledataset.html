@@ -66,8 +66,8 @@ draft: false
   }
   async function loadFiles() {
     processingIndicator.isActive = true
-    var chks=[]
-    var chks = $("#form_datFiles > ul > ul > li >input[type=checkbox]:checked")    
+    var chks = []
+    var chks = $("#form_datFiles > ul > ul > li >input[type=checkbox]:checked")
     var proms = Array.from(chks).flatMap((c) => {
       switch (c.value) {
         case "abs":
@@ -121,6 +121,8 @@ draft: false
             break;
           case "basis":
             return d.method.basis
+          case "DOI":
+            return d.DOI.string
           default:
             return d[$(this).attr("name")]
             break;
@@ -129,25 +131,9 @@ draft: false
       var sets = await getSets()
       for (const val of vals) {
         if (val !== null) {
-          var op = $("<option/>", {
+          $("<option/>", {
             value: JSON.stringify(val)
-          })
-          if ($(this).attr("name") == "DOI") {
-            if (sets.has(val.string)) {
-              str = sets.get(val.string)
-              if (val.IsSupporting) {
-                str += " (SI)"
-              }
-            }
-            else {
-              str = val.toString()
-            }
-            $(op).text(str)
-          }
-          else {
-            $(op).text(val.toString())
-          }
-          op.appendTo(this)
+          }).text(($(this).attr("name")==="DOI" && sets.has(val)) ? sets.get(val) : val.toString()).appendTo(this)
         }
       }
     })
@@ -281,6 +267,9 @@ draft: false
             break;
           case "basis":
             val = d.method.basis
+            break;
+          case "DOI":
+            val = d.DOI.string
             break;
           default:
             val = d[prop]
