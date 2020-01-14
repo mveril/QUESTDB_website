@@ -63,34 +63,28 @@ draft: false
     delete (cbextl)
     delete (allc)
     window.doiCache = new DOICache()
-    $('#form_dat > fieldset > input[type=radio]').on('change', async function (event) {
-      processingIndicator.isActive = true
-      $("#Geom_th,#GSGeom_th,#ESGeom_th").each(function () {
-        $(this).attr("hidden", true)
-      })
-      var result = $(this).val();
-      var proms = [];
-      switch (result) {
+  }
+  async function loadFiles() {
+    processingIndicator.isActive = true
+    var chks=[]
+    var chks = $("#form_datFiles > ul > ul > li >input[type=checkbox]:checked")    
+    var proms = Array.from(chks).flatMap((c) => {
+      switch (c.value) {
         case "abs":
-          proms = getAbsFilesName().map((f) => AbsDataFile.loadAsync(f));
-          $("#Geom_th").attr("hidden", false)
+          return getAbsFilesName().map((f) => AbsDataFile.loadAsync(f));
           break;
         case "fluo":
-          proms = getFluoFilesName().map((f) => FluoDataFile.loadAsync(f));
-          $("#Geom_th").attr("hidden", false)
+          return getFluoFilesName().map((f) => FluoDataFile.loadAsync(f));
           break;
-        case "zpe":
-          proms = getZPEFilesName().map((f) => ZPEDataFile.loadAsync(f));
-          $("#GSGeom_th,#ESGeom_th").each(function () {
-            $(this).attr("hidden", false)
-          })
+        default:
+          return []
           break;
       }
-      window.dats = await Promise.all(proms)
-      processingIndicator.isActive = false
-      reloadFileSelector()
-      await reloadSelect()
     })
+    window.dats = await Promise.all(proms)
+    processingIndicator.isActive = false
+    reloadFileSelector()
+    await reloadSelect()
   }
   function reloadFileSelector() {
     $("#customFiles_input").attr("value", "").attr("disabled", false)
@@ -131,29 +125,29 @@ draft: false
             return d[$(this).attr("name")]
             break;
         }
-       }))
+      }))
       var sets = await getSets()
       for (const val of vals) {
-        if(val!==null) {
+        if (val !== null) {
           var op = $("<option/>", {
-          value: JSON.stringify(val)
-        })
-        if ($(this).attr("name") == "DOI") {
-          if (sets.has(val.string)) {
-            str=sets.get(val.string)
-            if(val.IsSupporting){
-              str+=" (SI)"
+            value: JSON.stringify(val)
+          })
+          if ($(this).attr("name") == "DOI") {
+            if (sets.has(val.string)) {
+              str = sets.get(val.string)
+              if (val.IsSupporting) {
+                str += " (SI)"
+              }
             }
+            else {
+              str = val.toString()
+            }
+            $(op).text(str)
           }
-          else{
-            str=val.toString()
+          else {
+            $(op).text(val.toString())
           }
-          $(op).text(str)
-        }
-        else {
-          $(op).text(val.toString())
-        }
-        op.appendTo(this)          
+          op.appendTo(this)
         }
       }
     })
@@ -176,11 +170,11 @@ draft: false
       for (const exc of d.excitations) {
         const key2 = JSON.stringify([d.molecule, exc.initial, exc.final])
         const keydic = sdatdic.get(key)
-        if ((!exc.isUnsafe || window.filterParams[0]) && ((exc.type & window.filterParams[1])!==0)) {
+        if ((!exc.isUnsafe || window.filterParams[0]) && ((exc.type & window.filterParams[1]) !== 0)) {
           if (!(keydic.has(key2))) {
             keydic.set(key2, [])
           }
-          keydic.get(key2).push(exc.value) 
+          keydic.get(key2).push(exc.value)
         }
       }
     }
@@ -201,13 +195,13 @@ draft: false
       key.shift()
       Reflect.setPrototypeOf(key[0], method.prototype)
       //Reflect.setPrototypeOf(key[1], DOI.prototype)
-      for (const [i,el] of key.entries()) {
+      for (const [i, el] of key.entries()) {
         var td = $("<td/>")
-        if (i===1) {
+        if (i === 1) {
           var publi = doiCache.get(el, true)
           const sets = await getSets()
           if (sets.has(el)) {
-            var str=sets.get(el)
+            var str = sets.get(el)
             $(td).append(str)
           }
           $("<a/>", {
@@ -280,20 +274,20 @@ draft: false
         if (typeof values == "undefined" || values == null) {
           return false
         }
-        var val=null
+        var val = null
         switch (prop) {
           case "method":
-            val=d.method.name
+            val = d.method.name
             break;
           case "basis":
-            val=d.method.basis
+            val = d.method.basis
             break;
           default:
-            val=d[prop]
+            val = d[prop]
             break;
         }
         return values.includes(JSON.stringify(val))
-        delete(val)
+        delete (val)
       })
     })
     await window.doiCache.addRange(window.filtData.map((d) => d.DOI.string))
@@ -354,8 +348,8 @@ draft: false
           }
           const key3 = JSON.stringify(dat.method)
           for (const ex of dat.excitations) {
-            Reflect.setPrototypeOf(ex.type,excitationType.prototype)
-            if ((window.filterParams[1] & ex.type)!==0) {
+            Reflect.setPrototypeOf(ex.type, excitationType.prototype)
+            if ((window.filterParams[1] & ex.type) !== 0) {
               const key2 = JSON.stringify([ex.initial, ex.final, ex.type])
               if (!datadic.get(key1).has(key2)) {
                 datadic.get(key1).set(key2, new Map())
@@ -407,8 +401,8 @@ draft: false
     }
     await reloadStat()
   }
-  async function submitdat(){
-    window.onbeforeunload = () => {return '';}
+  async function submitdat() {
+    window.onbeforeunload = () => { return ''; }
     await reloadContent();
   }
 </script>
@@ -434,16 +428,26 @@ draft: false
     <li>Now you can see the list of selected data and some statistics about these data</li>
   </ol>
 </p>
+<form id="form_datFiles" action="javascript:loadFiles()" method="post">
+  <legend>Data type</legend>
+  <ul class="nestedCbList" style="padding-left: 0em;">
+    <li>
+      <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fileType_All"></input>
+      <label for="cb_fileType_All"> All</label>
+    </li>
+    <ul class="nestedCbList">
+      <li>
+        <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_abs" value="abs" name="datatype">
+        <label for="cb_abs">Absorption</label>
+      </li>
+      <li>
+        <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fluo" value="fluo" name="datatype">
+        <label for="fluo">Fluorescence</label>
+    </ul>
+    </li>
+    <input type="submit" value="Load files" />
+</form>
 <form id="form_dat" action="javascript:submitdat()" method="post">
-  <fieldset>
-    <legend>Data type</legend>
-    <input type="radio" id="abs" value="abs" name="datatype">
-    <label for="abs">Absorption</label>
-    <input type="radio" id="fluo" value="fluo" name="datatype">
-    <label for="fluo">Fluorescence</label>
-    <input type="radio" id="zpe" value="zpe" name="datatype">
-    <label for="zpe">\(\Delta \text{ZPE}\)</label>
-  </fieldset>
   <fieldset>
     <div>
       <label for="customFiles_input">Add custom data file</label>
