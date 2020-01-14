@@ -79,8 +79,8 @@ class method {
   get isTBE() {
     return /^TBE/.test(this.name)
   }
-  get isCorrected() {
-    return /corr$/.test(this.name)
+  get isCorrectedTBE() {
+    return this.name="TBE"
   }
 }
 
