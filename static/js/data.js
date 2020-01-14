@@ -141,7 +141,7 @@ class excitationBase {
           if (initialts.length == 2 && finalts.length == 2) {
             this.type.Value = this.type | excitationTypes.Double
           }
-          else if (initialts.length == 1 && finalt.length == 1) {
+          else if (initialts.length == 1 && finalts.length == 1) {
             this.type.Value = this.type | excitationTypes.Single
           }
           if (initialts.includes("n") && finalts.includes(String.raw`\pi^\star`)) {
