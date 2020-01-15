@@ -1,6 +1,6 @@
 # Molecule : Cyclopropene
 # Comment  : 
-# code     : 
+# code     : MRCC
 # method   : CC2,aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ
 # DOI      : 10.1021/acs.jctc.8b00406,true
