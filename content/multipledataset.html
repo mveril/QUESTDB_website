@@ -68,7 +68,7 @@ draft: false
     processingIndicator.isActive = true
     var chks = []
     var chks = $("#form_datFiles > ul > ul > li >input[type=checkbox]:checked")
-    var proms = Array.from(chks).flatMap((c) => {
+    var proms = Array.from(chks).map((c) => {
       switch (c.value) {
         case "abs":
           return getAbsFilesName().map((f) => AbsDataFile.loadAsync(f));
@@ -81,7 +81,18 @@ draft: false
           break;
       }
     })
-    window.dats = await Promise.all(proms)
+    window.dats=[]
+    for(const subproms of proms){
+      var sub = await Promise.all(subproms)
+      for(mol of uniq(sub.map(d=>d.molecule))){
+        submol=sub.filter(d=>d.molecule==mol)
+        TBE=sub.find((d)=>d.method.isTBE)
+        for(dat of submol.filter((d)=>d!==TBE)){
+          dat.CopyExcitationsTypeFrom(TBE)
+        }
+      }
+      window.dats=window.dats.concat(sub)
+    }
     processingIndicator.isActive = false
     reloadFileSelector()
     await reloadSelect()

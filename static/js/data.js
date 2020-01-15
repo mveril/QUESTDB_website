@@ -207,6 +207,16 @@ class dataFileBase {
     this.DOI = null
     this.sourceFile = null
   }
+  CopyExcitationsTypeFrom(data) {
+    for (const ex of this.excitations) {
+      const ex2=data.excitations.find((e)=>{
+        return (JSON.stringify(e.initial)===JSON.stringify(ex.initial)) && (JSON.stringify(e.final)===JSON.stringify(ex.final))
+      })
+      if(ex2!==undefined){
+        ex.type=ex2.type
+      }
+    }
+  }
   static async loadAsync(file) {
     switch (trueTypeOf(file)) {
       case String.name:
