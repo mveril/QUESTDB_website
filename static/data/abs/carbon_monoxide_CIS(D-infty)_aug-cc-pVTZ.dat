@@ -1,7 +1,7 @@
-# Molecule : Carbon monoxyde
+# Molecule : Carbon monoxide
 # Comment  : 
 # code     : MRCC
-# method   : ADC(2),aug-cc-pVTZ
+# method   : CIS(D∞),aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ
 # DOI      : 10.1021/acs.jctc.8b00406,true
 
