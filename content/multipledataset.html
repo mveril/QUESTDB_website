@@ -81,17 +81,17 @@ draft: false
           break;
       }
     })
-    window.dats=[]
-    for(const subproms of proms){
+    window.dats = []
+    for (const subproms of proms) {
       var sub = await Promise.all(subproms)
-      for(mol of uniq(sub.map(d=>d.molecule))){
-        submol=sub.filter(d=>d.molecule==mol)
-        TBE=sub.find((d)=>d.method.isTBE)
-        for(dat of submol.filter((d)=>d!==TBE)){
+      for (mol of uniq(sub.map(d => d.molecule))) {
+        submol = sub.filter(d => d.molecule == mol)
+        TBE = sub.find((d) => d.method.isTBE)
+        for (dat of submol.filter((d) => d !== TBE)) {
           dat.CopyExcitationsTypeFrom(TBE)
         }
       }
-      window.dats=window.dats.concat(sub)
+      window.dats = window.dats.concat(sub)
     }
     processingIndicator.isActive = false
     reloadFileSelector()
@@ -144,7 +144,7 @@ draft: false
         if (val !== null) {
           $("<option/>", {
             value: JSON.stringify(val)
-          }).text(($(this).attr("name")==="DOI" && sets.has(val)) ? sets.get(val) : val.toString()).appendTo(this)
+          }).text(($(this).attr("name") === "DOI" && sets.has(val)) ? sets.get(val) : val.toString()).appendTo(this)
         }
       }
     })
@@ -407,6 +407,14 @@ draft: false
   }
 </script>
 {{< getDataFilesName >}}
+<noscript>
+  <p style="background-color: red; font-size: 20;">
+    <span role="img" style="font-family: color-emoji;">⚠</span>
+    <span style="color: white; font-weight: bold;">This website work only if JavaScript is enable. You must enable
+      JavaScript.
+      <a href="https://www.enable-javascript.com/" target="_blank">How to enable JavaScript ?</a></span>
+  </p>
+</noscript>
 <p>
   In this page you can compare multiple dataset and have somme statistics to evaluate method or basis accuracy.
   For this follow this steps
@@ -463,7 +471,7 @@ draft: false
       <label for="mol_select">Molecule</label>
       <select multiple id="mol_select" name="molecule"></select>
     </div>
-    <br/>
+    <br />
     <div style="display: inline-block;">
       <label for="method_select">Method</label>
       <select multiple id="method_select" name="method"></select>
