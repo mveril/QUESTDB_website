@@ -4,6 +4,10 @@ DateForm = "12-30-2006"
 title = "exdatabaseLCPQ"
 DefaultContentLanguage = "en"
 theme = "beautifulhugo"
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
 [Author]
   name = "M. Véril"
   email = "mveril@irsamc.ups-tlse.fr"
