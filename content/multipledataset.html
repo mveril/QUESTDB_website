@@ -375,7 +375,7 @@ draft: false
             $("<td/>").text(String.raw`${LatexInline[0]}${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} (${ex[2].LaTeX}) ${LatexInline[1]}`).appendTo(tr)
             var entries = Array.from(exdat.entries())
             for (const method of sortedMethods) {
-              td = $("<td/>")
+              td = $("<td/>").addClass("NumberCell")
               kv = entries.find(x => {
                 return JSON.stringify(method) == x[0]
               })

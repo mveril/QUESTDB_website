@@ -1,3 +1,6 @@
 table.datatable > tbody > tr > td {
   white-space: nowrap;
 }
+td.NumberCell {
+  text-align: center;
+}
