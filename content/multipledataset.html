@@ -87,8 +87,7 @@ draft: false
     processingIndicator.isActive = false
     await reloadSelect()
   }
-
-  async function reloadSelect() {
+  async function reloadCustomFiles() {
     window.dats = window.defaultDats;
     const kinds=new Map([["file_abs", VertExcitationKinds.Absorbtion], ["file_fluo", VertExcitationKinds.Fluorescence]])
     for (const el of $('#form_dat > fieldset > div > input[type="file"')) {
@@ -99,6 +98,9 @@ draft: false
         }
       }
     }
+  }
+  async function reloadSelect() {
+    reloadCustomFiles()
     $('#form_dat > fieldset > div > select,#sel_ref').each(function () {
       $(this).empty()
     })
