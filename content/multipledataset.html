@@ -99,11 +99,14 @@ draft: false
       }
     }
   }
-  async function reloadSelect() {
-    reloadCustomFiles()
+  async function clearSelect() {    
     $('#form_dat > fieldset > div > select,#sel_ref').each(function () {
       $(this).empty()
     })
+  }
+  async function reloadSelect() {
+    reloadCustomFiles()
+    clearSelect()
     $('#form_dat > fieldset > div > select').each(async function () {
       const vals = uniq(window.dats.map((d) => {
         switch ($(this).attr("name")) {
