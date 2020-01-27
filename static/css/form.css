@@ -5,6 +5,9 @@ ul.nestedCbList {
   list-style-type: none;
   padding-left: 1em;
 }
+form button.SelectAll {
+  display: block;
+}
 form label{
   padding-left: 5px;
   padding-right: 5px;

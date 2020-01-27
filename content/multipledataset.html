@@ -21,6 +21,7 @@ draft: false
   type="text/javascript"></script>
 <script src="/js/DOICache.js"></script>
 <script src="/js/nestedCheckbox.js"></script>
+<script src="/js/selectSelectAll.js"></script>
 <script src="https://unpkg.com/simple-statistics@7.0.2/dist/simple-statistics.min.js"></script>
 <script>
   window.onload = async () => {
@@ -63,25 +64,15 @@ draft: false
     delete (cbextl)
     delete (allc)
     window.doiCache = new DOICache()
+    await loadFiles()
   }
   async function loadFiles() {
     processingIndicator.isActive = true
     var chks = []
-    var chks = $("#form_datFiles > ul > ul > li >input[type=checkbox]:checked")
-    var proms = Array.from(chks).map((c) => {
-      switch (c.value) {
-        case "abs":
-          return getAbsFilesName().map((f) => AbsDataFile.loadAsync(f));
-          break;
-        case "fluo":
-          return getFluoFilesName().map((f) => FluoDataFile.loadAsync(f));
-          break;
-        default:
-          return []
-          break;
-      }
-    })
-    window.dats = []
+    proms = []
+    proms.push(getAbsFilesName().map((f) => VertDataFile.loadAsync(f, VertExcitationKinds.Absorbtion)));
+    proms.push(getFluoFilesName().map((f) => VertDataFile.loadAsync(f, VertExcitationKinds.Fluorescence)))
+    window.defaultDats = []
     for (const subproms of proms) {
       var sub = await Promise.all(subproms)
       for (mol of uniq(sub.map(d => d.molecule))) {
@@ -91,34 +82,21 @@ draft: false
           dat.CopyExcitationsTypeFrom(TBE)
         }
       }
-      window.dats = window.dats.concat(sub)
+      window.defaultDats = window.defaultDats.concat(sub)
     }
     processingIndicator.isActive = false
-    reloadFileSelector()
     await reloadSelect()
-  }
-  function reloadFileSelector() {
-    $("#customFiles_input").attr("value", "").attr("disabled", false)
   }
 
   async function reloadSelect() {
-    processingIndicator.isActive = true
-    radioval = $('#form_dat > fieldset > input[name=datatype]:checked').val();
-    const files = $("#customFiles_input")[0].files
-    for (file of [...files]) {
-      switch (radioval) {
-        case "abs":
-          var dat = await AbsDataFile.loadAsync(file)
+    window.dats = window.defaultDats;
+    const kinds=new Map([["file_abs", VertExcitationKinds.Absorbtion], ["file_fluo", VertExcitationKinds.Fluorescence]])
+    for (const el of $('#form_dat > fieldset > div > input[type="file"')) {
+      if (kinds.has(el.name)) {
+        for (const f of el.files) {
+          const dat=await VertDataFile.loadAsync(f, kinds.get(this.name))
           window.dats.push(dat)
-          break;
-        case "fluo":
-          dat = await FluoDataFile.loadAsync(file)
-          window.dats.push(dat)
-          break;
-        case "ZPE":
-          dat = await ZPEDataFile.loadAsync(file)
-          window.dats.push(dat)
-          break;
+        }
       }
     }
     $('#form_dat > fieldset > div > select,#sel_ref').each(function () {
@@ -150,7 +128,6 @@ draft: false
     })
     $('#form_dat > input[type="submit"').prop('disabled', false);
     processingIndicator.isActive = false
-    await reloadContent()
   }
   async function reloadStat() {
     processingIndicator.isActive = true
@@ -165,9 +142,9 @@ draft: false
         sdatdic.set(key, new Map())
       }
       for (const exc of d.excitations) {
-        const key2 = JSON.stringify([d.molecule, exc.initial, exc.final])
+        const key2 = JSON.stringify([d.molecule, exc.initial, exc.final, exc.cVertExcitationKind])
         const keydic = sdatdic.get(key)
-        if ((!exc.isUnsafe || window.filterParams[0]) && ((exc.type & window.filterParams[1]) !== 0)) {
+        if ((!exc.isUnsafe || window.filterParams[0]) && ((exc.type & window.filterParams[1]) !== 0) && ((exc.VertExcitationKind & window.filterParams[2]) !== 0)) {
           if (!(keydic.has(key2))) {
             keydic.set(key2, [])
           }
@@ -259,7 +236,7 @@ draft: false
     processingIndicator.isActive = false
   }
   async function reloadContent() {
-    window.filterParams = [$("#cb_unsafe").prop("checked"), Array.from(Array.from($("#cb_exTypeList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0)]
+    window.filterParams = [$("#cb_unsafe").prop("checked"), Array.from(Array.from($("#cb_exTypeList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0), Array.from(Array.from($("#cb_exVertKindList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0)]
     doiCache.clear()
     processingIndicator.isActive = true
     const LatexInline = ['\\(', '\\)']
@@ -349,8 +326,8 @@ draft: false
           const key3 = JSON.stringify(dat.method)
           for (const ex of dat.excitations) {
             Reflect.setPrototypeOf(ex.type, excitationType.prototype)
-            if ((window.filterParams[1] & ex.type) !== 0) {
-              const key2 = JSON.stringify([ex.initial, ex.final, ex.type])
+            if (((window.filterParams[1] & ex.type) !== 0) && ((window.filterParams[2] & ex.VertExcitationKind) !== 0)) {
+              const key2 = JSON.stringify([ex.initial, ex.final, ex.type, ex.VertExcitationKind])
               if (!datadic.get(key1).has(key2)) {
                 datadic.get(key1).set(key2, new Map())
               }
@@ -365,6 +342,7 @@ draft: false
             Reflect.setPrototypeOf(ex[0], state.prototype)
             Reflect.setPrototypeOf(ex[1], state.prototype)
             Reflect.setPrototypeOf(ex[2], excitationType.prototype)
+            Reflect.setPrototypeOf(ex[3], VertExcitationKind.prototype)
             var tr = $("<tr/>")
             var tdmol = $("<td/>")
             if (printmol) {
@@ -372,7 +350,11 @@ draft: false
               printmol = false
             }
             tr.append(tdmol)
-            $("<td/>").text(String.raw`${LatexInline[0]}${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} (${ex[2].LaTeX}) ${LatexInline[1]}`).appendTo(tr)
+            var Vertkindtext = ""
+            if (ex[3].Value == VertExcitationKinds.Fluorescence.Value) {
+              Vertkindtext = String.raw`[${VertExcitationKinds.Fluorescence.LaTeX}]`
+            }
+            $("<td/>").text(String.raw`${LatexInline[0]}${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} ${Vertkindtext}(${ex[2].LaTeX}) ${LatexInline[1]}`).appendTo(tr)
             var entries = Array.from(exdat.entries())
             for (const method of sortedMethods) {
               td = $("<td/>").addClass("NumberCell")
@@ -436,50 +418,58 @@ draft: false
     <li>Now you can see the list of selected data and some statistics about these data</li>
   </ol>
 </p>
-<form id="form_datFiles" action="javascript:loadFiles()" method="post">
-  <legend>Data type</legend>
-  <ul class="nestedCbList" style="padding-left: 0em;">
-    <li>
-      <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fileType_All"></input>
-      <label for="cb_fileType_All"> All</label>
-    </li>
-    <ul class="nestedCbList">
-      <li>
-        <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_abs" value="abs" name="datatype">
-        <label for="cb_abs">Absorption</label>
-      </li>
-      <li>
-        <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fluo" value="fluo" name="datatype">
-        <label for="fluo">Fluorescence</label>
-    </ul>
-    </li>
-    <input type="submit" value="Load files" />
-</form>
 <form id="form_dat" action="javascript:submitdat()" method="post">
   <fieldset>
+    <legend>Import custom files</legend>
     <div>
-      <label for="customFiles_input">Add custom data file</label>
-      <input type="file" multiple onchange="reloadSelect()" id="customFiles_input" disabled=true></input>
+      <label for="absFiles_input">Add custom absorption data files</label>
+      <input type="file" multiple onchange="reloadSelect()" id="absFiles_input" name="file_abs"></input>
+    </div>
+    <div>
+      <label for="fluoFiles_input">Add custom fluorescence data files</label>
+      <input type="file" multiple onchange="reloadSelect()" id="fluoFiles_input" name="file_fluo"></input>
     </div>
   </fieldset>
   <fieldset class="table">
     <div style="display: inline-block;">
-      <label for="DOI_select">Set</label>
+      <label for="DOI_select">Sets</label>
+      <button class="SelectAll" onclick="selectSelectAll_click(event)">Select all</button>
       <select multiple id="DOI_select" name="DOI"></select>
     </div>
     <div style="display:inline-block">
-      <label for="mol_select">Molecule</label>
+      <label for="mol_select">Molecules</label>
+      <button class="SelectAll" onclick="selectSelectAll_click(event)">Select all</button>
       <select multiple id="mol_select" name="molecule"></select>
     </div>
     <br />
     <div style="display: inline-block;">
-      <label for="method_select">Method</label>
+      <label for="method_select">Methods</label>
+      <button class="SelectAll" onclick="selectSelectAll_click(event)">Select all</button>
       <select multiple id="method_select" name="method"></select>
     </div>
     <div style="display: inline-block;">
-      <label for="basis_select">Basis</label>
+      <label for="basis_select">Basis sets</label>
+      <button class="SelectAll" onclick="selectSelectAll_click(event)">Select all</button>
       <select multiple id="basis_select" name="basis"></select>
     </div>
+  </fieldset>
+  <fieldset>
+    <legend>Vertical excitation kind</legend>
+    <ul class="nestedCbList" style="padding-left: 0em;">
+      <li>
+        <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fileType_All"></input>
+        <label for="cb_fileType_All"> All</label>
+      </li>
+      <ul class="nestedCbList" id="cb_exVertKindList">
+        <li>
+          <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_abs" value="1" name="datatype">
+          <label for="cb_abs">Absorption</label>
+        </li>
+        <li>
+          <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fluo" value="2" name="datatype">
+          <label for="fluo">Fluorescence</label>
+      </ul>
+      </li>
   </fieldset>
   <fieldset id="excitationFilter">
     <legend>Filters</legend>

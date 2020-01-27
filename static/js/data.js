@@ -1,12 +1,12 @@
 class excitationTypes {
-  static get VALENCE() { return new excitationType(1, String.raw`\mathrm{V}`) }
-  static get RYDBERG() { return new excitationType(1 << 1, String.raw`\mathrm{R}`) }
-  static get PiPis() { return new excitationType(1 << 2, String.raw`\pi \rightarrow \pi^\star`) }
-  static get nPis() { return new excitationType(1 << 3, String.raw`n \rightarrow \pi^\star`) }
-  static get Single() { return new excitationType(1 << 4, "S") }
-  static get Double() { return new excitationType(1 << 5, "D") }
-  static get Singlet() { return new excitationType(1 << 6, "1") }
-  static get Triplet() { return new excitationType(1 << 7, "3") }
+  static get VALENCE() { return new excitationType(1<< 1, String.raw`\mathrm{V}`) }
+  static get RYDBERG() { return new excitationType(1 << 2, String.raw`\mathrm{R}`) }
+  static get PiPis() { return new excitationType(1 << 3, String.raw`\pi \rightarrow \pi^\star`) }
+  static get nPis() { return new excitationType(1 << 4, String.raw`n \rightarrow \pi^\star`) }
+  static get Single() { return new excitationType(1 << 5, "S") }
+  static get Double() { return new excitationType(1 << 6, "D") }
+  static get Singlet() { return new excitationType(1 << 7, "1") }
+  static get Triplet() { return new excitationType(1 << 8, "3") }
   // Max bit shifts is 31 because int are int32 So 1 << 31 are -2147483648
   static get Others() { return new excitationType(1 << 31, String.raw`\mathrm{Others}`) }
   static get All() {
@@ -25,7 +25,8 @@ class excitationTypes {
     return this.All().filter((x) => { value & x[1] })
   }
 }
-class excitationType {
+
+class LaTeXDescribedValueBase {
   constructor(value, laTeX) {
     this.Value = value;
     this.LaTeX = laTeX
@@ -33,6 +34,12 @@ class excitationType {
   valueOf() {
     return this.Value;
   }
+}
+
+class excitationType extends LaTeXDescribedValueBase{
+}
+class VertExcitationKind extends LaTeXDescribedValueBase{
+
 }
 class code {
   constructor(name, version) {
@@ -207,6 +214,10 @@ class dataFileBase {
     this.DOI = null
     this.sourceFile = null
   }
+  static _GetMetaRexEx() {
+    //metadata RegExp (start with #; maybe somme spaces; : ; maybe somme space; datas)
+    return /^#\s*([A-Za-z_]+)\s*:\s*(.*)$/;
+  }
   CopyExcitationsTypeFrom(data) {
     for (const ex of this.excitations) {
       const ex2=data.excitations.find((e)=>{
@@ -217,7 +228,7 @@ class dataFileBase {
       }
     }
   }
-  static async loadAsync(file) {
+  static async loadAsync(file,kind=undefined) {
     switch (trueTypeOf(file)) {
       case String.name:
         file = getFullDataPath(file)
@@ -227,68 +238,67 @@ class dataFileBase {
         var str = await getTextFromUploadedFileAsync(file)
         break
     }
-    var dat = this.loadString(str);
+    var dat = this.loadString(str,kind);
     dat.sourceFile = new websiteFile(file)
     return dat
   }
-  static readmetaPair(key, value, dat) {
+  _OnReadMetaPair(key, value) {
     switch (key) {
       case "molecule":
-        dat.molecule = value
+        this.molecule = value
         break;
       case "comment":
-        dat.comment = value
+        this.comment = value
         break;
       case "code":
-        dat.code = code.fromString(value)
+        this.code = code.fromString(value)
         break;
       case "method":
-        dat.method = method.fromString(value)
+        this.method = method.fromString(value)
         break;
       case "doi":
-        dat.DOI = DOI.fromString(value);
+        this.DOI = DOI.fromString(value);
         break;
       default:
     }
   }
-  static loadString(text) {
-    // for each line with metadata
-    var ismetaArea = true;
-    //metadata RegExp (start with #; maybe somme spaces; : ; maybe somme space; datas)
-    var meta = /^#\s*([A-Za-z_]+)\s*:\s*(.*)$/;
-    var classname = this.name
-    var dat = eval(String.raw`new ${this.name}()`)
-    function readmeta(line) {
-      // get key value
-      var match = line.match(meta)
-      // normalize key to lower
-      var key = match[1].toLowerCase()
-      //if data has value
-      if (match.length == 3 && match[2]) {
-        var val = match[2]
-        eval(String.raw`${classname}.readmetaPair(key,val,dat)`)
+  _OnReadRow(line) {
+    var vals = line.match(/\([^\)]+\)|\S+/g)
+    var start = new state(parseInt(vals[0], 10), parseInt(vals[1], 10), vals[2]);
+    var end = new state(parseInt(vals[3], 10), parseInt(vals[4],10), vals[5]);
+    var hasType = vals.length >= 7 && isNaN(vals[6])
+    var type = ((vals.length >= 7 && hasType) ? vals[6] : null)
+    if (type) {
+      const m = type.match(/^\(([^\)]*)\)$/)
+      if (m) {
+        type = m[1]
       }
     }
-    function readrow(line) {
-      var vals = line.match(/\([^\)]+\)|\S+/g)
-      var start = new state(parseInt(vals[0], 10), parseInt(vals[1], 10), vals[2]);
-      var end = new state(parseInt(vals[3], 10), parseInt(vals[4],10), vals[5]);
-      var hasType = vals.length >= 7 && isNaN(vals[6])
-      var type = ((vals.length >= 7 && hasType) ? vals[6] : null)
-      if (type) {
-        const m = type.match(/^\(([^\)]*)\)$/)
-        if (m) {
-          type = m[1]
-        }
-      }
-      var val = ((vals.length >= 7 + hasType) ? parseFloat(vals[6 + hasType], 10) : NaN)
-      var oscilatorForces = ((vals.length >= 8 + hasType) ? parseFloat(vals[7 + hasType], 10) : NaN)
-      var T1 = ((vals.length >= 9 + hasType) ? parseFloat(vals[8 + hasType], 10) : NaN)
-      var isUnsafe = ((vals.length >= 10 + hasType) ? vals[9 + hasType] === true.toString() : false)
-      var ex = new excitationValue(start, end, type, val, oscilatorForces, T1, isUnsafe);
-      dat.excitations.push(ex);
-    };
-
+    var val = ((vals.length >= 7 + hasType) ? parseFloat(vals[6 + hasType], 10) : NaN)
+    var oscilatorForces = ((vals.length >= 8 + hasType) ? parseFloat(vals[7 + hasType], 10) : NaN)
+    var T1 = ((vals.length >= 9 + hasType) ? parseFloat(vals[8 + hasType], 10) : NaN)
+    var isUnsafe = ((vals.length >= 10 + hasType) ? vals[9 + hasType] === true.toString() : false)
+    var ex = new excitationValue(start, end, type, val, oscilatorForces, T1, isUnsafe);
+    if (this.VertExcitationKind) {
+      ex.VertExcitationKind=this.VertExcitationKind
+    }
+    return ex;
+  };
+  _OnReadMeta(line) {
+    // get key value
+    var match = line.match(dataFileBase._GetMetaRexEx())
+    // normalize key to lower
+    var key = match[1].toLowerCase()
+    //if data has value
+    if (match.length == 3 && match[2]) {
+      var val = match[2]
+      this._OnReadMetaPair(key,val)
+    }
+  }
+  static loadString(text,kind=null) {
+    // for each line with metadata
+    var ismetaArea = true;
+    var dat = new VertDataFile()
     for (var line of text.split("\n")) {
       //if it's not empty line
       line = line.trim();
@@ -296,61 +306,43 @@ class dataFileBase {
         //if # may be metadata or comment
         if (line.charAt(0) == "#") {
           //if it's metadata
-          if (ismetaArea && meta.test(line)) {
-            readmeta(line);
+          if (ismetaArea && dataFileBase._GetMetaRexEx().test(line)) {
+            dat._OnReadMeta(line);
           }
         } else { //else its row
           ismetaArea = false;
-          readrow(line);
+          dat.excitations.push(dat._OnReadRow(line,kind));
         }
       }
     }
     return dat
   }
 }
-
-class oneStateDataFileBase extends dataFileBase {
-  constructor() {
+class VertExcitationKinds{
+  static get Absorbtion() {return new VertExcitationKind(1, String.raw`\mathrm{A}`)}
+  static get Fluorescence() {return new VertExcitationKind(1<<1, String.raw`\mathrm{F}`)}  
+}
+class VertDataFile extends dataFileBase {
+  constructor(VertExcitationKind) {
     super()
+    this.VertExcitationKind=VertExcitationKind
     this.geometry = null
   }
-  static readmetaPair(key, value, dat) {
+   _OnReadMetaPair(key, value) {
     if (key == "geom") {
-      dat.geometry = method.fromString(value)
+      this.geometry = method.fromString(value)
     }
     else {
-      dataFileBase.readmetaPair(key, value, dat)
+      super._OnReadMetaPair(key, value)
     }
   }
-}
-class AbsDataFile extends oneStateDataFileBase {
-
-}
-class FluoDataFile extends oneStateDataFileBase {
-
-}
-class twoStateDataFileBase extends dataFileBase {
-  constructor() {
-    super()
-    this.GS = null
-    this.ES = null
-  }
-  static readmetaPair(key, value, dat) {
-    switch (key) {
-      case "gs":
-        dat.GS = method.fromString(value)
-        break;
-      case "es":
-        dat.ES = method.fromString(value)
-        break;
-      default:
-        dataFileBase.readmetaPair(key, value, dat)
-    }
+  _OnReadRow(line,kind) {
+    var ex=super._OnReadRow(line)
+    ex.VertExcitationKind=kind
+    return ex
   }
 }
-class ZPEDataFile extends twoStateDataFileBase {
 
-}
 class CombinedData {
   constructor() {
     this.Abs = null
