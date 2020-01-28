@@ -85,54 +85,91 @@ draft: false
       window.defaultDats = window.defaultDats.concat(sub)
     }
     processingIndicator.isActive = false
-    await reloadSelect()
+    reloadCustomFiles()
   }
   async function reloadCustomFiles() {
     window.dats = window.defaultDats;
-    const kinds=new Map([["file_abs", VertExcitationKinds.Absorbtion], ["file_fluo", VertExcitationKinds.Fluorescence]])
+    const kinds = new Map([["file_abs", VertExcitationKinds.Absorbtion], ["file_fluo", VertExcitationKinds.Fluorescence]])
     for (const el of $('#form_dat > fieldset > div > input[type="file"')) {
       if (kinds.has(el.name)) {
         for (const f of el.files) {
-          const dat=await VertDataFile.loadAsync(f, kinds.get(this.name))
+          const dat = await VertDataFile.loadAsync(f, kinds.get(this.name))
           window.dats.push(dat)
         }
       }
     }
+    reloadSelect("DOI")
   }
-  async function clearSelect() {    
-    $('#form_dat > fieldset > div > select,#sel_ref').each(function () {
+  async function clearSelect(BeforeName = null) {
+    var selects = ((BeforeName == null) ? getAllSelect() : getAllSelectAfter(BeforeName, true))
+    selects.add($('#sel_ref'))
+    selects.each(function () {
       $(this).empty()
     })
   }
-  async function reloadSelect() {
-    reloadCustomFiles()
-    clearSelect()
-    $('#form_dat > fieldset > div > select').each(async function () {
-      const vals = uniq(window.dats.map((d) => {
-        switch ($(this).attr("name")) {
-          case "method":
-            return d.method.name
-            break;
-          case "basis":
-            return d.method.basis
-          case "DOI":
-            return d.DOI.string
-          default:
-            return d[$(this).attr("name")]
-            break;
-        }
-      }))
-      var sets = await getSets()
-      for (const val of vals) {
-        if (val !== null) {
-          $("<option/>", {
-            value: JSON.stringify(val)
-          }).text(($(this).attr("name") === "DOI" && sets.has(val)) ? sets.get(val) : val.toString()).appendTo(this)
-        }
+
+  function getAllSelect() {
+    return $('#form_dat > fieldset > div > select')
+  }
+
+  function getAllSelectAfter(Name, include=false) {
+    const selects=getAllSelect()
+    var index = selects.index($(`[name="${Name}"]`))
+    if (!include) {
+      index++
+    }
+    return selects.slice(index)
+  }
+  function getAllSelectBefore(Name, include = false) {
+    const selects=getAllSelect()
+    var index = selects.index($(`[name="${Name}"]`))
+    if (include) {
+      index++
+    }
+    return selects.slice(0, index)
+  }
+  async function reloadNextSelect(e) {
+    const afters=getAllSelectAfter(e.target.name)
+    const isLast=afters.length==0
+    if (!isLast) {
+      await reloadSelect(afters.prop("name"))
+    }
+    var submit=$(e.target.form).find(':submit')
+    submit.prop("disabled",!isLast)
+    
+  }
+  async function reloadSelect(name) {
+    clearSelect(name)
+    var selects = getAllSelectBefore(name, true)
+    var currentselect = selects.last()
+    selects = selects.slice(0,selects.length-1)
+    const vals = uniq(window.dats.filter(d => {
+      return Array.from(selects).every((el)=>{
+         return $(el).val().includes(getSelectValue(d, el.name))
+      })
+    }).map((d) => getSelectValue(d, name)))
+    const sets=(name==="DOI") ? await getSets() : undefined
+    for (const val of vals) {
+      if (val !== null) {
+        $("<option/>", {
+          value: val
+        }).text((name === "DOI" && sets.has(val)) ? sets.get(val) : val.toString()).appendTo(currentselect)
       }
-    })
-    $('#form_dat > input[type="submit"').prop('disabled', false);
-    processingIndicator.isActive = false
+    }
+  }
+  function getSelectValue(data, name) {
+    switch (name) {
+      case "method":
+        return data.method.name
+        break;
+      case "basis":
+        return data.method.basis
+      case "DOI":
+        return data.DOI.string
+      default:
+        return data[name]
+        break;
+    }
   }
   async function reloadStat() {
     processingIndicator.isActive = true
@@ -253,22 +290,7 @@ draft: false
         if (typeof values == "undefined" || values == null) {
           return false
         }
-        var val = null
-        switch (prop) {
-          case "method":
-            val = d.method.name
-            break;
-          case "basis":
-            val = d.method.basis
-            break;
-          case "DOI":
-            val = d.DOI.string
-            break;
-          default:
-            val = d[prop]
-            break;
-        }
-        return values.includes(JSON.stringify(val))
+        return values.includes(getSelectValue(d,prop))
         delete (val)
       })
     })
@@ -428,34 +450,34 @@ draft: false
     <legend>Import custom files</legend>
     <div>
       <label for="absFiles_input">Add custom absorption data files</label>
-      <input type="file" multiple onchange="reloadSelect()" id="absFiles_input" name="file_abs"></input>
+      <input type="file" multiple onchange="reloadCustomFiles()" id="absFiles_input" name="file_abs"></input>
     </div>
     <div>
       <label for="fluoFiles_input">Add custom fluorescence data files</label>
-      <input type="file" multiple onchange="reloadSelect()" id="fluoFiles_input" name="file_fluo"></input>
+      <input type="file" multiple onchange="reloadCustomFiles()" id="fluoFiles_input" name="file_fluo"></input>
     </div>
   </fieldset>
   <fieldset class="table">
     <div style="display: inline-block;">
       <label for="DOI_select">Sets</label>
       <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="DOI_select" name="DOI"></select>
+      <select multiple id="DOI_select" name="DOI" onchange="reloadNextSelect(event)"></select>
     </div>
     <div style="display:inline-block">
       <label for="mol_select">Molecules</label>
       <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="mol_select" name="molecule"></select>
+      <select multiple id="mol_select" name="molecule" onchange="reloadNextSelect(event)"></select>
     </div>
     <br />
     <div style="display: inline-block;">
       <label for="method_select">Methods</label>
       <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="method_select" name="method"></select>
+      <select multiple id="method_select" name="method" onchange="reloadNextSelect(event)"></select>
     </div>
     <div style="display: inline-block;">
       <label for="basis_select">Basis sets</label>
       <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="basis_select" name="basis"></select>
+      <select multiple id="basis_select" name="basis" onchange="reloadNextSelect(event)"></select>
     </div>
   </fieldset>
   <fieldset>
