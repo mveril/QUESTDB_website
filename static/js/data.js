@@ -9,20 +9,25 @@ class excitationTypes {
   static get Triplet() { return new excitationType(1 << 8, "3") }
   // Max bit shifts is 31 because int are int32 So 1 << 31 are -2147483648
   static get Others() { return new excitationType(1 << 31, String.raw`\mathrm{Others}`) }
-  static get All() {
+  static get All() { return EnumUltils.getAll(this,excitationType)}
+  static GetFlags(value){return EnumUltils.GetFlags(value,this,excitationType)}
+}
+
+class EnumUltils{
+  static getAll(enumClass,valueType) {
     var lst = []
-    for (const prop of Object.getOwnPropertyNames(excitationTypes)) {
+    for (const prop of Object.getOwnPropertyNames(enumClass)) {
       if (prop != "All") {
-        const value = excitationTypes[prop]
-        if (trueTypeOf(value) == excitationType.name) {
+        const value = enumClass[prop]
+        if (trueTypeOf(value) == valueType.name) {
           lst.push([prop, value])
         }
       }
     }
     return lst
   }
-  static GetFlags(value) {
-    return this.All().filter((x) => { value & x[1] })
+  static GetFlags(value,enumClass,valueType) {
+    return this.getAll(enumClass,valueType).filter((x) => { value & x[1] })
   }
 }
 
@@ -321,6 +326,8 @@ class dataFileBase {
 class VertExcitationKinds{
   static get Absorbtion() {return new VertExcitationKind(1, String.raw`\mathrm{A}`)}
   static get Fluorescence() {return new VertExcitationKind(1<<1, String.raw`\mathrm{F}`)}  
+  static get All() { return EnumUltils.getAll(this,VertExcitationKind)}
+  static GetFlags(value){return EnumUltils.GetFlags(value,this,VertExcitationKind)}
 }
 class VertDataFile extends dataFileBase {
   constructor(VertExcitationKind) {
