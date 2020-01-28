@@ -26,8 +26,16 @@ draft: false
 <script>
   window.onload = async () => {
     const LatexInline = ['\\(', '\\)']
+    var slist = $("#SelectList")
+    getAllSelect().each(function () {
+      $("<li/>").text($('label[for="' + $(this).attr('id') + '"]').text()).appendTo(slist)
+    })
     var cbextl = $("#cb_exTypeList")
-    var allc = $("#AllowList>li:last-child")
+    var extl = $("#exTypeList")
+    var vertkindtl=$("#exVertKindList")
+    for (const [name, value] of VertExcitationKinds.All) {
+      $("<li/>").text(name).appendTo(vertkindtl)
+    }
     for (const [name, value] of excitationTypes.All) {
       var description = null
       switch (Number(value)) {
@@ -54,7 +62,7 @@ draft: false
           description = null;
           break;
       }
-      $("<li/>").text(LatexInline[0] + value.LaTeX + LatexInline[1] + (description == null ? '' : ": " + description)).insertBefore(allc)
+      $("<li/>").text(LatexInline[0] + value.LaTeX + LatexInline[1] + (description == null ? '' : ": " + description)).appendTo(extl)
       var cbli = $("<li/>")
       $("<input/>", { type: "checkbox", id: "cb_" + name, name: name, value: Number(value) }).change(nestedCheckbox_change).appendTo(cbli);
       $('<label />', { 'for': 'cb_' + name, text: LatexInline[0] + value.LaTeX + LatexInline[1] + (description == null ? '' : ": " + description) }).appendTo(cbli);
@@ -62,7 +70,8 @@ draft: false
     }
     await MathJax.typesetPromise();
     delete (cbextl)
-    delete (allc)
+    delete (extl)
+    delete (vertkindtl)
     window.doiCache = new DOICache()
     await loadFiles()
   }
@@ -112,8 +121,8 @@ draft: false
     return $('#form_dat > fieldset > div > select')
   }
 
-  function getAllSelectAfter(Name, include=false) {
-    const selects=getAllSelect()
+  function getAllSelectAfter(Name, include = false) {
+    const selects = getAllSelect()
     var index = selects.index($(`[name="${Name}"]`))
     if (!include) {
       index++
@@ -121,7 +130,7 @@ draft: false
     return selects.slice(index)
   }
   function getAllSelectBefore(Name, include = false) {
-    const selects=getAllSelect()
+    const selects = getAllSelect()
     var index = selects.index($(`[name="${Name}"]`))
     if (include) {
       index++
@@ -129,26 +138,26 @@ draft: false
     return selects.slice(0, index)
   }
   async function reloadNextSelect(e) {
-    const afters=getAllSelectAfter(e.target.name)
-    const isLast=afters.length==0
+    const afters = getAllSelectAfter(e.target.name)
+    const isLast = afters.length == 0
     if (!isLast) {
       await reloadSelect(afters.prop("name"))
     }
-    var submit=$(e.target.form).find(':submit')
-    submit.prop("disabled",!isLast)
-    
+    var submit = $(e.target.form).find(':submit')
+    submit.prop("disabled", !isLast)
+
   }
   async function reloadSelect(name) {
     clearSelect(name)
     var selects = getAllSelectBefore(name, true)
     var currentselect = selects.last()
-    selects = selects.slice(0,selects.length-1)
+    selects = selects.slice(0, selects.length - 1)
     const vals = uniq(window.dats.filter(d => {
-      return Array.from(selects).every((el)=>{
-         return $(el).val().includes(getSelectValue(d, el.name))
+      return Array.from(selects).every((el) => {
+        return $(el).val().includes(getSelectValue(d, el.name))
       })
     }).map((d) => getSelectValue(d, name)))
-    const sets=(name==="DOI") ? await getSets() : undefined
+    const sets = (name === "DOI") ? await getSets() : undefined
     for (const val of vals) {
       if (val !== null) {
         $("<option/>", {
@@ -290,7 +299,7 @@ draft: false
         if (typeof values == "undefined" || values == null) {
           return false
         }
-        return values.includes(getSelectValue(d,prop))
+        return values.includes(getSelectValue(d, prop))
         delete (val)
       })
     })
@@ -428,17 +437,21 @@ draft: false
   In this page you can compare multiple dataset and have somme statistics to evaluate method or basis accuracy.
   For this follow this steps
   <ol>
-    <li>Select a value type (Absorption, fluorescence or \(\Delta \text{ZPE}\))</li>
-    <li>You can add custom files if you want</li>
-    <li>Choose each parameters (of course you can select multiples values for each)</li>
+    <li>Add custom files</li>
     <ul>
-      <li>Molecule</li>
-      <li>Method</li>
-      <li>Set</li>
-      <li>Allow:</li>
-      <ul id="AllowList">
-        <li>Unsafe</li>
-      </ul>
+      <li>Absorption</li>
+      <li>Fluorescence</li>
+    </ul>
+    <li>Choose each parameters (of course you can select multiples values for each) you can use the the <button
+        disabled>Select all</button> button to select all items</li>
+    <ul id="SelectList"></ul>
+    <li>Choose filters:</li>
+    <ul>
+      <li>Choose what kind of vertical excitations you want</li>
+      <ul id="exVertKindList"></ul>
+      <li>Choose other excitation parameters you want</li>
+      <ul id="exTypeList"></ul>
+      <li>Choose if you want to include unsafe values in statistics</li>
     </ul>
     <li>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr
         title="Theoretical best estimate">TBE</abbr> if present- is already selected)</li>
