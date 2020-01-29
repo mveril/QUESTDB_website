@@ -1,9 +1,12 @@
 function selectSelectAll_click(e) {
   const ctrl = $(e.target).next()
-  if (ctrl.prop('type') == 'select-multiple') {
-    ctrl.find("option").each(function () {
+  selectSelectAll(ctrl)
+}
+function selectSelectAll(target) {
+  if (target.prop('type') == 'select-multiple') {
+    target.find("option").each(function () {
       $(this).prop('selected', true);
-      ctrl.trigger("change")
+      target.trigger("change")
     });
   }
 }
