@@ -150,6 +150,10 @@ draft: false
     if (!isLast) {
       await reloadSelect(afters.prop("name"))
     }
+    const fillArray=["molecule"]
+    if (fillArray.includes(afters.prop("name"))) {
+      selectSelectAll(afters.first())
+    }
     var submit = $(e.target.form).find(':submit')
     submit.prop("disabled", !isLast)
 
