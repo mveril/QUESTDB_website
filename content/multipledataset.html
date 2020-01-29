@@ -23,12 +23,19 @@ draft: false
 <script src="/js/nestedCheckbox.js"></script>
 <script src="/js/selectSelectAll.js"></script>
 <script src="https://unpkg.com/simple-statistics@7.0.2/dist/simple-statistics.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bowser@2.5.3/es5.min.js"></script>
 <script>
   window.onload = async () => {
+    window.browser=bowser.getParser(window.navigator.userAgent);
     const LatexInline = ['\\(', '\\)']
     var slist = $("#SelectList")
     getAllSelect().each(function () {
       $("<li/>").text($('label[for="' + $(this).attr('id') + '"]').text()).appendTo(slist)
+    })
+    $('[data-needengine],[data-needplatform],[data-needbrowser]').each(function() {
+      if($(this).data("needengine").some((e=>browser.isEngine(e))) && $(this).data("needplatform").some((e=>browser.isPlatform(e)))){
+        $(this).show()
+      }
     })
     var cbextl = $("#cb_exTypeList")
     var extl = $("#exTypeList")
@@ -443,7 +450,7 @@ draft: false
       <li>Fluorescence</li>
     </ul>
     <li>Choose each parameters (of course you can select multiples values for each) you can use the the <button
-        disabled>Select all</button> button to select all items</li>
+        disabled>Select all</button> button to select all items <span hidden data-needengine='["WebKit","Blink"]' data-needplatform='["desktop"]'>or use the <kbd>Ctrl</kbd>+ <kbd>A</kbd> shortcut key</span></li>
     <ul id="SelectList"></ul>
     <li>Choose filters:</li>
     <ul>
