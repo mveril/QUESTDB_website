@@ -5,7 +5,7 @@ draft: false
 ---
 <script src="/js/getFullDataPath.js" type="text/javascript"></script>
 <script src="/js/getTextFromFile.js" type="text/javascript"></script>
-<script src="/js/downloadData.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.2/dist/FileSaver.min.js"></script>
 <script src="/js/Base64ToBlob.js" type="text/javascript"></script>
 <script>
 
@@ -28,12 +28,13 @@ draft: false
     var key = ["file", "fileBase64"]
     if (params.has(key[0])) {
       var filename = params.get(key[0]);
-      var textPromise = getTextFromFileUrlAsync(filename)
+      var text = await getTextFromFileUrlAsync(filename)
       $("#btn_download").click(function () {
-        window.open(filename, "_self");
+        var b = new Blob([text],{type:"text/plain;charset=utf-8"});
+        saveAs(b, filename.substring(filename.lastIndexOf('/')+1))
       })
       $('#fileTitle').text(filename);
-      $('#fileContent').text(await textPromise)
+      $('#fileContent').text(text)
       $('#file').show();
       $("#div_btn").show();
 
@@ -41,7 +42,7 @@ draft: false
       var base64 = params.get(key[1]);
       $("#btn_download").click(function () {
         const blob = base64ToBlob(base64, "text/plain")
-        downloadData(blob, "file.dat")
+        saveAs(b, "file.dat")
       })
       $('#fileTitle').hide()
       $('#fileContent').text(atob(base64))
