@@ -1,6 +1,7 @@
 class stringFloat{
-  constructor(value) {
+  constructor(value,printNaN=true) {
     this.string=value
+    this.printNaN=printNaN
   }
   get Value(){
     return parseFloat(this.string)
@@ -9,10 +10,10 @@ class stringFloat{
     return this.Value;
   }
   toString(){
-    if (checkFloat(this.string)) {
-      return this.Value
-    } else {
+    if (checkFloat(this.string) && this.printNaN) {
       return this.string
+    } else {
+      return NaN.toString()
     }
   }
 }
