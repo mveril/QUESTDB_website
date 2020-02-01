@@ -9,7 +9,7 @@ class stringFloat{
     return this.Value;
   }
   toString(){
-    if (isNaN(checkFloat(this.Value))) {
+    if (checkFloat(this.string)) {
       return this.Value
     } else {
       return this.string
