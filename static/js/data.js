@@ -279,9 +279,9 @@ class dataFileBase {
         type = m[1]
       }
     }
-    var val = ((vals.length >= 7 + hasType) ? parseFloat(vals[6 + hasType], 10) : NaN)
-    var oscilatorForces = ((vals.length >= 8 + hasType) ? parseFloat(vals[7 + hasType], 10) : NaN)
-    var T1 = ((vals.length >= 9 + hasType) ? parseFloat(vals[8 + hasType], 10) : NaN)
+    var val = ((vals.length >= 7 + hasType) ? new stringFloat(vals[6 + hasType], 10) : NaN)
+    var oscilatorForces = ((vals.length >= 8 + hasType) ? new stringFloat(vals[7 + hasType], 10) : NaN)
+    var T1 = ((vals.length >= 9 + hasType) ? new stringFloat(vals[8 + hasType], 10) : NaN)
     var isUnsafe = ((vals.length >= 10 + hasType) ? vals[9 + hasType] === true.toString() : false)
     var ex = new excitationValue(start, end, type, val, oscilatorForces, T1, isUnsafe);
     if (this.VertExcitationKind) {
