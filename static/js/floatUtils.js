@@ -18,7 +18,7 @@ class stringFloat{
 }
 function checkFloat(string) {
   try {
-    return isNaN(parseFloat(string))
+    return !isNaN(parseFloat(string))
   } catch (error) {
     return false
   }
