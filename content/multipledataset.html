@@ -415,10 +415,10 @@ draft: false
                   td.append($("<div/>", { title: "unsafe value", style: "float: left; font-family: color-emoji;" }).text('⚠'))
                 }
                 if (unsafe && !$("#cb_unsafe").is(':checked')) {
-                  td.append($("<s/>").append(val))
+                  td.append($("<s/>").append(val.toString()))
                 }
                 else {
-                  td.append(val)
+                  td.append(val.toString())
                 }
               }
               tr.append(td)
