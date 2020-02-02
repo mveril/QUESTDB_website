@@ -10,8 +10,8 @@
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
   1       1      A_1       1       1     \Pi_g        (n \rightarrow \pi^\star)               9.33          _              _            false
   1       1      A_1       1       1     \Sigma_u^-   (\pi \rightarrow \pi^\star)             9.89          _              _            false
-  1       1      A_1       1       1     \Delta_u     (\pi \rightarrow \pi^\star)             10.3          _              _            false
-  1       1      A_1       1       1     \Sigma_g^+   (\mathrm{R})                            13.0          _              _            false
+  1       1      A_1       1       1     \Delta_u     (\pi \rightarrow \pi^\star)             10.30         _              _            false
+  1       1      A_1       1       1     \Sigma_g^+   (\mathrm{R})                            13.00         _              _            false
   1       1      A_1       1       1     \Pi_u        (\mathrm{R})                            13.14         _              _            false
   1       1      A_1       1       1     \Sigma_u^+   (\mathrm{R})                            13.12         _              _            false
   1       1      A_1       2       1     \Pi_u        (\mathrm{R})                            13.45         _              _            false
