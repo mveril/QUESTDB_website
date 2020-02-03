@@ -1,7 +1,7 @@
 # Molecule : Acetylene
 # Comment  : 
 # code     : MRCC
-# method   : TBE,cbs
+# method   : TBE,CBS
 # geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.8b00406
 
