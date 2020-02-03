@@ -1,7 +1,7 @@
 # Molecule : Methanimine
 # Comment  : 
 # code     : MRCC
-# method   : CC(3),aug-cc-pVTZ
+# method   : CCSDR(3),aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ
 # DOI      : 10.1021/acs.jctc.8b00406,true
 
