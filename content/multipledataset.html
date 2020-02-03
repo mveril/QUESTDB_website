@@ -26,7 +26,13 @@ draft: false
 <script src="https://cdn.jsdelivr.net/npm/bowser@2.5.3/es5.min.js"></script>
 <script src="/js/floatUtils.js"></script>
 <script>
+  function adjustSticky(){
+    const height=$("nav").height()
+    $("thead.sticky > tr > th ").css("top",height)
+  }
   window.onload = async () => {
+    adjustSticky();
+    $(window).resize(adjustSticky)
     window.browser=bowser.getParser(window.navigator.userAgent);
     const LatexInline = ['\\(', '\\)']
     var slist = $("#SelectList")
@@ -361,10 +367,11 @@ draft: false
         $("<h1/>").text(sets.get(doi)).appendTo(div)
         var table = $("<table/>").addClass("datatable").appendTo(div)
         var head = $("<tr/>")
-        $("<thead/>").append(head).appendTo(table)
+        $("<thead/>").addClass("sticky").append(head).appendTo(table)
         var tbody = $("<tbody/>").appendTo(table)
         head.append(["Molecule", "Transition"].map(x => $("<th/>").text(x)))
         head.append(sortedMethods.map(x => $("<th/>").text(x.toString())))
+        adjustSticky();
         datadic = new Map()
         for (const dat of paperdata) {
           const key1 = dat.molecule;
@@ -547,7 +554,7 @@ draft: false
 </section>
 <section>
   <table id="stat_table" class="datatable">
-    <thead>
+    <thead class="sticky">
       <th>Method</th>
       <th>Set</th>
       <th>Min</th>

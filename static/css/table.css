@@ -4,10 +4,10 @@ table.datatable > tbody > tr > td {
 td.NumberCell {
   text-align: center;
 }
-table > thead tr > th {
+thead.sticky > tr > th {
   position: sticky;
   position: -webkit-sticky;
-  top: 150px;
+  top: 0px;
   margin: 0 auto;
   z-index: 10;
   background-color: white;
