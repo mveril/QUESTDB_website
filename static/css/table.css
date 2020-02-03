@@ -4,3 +4,11 @@ table.datatable > tbody > tr > td {
 td.NumberCell {
   text-align: center;
 }
+table > thead tr > th {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 150px;
+  margin: 0 auto;
+  z-index: 10;
+  background-color: white;
+}
