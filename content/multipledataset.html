@@ -32,6 +32,8 @@ draft: false
   }
   window.onload = async () => {
     window.browser=bowser.getParser(window.navigator.userAgent);
+    $("input[type='checkbox']:checked").trigger("change")
+
     adjustSticky();
     $(window).resize(adjustSticky)
     const LatexInline = ['\\(', '\\)']
@@ -370,7 +372,7 @@ draft: false
         $("<thead/>").addClass("sticky").append(head).appendTo(table)
         var tbody = $("<tbody/>").appendTo(table)
         head.append(["Molecule", "Transition"].map(x => $("<th/>").text(x)))
-        head.append(sortedMethods.map(x => $("<th/>").text(x.toString())))
+        head.append(sortedMethods.map(x => $("<th/>").text(x.toString().split('-').join('\u2011'))))
         adjustSticky();
         datadic = new Map()
         for (const dat of paperdata) {
@@ -516,16 +518,16 @@ draft: false
     <legend>Vertical excitation kind</legend>
     <ul class="nestedCbList" style="padding-left: 0em;">
       <li>
-        <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fileType_All"></input>
+        <input type="checkbox" checked onchange="nestedCheckbox_change(event)" id="cb_fileType_All"></input>
         <label for="cb_fileType_All"> All</label>
       </li>
       <ul class="nestedCbList" id="cb_exVertKindList">
         <li>
-          <input type="checkbox" checked onchange="nestedCheckbox_change(event)" id="cb_abs" value="1" name="datatype">
+          <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_abs" value="1" name="datatype">
           <label for="cb_abs">Absorption</label>
         </li>
         <li>
-          <input type="checkbox" checked onchange="nestedCheckbox_change(event)" id="cb_fluo" value="2" name="datatype">
+          <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fluo" value="2" name="datatype">
           <label for="fluo">Fluorescence</label>
       </ul>
       </li>
