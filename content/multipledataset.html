@@ -31,9 +31,9 @@ draft: false
     $("thead.sticky > tr > th ").css("top",height)
   }
   window.onload = async () => {
+    window.browser=bowser.getParser(window.navigator.userAgent);
     adjustSticky();
     $(window).resize(adjustSticky)
-    window.browser=bowser.getParser(window.navigator.userAgent);
     const LatexInline = ['\\(', '\\)']
     var slist = $("#SelectList")
     getAllSelect().each(function () {
@@ -521,11 +521,11 @@ draft: false
       </li>
       <ul class="nestedCbList" id="cb_exVertKindList">
         <li>
-          <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_abs" value="1" name="datatype">
+          <input type="checkbox" checked onchange="nestedCheckbox_change(event)" id="cb_abs" value="1" name="datatype">
           <label for="cb_abs">Absorption</label>
         </li>
         <li>
-          <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fluo" value="2" name="datatype">
+          <input type="checkbox" checked onchange="nestedCheckbox_change(event)" id="cb_fluo" value="2" name="datatype">
           <label for="fluo">Fluorescence</label>
       </ul>
       </li>
