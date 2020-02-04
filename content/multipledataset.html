@@ -421,7 +421,7 @@ draft: false
               if (kv !== undefined) {
                 const [val, unsafe] = kv[1]
                 if (unsafe) {
-                  td.append($("<div/>", { title: "unsafe value", style: "float: left; font-family: color-emoji;" }).text('⚠'))
+                  td.append($("<span/>", { title: "unsafe value", style: "font-family: color-emoji;" }).text('⚠'))
                 }
                 if (unsafe && !$("#cb_unsafe").is(':checked')) {
                   td.append($("<s/>").append(val.toString()))
