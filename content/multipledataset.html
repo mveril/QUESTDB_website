@@ -41,9 +41,31 @@ draft: false
     getAllSelect().each(function () {
       $("<li/>").text($('label[for="' + $(this).attr('id') + '"]').text()).appendTo(slist)
     })
-    $('[data-needengine],[data-needplatform],[data-needbrowser]').each(function() {
-      if($(this).data("needengine").some((e=>browser.isEngine(e))) && $(this).data("needplatform").some((e=>browser.isPlatform(e)))){
+    $('[data-needbrowser],[data-neednotbrowser]').each(function() {
+      function test(key,value){
+        switch (key) {
+          case "Engine":
+            return value.some((v)=>browser.isEngine(v))
+            break;
+          case "Browser":
+            return value.some((v)=>browser.isBrowser(v))
+          case "Platform":
+            return value.some((v)=>browser.isPlatform(v))
+          case "OS":
+            return value.some((v)=>browser.isOS(v))
+          default:
+            return true
+            break;
+        }
+      }
+      const needdata=$(this).data("needbrowser")
+      const neednotdata=$(this).data("neednotbrowser")
+      const need = ((needdata==null) ? true : Object.entries(needdata).every(kv=>test(kv[0],kv[1])))
+      const neednot=((neednotdata==null) ? true : Object.entries(neednotdata).some(kv=>!test(kv[0],kv[1])))
+      if(need && neednot){
         $(this).show()
+      } else {
+        $(this).hide()
       }
     })
     var cbextl = $("#cb_exTypeList")
@@ -463,8 +485,8 @@ draft: false
       <li>Absorption</li>
       <li>Fluorescence</li>
     </ul>
-    <li>Choose each parameter (of course you can select multiples values for each) you can use the the <button
-        disabled>Select all</button> button to select all items <span hidden data-needengine='["WebKit","Blink"]' data-needplatform='["desktop"]'>or use the <kbd>Ctrl</kbd>+ <kbd>A</kbd> shortcut key</span></li>
+    <li>Choose each parameter (of course you can select multiples values for each) you can use the the <buttongit
+        disabled>Select all</button> button to select all items <span hidden data-needbrowser='{"Engine":["WebKit","Blink"],"Platform":["desktop"]}'>or use the <kbd data-needbrowser='{"OS":["MacOS"]}'>CMD</kbd><kbd data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd> shortcut key</span></li>
     <ul id="SelectList"></ul>
     <li>Choose filters:</li>
     <ul>
