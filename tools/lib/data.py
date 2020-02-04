@@ -47,7 +47,7 @@ class dataFileBase(object):
       mathsoup=TexSoup(mystr)
       newCommand.runAll(mathsoup,commands)
       st=str(mathsoup)
-      m=re.match(r"^\^(?P<multiplicity>\d)(?P<symm>[^\s\[(]*)\s*(?:\[(?:\\mathrm{)?(?P<special>\w)(?:})\])?\s*\((?P<type>[^\)]*)\)",st)
+      m=re.match(r"^\^(?P<multiplicity>\d)(?P<symm>[^\s\[(]*)\s*(?:\[(?:\\mathrm{)?(?P<special>\w)(?:})\])?\s*(:?\((?P<type>[^\)]*)\))?",st)
       seq=m.group("multiplicity","symm")
       spgrp=m.group("special")
       if spgrp is not None and spgrp=="F":
