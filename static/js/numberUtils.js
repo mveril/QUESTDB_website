@@ -1,4 +1,4 @@
-class stringFloat{
+class stringNumber{
   constructor(value,printNaN=true) {
     this.string=value
     this.printNaN=printNaN
@@ -10,14 +10,14 @@ class stringFloat{
     return this.Value;
   }
   toString(){
-    if (checkFloat(this.string) && this.printNaN) {
+    if (checkNumber(this.string) && this.printNaN) {
       return this.string
     } else {
       return NaN.toString()
     }
   }
 }
-function checkFloat(string) {
+function checkNumber(string) {
   try {
     return !Number.isNaN(parseFloat(string))
   } catch (error) {
