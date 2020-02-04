@@ -1,0 +1,11 @@
+# Molecule : Cyanoacetylene
+# Comment  : 
+# code     : 
+# method   : CCSDT,aug-cc-pVDZ
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_fluo        %T1            f            is unsafe
+  1       1      A_1       1       1     A''          _                                       3.62          _              _            false
