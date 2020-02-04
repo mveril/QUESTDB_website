@@ -3,11 +3,8 @@ class stringNumber{
     this.string=value
     this.printNaN=printNaN
   }
-  get Value(){
-    return parseFloat(this.string)
-  }
   valueOf() {
-    return this.Value;
+    return parseFloat(this.string)
   }
   toString(){
     if (checkNumber(this.string) && this.printNaN) {
