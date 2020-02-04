@@ -1,0 +1,16 @@
+# Molecule : Cyclopropenone
+# Comment  : 
+# code     : 
+# method   : Exp.$^b$,Litt.
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     B_1          (n \rightarrow \pi^\star)               4.13          _              _            false
+  1       1      A_1       1       1     A_2          (n \rightarrow \pi^\star)               5.5           _              _            false
+  1       1      A_1       1       1     B_2          (n \rightarrow 3s)                      6.22          _              _            false
+  1       1      A_1       1       1     B_2          _                                       6.1           _              _            false
+  1       1      A_1       1       1     B_2          (n \rightarrow 3p)                      6.88          _              _            false
+  1       1      A_1       1       1     A_1          (\pi \rightarrow \pi^\star)             $\sim$        _              _            false
