@@ -1,0 +1,12 @@
+# Molecule : Isobutene
+# Comment  : 
+# code     : 
+# method   : Th.$^e$,Litt.
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     B_1          (\pi \rightarrow 3s)                    6.40          _              _            false
+  1       1      A_1       1       1     A_1          (\pi \rightarrow 3p)                    6.96          _              _            false
