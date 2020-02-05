@@ -23,8 +23,13 @@ def desarg(tex):
   return nodify(lst,tex.name,tex.parent)
 def getValFromCell(cell):
     unsafe=False
-    val= list(cell.contents)[0]
-    if type(val) is TexNode and val.name=='emph':
+    lst= list(cell.contents)
+    val= lst[0]
+    if type(val) is TexNode and str(val.expr)=='$\sim$' :
+      unsafe=True
+      val = lst[1]
+      val=checkFloat(str(val))
+    elif type(val) is TexNode and val.name=='emph':
       unsafe=True
       val=val.string
       val=checkFloat(str(val))
