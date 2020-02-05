@@ -1,0 +1,20 @@
+# Molecule : Pyrazine
+# Comment  : 
+# code     : 
+# method   : Th.$^c$,Litt.
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     B_{3u}       (n \rightarrow \pi^\star)               4.25          _              _            false
+  1       1      A_1       1       1     A_{u}        (n \rightarrow \pi^\star)               5.24          _              _            false
+  1       1      A_1       1       1     B_{2u}       (\pi \rightarrow \pi^\star)             4.84          _              _            false
+  1       1      A_1       1       1     B_{2g}       (n \rightarrow \pi^\star)               6.04          _              _            false
+  1       1      A_1       1       1     A_{g}        (n \rightarrow 3s)                      7.07          _              _            false
+  1       1      A_1       1       1     B_{1u}       (\pi \rightarrow \pi^\star)             6.68          _              _            false
+  1       1      A_1       1       1     B_{1g}       (\pi \rightarrow 3s)                    7.08          _              _            false
+  1       1      A_1       1       1     B_{2u}       (n \rightarrow 3p)                      7.67          _              _            false
+  1       1      A_1       1       1     B_{1u}       (n \rightarrow 3p)                      7.73          _              _            false
+  1       1      A_1       2       1     B_{1u}       (\pi \rightarrow \pi^\star)             8.24          _              _            false
