@@ -1,0 +1,15 @@
+# Molecule : Benzene
+# Comment  : 
+# code     : 
+# method   : Th.$^d$,Litt.
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     B_{2u}       (\pi \rightarrow \pi^\star)             5.03          _              _            false
+  1       1      A_1       1       1     B_{1u}       (\pi \rightarrow \pi^\star)             6.23          _              _            false
+  1       1      A_1       1       3     B_{1u}       (\pi \rightarrow \pi^\star)             4.11          _              _            false
+  1       1      A_1       1       3     E_{1u}       (\pi \rightarrow \pi^\star)             4.75          _              _            false
+  1       1      A_1       1       3     B_{2u}       (\pi \rightarrow \pi^\star)             5.67          _              _            false
