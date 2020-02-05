@@ -44,7 +44,12 @@ class dataFileBase(object):
       math=TexState.find("$")
       lst=list(math.contents)
       mystr=str(lst[0])
-      mathsoup=TexSoup(mystr)
+      mathsoup=None
+      try:
+        mathsoup=TexSoup(mystr)
+      except:
+        print(f"Error when parsing latex state: {mystr}")
+        exit(-1)
       newCommand.runAll(mathsoup,commands)
       st=str(mathsoup)
       m=re.match(r"^\^(?P<multiplicity>\d)(?P<symm>[^\s\[(]*)\s*(?:\[(?:\\mathrm{)?(?P<special>\w)(?:})\])?\s*(:?\((?P<type>[^\)]*)\))?",st)
