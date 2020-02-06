@@ -1,0 +1,18 @@
+# Molecule : Triazine
+# Comment  : 
+# code     : 
+# method   : Th.$^d$,Litt.
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     A_1''        (n \rightarrow \pi^\star)               4.49          _              _            false
+  1       1      A_1       1       1     A_2''        (n \rightarrow \pi^\star)               4.54          _              _            false
+  1       1      A_1       1       1     E''          (n \rightarrow \pi^\star)               4.56          _              _            false
+  1       1      A_1       1       1     A_2'         (\pi \rightarrow \pi^\star)             5.36          _              _            false
+  1       1      A_1       1       1     A_1'         (\pi \rightarrow \pi^\star)             6.90          _              _            false
+  1       1      A_1       1       1     E'           (n \rightarrow 3s)                      7.16          _              _            false
+  1       1      A_1       2       1     E''          (n \rightarrow \pi^\star)               7.78          _              _            false
+  1       1      A_1       1       1     E'           (\pi \rightarrow \pi^\star)             7.72          _              _            false
