@@ -1,0 +1,17 @@
+# Molecule : Pyrimidine
+# Comment  : 
+# code     : 
+# method   : Th.$^d$,Litt.
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     B_1          (n \rightarrow \pi^\star)               4.24          _              _            false
+  1       1      A_1       1       1     A_2          (n \rightarrow \pi^\star)               4.74          _              _            false
+  1       1      A_1       1       1     B_2          (\pi \rightarrow \pi^\star)             5.01          _              _            false
+  1       1      A_1       2       1     A_2          (n \rightarrow \pi^\star)               5.84          _              _            false
+  1       1      A_1       2       1     B_1          (n \rightarrow \pi^\star)               6.11          _              _            false
+  1       1      A_1       1       1     B_2          (n \rightarrow 3s)                      6.57          _              _            false
+  1       1      A_1       1       1     A_1          (\pi \rightarrow \pi^\star)             6.57          _              _            false
