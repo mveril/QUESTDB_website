@@ -46,9 +46,13 @@ class newCommand(commandBase):
           fres=self.result
         else:
           resultstr=str(self.result)
-          res=TexSoup(re.sub('\#([1-{}])'.format(self.argNum),lambda m: cmd.args[int(m.group(1))-1].value,resultstr))
+          res=TexSoup(re.sub(f'\#([1-{self.argNum}])',lambda m: cmd.args[int(m.group(1))-1].value,resultstr))
           fres=TexSoup(res)
-        tex.replace(cmd,fres)
+        if str(tex)==str(cmd):
+          tex.expr=fres.expr
+        else:
+          
+          
     
     def tryRun():
       cmds=list(tex.find_all(self.commandName))
