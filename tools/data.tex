@@ -1,0 +1,307 @@
+\newcommand{\titou}[1]{\textcolor{purple}{#1}}
+\newcommand{\beurk}[1]{\textcolor{darkgreen}{#1}}
+\newcommand{\trash}[1]{\textcolor{purple}{\sout{#1}}}
+
+\newcommand{\multicolumn}{\multicolumn}
+\newcommand{\mr}{\multirow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\ie}{\textit{i.e.}}
+
+\newcommand{\EFCI}{E_\text{FCI}}
+\newcommand{\EexCI}{E_\text{exCI}}
+\newcommand{\ESCI}{E_\text{SCI}}
+\newcommand{\EPT}{E_\text{PT2}}
+\newcommand{\PsiSCI}{\Psi_\text{SCI}}
+\newcommand{\Ndet}{N_\text{det}}
+
+\newcommand{\ex}[6]{$^{#1}#2_{#3}^{#4}(#5 \ra #6)$}
+\newcommand{\Td}{\%T_1}
+
+\newcommand{\TDDFT}{TD-DFT}
+\newcommand{\CASSCF}{CASSCF}
+\newcommand{\CASPT}{CASPT2}
+\newcommand{\NEV}{NEVPT2}
+\newcommand{\PNEV}{PC-NEVPT2}
+\newcommand{\SNEV}{SC-NEVPT2}
+\newcommand{\AD}{ADC(2)}
+\newcommand{\AT}{ADC(3)}
+\newcommand{\CCD}{CC2}
+\newcommand{\CCSD}{CCSD}
+\newcommand{\STEOM}{STEOM-CCSD}
+\newcommand{\CCT}{CC3}
+\newcommand{\EOMCCSD}{EOM-CCSD}
+\newcommand{\CCSDT}{CCSDT}
+\newcommand{\CCSDTQ}{CCSDTQ}
+\newcommand{\CCSDTQP}{CCSDTQP}
+\newcommand{\CI}{CI}
+\newcommand{\SCI}{SCI}
+\newcommand{\exCI}{exCI}
+\newcommand{\FCI}{FCI}
+
+\newcommand{\Pop}{6-31+G(d)}
+\newcommand{\AVDZ}{aug-cc-pVDZ}
+\newcommand{\AVTZ}{aug-cc-pVTZ}
+\newcommand{\DAVTZ}{d-aug-cc-pVTZ}
+\newcommand{\AVQZ}{aug-cc-pVQZ}
+\newcommand{\AVFZ}{aug-cc-pV5Z}
+\newcommand{\DAVQZ}{d-aug-cc-pVQZ}
+\newcommand{\TAVQZ}{t-aug-cc-pVQZ}
+\newcommand{\AVPZ}{aug-cc-pV5Z}
+\newcommand{\DAVPZ}{d-aug-cc-pV5Z}
+
+\newcommand{\IneV}[1]{#1 eV}
+\newcommand{\InAU}[1]{#1 a.u.}
+\newcommand{\InAA}[1]{#1 \AA}
+\newcommand{\MaxP}{Max($+$)}
+\newcommand{\MaxN}{Max($-$)}
+
+\newcommand{\pis}{\pi^\star}
+\newcommand{\Ryd}{\mathrm{R}}
+\newcommand{\Val}{\mathrm{V}}
+
+\newcommand{\LCPQ}{Laboratoire de Chimie et Physique Quantiques, CNRS et Universit\'e Toulouse III - Paul Sabatier, 118 route de Narbonne, 31062 Toulouse, France}
+\newcommand{\CEISAM}{Universit\'e de Nantes, CNRS,  CEISAM UMR 6230, F-44000 Nantes, France}
+\newcommand{\Pisa}{Dipartimento di Chimica e Chimica Industriale, University of Pisa, Via Moruzzi 3, 56124 Pisa, Italy}
+\begin{tabular}
+			&		&	&		&  \multicolumn{2}{l}{TBE/{\AVTZ}}	&  \multicolumn{2}{l}{TBE/CBS} \\
+			& State	 & $f$ &  $\Td$ & 	Value	& Protocol$^a$		& Value	& Corr. 	\\
+Acetone			&$^1A_2 (\Val; n \ra \pis)$						&		& 91.1 & 4.47	& B					&  \AVQZ & 4.48	 \\
+				&$^1B_2 (\mathrm{R}; n \ra 3s)$				&0.000	& 90.5 & 6.46	& B					&  \AVQZ & 6.51	\\
+				&$^1A_2 (\mathrm{R}; n \ra 3p)$				&		& 90.9 & 7.47	& B				&  \AVQZ	& 7.44	 \\
+				&$^1A_1 (\mathrm{R}; n \ra 3p)$				&0.004	& 90.6 & 7.51	& B						&  \AVQZ & 7.55 \\
+				&$^1B_2 (\mathrm{R}; n \ra 3p)$				&0.029	& 91.2 & 7.62	& B					&  \AVQZ	& 7.63 \\
+				&$^3A_2 (\Val; n \ra \pis)$						&		& 97.8 & 4.13	& D				&  \AVQZ	& 4.15	 \\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 98.7 & 6.25	& D				&  \AVQZ	& 6.27	 \\
+Acrolein			&$^1A'' (\Val; n \ra \pis)$						&0.000	& 87.6 & 3.78	& G					& \AVQZ & 3.79	\\
+				&$^1A' (\Val; \pi \ra \pis)$						&0.344	& 91.2 & 6.69	& {\CCSDT}/\AVTZ	& \AVQZ	& 6.69	 \\
+				&$^1A'' (\Val; n \ra \pis)$						&0.000	& 79.4 & \emph{6.72} &  D	& \AVQZ		& \emph{6.74}  \\
+				&$^1A' (\mathrm{R}; n \ra 3s)$					&0.109	& 89.4 & 7.08	& D				& \AVQZ	& 7.12	 \\
+				&$^3A'' (\Val; n \ra \pis)$						&		& 97.0 & 3.51	& H				& \AVQZ	& 3.50	 \\
+				&$^3A' (\Val; \pi \ra \pis)$						&		& 98.6 & 3.94	& D				& \AVQZ		& 3.95 \\
+				&$^3A' (\Val; \pi \ra \pis)$						&		& 98.4 & 6.18	& D				& \AVQZ	& 6.19	 \\
+				&$^3A'' (\Val; n \ra \pis)$						&		& 92.7 &  \emph{6.54} & E				& \AVQZ & \emph{6.55} \\
+Benzene			&$^1B_{2u} (\Val; \pi \ra \pis)$					&		& 86.3 & 5.06	& {\CCSDT}/\AVTZ		&\AVQZ	& 5.06 \\
+				&$^1B_{1u} (\Val; \pi \ra \pis)$					&		& 92.9 & 6.45	& {\CCSDT}/\AVTZ	&\AVQZ	&6.44	 \\
+				&$^1E_{1g} (\mathrm{R}; \pi \ra 3s)$				&		& 92.8 & 6.52	& {\CCSDT}/\AVTZ		&\AVQZ	&6.54 \\
+				&$^1A_{2u}  (\mathrm{R}; \pi \ra 3p)$			&0.066	& 93.4 & 7.08	& {\CCSDT}/\AVTZ	&\AVQZ	&7.10	 \\
+				&$^1E_{2u}  (\mathrm{R}; \pi \ra 3p)$			&		& 92.8 & 7.15	& {\CCSDT}/\AVTZ		&\AVQZ	&7.16 \\
+				&$^3B_{1u} (\Val; \pi \ra \pis)$					&		& 98.6 & 4.16	& D			&\AVQZ		&4.17	 \\
+				&$^3E_{1u}(\Val; \pi \ra \pis)$					&		& 97.1 & 4.85	& D					&\AVQZ &4.86	\\
+				&$^3B_{2u} (\Val; \pi \ra \pis)$					&		& 98.1 & 5.81	& D					&\AVQZ	& 5.81 \\
+Butadiene			&$^1B_u  (\Val; \pi \ra \pis)$					&0.664	& 93.3 & 6.22	& B						& \AVQZ & 6.21 \\
+				&$^1B_g (\mathrm{R}; \pi \ra 3s)$				&		& 94.1 & 6.33	& B					& \AVQZ	& 6.35 \\
+				&$^1A_g  (\Val; \pi \ra \pis)$					&		& 75.1 & 6.50	& F				& \AVQZ	& 6.50	  \\
+				&$^1A_u (\mathrm{R}; \pi \ra 3p)$				&0.001	& 94.1 & 6.64	& B					& \AVQZ	& 6.66  \\
+				&$^1A_u (\mathrm{R}; \pi \ra 3p)$				&0.049	& 94.1 & 6.80	& B					& \AVQZ	& 6.82  \\
+				&$^1B_u (\mathrm{R}; \pi \ra 3p)$				&0.055	& 93.8 & 7.68	& C					& \AVQZ	& 7.54  \\
+				&$^3B_u (\Val; \pi \ra \pis)$					&		& 98.4 & 3.36	& D				& \AVQZ		& 3.37  \\
+				&$^3A_g (\Val; \pi \ra \pis)$					&		& 98.7 & 5.20	& D					& \AVQZ	& 5.21  \\
+				&$^3B_g (\mathrm{R}; \pi \ra 3s)$				&		& 97.9 & 6.29	& D			& \AVQZ		& 6.31	  \\
+Cyanoacetylene	&$^1\Sigma^- 	(\Val; \pi \ra \pis)$ 				&		& 94.3 & 5.80	& A				& \AVPZ	& 5.79	\\
+				&$^1\Delta 	(\Val; \pi \ra \pis)$ 				&		& 94.0 & 6.07	& A					&\AVPZ	& 6.05\\
+				&$^3\Sigma^+	 (\Val; \pi \ra \pis)$ 				&		& 98.5 & 4.44	& {\CCSDT}/\AVTZ	&\AVPZ		& 4.46 \\
+				&$^3\Delta 	(\Val; \pi \ra \pis)$ 				&		& 98.2 & 5.21	& {\CCSDT}/\AVTZ	& \AVPZ	& 5.21	\\
+				&$^1A'' [\mathrm{F}]	(\Val; \pi \ra \pis)$ 			& 0.004	& 93.6 & 3.54	& A						& \AVQZ & 3.54\\
+Cyanoformaldehyde	&$^1A'' (\Val; n \ra \pis)$						& 0.001	& 89.8 & 3.81	& {\CCSDT}/\AVTZ		& \AVQZ	& 3.82 \\
+				&$^1A'' (\Val; \pi \ra \pis)$						& 0.000	& 91.9 & 6.46	& {\CCSDT}/\AVTZ		& \AVQZ	& 6.45 \\
+				&$^3A'' (\Val; n \ra \pis)$						&		& 97.6 & 3.44	& D					& \AVQZ 	& 3.45\\
+				&$^3A' (\Val; \pi \ra \pis)$						&		& 98.4 & 5.01	& D			& \AVQZ		& 5.02	 \\
+Cyanogen			& $^1\Sigma_u^- (\Val; \pi \ra \pis)$ 				&		& 94.1 & 6.39	& A				& \AVPZ	& 6.38	\\
+				& $^1\Delta_u (\Val; \pi \ra \pis)$ 				&		& 93.4 & 6.66 	& A			& \AVPZ		& 6.64	\\
+				& $^3\Sigma_u^+ (\Val; \pi \ra \pis)$ 				&		& 98.5 & 4.91	& B				& \AVPZ	& 4.93	 \\
+				& $^1\Sigma_u^-  [\mathrm{F}]  (\Val; \pi \ra \pis)$	&		& 93.4 & 5.05 	& A					& \AVPZ	& 5.03 \\
+Cyclopentadiene	&$^1B_2 (\Val; \pi \ra \pis)$	 				&0.084	& 93.8 & 5.56	& {\CCSDT}/\AVTZ		& \AVQZ	& 5.55 \\
+				&$^1A_2 (\mathrm{R}; \pi \ra 3s)$			 	&		& 94.0 & 5.78	& {\CCSDT}/\AVTZ		& \AVQZ 	& 5.80\\
+				&$^1B_1  (\mathrm{R}; \pi \ra 3p)$			 	&0.037	& 94.2 & 6.41	& {\CCSDT}/\AVTZ		& \AVQZ	& 6.42 \\
+				&$^1A_2  (\mathrm{R}; \pi \ra 3p)$			 	&		& 93.8 & 6.46	& {\CCSDT}/\AVTZ		& \AVQZ	& 6.47  \\
+				&$^1B_2  (\mathrm{R}; \pi \ra 3p)$			 	&0.046	& 94.2 & 6.56	&{\CCSDT}/\AVTZ		& \AVQZ	& 6.55\\
+				&$^1A_1 (\Val; \pi \ra \pis)$		 			&0.001	& 78.9 & \emph{6.52}	& {\CCSDT}/\AVTZ		& \AVQZ	& \emph{6.52}	\\
+				&$^3B_2 (\Val; \pi \ra \pis)$		 			&		& 98.4 & 3.31	& D					& & \AVQZ  3.31	\\
+				&$^3A_1 (\Val; \pi \ra \pis)$		 			&		& 98.6 & 5.11	& D				& \AVQZ	& 5.12	 \\
+				&$^3A_2 (\mathrm{R}; \pi \ra 3s)$			 	&		& 97.9 & 5.73	& D				& \AVQZ	& 5.75 	 \\
+				&$^3B_1 (\mathrm{R}; \pi \ra 3p)$			 	&		& 97.9 & 6.36	& D				& \AVQZ	& 6.38	 \\
+Cyclopropenone	&$^1B_1 (\Val; n \ra \pis)$						&0.000	& 87.7 & 4.26 	& B				& \AVPZ	& 4.28	 \\
+				&$^1A_2 (\Val; n \ra \pis)$						&		& 91.0 & 5.55	& B					&\AVPZ	& 5.56 \\
+				&$^1B_2 (\mathrm{R}; n \ra 3s)$				&0.003	& 90.8 & 6.34	& B				& \AVPZ	& 6.40	 \\
+				&$^1B_2 (\Val; \pi \ra \pis$)					&0.047	& 86.5 & 6.54	& B				& \AVPZ	& 6.56	\\
+				&$^1B_2 (\mathrm{R}; n \ra 3p)$				&0.018	& 91.1 & 6.98	& B			&  \AVPZ		& 7.01	 \\
+				&$^1A_1 (\mathrm{R}; n \ra 3p)$				&0.003	& 91.2 & 7.02	& B					&\AVPZ	& 7.08 \\
+				&$^1A_1 (\Val; \pi \ra \pis)$					&0.320	& 90.8 & 8.28	& B					&\AVPZ	& 8.26 \\
+				&$^3B_1 (\Val; n \ra \pis)$						&		& 96.0 & 3.93	& {\CCSDT}/\AVTZ		& \AVPZ	& 3.96 \\
+				&$^3B_2 (\Val; \pi \ra \pis)$					&		& 97.9 & 4.88	& {\CCSDT}/\AVTZ		& \AVPZ	& 4.91 \\
+				&$^3A_2 (\Val; n \ra \pis)$						&		& 97.5 & 5.35	& {\CCSDT}/\AVTZ		& \AVPZ	& 5.37 \\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 98.1 & 6.79	& {\CCSDT}/\AVTZ		& \AVPZ	& 6.81\\
+Cyclopropenethione	&$^1A_2 (\Val; n \ra \pis)$						&		& 89.6 & 3.41	& B					& \AVPZ	& 3.41 \\
+				&$^1B_1 (\Val; n \ra \pis)$						&0.000	& 84.8 & 3.45	& B					& \AVPZ	& 3.48 \\
+				&$^1B_2 (\Val; \pi \ra \pis)$					&0.007	& 83.0 & 4.60	& B					& \AVPZ	& 4.62 \\
+				&$^1B_2 (\mathrm{R}; n \ra 3s)$				&0.048	& 91.8 & 5.34	& B					& \AVPZ	& 5.40 \\
+				&$^1A_1 (\Val; \pi \ra \pis)$					&0.228	& 89.0 & 5.46	& B					& \AVPZ	& 5.46 \\
+				&$^1B_2 (\mathrm{R}; n \ra 3p)$				&0.084	& 91.3 & 5.92	& B					& \AVPZ	& 5.94 \\
+				&$^3A_2 (\Val; n \ra \pis)$						&		& 97.2 & 3.28	& D					& \AVPZ	& 3.28 \\
+				&$^3B_1 (\Val; n \ra \pis)$						&		& 94.5 & 3.32	& {\CCSDT}/\AVTZ		& \AVPZ	& 3.36 \\
+				&$^3B_2 (\Val; \pi \ra \pis)$					&		& 96.5 & 4.01	& D				& \AVPZ	& 4.04 \\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 98.2 & 4.01	& D				& \AVPZ		& 4.01 \\
+Diacetylene		&$^1\Sigma_u^- (\Val; \pi \ra \pis)$				&		& 94.4 & 5.33	& A				& \AVPZ 	& 5.32		\\
+			Î	&$^1\Delta_u 	(\Val; \pi \ra \pis)$				&		& 94.1 & 5.61	& A				& \AVPZ	& 5.60		\\
+				&$^3\Sigma_u^+ (\Val; \pi \ra \pis)$				&		& 98.5 & 4.10	& C					& \AVPZ	& 4.13 	\\
+				&$^3\Delta_u 	(\Val; \pi \ra \pis)$				&		& 98.2 & 4.78	& B					&\AVPZ	& 4.78 	\\
+Furan			&$^1A_2 (\mathrm{R}; \pi \ra 3s)$				&		& 93.8 & 6.09 	&{\CCSDT}/\AVTZ		&\AVQZ 	& 6.11 \\
+				&$^1B_2 (\Val; \pi \ra \pis)$					&0.163	& 93.0 & 6.37 	&{\CCSDT}/\AVTZ		&\AVQZ	&  6.37 \\
+				&$^1A_1 (\Val; \pi \ra \pis)$					&0.000	& 92.4 & 6.56 	&{\CCSDT}/\AVTZ		&\AVQZ	& 6.56 \\
+				&$^1B_1  (\mathrm{R}; \pi \ra 3p)$				&0.038	& 93.9 & 6.64	&{\CCSDT}/\AVTZ		&\AVQZ	&  6.66 \\
+				&$^1A_2  (\mathrm{R}; \pi \ra 3p)$				&		& 93.6 & 6.81 	&{\CCSDT}/\AVTZ		&\AVQZ	& 6.83 \\
+				&$^1B_2  (\mathrm{R}; \pi \ra 3p)$				&0.008	& 93.5 & 7.24    & D					&\AVQZ	& 7.14 \\
+				&$^3B_2 (\Val; \pi \ra \pis)$					&		& 98.4 & 4.20    & D					&\AVQZ	& 4.20 \\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 98.1 & 5.46    & D					&\AVQZ	& 5.47 \\
+				&$^3A_2 (\mathrm{R}; \pi \ra 3s)$				&		& 97.9 & 6.02    & D					&\AVQZ	& 6.05 \\
+				&$^3B_1 (\mathrm{R}; \pi \ra 3p)$				&		& 97.9 & 6.59    & D					&\AVQZ	& 6.61 \\
+Glyoxal			&$^1A_u (\Val; n \ra \pis)$						& 0.000	& 91.0 & 2.88	& B				& \AVPZ		&  2.88 \\
+				&$^1B_g (\Val; n \ra \pis)$						&		& 88.3 & 4.24	& B				& \AVPZ	&  4.25	 \\
+				&$^1A_g (\Val; n,n  \ra \pis,\pis)$				&		& 0.5   & 5.61	& F					& \AVPZ	&  5.60 \\
+				&$^1B_g (\Val; n \ra \pis)$						&		& 83.9 & 6.57 	& B				& \AVPZ	&  6.58	 \\
+				&$^1B_u (\mathrm{R}; n \ra 3p)$				& 0.095	& 91.7 & 7.71	& B				& \AVPZ	&  7.78	 \\
+				&$^3A_u (\Val; n \ra \pis)$						&		& 97.6 & 2.49	& {\CCSDT}/\AVTZ	& \AVPZ	& 2.50	 \\
+				&$^3B_g (\Val; n \ra \pis)$						&		& 97.4 & 3.89	& {\CCSDT}/\AVTZ		& \AVPZ	& 3.91 \\
+				&$^3B_u (\Val; \pi \ra \pis)$					&		& 98.5 & 5.15	& {\CCSDT}/\AVTZ		& \AVPZ	& 5.17 \\
+				&$^3A_g (\Val; \pi \ra \pis)$					&		& 98.8 & 6.30	& {\CCSDT}/\AVTZ	& \AVPZ	& 6.31	 \\
+Imidazole			&$^1A'' (\mathrm{R}; \pi \ra 3s)$				& 0.001	& 93.0 & 5.71 	& D				& \AVQZ		& 5.73 \\
+				&$^1A' (\Val; \pi \ra \pis)$						& 0.124	& 89.6 & 6.41	& D				& \AVQZ		& 6.41 \\
+				&$^1A'' (\Val; n \ra \pis)$						& 0.028	& 93.6 & 6.50	& D					& \AVQZ	& 6.53 \\
+				&$^1A' (\mathrm{R}; \pi \ra 3p)$				& 0.035	& 88.9 & \emph{6.83}	& D				& \AVQZ &\emph{6.82}\\
+				&$^3A' (\Val; \pi \ra \pis)$						&		& 98.3 & 4.73	& E				& \AVQZ 	& 4.74	\\
+				&$^3A'' (\mathrm{R}; \pi \ra 3s)$				&		& 97.6 & 5.66	& D				& \AVQZ	& 5.69	 \\
+				&$^3A' (\Val; \pi \ra \pis)$						&		& 97.9 & 5.74	& E			& \AVQZ		& 5.75	 \\
+				&$^3A'' (\Val; n \ra \pis)$						&		& 97.3 & 6.31	& D					& \AVQZ	& 6.31 \\
+Isobutene			&$^1B_1 (\mathrm{R}; \pi \ra 3s)$				& 0.006	& 94.1 & 6.46	& {\CCSDT}/\AVTZ	& \AVQZ 	& 6.48	\\
+				&$^1A_1 (\mathrm{R}; \pi \ra 3p)$				& 0.228	& 94.2 & 7.01   & {\CCSDT}/\AVTZ	& \AVQZ 	& 7.00	\\
+				&$^3A_1 (\Val; (\pi \ra \pis)$					&		& 98.9 & 4.53   & D				& \AVQZ 	& 4.54	\\
+Methylenecyclopropene&	$^1B_2 (\Val; \pi \ra \pis)$					& 0.011	& 85.4 & 4.28	& B			& \AVPZ 		& 4.29	\\
+				&$^1B_1 (\mathrm{R}; \pi \ra 3s)$				& 0.005	& 93.6 & 5.44	& B				& \AVPZ 		& 5.47 \\
+				&$^1A_2 (\mathrm{R}; \pi \ra 3p)$				&		& 93.3 & 5.96	& B				& \AVPZ 	& 5.98	\\
+				&$^1A_1(\Val; \pi \ra \pis)$					& 0.224	& 92.8 & \emph{6.12}	& B				& \AVPZ & \emph{6.03}\\
+				&$^3B_2 (\Val; \pi \ra \pis)$					&		& 97.2 & 3.49	&  {\CCSDT}/\AVTZ	& \AVPZ 	& 3.50	\\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 98.6 & 4.74	& D					& \AVPZ	& 4.75 \\
+Propynal			& $^1A'' (\Val; n \ra \pis)$						& 0.000	& 89.0 & 3.80 	& {\CCSDT}/\AVTZ		& \AVQZ 	& 3.81\\
+				&$^1A'' (\Val; \pi \ra \pis)$						& 0.000	& 92.9 & 5.54	& {\CCSDT}/\AVTZ	& \AVQZ 	& 5.53	\\
+				&$^3A'' (\Val; n \ra \pis)$						&		& 97.4 & 3.47	& D				& \AVQZ 	& 3.48	\\
+				&$^3A' (\Val; \pi \ra \pis)$						&		& 98.3 & 4.47	& D				& \AVQZ	& 4.48 \\
+Pyrazine			&$^1B_{3u}  (\Val; n \ra \pis)$					&0.006	& 90.1 & 4.15	& {\CCSDT}/\AVTZ	& \AVQZ	& 4.15	 \\
+				&$^1A_{u}  (\Val; n \ra \pis)$					&		& 88.6 & 4.98	& {\CCSDT}/\AVTZ		& \AVQZ	& 4.99 \\
+				&$^1B_{2u}  (\Val; \pi \ra \pis)$					&0.078	& 86.9 & 5.02	& {\CCSDT}/\AVTZ		& \AVQZ	& 5.01 \\
+				&$^1B_{2g}  (\Val; n \ra \pis)$					&		& 85.6 & 5.71	& {\CCSDT}/\AVTZ		& \AVQZ	& 5.71 \\
+				&$^1A_{g}  (\mathrm{R}; n \ra 3s)$				&		& 91.1 & 6.65	& {\CCSDT}/\AVTZ		& \AVQZ	& 6.69 \\
+				&$^1B_{1g}  (\Val; n \ra \pis)$					&		& 84.2 & 6.74	& {\CCSDT}/\AVTZ		& \AVQZ	& 6.74	\\
+				&$^1B_{1u}  (\Val; \pi \ra \pis)$					&0.063	& 92.8 & 6.88	& {\CCSDT}/\AVTZ	& \AVQZ 	& 6.87	\\
+				&$^1B_{1g}  (\mathrm{R}; \pi \ra 3s)$			&		& 93.8 & 7.21	& {\CCSDT}/\AVTZ	& \AVQZ 	& 7.24	\\
+				&$^1B_{2u}  (\mathrm{R}; n \ra 3p)$				&0.037	& 90.8 & 7.24	& D				& \AVQZ 	& 7.28	\\
+				&$^1B_{1u}  (\mathrm{R}; n \ra 3p)$				&0.128	& 91.4 & 7.44	& D				&\AVQZ	& 7.47	 \\
+				&$^1B_{1u}  (\Val; \pi \ra \pis)$					&0.285	& 90.5 & \emph{7.98}& D	 	&\AVQZ	& \emph{7.97}		\\
+				&$^3B_{3u}  (\Val; n \ra \pis)$					&		& 97.3 & 3.59 	& D				& \AVQZ 	& 3.59	\\
+				&$^3B_{1u}  (\Val; \pi \ra \pis)$					&		& 98.5 & 4.35	& D				& \AVQZ	& 4.36	 \\
+				&$^3B_{2u}  (\Val; (\pi \ra \pis)$					&		& 97.6 & 4.39	& D			& \AVQZ		& 4.39	 \\
+				&$^3A_{u}  (\Val; n \ra \pis)$					&		& 96.1 & 4.93	& D					& \AVQZ	& 4.94 \\
+				&$^3B_{2g}  (\Val; n \ra \pis)$					&		& 97.0 & 5.08	& D				& \AVQZ	& 5.09	 \\
+				&$^3B_{1u}  (\Val; \pi \ra \pis)$					&		& 97.0 & 5.28	& D				& \AVQZ	& 5.28 	 \\
+Pyridazine			&$^1B_1 (\Val; n \ra \pis)$						&0.005	& 89.0 & 3.83	& D				& \AVQZ	& 3.83	\\
+				&$^1A_2 (\Val; n \ra \pis)$						&         	& 86.9 & 4.37   & D				& \AVQZ	&4.38	 	\\
+				&$^1A_1 (\Val; \pi \ra \pis)$					&0.016	& 85.8 & 5.26 	& D				& \AVQZ	& 5.26	  \\
+				&$^1A_2 (\Val; n \ra \pis)$						&        	& 86.2 & 5.72	& D				& \AVQZ	&5.72	 \\
+				&$^1B_2  (\mathrm{R}; n \ra 3s)$				&0.001	& 88.5 & 6.17	& D				&  \AVQZ	&6.21	 \\
+				&$^1B_1 (\Val; n \ra \pis)$						&0.004	& 87.0 & 6.37	& D				& \AVQZ	&6.37	 \\
+				&$^1B_2 (\Val; \pi \ra \pis)$					&0.010	& 90.6 & 6.75	& D				 &\AVQZ	&6.74	 \\
+				&$^3B_1 (\Val; n \ra \pis)$						&		& 97.1 & 3.19	& D				& \AVQZ	& 3.20		\\
+				&$^3A_2 (\Val; n \ra \pis)$						&		& 96.2 & 4.11	& D				& \AVQZ	& 4.12		\\
+				&$^3B_2 (\Val; \pi \ra \pis)$					&		& 98.5 & \emph{4.34}	& D		& \AVQZ	& 4.35		\\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 97.3 & 4.82	& D				&  \AVQZ	& 4.81	 \\
+Pyridine			&$^1B_1 (\Val; n \ra \pis)$						& 0.004	& 88.4 & 4.95 	&  D				& \AVQZ	& 4.95	 \\
+				&$^1B_2 (\Val; \pi \ra \pis)$					& 0.028	& 86.5 & 5.14	&  D				&  \AVQZ	& 5.14	 \\
+				&$^1A_2 (\Val; n \ra \pis)$						&		& 87.9 & 5.40	& D				& \AVQZ	& 5.41	 \\
+				&$^1A_1 (\Val; \pi \ra \pis)$					&0.010	& 92.1 & 6.62	& D				& \AVQZ	& 6.61	 \\
+				&$^1A_1 (\mathrm{R}; n \ra 3s)$				&0.011	& 89.7 & 6.76	& D				& \AVQZ	& 6.80	 \\
+				&$^1A_2 (\mathrm{R}; \pi \ra 3s)$				&		& 93.2 & 6.82	& D				 &\AVQZ	& 6.84	 \\
+				&$^1B_2 (\Val; \pi \ra \pis)$					& 0.319	& 90.0  & \emph{7.40}& D			&\AVQZ	& \emph{7.42}	 \\
+				&$^1B_1 (\mathrm{R}; \pi \ra 3p)$				& 0.045	& 93.6 & 7.38	& D 					&\AVQZ	& 7.40 \\
+				&$^1A_1 (\Val; \pi \ra \pis)$					&0.291	& 90.5 & 7.39	& D				& \AVQZ	& 7.40	 \\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 98.5 & 4.30	& D				 & \AVQZ	&4.31	 \\
+				&$^3B_1 (\Val; n \ra \pis)$						&		& 97.0 & 4.46	& D				&  \AVQZ	&4.47	  \\
+				&$^3B_2 (\Val; \pi \ra \pis)$					&		& 97.3 & 4.79	& D				&  \AVQZ	&4.79 	 \\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 97.1 & 5.04	& E				 & \AVQZ	&5.04		\\
+				&$^3A_2 (\Val; n \ra \pis)$						&		& 95.8 & 5.36	& D				 &\AVQZ	&5.38		\\
+				&$^3B_2 (\Val; \pi \ra \pis)$					&		& 97.7 & 6.24	& D				& \AVQZ	&6.24	 \\
+Pyrimidine			&$^1B_1 (\Val; n \ra \pis)$						& 0.005	& 88.6 & 4.44	& D			 &\AVQZ		&4.45	\\
+				&$^1A_2 (\Val; n \ra \pis)$						&		& 88.5 & 4.85	& D				&\AVQZ	&4.86	 \\
+				&$^1B_2 (\Val; \pi \ra \pis)$					&0.028	& 86.3 & 5.38	& D				&\AVQZ		&5.37	\\
+				&$^1A_2 (\Val; n \ra \pis)$						&		& 86.7 & 5.92	& D				&\AVQZ		&5.92	\\
+				&$^1B_1 (\Val; n \ra \pis)$						&0.005	& 86.7 & 6.26	& D				 &\AVQZ	&6.27		\\
+				&$^1B_2  (\mathrm{R}; n \ra 3s)$				&0.005	& 90.3 & 6.70	& D				& \AVQZ	&6.74	 \\
+				&$^1A_1 (\Val; \pi \ra \pis)$					&0.036	& 91.5 & 6.88	& D				& \AVQZ	&6.87	 \\
+				&$^3B_1 (\Val; n \ra \pis)$						&		& 96.8 & 4.09	& D				& \AVQZ	&4.10	 \\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 98.3 & \emph{4.51} & D			& \AVQZ		&\emph{4.52}  \\
+				&$^3A_2 (\Val; n \ra \pis)$						&		& 96.5 & 4.66	& D			& \AVQZ		&4.67	 \\
+				&$^3B_2 (\Val; \pi \ra \pis)$					&		& 97.4 & 4.96	& D			& \AVQZ		&4.96	 \\
+ Pyrrole			&$^1A_2 (\mathrm{R}; \pi \ra 3s)$				&		& 92.9 & 5.24	& {\CCSDT}/\AVTZ	& \AVQZ	& 5.27	 \\
+				&$^1B_1 (\mathrm{R}; \pi \ra 3p)$				&0.015	& 92.4 & 6.00 	& {\CCSDT}/\AVTZ	& \AVQZ	& 6.03	 \\
+				&$^1A_2 (\mathrm{R}; \pi \ra 3p)$				&		& 93.0 & 6.00	& D				& \AVQZ 	& 6.02	\\
+				&$^1B_2 (\Val; (\pi \ra \pis)$					&0.164	& 92.5 & 6.26 	& {\CCSDT}/\AVTZ	& \AVQZ	& 6.23	 \\
+				&$^1A_1 (\Val; \pi \ra \pis)$					&0.001	& 86.3 & 6.30 	& {\CCSDT}/\AVTZ	& \AVQZ	& 6.29	 \\
+				&$^1B_2 (\mathrm{R}; \pi \ra 3p)$				&0.003	& 92.6 & 6.83	& D				& \AVQZ	& 6.74	 \\
+				&$^3B_2 (\Val; \pi \ra \pis)$					&		& 98.3 & 4.51	& D				& \AVQZ 	& 4.51	\\
+				&$^3A_2 (\mathrm{R}; \pi \ra 3s)$				&		& 97.6 & 5.21	& D				& \AVQZ	& 5.24 	 \\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 97.8 & 5.45	& D				& \AVQZ	& 5.46	 \\
+				&$^3B_1 (\mathrm{R}; \pi \ra 3p)$				&		& 97.4 & 5.91	& D					& \AVQZ	& 5.94 \\
+Tetrazine			&$^1B_{3u}  (\Val; n \ra \pis)$					& 0.006	& 89.8 & 2.47	& {\CCSDT}/\AVTZ	& \AVQZ 	& 2.46	\\
+				&$^1A_{u}  (\Val; n \ra \pis)$					&		& 87.9 & 3.69	& {\CCSDT}/\AVTZ	& \AVQZ 	& 3.70	\\
+				&$^1A_{g}  (\Val; n,n \ra \pis, \pis)$				&		& 0.7   & \emph{4.61} & {\NEV}/\AVTZ	& \AVQZ & \emph{4.59}	\\
+				&$^1B_{1g}  (\Val; n \ra \pis)$					&		& 83.1 & 4.93	& {\CCSDT}/\AVTZ	& \AVQZ 	& 4.92	\\
+				&$^1B_{2u}  (\Val; \pi \ra \pis)$					& 0.055	& 85.4 & 5.21	& {\CCSDT}/\AVTZ	& \AVQZ	& 5.20	 \\
+				&$^1B_{2g}  (\Val; n \ra \pis)$					&		& 81.7 & 5.45	& {\CCSDT}/\AVTZ	& \AVQZ	& 5.45	 \\
+				&$^1A_{u}  (\Val; n \ra \pis)$					&		& 87.7 & 5.53	& {\CCSDT}/\AVTZ	& \AVQZ	& 5.53	 \\
+				&$^1B_{3g} (\Val; n,n \ra \pis, \pis)$				&		& 0.7   & \emph{6.15} & {\NEV}/\AVTZ & \AVQZ	& \emph{6.13}	\\
+				&$^1B_{2g}  (\Val; n \ra \pis)$					&		& 80.2 & 6.12	& D			& \AVQZ 		& 6.12	\\
+				&$^1B_{1g}  (\Val; n \ra \pis)$					&		& 85.1 & 6.91	& D				& \AVQZ	& 6.91	 \\
+				&$^3B_{3u}  (\Val; n \ra \pis)$					&		& 97.1 & 1.85	& D				& \AVQZ	& 1.86	 \\
+				&$^3A_{u}  (\Val; n \ra \pis)$					&		& 96.3 & 3.45	& D				& \AVQZ	& 3.46	 \\
+				&$^3B_{1g}  (\Val; n \ra \pis)$					&		& 97.0 & 4.20	& D				& \AVQZ	& 4.21	 \\
+				&$^3B_{1u}  (\Val; \pi \ra \pis)$					&		& 98.5 & \emph{4.49}	& D		& \AVQZ 	&  \emph{4.49}	\\
+				&$^3B_{2u}  (\Val; \pi \ra \pis)$					&		& 97.5 & 4.52	& D				& \AVQZ	& 4.52	 \\
+				&$^3B_{2g}  (\Val; n \ra \pis)$					&		& 96.4 & 5.04	& D				& \AVQZ	& 5.04	 \\
+				&$^3A_{u}  (\Val; n \ra \pis)$					&		& 96.6 & 5.11	& D				& \AVQZ	& 5.11	 \\
+				&$^3B_{3g}  (\Val; n,n \ra \pis, \pis)$				&		& 5.7   & \emph{5.51} &{\NEV}/\AVTZ	& \AVQZ & \emph{5.50}	\\
+				&$^3B_{1u}  (\Val; \pi \ra \pis)$					&		& 96.6 & 5.42	& D			& \AVQZ 		& 5.43	\\
+Thioacetone		&$^1A_2 (\Val; n \ra \pis)$						& 		& 88.9 & 2.53 	& B				&  \AVQZ	&  2.54	 \\
+				&$^1B_2 (\mathrm{R}; n \ra 4s)$				& 0.052	& 91.3 & 5.56 	&  B				&  \AVQZ	&  5.61 	 \\
+				&$^1A_1 (\Val; \pi \ra \pis)$					& 0.242	& 90.6 & 5.88	& B				&  \AVQZ	& 5.86	 \\
+				&$^1B_2 (\mathrm{R}; n \ra 4p)$				& 0.028	& 92.4 & 6.51	& C				&  \AVQZ	& 6.52	 \\
+				&$^1A_1 (\mathrm{R}; n \ra 4p)$				& 0.023	& 91.6 & 6.61	 &B				&  \AVQZ	&  6.64	 \\
+				&$^3A_2 (\Val; n \ra \pis)$						&		& 97.4 & 2.33 	& D				& \AVQZ	& 2.34	 \\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 98.7 & 3.45	& D					& \AVQZ	& 3.46  \\
+Thiophene		&$^1A_1 (\Val; \pi \ra \pis)$					&0.070	& 87.6 & 5.64	& {\CCSDT}/\AVTZ	& \AVQZ	& 5.63	 \\
+				&$^1B_2 (\Val; \pi \ra \pis)$					&0.079	& 91.5 & 5.98	& {\CCSDT}/\AVTZ	& \AVQZ	& 5.96	 \\
+				&$^1A_2 (\mathrm{R}; \pi \ra 3s)$				&		& 92.6 & 6.14	& {\CCSDT}/\AVTZ	& \AVQZ	& 6.16	 \\
+				&$^1B_1 (\mathrm{R}; \pi \ra 3p)$				&0.010	& 90.1 & 6.14	& {\CCSDT}/\AVTZ	& \AVQZ	& 6.11	 \\
+				&$^1A_2 (\mathrm{R}; \pi \ra 3p)$				&		& 91.8 & 6.21	& {\CCSDT}/\AVTZ	& \AVQZ	& 6.18	 \\
+				&$^1B_1 (\mathrm{R}; \pi \ra 3s)$				&0.000	& 92.8 & 6.49	& {\CCSDT}/\AVTZ	& \AVQZ	& 6.52	 \\
+				&$^1B_2 (\mathrm{R}; \pi \ra 3p)$				&0.082	& 92.4 & 7.29 	&  {\CCSDT}/\AVTZ	& \AVQZ 	& 7.18	\\
+				&$^1A_1 (\Val; \pi \ra \pis)$					&0.314	& 86.5 & \emph{7.31}& E			& \AVQZ	& \emph{7.29}	 \\
+				&$^3B_2 (\Val; \pi \ra \pis)$					&		& 98.2 & 3.92	& D				& \AVQZ	& 3.91	 \\
+				&$^3A_1 (\Val; \pi \ra \pis)$					&		& 97.7 & 4.76	& D				& \AVQZ	& 4.76	 \\
+				&$^3B_1 (\mathrm{R}; \pi \ra 3p)$				&		& 96.6 & 5.93	& D				& \AVQZ	& 5.90	 \\
+				&$^3A_2 (\mathrm{R}; \pi \ra 3s)$				&		& 97.5 & 6.08	& D				& \AVQZ 	& 5.98	\\
+Thiopropynal		&$^1A''  (\Val; n \ra \pis)$						& 0.000	& 87.5 & 2.03	 & {\CCSDT}/\AVTZ	&  \AVQZ 	&  2.04	\\
+				&$^3A''   (\Val; n \ra \pis)$						&		& 97.2 & 1.80	& D				&  \AVQZ 	&  1.81	\\
+Triazine			&$^1A_1'' (\Val; n \ra \pis)$					&		& 88.3 & 4.72	& {\CCSDT}/\AVTZ	& \AVQZ	& 4.72	 \\
+				&$^1A_2'' (\Val; n \ra \pis)$					&0.014	& 88.3 & 4.75	& {\CCSDT}/\AVTZ	& \AVQZ	& 4.74	 \\
+				&$^1E'' (\Val; n \ra \pis)$						&		& 88.3 & 4.78	& {\CCSDT}/\AVTZ		& \AVQZ & 4.78	 \\
+				&$^1A_2' (\Val; \pi \ra \pis)$					&		& 85.7 & 5.75	& {\CCSDT}/\AVTZ	 &\AVQZ	&5.75	\\
+				&$^1A_1' (\Val; \pi \ra \pis)$					&	 	& 90.4 & 7.24	& {\CCSDT}/\AVTZ	& \AVQZ	& 7.23	 \\
+				&$^1E' (\mathrm{R}; n \ra 3s)$					&0.016	& 90.9 & 7.32	& {\CCSDT}/\AVTZ	& \AVQZ	& 7.36	 \\
+				&$^1E'' (\Val; n \ra \pis)$						&		& 82.6 & 7.78	& {\CCSDT}/\AVTZ	& \AVQZ	& 7.76	 \\
+				&$^1E' (\Val; \pi \ra \pis)$						&0.451	& 90.0 & 7.94	& {\CCSDT}/\AVTZ	& \AVQZ	& 7.93 	 \\
+				&$^3A_2'' (\Val; n \ra \pis)$					&		& 96.7 & 4.33	& D				& \AVQZ	& 4.34	 \\
+				&$^3E'' (\Val; n \ra \pis)$						&		& 96.6 & 4.51	& D				& \AVQZ	& 4.51	 \\
+				&$^3A_1'' (\Val; n \ra \pis)$					&	 	& 96.2 & 4.73	& D				& \AVQZ	& 4.74	 \\
+				&$^3A_1' (\Val; \pi \ra \pis)$					&		& 98.2 & 4.85	& D				& \AVQZ	& 4.86	 \\
+				&$^3E' (\Val; \pi \ra \pis)$						&		& 96.9 & 5.59	& E				& \AVQZ	& 5.59	 \\
+				&$^3A_2' (\Val; (\pi \ra \pis)$					&	 	& 97.6 & 6.62	& D				& \AVQZ	& 6.61	 \\
+ \end{tabular}
