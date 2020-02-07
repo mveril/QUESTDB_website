@@ -4,8 +4,7 @@ async function loadAllData() {
     fluo: [],
     ZPE: []
   };
-  dic.abs = await Promise.all(getAbsFilesName().map((f) => AbsDataFile.loadAsync(f)))
-  dic.fluo = await Promise.all(getFluoFilesName().map((f) => FluoDataFile.loadAsync(f)))
-  dic.ZPE = await Promise.all(getZPEFilesName().map((f) => ZPEDataFile.loadAsync(f)));
+  dic.abs = await Promise.all(getAbsFilesName().map((f) => VertDataFile.loadAsync(f,VertExcitationKinds.Absorbtion)))
+  dic.fluo = await Promise.all(getFluoFilesName().map((f) => VertDataFile.loadAsync(f,VertExcitationKinds.Fluorescence)))
   return dic;
 }
