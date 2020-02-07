@@ -20,7 +20,7 @@ draft: false
     const Cite = require("citation-js")
     const dois = uniq(Object.values(await loadAllData()).flat().map(d => d.DOI.string))
     const publiscite = await Cite.async(dois)
-    const sets= await getSets()
+    const sets = await getSets()
     console.log(sets)
     const publis = publiscite.format('data', { format: 'object' })
     for (const publi of publis) {
@@ -59,7 +59,7 @@ draft: false
       }
       journaldiv = $("<div/>").appendTo(art)
       if ("container-title-short" in publi) {
-        var title_short=$("<span/>").text(publi["container-title-short"])
+        var title_short = $("<span/>").text(publi["container-title-short"])
         journaldiv.append(title_short)
         tippy(title_short[0], {
           content: publi["container-title"],
@@ -74,9 +74,11 @@ draft: false
       $("<span/>").text(date.getFullYear().toString()).appendTo(journaldiv)
       journaldiv.append(" ")
       $("<span/>").text(publi.volume).appendTo(journaldiv)
-      $("<span/>").addClass("issue").text(publi.issue).appendTo(journaldiv)
-      journaldiv.append(", ")
-      $("<span/>").text(publi.page).appendTo(journaldiv)
+      if (publi.issue) {
+        $("<span/>").addClass("issue").text(publi.issue).appendTo(journaldiv)
+        journaldiv.append(", ")
+        $("<span/>").text(publi.page).appendTo(journaldiv)
+      }
       $("<a/>", {
         href: publi.URL,
         target: "_blank"
