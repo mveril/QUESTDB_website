@@ -51,19 +51,17 @@ class newCommand(commandBase):
         if str(tex)==str(cmd):
           tex.expr=fres.expr
         else:
-          
-          
-    
-    def tryRun():
-      cmds=list(tex.find_all(self.commandName))
-      if len(cmds)!=0:
-        for cmd in cmds:
-          if self.argNum==0:
-            res=self.result
-          else:
-            res=re.sub('#[1-{}]'.format(self.argNum),lambda m: cmd.args[int(m.group(1))-1],self.result)
-          soup=TexSoup(res)
-          tex.replace(cmd,soup)
+          tex.replace(cmd,fres)    
+  def tryRun(self,tex):
+    cmds=list(tex.find_all(self.commandName))
+    if len(cmds)!=0:
+      for cmd in cmds:
+        if self.argNum==0:
+          res=self.result
+        else:
+          res=re.sub('#[1-{}]'.format(self.argNum),lambda m: cmd.args[int(m.group(1))-1],self.result)
+        soup=TexSoup(res)
+        tex.replace(cmd,soup)
 
   @staticmethod
   def runAll(tex,collection):
@@ -109,6 +107,7 @@ def tabularToData(table,commands=None):
           mcolel=child[0]
           mcol=multiColumn(mcolel)
           el=mcol.contents
+          el=desarg(el)
           if commands!=None:
             newCommand.runAll(el,commands)
           for i in range(int(mcol.cols)):
