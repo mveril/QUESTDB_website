@@ -51,7 +51,11 @@ class newCommand(commandBase):
         if str(tex)==str(cmd):
           tex.expr=fres.expr
         else:
-          tex.replace(cmd,fres)    
+          try:
+            tex.replace(cmd,fres)
+          except:
+            return False
+          return True
   def tryRun(self,tex):
     cmds=list(tex.find_all(self.commandName))
     if len(cmds)!=0:
@@ -68,7 +72,9 @@ class newCommand(commandBase):
     cmds=[cmd for cmd in collection if cmd.exist(tex)]
     if(len(cmds)>0):
       for cmd in cmds:
-        cmd.run(tex)
+        if not cmd.run(tex):
+          cmds.remove(cmd)
+          collection.remove(cmd)
       newCommand.runAll(tex,collection)
 class columnAlignment(Enum):
   Left = "l"
