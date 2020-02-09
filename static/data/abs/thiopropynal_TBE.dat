@@ -1,0 +1,12 @@
+# Molecule : Thiopropynal
+# Comment  : 
+# code     : 
+# method   : TBE
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     A''          (\mathrm{V}; n \rightarrow \pi^\star)   2.04          87.5           0.000        false
+  1       1      A_1       1       3     A''          (\mathrm{V}; n \rightarrow \pi^\star)   1.81          97.2           _            false

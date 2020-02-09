@@ -9,7 +9,7 @@ from lib.Format import Format
 from TexSoup import TexSoup
 from lib.data import dataFileBase,dataType
 import argparse
-DEBUG=True
+DEBUG=False
 parser = argparse.ArgumentParser()
 parser.add_argument('--file', type=argparse.FileType('r'))
 parser.add_argument('--defaultType', type=str, choices=[t.name for t in list(dataType)])
