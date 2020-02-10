@@ -1,8 +1,8 @@
 # Molecule : Diacetylene
 # Comment  : 
-# code     : 
+# code     : CFOUR
 # method   : CCSDTQ,6-31+G(d)
-# geom     : 
+# geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.9b01216
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
