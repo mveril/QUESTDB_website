@@ -1,0 +1,18 @@
+# Molecule : Acrolein
+# Comment  : 
+# code     : 
+# method   : CC3(FC),aug-cc-pVQZ
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     A''          (n \rightarrow \pi^\star)               3.75          _              _            false
+  1       1      A_1       1       1     A'           (\pi \rightarrow \pi^\star)             6.65          _              _            false
+  1       1      A_1       2       1     A''          (n \rightarrow \pi^\star)               6.77          _              _            false
+  1       1      A_1       1       1     A'           (n \rightarrow 3s)                      7.11          _              _            false
+  1       1      A_1       1       3     A''          (n \rightarrow \pi^\star)               3.47          _              _            false
+  1       1      A_1       1       3     A'           (\pi \rightarrow \pi^\star)             3.95          _              _            false
+  1       1      A_1       2       3     A'           (\pi \rightarrow \pi^\star)             6.20          _              _            false
+  1       1      A_1       2       3     A''          (n \rightarrow \pi^\star)               6.63          _              _            false
