@@ -1,0 +1,14 @@
+# Molecule : Propynal
+# Comment  : 
+# code     : 
+# method   : CC3(Full),aug-cc-pVQZ
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     A''          (n \rightarrow \pi^\star)               3.82          _              _            false
+  1       1      A_1       1       1     A''          (\pi \rightarrow \pi^\star)             5.50          _              _            false
+  1       1      A_1       1       3     A''          (n \rightarrow \pi^\star)               3.49          _              _            false
+  1       1      A_1       1       3     A'           (\pi \rightarrow \pi^\star)             4.43          _              _            false
