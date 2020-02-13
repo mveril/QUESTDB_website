@@ -1,0 +1,13 @@
+# Molecule : Cyanogen
+# Comment  : 
+# code     : 
+# method   : PC-NEVPT2(8,8),aug-cc-pVTZ
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_1       1       1     \Sigma_u^-   _                                       6.32          _              _            false
+  1       1      A_1       1       1     \Delta_u     _                                       6.66          _              _            false
+  1       1      A_1       1       3     \Sigma_u^+   _                                       4.88          _              _            false
