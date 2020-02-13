@@ -1,0 +1,11 @@
+# Molecule : Cyanogen
+# Comment  : 
+# code     : 
+# method   : TBE,aug-cc-pVTZ
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_fluo        %T1            f            is unsafe
+  1       1      A_1       1       1     \Sigma_u^-   (\mathrm{V}; \pi \rightarrow \pi^\star) 5.05          _              _            false
