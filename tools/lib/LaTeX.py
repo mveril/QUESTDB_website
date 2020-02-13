@@ -54,6 +54,7 @@ class newCommand(commandBase):
           try:
             tex.replace(cmd,fres)
           except:
+            print(f"Unable to replace {str(cmd)}",file=sys.stderr)
             return False
           return True
   def tryRun(self,tex):
