@@ -56,7 +56,7 @@ class newCommand(commandBase):
           except:
             print(f"Unable to replace {str(cmd)}",file=sys.stderr)
             return False
-          return True
+        return True
   def tryRun(self,tex):
     cmds=list(tex.find_all(self.commandName))
     if len(cmds)!=0:
