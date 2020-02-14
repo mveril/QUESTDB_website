@@ -1,9 +1,9 @@
 # Molecule : Triazine
 # Comment  : 
-# code     : 
+# code     : CFOUR
 # method   : CC3(FC),aug-cc-pVTZ
-# geom     : 
-# DOI      : 
+# geom     : CC3/aug-CC-pVTZ
+# DOI      : 10.1021/acs.jctc.9b01216,true
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############

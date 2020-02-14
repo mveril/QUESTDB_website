@@ -1,9 +1,9 @@
 # Molecule : Cyanogen
 # Comment  : 
-# code     : 
+# code     : Molpro
 # method   : PC-NEVPT2(8,8),6-31+G(d)
-# geom     : 
-# DOI      : 
+# geom     : CC3/aug-CC-pVTZ
+# DOI      : 10.1021/acs.jctc.9b01216,true
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############
