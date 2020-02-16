@@ -65,6 +65,16 @@ class dataFileBase(object):
 
   @staticmethod
   def readFromTable(table,format=Format.LINE,default=dataType.ABS ,firstState=state(1,1,"A_1"),commands=[]):
+    def getSubtableIndex(table):
+      subtablesindex=list()
+      firstindex=2
+      for i in range(3,np.size(table,0)):
+        if str(table[i,0])!="":
+          subtablesindex.append((firstindex,i-1))
+          firstindex=i
+      subtablesindex.append((firstindex,np.size(table,0)))
+      return subtablesindex
+
     datalist=list()
     switcher={
       dataType.ABS:AbsDataFile,
@@ -96,13 +106,7 @@ class dataFileBase(object):
           datalist.append(value)
       return datalist
     elif format==Format.COLUMN:
-      subtablesindex=list()
-      firstindex=2
-      for i in range(3,np.size(table,0)):
-        if str(table[i,0])!="":
-          subtablesindex.append((firstindex,i-1))
-          firstindex=i
-      subtablesindex.append((firstindex,np.size(table,0)))
+      subtablesindex=getSubtableIndex(table)
       for first, last in subtablesindex:
         for col in range(2,np.size(table,1)):
           datacls=dict()
@@ -128,13 +132,7 @@ class dataFileBase(object):
             datalist.append(value)
       return datalist
     elif format==Format.TBE:
-      subtablesindex=list()
-      firstindex=2
-      for i in range(3,np.size(table,0)):
-        if str(table[i,0])!="":
-          subtablesindex.append((firstindex,i-1))
-          firstindex=i
-      subtablesindex.append((firstindex,np.size(table,0)))
+      subtablesindex=getSubtableIndex(table)
       for first, last in subtablesindex:
         datacls=dict()
         mymolecule=str(table[first,0])
