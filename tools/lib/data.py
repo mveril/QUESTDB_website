@@ -102,6 +102,7 @@ class dataFileBase(object):
         if str(table[i,0])!="":
           subtablesindex.append((firstindex,i-1))
           firstindex=i
+      subtablesindex.append((firstindex,np.size(table,0)))
       for first, last in subtablesindex:
         for col in range(2,np.size(table,1)):
           datacls=dict()
@@ -133,6 +134,7 @@ class dataFileBase(object):
         if str(table[i,0])!="":
           subtablesindex.append((firstindex,i-1))
           firstindex=i
+      subtablesindex.append((firstindex,np.size(table,0)))
       for first, last in subtablesindex:
         datacls=dict()
         mymolecule=str(table[first,0])
