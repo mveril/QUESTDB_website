@@ -26,12 +26,12 @@ draft: false
 <script src="https://cdn.jsdelivr.net/npm/bowser@2.5.3/es5.min.js"></script>
 <script src="/js/numberUtils.js"></script>
 <script>
-  function adjustSticky(){
-    const height=$("nav").height()
-    $("thead.sticky > tr > th ").css("top",height)
+  function adjustSticky() {
+    const height = $("nav").height()
+    $("thead.sticky > tr > th ").css("top", height)
   }
   window.onload = async () => {
-    window.browser=bowser.getParser(window.navigator.userAgent);
+    window.browser = bowser.getParser(window.navigator.userAgent);
     $("input[type='checkbox']:checked").trigger("change")
 
     adjustSticky();
@@ -41,28 +41,28 @@ draft: false
     getAllSelect().each(function () {
       $("<li/>").text($('label[for="' + $(this).attr('id') + '"]').text()).appendTo(slist)
     })
-    $('[data-needbrowser],[data-neednotbrowser]').each(function() {
-      function test(key,value){
+    $('[data-needbrowser],[data-neednotbrowser]').each(function () {
+      function test(key, value) {
         switch (key) {
           case "Engine":
-            return value.some((v)=>browser.isEngine(v))
+            return value.some((v) => browser.isEngine(v))
             break;
           case "Browser":
-            return value.some((v)=>browser.isBrowser(v))
+            return value.some((v) => browser.isBrowser(v))
           case "Platform":
-            return value.some((v)=>browser.isPlatform(v))
+            return value.some((v) => browser.isPlatform(v))
           case "OS":
-            return value.some((v)=>browser.isOS(v))
+            return value.some((v) => browser.isOS(v))
           default:
             return true
             break;
         }
       }
-      const needdata=$(this).data("needbrowser")
-      const neednotdata=$(this).data("neednotbrowser")
-      const need = ((needdata==null) ? true : Object.entries(needdata).every(kv=>test(kv[0],kv[1])))
-      const neednot=((neednotdata==null) ? true : Object.entries(neednotdata).some(kv=>!test(kv[0],kv[1])))
-      if(need && neednot){
+      const needdata = $(this).data("needbrowser")
+      const neednotdata = $(this).data("neednotbrowser")
+      const need = ((needdata == null) ? true : Object.entries(needdata).every(kv => test(kv[0], kv[1])))
+      const neednot = ((neednotdata == null) ? true : Object.entries(neednotdata).some(kv => !test(kv[0], kv[1])))
+      if (need && neednot) {
         $(this).show()
       } else {
         $(this).hide()
@@ -70,7 +70,7 @@ draft: false
     })
     var cbextl = $("#cb_exTypeList")
     var extl = $("#exTypeList")
-    var vertkindtl=$("#exVertKindList")
+    var vertkindtl = $("#exVertKindList")
     for (const [name, value] of VertExcitationKinds.All) {
       $("<li/>").text(name).appendTo(vertkindtl)
     }
@@ -121,14 +121,20 @@ draft: false
     proms.push(getFluoFilesName().map((f) => VertDataFile.loadAsync(f, VertExcitationKinds.Fluorescence)))
     window.defaultDats = []
     for (const subproms of proms) {
-      var sub = await Promise.all(subproms)
-      for (mol of uniq(sub.map(d => d.molecule))) {
-        submol = sub.filter(d => d.molecule == mol)
-        TBE = sub.find((d) => d.method.isTBE)
-        for (dat of submol.filter((d) => d !== TBE)) {
-          dat.CopyExcitationsTypeFrom(TBE)
+      const sub = await Promise.all(subproms)
+      for (const doi of uniq(sub.map(d => d.DOI.string))) {
+        const subdoi = sub.filter(d => d.DOI.string === doi)
+        for (mol of uniq(subdoi.map(d => d.molecule))) {
+          const submol = subdoi.filter(d => d.molecule === mol)
+          const TBE = submol.find((d) => d.method.isTBE)
+          if (TBE !== undefined) {
+            for (dat of submol.filter((d) => d !== TBE)) {
+              dat.CopyExcitationsTypeFrom(TBE)
+            }
+          }
         }
       }
+
       window.defaultDats = window.defaultDats.concat(sub)
     }
     processingIndicator.isActive = false
@@ -181,7 +187,7 @@ draft: false
     if (!isLast) {
       await reloadSelect(afters.prop("name"))
     }
-    const fillArray=["molecule"]
+    const fillArray = ["molecule"]
     if (fillArray.includes(afters.prop("name"))) {
       selectSelectAll(afters.first())
     }
@@ -443,7 +449,7 @@ draft: false
               if (kv !== undefined) {
                 const [val, unsafe] = kv[1]
                 if (unsafe) {
-                  td.append($("<span/>", { title: "unsafe value", role:"img", "aria-label":"Warning", style: "font-family: color-emoji;" }).text('⚠'))
+                  td.append($("<span/>", { title: "unsafe value", role: "img", "aria-label": "Warning", style: "font-family: color-emoji;" }).text('⚠'))
                 }
                 if (unsafe && !$("#cb_unsafe").is(':checked')) {
                   td.append($("<s/>").append(val.toString()))
@@ -486,7 +492,10 @@ draft: false
       <li>Fluorescence</li>
     </ul>
     <li>Choose each parameter (of course you can select multiples values for each) you can use the the <buttongit
-        disabled>Select all</button> button to select all items <span hidden data-needbrowser='{"Engine":["WebKit","Blink"],"Platform":["desktop"]}'>or use the <kbd data-needbrowser='{"OS":["MacOS"]}'>CMD</kbd><kbd data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd> shortcut key</span></li>
+        disabled>Select all</button> button to select all items <span hidden
+          data-needbrowser='{"Engine":["WebKit","Blink"],"Platform":["desktop"]}'>or use the <kbd
+            data-needbrowser='{"OS":["MacOS"]}'>CMD</kbd><kbd
+            data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd> shortcut key</span></li>
     <ul id="SelectList"></ul>
     <li>Choose filters:</li>
     <ul>
