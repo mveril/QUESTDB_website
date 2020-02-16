@@ -6,7 +6,7 @@ draft: false
 <link rel="stylesheet" type="text/css" href="/css/modal.css" />
 <link rel="stylesheet" type="text/css" href="/css/form.css" />
 <link rel="stylesheet" type="text/css" href="/css/table.css" />
-<link rel="stylesheet" type="text/css" href="/css/color-emoji-font.css" />
+<link rel="stylesheet" type="text/css" href="/css/emoji.css" />
 <script src="/js/data.js" type="text/javascript"></script>
 <script src="/js/loadAllData.js" type="text/javascript"></script>
 <script src="/js/getFullDataPath.js" type="text/javascript"></script>
@@ -449,7 +449,7 @@ draft: false
               if (kv !== undefined) {
                 const [val, unsafe] = kv[1]
                 if (unsafe) {
-                  td.append($("<span/>", { title: "unsafe value", role: "img", "aria-label": "Warning", style: "font-family: color-emoji;" }).text('⚠'))
+                  td.append($("<span/>", { title: "unsafe value", role: "img", "aria-label": "Warning" }).addClass("emoji").text('⚠'))
                 }
                 if (unsafe && !$("#cb_unsafe").is(':checked')) {
                   td.append($("<s/>").append(val.toString()))
@@ -476,7 +476,7 @@ draft: false
 {{< getDataFilesName >}}
 <noscript>
   <p style="background-color: red; color: white; font-size: 20; font-weight: bold;">
-    <span role="img" aria-label="Warning" style="font-family: color-emoji; font-weight: normal;">⚠</span>
+    <span role="img" aria-label="Warning" class="emoji">⚠</span>
     <span>This website work only if JavaScript is enable. You must enable
       JavaScript.
       <a href="https://www.enable-javascript.com/" target="_blank">How to enable JavaScript ?</a></span>
