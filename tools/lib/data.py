@@ -49,18 +49,22 @@ class dataFileBase(object):
       st=str(mathsoup)
       m=re.match(r"^\^(?P<multiplicity>\d)(?P<symm>[^\s\[(]*)\s*(?:\[(?:\\mathrm{)?(?P<special>\w)(?:})\])?\s*\((?P<type>[^\)]*)\)",st)
       seq=m.group("multiplicity","symm")
+      mul=int(m.group("multiplicity"))
+      symm=m.group("symm")
       spgrp=m.group("special")
       if spgrp is not None and spgrp=="F":
         trsp=dataType.FLUO
       else:
         trsp=default
       tygrp=m.group("type")
-      tmplst.append((*seq,trsp,tygrp))
+      tmplst.append((mul,symm,trsp,tygrp))
     lst=[]
     for index,item in enumerate(tmplst):
-      unformfirststate=(str(firstState.multiplicity),firstState.symetry)
-      count=([unformfirststate]+tmplst[:index+1]).count(item)
-      lst.append((state(count,int(item[0]),item[1]),item[2],item[3]))
+      unformfirststate=(firstState.multiplicity,firstState.symetry)
+      countlst=[unformfirststate]+[(it[0],it[1]) for it in tmplst[:index+1]]
+      countitem=(item[0],item[1])
+      count=countlst.count(countitem)
+      lst.append((state(count,item[0],item[1]),item[2],item[3]))
     return lst
 
   @staticmethod
