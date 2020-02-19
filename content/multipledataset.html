@@ -429,12 +429,10 @@ draft: false
             Reflect.setPrototypeOf(ex[2], excitationType.prototype)
             Reflect.setPrototypeOf(ex[3], VertExcitationKind.prototype)
             var tr = $("<tr/>")
-            var tdmol = $("<td/>")
             if (printmol) {
-              $(tdmol).text(molecule)
+              $("<td/>",{rowspan:moldat.size}).text(molecule).appendTo(tr)
               printmol = false
             }
-            tr.append(tdmol)
             var Vertkindtext = ""
             if (ex[3].Value == VertExcitationKinds.Fluorescence.Value) {
               Vertkindtext = String.raw`[${VertExcitationKinds.Fluorescence.LaTeX}]`
