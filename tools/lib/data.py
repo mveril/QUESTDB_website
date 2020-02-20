@@ -194,7 +194,7 @@ class dataFileBase(object):
 #######################  #######################  ########################################  ############# ####### ################### ##############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_{:5s}       %T1            f            is unsafe\n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:40s}{:14s}{:15s}{:13s}{}\n".format(
+          mystr="  {:7s} {:6s} {:9s} {:7s} {:5s} {:12s} {:39s} {:13s} {:14s} {:12s}{}\n".format(
             str(ex.initial.number),
             str(ex.initial.multiplicity),
             ex.initial.symetry,
