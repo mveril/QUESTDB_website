@@ -434,7 +434,7 @@ draft: false
             if (ex[3].Value == VertExcitationKinds.Fluorescence.Value) {
               Vertkindtext = String.raw`[${VertExcitationKinds.Fluorescence.LaTeX}]`
             }
-            $("<th/>", { scope: "row" }).text(String.raw`${LatexInline[0]}${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} ${Vertkindtext}(${ex[2].LaTeX}) ${LatexInline[1]}`).appendTo(tr)
+            $("<th/>", { scope: "rowgroup" }).text(String.raw`${LatexInline[0]}${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} ${Vertkindtext}(${ex[2].LaTeX}) ${LatexInline[1]}`).appendTo(tr)
             var entries = Array.from(exdat.entries())
             for (const method of sortedMethods) {
               td = $("<td/>").addClass("NumberCell")
