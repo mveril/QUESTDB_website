@@ -399,8 +399,9 @@ draft: false
         var head = $("<tr/>")
         $("<thead/>").addClass("sticky").append(head).appendTo(table)
         var tbody = $("<tbody/>").appendTo(table)
-        head.append(["Molecule", "Transition"].map(x => $("<th/>").text(x)))
-        head.append(sortedMethods.map(x => $("<th/>").text(x.toString().split('-').join('\u2011'))))
+        var th=$("<th/>",{scope:"column"})
+        head.append(["Molecule", "Transition"].map(x => th.clone().text(x)))
+        head.append(sortedMethods.map(x => th.clone().text(x.toString().split('-').join('\u2011'))))
         adjustSticky();
         datadic = new Map()
         for (const dat of paperdata) {
@@ -430,14 +431,14 @@ draft: false
             Reflect.setPrototypeOf(ex[3], VertExcitationKind.prototype)
             var tr = $("<tr/>")
             if (printmol) {
-              $("<td/>",{rowspan:moldat.size}).text(molecule).appendTo(tr)
+              $("<th/>",{ scope:"row", rowspan:moldat.size}).text(molecule).appendTo(tr)
               printmol = false
             }
             var Vertkindtext = ""
             if (ex[3].Value == VertExcitationKinds.Fluorescence.Value) {
               Vertkindtext = String.raw`[${VertExcitationKinds.Fluorescence.LaTeX}]`
             }
-            $("<td/>").text(String.raw`${LatexInline[0]}${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} ${Vertkindtext}(${ex[2].LaTeX}) ${LatexInline[1]}`).appendTo(tr)
+            $("<th/>",{scope:"row"}).text(String.raw`${LatexInline[0]}${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} ${Vertkindtext}(${ex[2].LaTeX}) ${LatexInline[1]}`).appendTo(tr)
             var entries = Array.from(exdat.entries())
             for (const method of sortedMethods) {
               td = $("<td/>").addClass("NumberCell")
