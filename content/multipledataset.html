@@ -269,13 +269,13 @@ draft: false
       Reflect.setPrototypeOf(key[0], method.prototype)
       //Reflect.setPrototypeOf(key[1], DOI.prototype)
       for (const [i, el] of key.entries()) {
-        var td = $("<td/>")
+        var td = $("<th/>",{scope:"column"})
         if (i === 1) {
           var publi = doiCache.get(el, true)
           const sets = await getSets()
           if (sets.has(el)) {
             var str = sets.get(el)
-            $(td).append(str)
+            $(td).append(str+ " ")
           }
           $("<a/>", {
             href: new DOI(el).url,
