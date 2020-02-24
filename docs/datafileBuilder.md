@@ -1,0 +1,99 @@
+# DatafileBuilder
+
+DatafileBuilder.py is a script to read a $\LaTeX$  `tabular`  environment to data file for the website
+
+## Requirement
+
+To run the script you must have this two elements
+
+- Python≥3
+- [TexSoup](https://github.com/alvinwan/TexSoup)
+
+## Warning
+
+There is absolutly no guarantee of success
+
+## Example input
+
+```latex
+\newcommand{\TDDFT}{TD-DFT}
+\newcommand{\CASSCF}{CASSCF}
+\newcommand{\CASPT}{CASPT2}
+\newcommand{\ADC}[1]{ADC(#1)}
+\newcommand{\CC}[1]{CC#1}
+\newcommand{\CCSD}{CCSD}
+\newcommand{\EOMCCSD}{EOM-CCSD}
+\newcommand{\CCSDT}{CCSDT}
+\newcommand{\CCSDTQ}{CCSDTQ}
+\newcommand{\CCSDTQP}{CCSDTQP}
+\newcommand{\CI}{CI}
+\newcommand{\sCI}{sCI}
+\newcommand{\exCI}{exFCI}
+\newcommand{\FCI}{FCI}
+
+% basis
+\newcommand{\AVDZ}{aug-cc-pVDZ}
+\newcommand{\AVTZ}{aug-cc-pVTZ}
+\newcommand{\DAVTZ}{d-aug-cc-pVTZ}
+\newcommand{\AVQZ}{aug-cc-pVQZ}
+\newcommand{\DAVQZ}{d-aug-cc-pVQZ}
+\newcommand{\TAVQZ}{t-aug-cc-pVQZ}
+\newcommand{\AVPZ}{aug-cc-pV5Z}
+\newcommand{\DAVPZ}{d-aug-cc-pV5Z}
+\newcommand{\PopleDZ}{6-31+G(d)}
+
+% greek shortcut
+\newcommand{\pis}{\pi^\star}
+\newcommand{\Ryd}{\mathrm{R}}
+
+\begin{tabular}{l|p{.6cm}p{1.1cm}p{1.4cm}p{1.7cm}p{.9cm}|p{.6cm}p{1.1cm}p{1.4cm}p{.9cm}|p{.6cm}p{1.1cm}p{.9cm}|p{.7cm}p{.7cm}p{.7cm}}
+			 \multicolumn{16}{c}{Water}\\
+			& \multicolumn{5}{c}{\AVDZ} & \multicolumn{4}{c}{\AVTZ}& \multicolumn{3}{c}{\AVQZ} & \multicolumn{3}{c}{Litt.}\\
+	State 	& {\CC{3}} & {\CCSDT} & {\CCSDTQ} & {\CCSDTQP} & {\exCI} & {\CC{3}} & {\CCSDT} & {\CCSDTQ}  & {\exCI}& {\CC{3}} & {\CCSDT}   & {\exCI} & Exp.$^a$ & Th.$^b$ & Th.$^c$\\
+	$^1B_1 (n \rightarrow 3s)$ 	&7.51&7.50&7.53&7.53&7.53	&7.60&7.59&7.62&7.62	&7.65	&7.64	&7.68	&7.41 &7.81&7.57\\
+	$^1A_2 (n \rightarrow 3p)$ 	&9.29&9.28&9.31&9.32&9.32	&9.38&9.37&9.40&9.41	&9.43	&9.41	&9.46	&9.20 &9.30&9.33\\
+	$^1A_1 (n \rightarrow 3s)$ 	&9.92&9.90&9.94&9.94&9.94	&9.97&9.95&9.98&9.99	&10.00	&9.98	&10.02	&9.67 &9.91&9.91\\
+	$^3B_1 (n \rightarrow 3s)$ 	&7.13&7.11&7.14&7.14&7.14	&7.23&7.22&7.24&7.25	&7.28	&7.26	&7.30	&7.20 &7.42&7.21\\
+	$^3A_2 (n \rightarrow 3p)$ 	&9.12&9.11&9.14&9.14&9.14	&9.22&9.20&9.23&9.24	&9.26	&9.25	&9.28	&8.90 &9.42&9.19\\
+	$^3A_1 (n \rightarrow 3s)$ 	&9.47&9.45&9.48&9.49&9.49	&9.52&9.50&9.53&9.54	&9.56	&9.54	&9.58	&9.46 &9.78&9.50\\
+\end{tabular}
+```
+
+all '\newcommand' are applied to the cell of the tabular and the tabular is parsed to extract data
+
+## General rules
+
+The general rules to extract data correctly are:
+
+- A `$` must not follow another `$` put space between them.
+
+- The column number must be the same on each line in `tabular`
+
+- Please respect the format of each tabular
+
+- Use standard $\LaTeX$ for the  `multicolumn ` command and not a wrapper
+
+- In general use standard $\LaTeX$ instead of dirty form for example
+
+  ```latex
+  $A''$ % Bad
+  $A^"$ % Bad
+  $A^{\prime\prime}$ %Good
+  ```
+
+- D'ont put comment at the end of  `tabular `  row (this cause a TexSoup bug)
+- Only  `tabular ` environment is supported please convert `longtable ` and  other table format to  `tabular 
+- Only  `\newcommand ` are supported please  convert  `\def ` and  `\NewDocumentCommand `
+- After executing all commands the basis and methods name must be $\LaTeX$ free (only plan text)
+
+### Unsafe values
+
+Unsafe value (value that must not included in the statistics table and graph) must be in emphasis like
+
+$\emph{6.2}$
+
+```latex
+\emph{6.2}
+```
+
+that set the unsafe 
