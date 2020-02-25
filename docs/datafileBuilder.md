@@ -1,19 +1,57 @@
 # DatafileBuilder
 
-DatafileBuilder.py is a script to read a $\LaTeX$  `tabular`  environment to data file for the website
+DatafileBuilder.py is a script to read a $\mathrm{\LaTeX}$  `tabular`  environment to data file for the website.
 
 ## Requirement
 
-To run the script you must have this two elements
+To run the script you must have this two elements.
 
-- Python≥3
+- [Python](https://www.python.org/)≥3
 - [TexSoup](https://github.com/alvinwan/TexSoup)
 
-## Warning
+## Command line usage
 
-There is absolutly no guarantee of success
+```
+usage: datafileBuilder.py [-h] [--file FILE] [--defaultType {ABS,FLUO}]
+                          [--format {LINE,COLUMN,TBE}] [--debug]
 
-## Example input
+optional arguments:
+  -h, --help            show this help message and exit
+  --file FILE
+  --defaultType {ABS,FLUO}
+  --format {LINE,COLUMN,TBE}
+  --debug               Debug mode
+```
+
+The default type is `ABS` (for absorbtion).
+
+The default format is LINE described [below](#the-line-format)
+
+## Disclaimer
+
+There is **absolutly no guarantee** of success.
+
+If the program crach of if the result is not correct please:
+
+- Check if the input file respect the selected [format](#formats)
+- **Simplify** the $\mathrm{\LaTeX}$ code of the input file as much as possible
+
+## Input
+
+### Input skeleton
+
+```latex
+% \newcommand area
+\newcommand{}{}{}
+% ther cusom commands definition with or without arguments
+\newcommand{}{}
+
+\begin{tabular}
+% Tabular in one of the format supported by the script
+\end{tabular}
+```
+
+### Example of input
 
 ```latex
 \newcommand{\TDDFT}{TD-DFT}
@@ -31,7 +69,7 @@ There is absolutly no guarantee of success
 \newcommand{\exCI}{exFCI}
 \newcommand{\FCI}{FCI}
 
-% basis
+
 \newcommand{\AVDZ}{aug-cc-pVDZ}
 \newcommand{\AVTZ}{aug-cc-pVTZ}
 \newcommand{\DAVTZ}{d-aug-cc-pVTZ}
@@ -42,7 +80,7 @@ There is absolutly no guarantee of success
 \newcommand{\DAVPZ}{d-aug-cc-pV5Z}
 \newcommand{\PopleDZ}{6-31+G(d)}
 
-% greek shortcut
+
 \newcommand{\pis}{\pi^\star}
 \newcommand{\Ryd}{\mathrm{R}}
 
@@ -59,21 +97,21 @@ There is absolutly no guarantee of success
 \end{tabular}
 ```
 
-all '\newcommand' are applied to the cell of the tabular and the tabular is parsed to extract data
+All '\newcommand' are applied to the cell of the tabular and the tabular is parsed to extract data.
 
-## General rules
+### General rules
 
 The general rules to extract data correctly are:
 
 - A `$` must not follow another `$` put space between them.
 
-- The column number must be the same on each line in `tabular`
+- The column number must be the same on each row of the `tabular`
 
-- Please respect the format of each tabular
+- Please respect the format of each tabular.
 
-- Use standard $\LaTeX$ for the  `multicolumn ` command and not a wrapper
+- Use standard $\mathrm{\LaTeX}$ for the  `\multicolumn` command and not a wrapper.
 
-- In general use standard $\LaTeX$ instead of dirty form for example
+- In general use standard $\mathrm{\LaTeX}$ instead of dirty form for example.
 
   ```latex
   $A''$ % Bad
@@ -81,19 +119,140 @@ The general rules to extract data correctly are:
   $A^{\prime\prime}$ %Good
   ```
 
-- D'ont put comment at the end of  `tabular `  row (this cause a TexSoup bug)
-- Only  `tabular ` environment is supported please convert `longtable ` and  other table format to  `tabular 
-- Only  `\newcommand ` are supported please  convert  `\def ` and  `\NewDocumentCommand `
-- After executing all commands the basis and methods name must be $\LaTeX$ free (only plan text)
+- D'ont put comment at the end of  `tabular `  row (this cause a TexSoup bug).
+
+- Only  `tabular` environment is supported please convert `longtable` and  other table format to  `tabular .
+
+- Only  `\newcommand` are supported please  convert  `\def` and  `\NewDocumentCommand`.
+- After executing all commands the basis and methods name must be $\mathrm{\LaTeX}$ free (only plan text).
 
 ### Unsafe values
 
-Unsafe value (value that must not included in the statistics table and graph) must be in emphasis like
+Unsafe value (value that must not included in the statistics table and graph) must be in emphasis or with $\sim$ symbol like
 
-$\emph{6.2}$
+> *42*
+> $\sim 42$
 
 ```latex
-\emph{6.2}
+\emph{42} % unsafe=true
+$\sim$ 42 % unsafe=true
+42 % unsafe=false
 ```
 
-that set the unsafe 
+that set the unsafe boolean value to true in the output data file
+
+#### Formats
+
+##### Generality
+
+###### Transition format
+
+```latex
+$^m s[\mathrm{F}](T)$
+```
+
+Where `m` is the multiplicity `s` is the symetry and `\mathrm{F}` if it is present specifies that the vertical transition is fluorescence
+
+T is transition type and must be in the format
+
+```latex
+initial \rightarrow final
+```
+
+All the $\mathrm{\LaTeX}$ code in this format must be standard latex except of the command define on the `\newcommand` section
+
+##### The line format
+
+```latex
+\begin{tabular}
+			& \multicolumn{n}{c}{Molecule} \\
+			& basis#1 & basis#2 & basis#n \\ % You can also use the LaTeX standard \multiculumn command
+	State 	& method#1 & method#2 method#n \\  % You can also use the LaTeX standard \multiculumn command
+	$Transition#1$ 	& value11&value#12 & ... value#1n\\
+	$Transition#2$ 	& value21&value#22 & ... value#2n\\
+% All the other transition
+	$Transition#m$ 	& value#m1&value#m2 & ... value#mn\\
+\end{tabular}
+```
+
+##### The column format
+
+```latex
+\begin{tabular}
+  &		& basis#1 & basis#2 & basis#n \\ % You can also use the LaTeX standard \multiculumn command
+  Molecule &State 	& method#1 & method#2 method#n \\  % You can also use the LaTeX standard \multiculumn command
+  molecule#1	&$Transition#11$			&value#111&value#112 ... &value#11n	\\
+        &$Transition#12$			&value#121&value#122 &value#12n	\\
+% Other transition on the molecule#1
+        &$Transition#1m$			&value#1m1&value#1m1 &value#1nm	\\
+% Other molecules
+  molecule#k	&$Transition#k1$			&value#k11&value#k12 ... &value#k1n	\\
+% Other transition on the molecule#k
+        &$Transition#km$			&value#km1&value#km2 &value#kmn	\\
+\end{tabular}
+```
+
+This format is very powerfull because it can be used with multiple molecules.
+
+##### The TBE format
+
+The `TBE` format is a variant of the `COLUMN` but made for theoretical best estimate tabular
+
+> Warning:
+>
+> The basis is not extract from the TBE format
+
+```latex
+\begin{tabular}
+                        &		&	&		& TBE(FC)&  \multicolumn{3}{c}{Corrected TBE} \\
+                        & State	 & $f$ & \%$T_1$ & 	basis	& Method & Corr.	& Value \\
+      molecule#1	&$transition#11$					& fvalue#11	&\%T_1value#11& fceval#11		& not used value & not used value		& eval#11	\\
+                        &$transition#12$					& fvalue#12	&\%T_1value#12& fceval#12		& not used value & not used value		& eval#12	\\
+% Other transition on the same molecule
+                        &$transition#1n$					& fvalue#12	&\%T_1value#12& fceval#1n		& not used value & not used value		& eval#12	\\
+      molecule#m	&$transition#m1$					& fvalue#m1	&\%T_1value#m1& fceval#m1		& not used value & not used value		& eval#k1	\\
+                        &$transition#m2$					& fvalue#m2	&\%T_1value#m2& fceval#m2		& not used value & not used value		& eval#m2	\\
+% Other transition on the same molecule
+                        &$transition#mn$					& fvalue#mn	&\%T_1value#mn& fceval#mn		& not used value & not used value		& eval#mn	\\
+\end{tabular}
+```
+
+## Output
+
+### Directory strucure
+
+```
+data
+├── abs
+│   ├── molecule#1_method#1_basis#1.dat
+│   ├── ...
+│   ├── molecule#n_basis#m_method#k.dat
+│   └── molecule#n_basis#m_method#k.dat
+└── fluo
+    ├── molecule#1_method#1_basis#1.dat
+    ├── ...
+    ├── molecule#n_basis#m_method#k.dat
+    └── molecule#n_basis#m_method#k.dat
+```
+
+When the debug flag is used instead of `data/` the root of output directory is `data/test/`
+
+### Output file
+
+```
+# Molecule : moleculename
+# Comment  : 
+# code     : codename,[version]
+# method   : method,[basis]
+# geom     : method,[basis]
+# DOI      : DOI,[isSupporting]
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  n       s      symm      n       s     symm         (excitationType)                        value         %T1val         forceval     isUnsafe
+```
+
+When each value are number spin value are integer symmetry and excitation type are standard LaTeX
+
+isSupporting and isUnsafe are boolean corrresponded to 'JavaScript' boolean values `true` or  `false`
