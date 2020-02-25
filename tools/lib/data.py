@@ -19,7 +19,6 @@ class state:
 class dataType(IntEnum):
   ABS=auto()
   FLUO=auto()
-  ZPE=auto()
 class dataFileBase(object):
   def __init__(self):
     self.molecule = ''
@@ -83,7 +82,6 @@ class dataFileBase(object):
     switcher={
       dataType.ABS:AbsDataFile,
       dataType.FLUO:FluoDataFile,
-      dataType.ZPE:ZPEDataFile
     }
     if format==Format.LINE:
       for col in range(1,np.size(table,1)):
@@ -267,26 +265,6 @@ class FluoDataFile(oneStateDataFileBase):
   def GetFileType():
     return dataType.FLUO
 
-class twoStateDataFileBase(dataFileBase):
-  def __init__(self):
-    super(twoStateDataFileBase,self).__init__()
-    self.GS=None
-    self.ES=None
-
-  def getMetadata(self):
-    dic=super(twoStateDataFileBase,self).getMetadata()
-    dic["GS"]= "" if self.GS is None else self.GS.toDataString()
-    dic["ES"]="" if self.ES is None else self.ES.toDataString()
-    dic.move_to_end("DOI")
-    return dic
-
-class ZPEDataFile(twoStateDataFileBase):
-  def __init__(self):
-    super(ZPEDataFile,self).__init__()
-  
-  @staticmethod
-  def GetFileType():
-    return dataType.ZPE
 
 class excitationBase:
   def __init__(self,initial, final, **kwargs):
