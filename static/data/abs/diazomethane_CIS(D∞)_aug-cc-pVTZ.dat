@@ -1,8 +1,8 @@
 # Molecule : Diazomethane
 # Comment  : 
-# code     : 
+# code     : MRCC
 # method   : CIS(D∞),aug-cc-pVTZ
-# geom     : CC3,aug-cc-pVTZ 
+# geom     : CC3,aug-cc-pVTZ
 # DOI      : 10.1021/acs.jctc.8b00406
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
@@ -14,4 +14,4 @@
   1       1      A_1       1       3     A_2          (\mathrm{V};\pi \rightarrow \pi^\star)  3.00          _              _            false
   1       1      A_1       1       3     A_1          (\mathrm{V};\pi \rightarrow \pi^\star)  4.20          _              _            false
   1       1      A_1       1       3     B_1          (\mathrm{R};\pi \rightarrow 3s)         5.50          _              _            false
-  1       1      A_1       1       3     A_1          (\mathrm{R};\pi \rightarrow 3p)         7.09          _              _            false
+  1       1      A_1       2       3     A_1          (\mathrm{R};\pi \rightarrow 3p)         7.09          _              _            false

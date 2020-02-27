@@ -1,8 +1,8 @@
 # Molecule : Nitrosomethane
 # Comment  : 
-# code     : 
+# code     : MRCC
 # method   : CIS(D∞),aug-cc-pVTZ
-# geom     : CC3,aug-cc-pVTZ 
+# geom     : CC3,aug-cc-pVTZ
 # DOI      : 10.1021/acs.jctc.8b00406
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
