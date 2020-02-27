@@ -25,7 +25,7 @@ optional arguments:
 
 The default type is `ABS` (for absorbtion).
 
-The default format is LINE described [below](#the-line-format)
+The default format is  `LINE ` described [below](#the-line-format)
 
 ## Disclaimer
 
@@ -123,7 +123,7 @@ The general rules to extract data correctly are:
 
 - Only  `tabular` environment is supported please convert `longtable` and  other table format to  `tabular .
 
-- Only  `\newcommand` are supported please  convert  `\def` and  `\NewDocumentCommand`.
+- Only  `\newcommand` are supported please  convert  `\def`  and  `\NewDocumentCommand`.
 - After executing all commands the basis and methods name must be $\mathrm{\LaTeX}$ free (only plan text).
 
 ### Unsafe values
@@ -139,7 +139,7 @@ $\sim$ 42 % unsafe=true
 42 % unsafe=false
 ```
 
-that set the unsafe boolean value to true in the output data file
+that set the unsafe boolean value to  `true ` in the output data file
 
 #### Formats
 
@@ -196,7 +196,7 @@ This format is very powerfull because it can be used with multiple molecules.
 
 ##### The TBE format
 
-The `TBE` format is a variant of the `COLUMN` but made for theoretical best estimate tabular
+The `TBE` format is a variant of the `COLUMN` format but made for theoretical best estimate tabular.
 
 > Warning:
 >
@@ -255,4 +255,6 @@ When the debug flag is used instead of `data/` the root of output directory is `
 
 When each value are number spin value are integer symmetry and excitation type are standard LaTeX
 
-isSupporting and isUnsafe are boolean corrresponded to 'JavaScript' boolean values `true` or  `false`
+isSupporting and isUnsafe are boolean corrresponded to  `JavaScript`  boolean values `true` or  `false`
+
+
