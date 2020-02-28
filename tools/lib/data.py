@@ -141,7 +141,7 @@ class dataFileBase(object):
       for first, last in subtablesindex:
         mymolecule=table[first,0]
         mytrans=table[first:first+1,1]
-        for i,mystr in enumerate(mytrans)):
+        for i,mystr in enumerate(mytrans):
           mystr=mytrans[i]
           try:
             mathsoup=TexSoup(mystr)
@@ -170,7 +170,7 @@ class dataFileBase(object):
                 for i,item in enumerate(infin):
                   m=re.match(r"^(?P<number>\d)\\[,:;\s]\s*\^(?P<multiplicity>\d)(?P<sym>\S*)",item)
                   infin[i]=state(m.group("number"),m.group("multiplicity"),m.group("sym"))
-              data.excitations.append(excitationValue(infin[0],infin[0],val,type=mytrans[1],isUnsafe=unsafe,T1=T1))
+              data.excitations.append(excitationValue(infin[0],infin[1],val,type=mytrans[1],isUnsafe=unsafe,T1=T1))
           for value in datacls.values():
             datalist.append(value)
     elif format==Format.TBE:
