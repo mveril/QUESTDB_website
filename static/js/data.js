@@ -81,10 +81,10 @@ class method {
       return new method(vals[0], null)
     }
   }
-  toString() {
+  toString(separator="/") {
     var str = this.name;
     if (this.basis) {
-      str = str + '/' + this.basis;
+      str = str + separator + this.basis;
     }
     return str;
   }
