@@ -11,6 +11,6 @@
   1       1      A_1       1       1     A_2          (n \rightarrow \pi^\star)               3.44          _              _            false
   1       1      A_1       1       1     B_1          (n \rightarrow \pi^\star)               3.45          _              _            false
   1       1      A_1       1       1     B_2          (\pi \rightarrow \pi^\star)             4.62          _              _            false
-  1       1      A_1       1       1     B_2          (n \rightarrow 3s)                      5.27          _              _            false
-  1       1      A_1       1       1     A_1          (\pi \rightarrow \pi^\star)             5.51          _              _            false
-  1       1      A_1       1       1     B_2          (n \rightarrow 3p)                      5.83          _              _            false
+  1       1      A_1       2       1     B_2          (n \rightarrow 3s)                      5.27          _              _            false
+  1       1      A_1       2       1     A_1          (\pi \rightarrow \pi^\star)             5.51          _              _            false
+  1       1      A_1       3       1     B_2          (n \rightarrow 3p)                      5.83          _              _            false

@@ -2,10 +2,10 @@
 # Comment  : 
 # code     : ORCA
 # method   : STEOM-CCSD,aug-cc-pVTZ
-# geom     : CC3/aug-CC-pVTZ
+# geom     : CC3,aug-CC-pVTZ
 # DOI      : 10.1021/acs.jctc.9b01216,true
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_fluo        %T1            f            is unsafe
-  1       1      A_1       1       1     A^{\prime\prime}          (\mathrm{V}; \pi \rightarrow \pi^\star) 3.52          _              _            false
+  1       1      A_1       1       1     A^{\prime\prime} (\mathrm{V}; \pi \rightarrow \pi^\star) 3.52          _              _            false
