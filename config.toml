@@ -1,7 +1,7 @@
 baseURL = "localhost:8080"
 languageCode = "en-us"
 DateForm = "12-30-2006"
-title = "exdatabaseLCPQ"
+title = "QuExDB"
 DefaultContentLanguage = "en"
 theme = "beautifulhugo"
 [markup]
