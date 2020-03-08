@@ -2,13 +2,13 @@
 # Comment  : 
 # code     : Dalton
 # method   : CCSD,aug-cc-pVTZ
-# geom     : CC3/aug-CC-pVTZ
+# geom     : CC3,aug-CC-pVTZ
 # DOI      : 10.1021/acs.jctc.9b01216,true
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
-  1       1      A_1       1       1     A''          (\mathrm{V}; n \rightarrow \pi^\star)   3.84          _              _            false
-  1       1      A_1       1       1     A''          (\mathrm{V}; \pi \rightarrow \pi^\star) 5.69          _              _            false
-  1       1      A_1       1       3     A''          (\mathrm{V}; n \rightarrow \pi^\star)   3.53          _              _            false
-  1       1      A_1       1       3     A'           (\mathrm{V}; \pi \rightarrow \pi^\star) 4.40          _              _            false
+  1       1      A_1       1       1     A^{\prime\prime} (\mathrm{V}; n \rightarrow \pi^\star)   3.84          _              _            false
+  1       1      A_1       2       1     A^{\prime\prime} (\mathrm{V}; \pi \rightarrow \pi^\star) 5.69          _              _            false
+  1       1      A_1       1       3     A^{\prime\prime} (\mathrm{V}; n \rightarrow \pi^\star)   3.53          _              _            false
+  1       1      A_1       1       3     A^\prime     (\mathrm{V}; \pi \rightarrow \pi^\star) 4.40          _              _            false

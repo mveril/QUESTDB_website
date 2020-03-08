@@ -75,35 +75,14 @@ draft: false
       $("<li/>").text(name).appendTo(vertkindtl)
     }
     for (const [name, value] of excitationTypes.All) {
-      var description = null
-      switch (Number(value)) {
-        case Number(excitationTypes.VALENCE):
-          description = name.toLowerCase()
-          break;
-        case Number(excitationTypes.RYDBERG):
-          const word = name
-          description = word.charAt(0).toUpperCase() + word.substring(1).toLowerCase()
-          break;
-        case Number(excitationTypes.Single):
-          description = name.toLowerCase()
-          break;
-        case Number(excitationTypes.Double):
-          description = name.toLowerCase()
-          break;
-        case Number(excitationTypes.Singlet):
-          description = name.toLowerCase()
-          break;
-        case Number(excitationTypes.Triplet):
-          description = name.toLowerCase()
-          break;
-        default:
-          description = null;
-          break;
+      var txt=value.description.string
+      if (value.description.isLaTeX) {
+        txt=LatexInline[0]+txt+LatexInline[1]
       }
-      $("<li/>").text(LatexInline[0] + value.LaTeX + LatexInline[1] + (description == null ? '' : ": " + description)).appendTo(extl)
+      $("<li/>").text(txt).appendTo(extl)
       var cbli = $("<li/>")
       $("<input/>", { type: "checkbox", id: "cb_" + name, name: name, value: Number(value) }).change(nestedCheckbox_change).appendTo(cbli);
-      $('<label />', { 'for': 'cb_' + name, text: LatexInline[0] + value.LaTeX + LatexInline[1] + (description == null ? '' : ": " + description) }).appendTo(cbli);
+      $('<label />', { 'for': 'cb_' + name, text: txt }).appendTo(cbli);
       cbextl.append(cbli);
     }
     await MathJax.typesetPromise();
@@ -236,7 +215,7 @@ draft: false
     var refstr = $("#sel_ref option:selected").val()
     var sdatdic = new Map()
     for (const d of window.filtData) {
-      const key = JSON.stringify([d.code, d.method, d.DOI.string])
+      const key = JSON.stringify([d.method, d.DOI.string])
       if (!(sdatdic.has(key))) {
         sdatdic.set(key, new Map())
       }
@@ -265,74 +244,69 @@ draft: false
     for (const [keystr, vals] of sdic) {
       row = $("<tr/>")
       key = JSON.parse(keystr)
-      key.shift()
       Reflect.setPrototypeOf(key[0], method.prototype)
       //Reflect.setPrototypeOf(key[1], DOI.prototype)
-      for (const [i, el] of key.entries()) {
-        var td = $("<td/>")
-        if (i === 1) {
-          var publi = doiCache.get(el, true)
-          const sets = await getSets()
-          if (sets.has(el)) {
-            var str = sets.get(el)
-            $(td).append(str)
-          }
-          $("<a/>", {
-            href: new DOI(el).url,
-            target: "_blank"
-          }).html(publi.format('citation', {
-            format: 'html',
-            lang: 'en-US'
-          })).appendTo(td)
-        }
-        else {
-          $(td).text(el)
-        }
-        $(row).append(td)
+      th = $("<th/>", { scope: "column" })
+      const [meth, doi] = key
+      th.clone().text(meth.toString("\n").split('-').join('\u2011')).appendTo(row)
+      var thdoi = th.clone()
+      var publi = doiCache.get(doi, true)
+      const sets = await getSets()
+      if (sets.has(doi)) {
+        var str = sets.get(doi)
+        $(thdoi).append(str + " ")
       }
-      const noNanVals = (vals.every((v) => Number.isNaN(v))) ? vals : (vals.filter((v) => !Number.isNaN(v)))
-      const avals = noNanVals.map(v => Math.abs(v))
-      for (const val of [ss.min(noNanVals), ss.max(noNanVals), ss.mean(noNanVals), ss.mean(avals), ss.median(noNanVals), ss.median(avals), ss.rootMeanSquare(noNanVals), ss.variance(noNanVals), ss.standardDeviation(noNanVals)]) {
-        $("<td/>").text(noNanFixed(val, 2)).appendTo(row)
+      $("<a/>", {
+        href: new DOI(doi).url,
+        target: "_blank"
+      }).html(publi.format('citation', {
+        format: 'html',
+        lang: 'en-US'
+      })).appendTo(thdoi)
+    $(row).append(thdoi)
+    const noNanVals = (vals.every((v) => Number.isNaN(v))) ? vals : (vals.filter((v) => !Number.isNaN(v)))
+    const avals = noNanVals.map(v => Math.abs(v))
+    for (const val of [ss.min(noNanVals), ss.max(noNanVals), ss.mean(noNanVals), ss.mean(avals), ss.median(noNanVals), ss.median(avals), ss.rootMeanSquare(noNanVals), ss.variance(noNanVals), ss.standardDeviation(noNanVals)]) {
+      $("<td/>").text(noNanFixed(val, 2)).appendTo(row)
+    }
+    $(stb).append(row)
+    var box = {
+      x: noNanVals,
+      amean: ss.mean(avals).toFixed(3),
+      name: key[0].toString() + " MAD : " + ss.mean(avals).toPrecision(4),
+      type: 'box',
+      boxmean: 'sd'
+    };
+    graphdat.push(box)
+  }
+  var layout = {
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    gap: 0,
+    legend: {
+      traceorder: 'reversed',
+    },
+    xaxis: {
+      title: {
+        text: 'Energy (eV)',
       }
-      $(stb).append(row)
-      var box = {
-        x: noNanVals,
-        amean: ss.mean(avals).toFixed(3),
-        name: key[0].toString() + " MAD : " + ss.mean(avals).toPrecision(4),
-        type: 'box',
-        boxmean: 'sd'
-      };
-      graphdat.push(box)
-    }
-    var layout = {
-      paper_bgcolor: 'rgba(0,0,0,0)',
-      plot_bgcolor: 'rgba(0,0,0,0)',
-      gap: 0,
-      legend: {
-        traceorder: 'reversed',
-      },
-      xaxis: {
-        title: {
-          text: 'Energy (eV)',
-        }
-      },
-      bgcolor: '#E2E2E2',
-      bordercolor: '#FFFFFF',
-      borderwidth: 2,
-      // autosize: false,
-      width: 850,
-      height: 500,
-      margin: {
-        l: 0,
-        r: 10,
-        b: 15,
-        t: 20,
-        pad: 0,
-      },
-    }
-    Plotly.newPlot('graph_div', graphdat, layout);
-    processingIndicator.isActive = false
+    },
+    bgcolor: '#E2E2E2',
+    bordercolor: '#FFFFFF',
+    borderwidth: 2,
+    // autosize: false,
+    width: 850,
+    height: 500,
+    margin: {
+      l: 0,
+      r: 10,
+      b: 15,
+      t: 20,
+      pad: 0,
+    },
+  }
+  Plotly.newPlot('graph_div', graphdat, layout);
+  processingIndicator.isActive = false
   }
   async function reloadContent() {
     window.filterParams = [$("#cb_unsafe").prop("checked"), Array.from(Array.from($("#cb_exTypeList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0), Array.from(Array.from($("#cb_exVertKindList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0)]
@@ -353,11 +327,11 @@ draft: false
     })
     await window.doiCache.addRange(window.filtData.map((d) => d.DOI.string))
     $(sel_ref).empty()
-    for (const el of uniq(window.filtData.map(d => [d.code, d.method, d.DOI.string]))) {
+    for (const el of uniq(window.filtData.map(d => [d.method, d.DOI.string]))) {
       op = $("<option/>", {
         value: JSON.stringify(el)
-      }).text(el[1])
-      if (el[1].name.includes("TBE")) {
+      }).text(el[0])
+      if (el[0].name.includes("TBE")) {
         $(sel_ref).prepend(op)
       }
       else {
@@ -399,8 +373,9 @@ draft: false
         var head = $("<tr/>")
         $("<thead/>").addClass("sticky").append(head).appendTo(table)
         var tbody = $("<tbody/>").appendTo(table)
-        head.append(["Molecule", "Transition"].map(x => $("<th/>").text(x)))
-        head.append(sortedMethods.map(x => $("<th/>").text(x.toString().split('-').join('\u2011'))))
+        var th = $("<th/>", { scope: "column" })
+        head.append(["Molecule", "Transition"].map(x => th.clone().text(x)))
+        head.append(sortedMethods.map(x => th.clone().text(x.toString("\n").split('-').join('\u2011'))))
         adjustSticky();
         datadic = new Map()
         for (const dat of paperdata) {
@@ -429,17 +404,15 @@ draft: false
             Reflect.setPrototypeOf(ex[2], excitationType.prototype)
             Reflect.setPrototypeOf(ex[3], VertExcitationKind.prototype)
             var tr = $("<tr/>")
-            var tdmol = $("<td/>")
             if (printmol) {
-              $(tdmol).text(molecule)
+              $("<th/>", { scope: "row", rowspan: moldat.size }).text(molecule).appendTo(tr)
               printmol = false
             }
-            tr.append(tdmol)
             var Vertkindtext = ""
             if (ex[3].Value == VertExcitationKinds.Fluorescence.Value) {
-              Vertkindtext = String.raw`[${VertExcitationKinds.Fluorescence.LaTeX}]`
+              Vertkindtext = String.raw`[\mathrm{F}]`
             }
-            $("<td/>").text(String.raw`${LatexInline[0]}${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} ${Vertkindtext}(${ex[2].LaTeX}) ${LatexInline[1]}`).appendTo(tr)
+            $("<th/>", { scope: "rowgroup" }).text(String.raw`${LatexInline[0]}${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} ${Vertkindtext}(${ex[2].description.string}) ${LatexInline[1]}`).appendTo(tr)
             var entries = Array.from(exdat.entries())
             for (const method of sortedMethods) {
               td = $("<td/>").addClass("NumberCell")
@@ -494,7 +467,7 @@ draft: false
     <li>Choose each parameter (of course you can select multiples values for each) you can use the the <buttongit
         disabled>Select all</button> button to select all items <span hidden
           data-needbrowser='{"Engine":["WebKit","Blink"],"Platform":["desktop"]}'>or use the <kbd
-            data-needbrowser='{"OS":["MacOS"]}'>CMD</kbd><kbd
+            data-needbrowser='{"OS":["MacOS"]}'>⌘</kbd><kbd
             data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd> shortcut key</span></li>
     <ul id="SelectList"></ul>
     <li>Choose filters:</li>
@@ -588,17 +561,17 @@ draft: false
 <section>
   <table id="stat_table" class="datatable">
     <thead class="sticky">
-      <th>Method</th>
-      <th>Set</th>
-      <th>Min</th>
-      <th>Max</th>
-      <th>Mean</th>
-      <th>Absolute Mean</th>
-      <th>Median</th>
-      <th>Absolute Median</th>
-      <th>RMS</th>
-      <th>Variance</th>
-      <th>Standard deviation</th>
+      <th scope="col">Method</th>
+      <th scope="col">Set</th>
+      <th scope="col">Min</th>
+      <th scope="col">Max</th>
+      <th scope="col">MSE</th>
+      <th scope="col">MAE</th>
+      <th scope="col">Median</th>
+      <th scope="col">Absolute Median</th>
+      <th scope="col">RMS</th>
+      <th scope="col">Variance</th>
+      <th scope="col">Standard deviation</th>
     </thead>
     <tbody>
     </tbody>

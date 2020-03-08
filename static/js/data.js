@@ -1,14 +1,14 @@
 class excitationTypes {
-  static get VALENCE() { return new excitationType(1<< 1, String.raw`\mathrm{V}`) }
-  static get RYDBERG() { return new excitationType(1 << 2, String.raw`\mathrm{R}`) }
-  static get PiPis() { return new excitationType(1 << 3, String.raw`\pi \rightarrow \pi^\star`) }
-  static get nPis() { return new excitationType(1 << 4, String.raw`n \rightarrow \pi^\star`) }
-  static get Single() { return new excitationType(1 << 5, "S") }
-  static get Double() { return new excitationType(1 << 6, "D") }
-  static get Singlet() { return new excitationType(1 << 7, "1") }
-  static get Triplet() { return new excitationType(1 << 8, "3") }
+  static get VALENCE() { return new excitationType(1<< 1, new description("VALENCE")) }
+  static get RYDBERG() { return new excitationType(1 << 2, new description("RYDBERG")) }
+  static get PiPis() { return new excitationType(1 << 3, new description(String.raw`\pi \rightarrow \pi^\star`,true)) }
+  static get nPis() { return new excitationType(1 << 4, new description(String.raw`n \rightarrow \pi^\star`,true)) }
+  static get Single() { return new excitationType(1 << 5, new description("Single")) }
+  static get Double() { return new excitationType(1 << 6, new description("Double")) }
+  static get Singlet() { return new excitationType(1 << 7, new description("Singlet")) }
+  static get Triplet() { return new excitationType(1 << 8, new description("Triplet")) }
   // Max bit shifts is 31 because int are int32 So 1 << 31 are -2147483648
-  static get Others() { return new excitationType(1 << 31, String.raw`\mathrm{Others}`) }
+  static get Others() { return new excitationType(1 << 31, new description("Others"))}
   static get All() { return EnumUltils.getAll(this,excitationType)}
   static GetFlags(value){return EnumUltils.GetFlags(value,this,excitationType)}
 }
@@ -31,19 +31,25 @@ class EnumUltils{
   }
 }
 
-class LaTeXDescribedValueBase {
-  constructor(value, laTeX) {
+class description {
+  constructor(string,isLaTeX=false) {
+    this.string = string
+    this.isLaTeX=isLaTeX
+  }
+}
+class DescribedValueBase {
+  constructor(value, description) {
     this.Value = value;
-    this.LaTeX = laTeX
+    this.description = description
   }
   valueOf() {
     return this.Value;
   }
 }
 
-class excitationType extends LaTeXDescribedValueBase{
+class excitationType extends DescribedValueBase{
 }
-class VertExcitationKind extends LaTeXDescribedValueBase{
+class VertExcitationKind extends DescribedValueBase{
 
 }
 class code {
@@ -81,10 +87,10 @@ class method {
       return new method(vals[0], null)
     }
   }
-  toString() {
+  toString(separator="/") {
     var str = this.name;
     if (this.basis) {
-      str = str + '/' + this.basis;
+      str = str + separator + this.basis;
     }
     return str;
   }
@@ -141,7 +147,7 @@ class excitationBase {
   constructor(initial, final, type = '', T1 = null) {
     this.initial = initial;
     this.final = final
-    this.type = new excitationType(0, type)
+    this.type = new excitationType(0, new description(type,true))
     if (type !== "") {
       const tys = type.split(";")
       const arrow = String.raw`\rightarrow`
@@ -324,8 +330,8 @@ class dataFileBase {
   }
 }
 class VertExcitationKinds{
-  static get Absorbtion() {return new VertExcitationKind(1, String.raw`\mathrm{A}`)}
-  static get Fluorescence() {return new VertExcitationKind(1<<1, String.raw`\mathrm{F}`)}  
+  static get Absorbtion() {return new VertExcitationKind(1, new description("Absorption"))}
+  static get Fluorescence() {return new VertExcitationKind(1<<1, new description("Fluorescence"))}  
   static get All() { return EnumUltils.getAll(this,VertExcitationKind)}
   static GetFlags(value){return EnumUltils.GetFlags(value,this,VertExcitationKind)}
 }

@@ -15,4 +15,4 @@
   1       1      A_1       1       1     A_{g}        (n \rightarrow 3s)                      6.65          _              _            false
   1       1      A_1       1       1     B_{1g}       (n \rightarrow \pi^\star)               6.74          _              _            false
   1       1      A_1       1       1     B_{1u}       (\pi \rightarrow \pi^\star)             6.88          _              _            false
-  1       1      A_1       1       1     B_{1g}       (\pi \rightarrow 3s)                    7.21          _              _            false
+  1       1      A_1       2       1     B_{1g}       (\pi \rightarrow 3s)                    7.21          _              _            false

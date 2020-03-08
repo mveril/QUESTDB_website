@@ -2,10 +2,10 @@
 # Comment  : 
 # code     : CFOUR
 # method   : CC3(Full),aug-cc-pVQZ
-# geom     : CC3/aug-CC-pVTZ
+# geom     : CC3,aug-CC-pVTZ
 # DOI      : 10.1021/acs.jctc.9b01216,true
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_fluo        %T1            f            is unsafe
-  1       1      A_1       1       1     A''          _                                       3.54          _              _            false
+  1       1      A_1       1       1     A^{\prime\prime} _                                       3.54          _              _            false

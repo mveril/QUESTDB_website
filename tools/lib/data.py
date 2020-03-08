@@ -19,7 +19,6 @@ class state:
 class dataType(IntEnum):
   ABS=auto()
   FLUO=auto()
-  ZPE=auto()
 class dataFileBase(object):
   def __init__(self):
     self.molecule = ''
@@ -54,18 +53,22 @@ class dataFileBase(object):
       st=str(mathsoup)
       m=re.match(r"^\^(?P<multiplicity>\d)(?P<symm>[^\s\[(]*)\s*(?:\[(?:\\mathrm{)?(?P<special>\w)(?:})\])?\s*(:?\((?P<type>[^\)]*)\))?",st)
       seq=m.group("multiplicity","symm")
+      mul=int(m.group("multiplicity"))
+      symm=m.group("symm")
       spgrp=m.group("special")
       if spgrp is not None and spgrp=="F":
         trsp=dataType.FLUO
       else:
         trsp=default
       tygrp=m.group("type")
-      tmplst.append((*seq,trsp,tygrp))
+      tmplst.append((mul,symm,trsp,tygrp))
     lst=[]
     for index,item in enumerate(tmplst):
-      unformfirststate=(str(firstState.multiplicity),firstState.symetry)
-      count=([unformfirststate]+tmplst[:index+1]).count(item)
-      lst.append((state(count,int(item[0]),item[1]),item[2],item[3]))
+      unformfirststate=(firstState.multiplicity,firstState.symetry)
+      countlst=[unformfirststate]+[(it[0],it[1]) for it in tmplst[:index+1]]
+      countitem=(item[0],item[1])
+      count=countlst.count(countitem)
+      lst.append((state(count,item[0],item[1]),item[2],item[3]))
     return lst
 
   @staticmethod
@@ -84,7 +87,6 @@ class dataFileBase(object):
     switcher={
       dataType.ABS:AbsDataFile,
       dataType.FLUO:FluoDataFile,
-      dataType.ZPE:ZPEDataFile
     }
     if format==Format.LINE:
       for col in range(1,np.size(table,1)):
@@ -232,7 +234,7 @@ class dataFileBase(object):
 #######################  #######################  ########################################  ############# ####### ################### ##############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_{:5s}       %T1            f            is unsafe\n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
-          mystr="  {:8s}{:7s}{:10s}{:8s}{:6s}{:13s}{:40s}{:14s}{:15s}{:13s}{}\n".format(
+          mystr="  {:7s} {:6s} {:9s} {:7s} {:5s} {:12s} {:39s} {:13s} {:14s} {:13s}{}\n".format(
             str(ex.initial.number),
             str(ex.initial.multiplicity),
             ex.initial.symetry,
@@ -305,26 +307,6 @@ class FluoDataFile(oneStateDataFileBase):
   def GetFileType():
     return dataType.FLUO
 
-class twoStateDataFileBase(dataFileBase):
-  def __init__(self):
-    super(twoStateDataFileBase,self).__init__()
-    self.GS=None
-    self.ES=None
-
-  def getMetadata(self):
-    dic=super(twoStateDataFileBase,self).getMetadata()
-    dic["GS"]= "" if self.GS is None else self.GS.toDataString()
-    dic["ES"]="" if self.ES is None else self.ES.toDataString()
-    dic.move_to_end("DOI")
-    return dic
-
-class ZPEDataFile(twoStateDataFileBase):
-  def __init__(self):
-    super(ZPEDataFile,self).__init__()
-  
-  @staticmethod
-  def GetFileType():
-    return dataType.ZPE
 
 class excitationBase:
   def __init__(self,initial, final, **kwargs):

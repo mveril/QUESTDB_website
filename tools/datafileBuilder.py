@@ -9,11 +9,12 @@ from lib.Format import Format
 from TexSoup import TexSoup
 from lib.data import dataFileBase,dataType
 import argparse
-DEBUG=False
 parser = argparse.ArgumentParser()
 parser.add_argument('--file', type=argparse.FileType('r'))
 parser.add_argument('--defaultType', type=str, choices=[t.name for t in list(dataType)])
 parser.add_argument('--format',type=str, choices=[t.name for t in list(Format)],default=Format.LINE.name)
+parser.add_argument('--debug', action='store_true', help='Debug mode'
+)
 args = parser.parse_args()
 print(args)
 lines=args.file.readlines()
@@ -22,7 +23,7 @@ commands=[LaTeX.newCommand(cmd) for cmd in soup.find_all("newcommand")]
 dat=LaTeX.tabularToData(soup.tabular,commands)
 scriptpath=Path(sys.argv[0]).resolve()
 datapath=scriptpath.parents[1]/"static"/"data"
-if DEBUG:
+if args.debug:
   datapath=datapath/"test"
 if not datapath.exists():
   datapath.mkdir()
