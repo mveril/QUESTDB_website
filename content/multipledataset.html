@@ -224,9 +224,8 @@ draft: false
         const keydic = sdatdic.get(key)
         if ((!exc.isUnsafe || window.filterParams[0]) && ((exc.type & window.filterParams[1]) !== 0) && ((exc.VertExcitationKind & window.filterParams[2]) !== 0)) {
           if (!(keydic.has(key2))) {
-            keydic.set(key2, [])
+            keydic.set(key2,exc.value)
           }
-          keydic.get(key2).push(exc.value)
         }
       }
     }
