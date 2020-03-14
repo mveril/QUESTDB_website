@@ -235,6 +235,7 @@ class dataFileBase {
         return (JSON.stringify(e.initial)===JSON.stringify(ex.initial)) && (JSON.stringify(e.final)===JSON.stringify(ex.final))
       })
       if(ex2!==undefined){
+        console.assert(ex.type==0 || (ex2.type^(excitationTypes.RYDBERG | excitationTypes.VALENCE)==ex.type^(excitationTypes.RYDBERG | excitationTypes.VALENCE)),"Excitation type error",[ex,ex2,data.sourceFile])
         ex.type=ex2.type
       }
     }
@@ -326,6 +327,18 @@ class dataFileBase {
         }
       }
     }
+    var stfy=dat.excitations.map(e=>JSON.stringify([e.initial,e.final]))
+    var double=[]
+    stfy.forEach(function(element, i) { 
+      // Find if there is a duplicate or not
+      if (stfy.indexOf(element, i + 1) >= 0) {        
+        // Find if the element is already in the result array or not
+        if (result.indexOf(element) === -1) {
+          double.push(dat.excitations[i])
+        }
+      }
+    });
+    console.assert(double.length===0,"Double found",double,dat.sourceFile)
     return dat
   }
 }
