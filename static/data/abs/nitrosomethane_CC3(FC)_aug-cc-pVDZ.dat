@@ -1,7 +1,7 @@
 # Molecule : Nitrosomethane
 # Comment  : 
 # code     : Dalton
-# method   : CC3,aug-cc-pVDZ
+# method   : CC3(FC),aug-cc-pVDZ
 # geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.8b00406,true
 
