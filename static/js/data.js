@@ -339,6 +339,9 @@ class dataFileBase {
       }
     });
     console.assert(double.length===0,"Double found",double,dat.sourceFile)
+    for (const ex of dat.excitations) {
+      console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1>50 | ex.isUnsafe==true,"Must be unsafe",dat,ex)
+    }
     return dat
   }
 }
