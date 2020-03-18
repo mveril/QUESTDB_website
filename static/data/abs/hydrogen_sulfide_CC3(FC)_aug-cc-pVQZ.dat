@@ -1,7 +1,7 @@
 # Molecule : Hydrogen sulfide
 # Comment  : 
 # code     : Dalton
-# method   : CC3,aug-cc-pVQZ
+# method   : CC3(FC),aug-cc-pVQZ
 # geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.8b00406,true
 

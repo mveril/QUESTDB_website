@@ -235,6 +235,7 @@ class dataFileBase {
         return (JSON.stringify(e.initial)===JSON.stringify(ex.initial)) && (JSON.stringify(e.final)===JSON.stringify(ex.final))
       })
       if(ex2!==undefined){
+        console.assert(ex.type==0 || (ex2.type^(excitationTypes.RYDBERG | excitationTypes.VALENCE)==ex.type^(excitationTypes.RYDBERG | excitationTypes.VALENCE)),"Excitation type error",[ex,ex2,data.sourceFile])
         ex.type=ex2.type
       }
     }
@@ -286,8 +287,8 @@ class dataFileBase {
       }
     }
     var val = ((vals.length >= 7 + hasType) ? new stringNumber(vals[6 + hasType]) : NaN)
-    var oscilatorForces = ((vals.length >= 8 + hasType) ? new stringNumber(vals[7 + hasType]) : NaN)
-    var T1 = ((vals.length >= 9 + hasType) ? new stringNumber(vals[8 + hasType]) : NaN)
+    var T1 = ((vals.length >= 8 + hasType) ? new stringNumber(vals[7 + hasType]) : NaN)
+    var oscilatorForces = ((vals.length >= 9 + hasType) ? new stringNumber(vals[8 + hasType]) : NaN)
     var isUnsafe = ((vals.length >= 10 + hasType) ? vals[9 + hasType] === true.toString() : false)
     var ex = new excitationValue(start, end, type, val, oscilatorForces, T1, isUnsafe);
     if (this.VertExcitationKind) {
@@ -325,6 +326,21 @@ class dataFileBase {
           dat.excitations.push(dat._OnReadRow(line,kind));
         }
       }
+    }
+    var stfy=dat.excitations.map(e=>JSON.stringify([e.initial,e.final]))
+    var double=[]
+    stfy.forEach(function(element, i) { 
+      // Find if there is a duplicate or not
+      if (stfy.indexOf(element, i + 1) >= 0) {        
+        // Find if the element is already in the result array or not
+        if (result.indexOf(element) === -1) {
+          double.push(dat.excitations[i])
+        }
+      }
+    });
+    console.assert(double.length===0,"Double found",double,dat.sourceFile)
+    for (const ex of dat.excitations) {
+      console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1>50 | ex.isUnsafe==true,"Must be unsafe",dat,ex)
     }
     return dat
   }

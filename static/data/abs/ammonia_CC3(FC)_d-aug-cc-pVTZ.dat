@@ -1,7 +1,7 @@
 # Molecule : Ammonia
 # Comment  : 
 # code     : Dalton
-# method   : CC3,d-aug-cc-pVTZ
+# method   : CC3(FC),d-aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.8b00406,true
 
