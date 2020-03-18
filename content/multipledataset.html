@@ -16,7 +16,7 @@ draft: false
 <script src="/js/processingIndicator.js"></script>
 <script src="/js/noNan.js"></script>
 <script src="/js/websiteFile.js"></script>
-<script src="/js/getSets.js"></script>
+<script src="/js/getPublis.js"></script>
 <script src="https://cdn.rawgit.com/larsgw/citation.js/archive/citation.js/citation-0.4.0-9.js"
   type="text/javascript"></script>
 <script src="/js/DOICache.js"></script>
@@ -24,6 +24,7 @@ draft: false
 <script src="/js/selectSelectAll.js"></script>
 <script src="https://unpkg.com/simple-statistics@7.0.2/dist/simple-statistics.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bowser@2.5.3/es5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.13.1/js-yaml.min.js"></script>
 <script src="/js/numberUtils.js"></script>
 <script>
   function adjustSticky() {
@@ -184,7 +185,16 @@ draft: false
         return $(el).val().includes(getSelectValue(d, el.name))
       })
     }).map((d) => getSelectValue(d, name)))
-    const sets = (name === "DOI") ? await getSets() : undefined
+    const sets = await (async ()=>{
+      if(name === "DOI"){
+        const publis=await getPublis()
+        const sets=publis.sets
+        return sets
+      }
+      else{
+        return undefined
+      }
+    })()
     for (const val of vals) {
       if (val !== null) {
         $("<option/>", {
@@ -250,7 +260,8 @@ draft: false
       th.clone().text(meth.toString("\n").split('-').join('\u2011')).appendTo(row)
       var thdoi = th.clone()
       var publi = doiCache.get(doi, true)
-      const sets = await getSets()
+      const publis = await getPublis()
+      const sets=publis.sets
       if (sets.has(doi)) {
         var str = sets.get(doi)
         $(thdoi).append(str + " ")
@@ -341,7 +352,7 @@ draft: false
     var data = $("#data")
     $(data).empty();
     if (window.filtData.length > 0) {
-      var sets = await getSets()
+      const sets = (await getPublis()).sets
       for (const doi of doiCache.keys()) {
         paperdata = window.filtData.filter((d) => {
           return d.DOI.string == doi
