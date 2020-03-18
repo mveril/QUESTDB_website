@@ -277,7 +277,7 @@ draft: false
         if (i === 1) {
           var publi = doiCache.get(el, true)
           const publis = await getPublis()
-          const sets=publis.srts
+          const sets=publis.sets
           if (sets.has(el)) {
             var str = sets.get(el)
             $(td).append(str)
