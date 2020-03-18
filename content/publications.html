@@ -20,15 +20,18 @@ draft: false
   window.onload = async function () {
     var div = document.getElementById("publis_div")
     const Cite = require("citation-js")
-    const dois = uniq(Object.values(await loadAllData()).flat().map(d => d.DOI.string))
-    const publiscite = await Cite.async(dois)
+    const sdois = uniq(Object.values(await loadAllData()).flat().map(d => d.DOI.string))
+    const spubliscite = await Cite.async(sdois)
     const pubs = await getPublis()
-    const publis = publiscite.format('data', { format: 'object' })
-    for (const publi of publis) {
+    const spublis = spubliscite.format('data', { format: 'object' })
+    for (const publi of spublis) {
       art=createPubliUI(publi,pubs.sets,true)
       $(art).appendTo("<li/>").appendTo("#publis_ul")
     }
-    for (const publi of pubs.others.keys()) {
+    const odois=Array.from(pubs.others.keys())
+    const opubliscite = await Cite.async(odois)
+    const opublis = opubliscite.format('data', { format: 'object' })
+    for (const publi of opublis) {
       art=createPubliUI(publi,pubs.others,true)
       $(art).appendTo("<li/>").appendTo("#publis_ul")
     }
