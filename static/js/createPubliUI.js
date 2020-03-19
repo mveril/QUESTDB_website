@@ -2,7 +2,7 @@ function createPubliUI(publi,sets=new Map(),toolTips=false) {
   const art = $("<article/>").addClass("publi")
   art.className = "publi"
   if (sets.has(publi.DOI) && sets.get(publi.DOI)!==null) {
-    $("<h1/>").text(sets.get(publi.DOI)).appendTo(art)  
+    $("<header/>").append($("<h1/>").text(sets.get(publi.DOI))).appendTo(art)  
   }
   $("<a/>", {
     href: publi.URL,
