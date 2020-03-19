@@ -26,17 +26,24 @@ draft: false
     const spublis = spubliscite.format('data', { format: 'object' })
     for (const publi of spublis) {
       art=createPubliUI(publi,pubs.sets,true)
-      $(art).appendTo("<li/>").appendTo("#publis_ul")
+      $(art).appendTo("#publis_sets")
     }
     const odois=Array.from(pubs.others.keys())
     const opubliscite = await Cite.async(odois)
     const opublis = opubliscite.format('data', { format: 'object' })
     for (const publi of opublis) {
       art=createPubliUI(publi,pubs.others,true)
-      $(art).appendTo("<li/>").appendTo("#publis_ul")
+      $(art).appendTo("#publis_others")
     }
   }
 </script>
-<ul class="publis-list" id="publis_ul">
-
-</ul>
+<section class="publis-list" id="publis_sets">
+  <header>
+    <h2>Sets</h2>
+  </header>
+</section>
+<section class="publis" id="publis_others">
+  <header>
+    <h2>Others</h2>
+  </header>
+</section>
