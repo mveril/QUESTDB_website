@@ -1,12 +1,12 @@
 class excitationTypes {
-  static get VALENCE() { return new excitationType(1<< 1, new description("VALENCE")) }
-  static get RYDBERG() { return new excitationType(1 << 2, new description("RYDBERG")) }
+  static get Valence() { return new excitationType(1<< 1, new description("Valence")) }
+  static get Rydberg() { return new excitationType(1 << 2, new description("Rydberg")) }
   static get PiPis() { return new excitationType(1 << 3, new description(String.raw`\pi \rightarrow \pi^\star`,true)) }
   static get nPis() { return new excitationType(1 << 4, new description(String.raw`n \rightarrow \pi^\star`,true)) }
   static get Single() { return new excitationType(1 << 5, new description("Single")) }
   static get Double() { return new excitationType(1 << 6, new description("Double")) }
-  static get Singlet() { return new excitationType(1 << 7, new description("Singlet")) }
-  static get Triplet() { return new excitationType(1 << 8, new description("Triplet")) }
+  static get SingletSinglet() { return new excitationType(1 << 7, new description(String.raw`\mathrm{Singlet} \rightarrow \mathrm{Singlet}`,true)) }
+  static get SingletTriplet() { return new excitationType(1 << 8, new description(String.raw`\mathrm{Singlet} \rightarrow \mathrm{Triplet}`,true)) }
   // Max bit shifts is 31 because int are int32 So 1 << 31 are -2147483648
   static get Others() { return new excitationType(1 << 31, new description("Others"))}
   static get All() { return EnumUltils.getAll(this,excitationType)}
@@ -168,18 +168,18 @@ class excitationBase {
             this.type.Value = this.type | excitationTypes.PiPis
           }
         } else if (ty.includes(String.raw`\mathrm{R}`)) {
-          this.type.Value = this.type | excitationTypes.RYDBERG
+          this.type.Value = this.type | excitationTypes.Rydberg
         } else if (ty.includes(String.raw`\mathrm{V}`)) {
-          this.type.Value = this.type | excitationTypes.VALENCE
+          this.type.Value = this.type | excitationTypes.Valence
         }
       }
     }
     switch (final.multiplicity) {
       case 1:
-        this.type.Value=this.type|excitationTypes.Singlet
+        this.type.Value=this.type|excitationTypes.SingletSinglet
         break;
       case 3:
-        this.type.Value=this.type|excitationTypes.Triplet
+        this.type.Value=this.type|excitationTypes.SingletTriplet
         break;
     }
     if (this.type.Value==0) {
@@ -235,7 +235,7 @@ class dataFileBase {
         return (JSON.stringify(e.initial)===JSON.stringify(ex.initial)) && (JSON.stringify(e.final)===JSON.stringify(ex.final))
       })
       if(ex2!==undefined){
-        console.assert(ex.type==0 || (ex2.type^(excitationTypes.RYDBERG | excitationTypes.VALENCE)==ex.type^(excitationTypes.RYDBERG | excitationTypes.VALENCE)),"Excitation type error",[ex,ex2,data.sourceFile])
+        console.assert(ex.type==0 || (ex2.type^(excitationTypes.Rydberg | excitationTypes.Valence)==ex.type^(excitationTypes.Rydberg | excitationTypes.Valence)),"Excitation type error",[ex,ex2,data.sourceFile])
         ex.type=ex2.type
       }
     }
