@@ -1,7 +1,7 @@
 # Molecule : Water
 # Comment  : 
 # code     : Dalton
-# method   : CC3,t-aug-cc-pVQZ
+# method   : CC3(FC),t-aug-cc-pVQZ
 # geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.8b00406,true
 
