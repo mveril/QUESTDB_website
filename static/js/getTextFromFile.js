@@ -1,6 +1,7 @@
 async function getTextFromFileUrlAsync(url) {
   return new Promise(function (resolve, reject) {
   var req = new XMLHttpRequest();
+  req.setRequestHeader("Cache-Control: no-cache, no-store, must-revalidate")
   req.open("GET",url, true);
   req.onreadystatechange = function() {
     if (req.readyState == 4) {
