@@ -73,11 +73,10 @@ class dataFileBase(object):
 
   @staticmethod
   def readFromTable(table,format=Format.LINE,default=dataType.ABS ,firstState=state(1,1,"A_1"),commands=[]):
-    def getSubtableIndex(table):
+    def getSubtableIndex(table,firstindex=2,column=0,count=1):
       subtablesindex=list()
-      firstindex=2
-      for i in range(3,np.size(table,0)):
-        if str(table[i,0])!="":
+      for i in range(firstindex+count,np.size(table,0)):
+        if str(table[i,column])!="":
           subtablesindex.append((firstindex,i-1))
           firstindex=i
       subtablesindex.append((firstindex,np.size(table,0)))
