@@ -154,13 +154,26 @@ class dataFileBase(object):
           mytrans[i]=str(mathsoup)
         for col in range(3,np.size(table,1)):
           col=table[:,col]
-          mybasis=col[2]
+          mybasis=col[1]
           for index,cell in enumerate(col[first:last+1]):
-            mymethod=method(str(table[index,2],mybasis))
-            if str(cell)!="":
-              m=re.match(r"(?P<value>[-+]?\d*\.?\d+)\s*\((?:(?P<T1>\d*\.?\d+)\%)|(?P<?>\d*\.?\d+)\)")
-              val,unsafe=getValFromCell(m.group("value"))
-              T1=m.group("T1")
+            methodnameAT1=str(table[first+index,2])
+            PTString="($\%T_1$)"
+            HasT1=methodnameAT1.endswith(PTString)
+            if HasT1:
+              methodname=methodnameAT1[:-len(PTString)]
+            else:
+              methodname=methodnameAT1
+            mymethod=method(methodname,mybasis)
+            strcell=str(cell)
+            if strcell!="":
+              if HasT1:
+                m=re.match(r"^(?P<value>[-+]?\d+\.?\d*)\s*\((?P<T1>\d*\.?\d+)\%\)$",strcell)
+                val,unsafe=getValFromCell(TexSoup(m.group("value")))
+                T1=m.group("T1")
+              else:
+                m=re.match(r"^[-+]?\d+\.?\d*",strcell)
+                val,unsafe=getValFromCell(TexSoup(m.group(0)))
+                T1=None
               finst=finsts[index]
               if (mymolecule,mymethod) in datacls:
                 data=datacls[(mymolecule,mymethod)]
