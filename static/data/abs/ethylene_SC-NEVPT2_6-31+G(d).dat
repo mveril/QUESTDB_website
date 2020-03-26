@@ -1,0 +1,11 @@
+# Molecule : Ethylene
+# Comment  : 
+# code     : 
+# method   : SC-NEVPT2,6-31+G(d)
+# geom     : 
+# DOI      : 10.1021/acs.jctc.8b01205
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1      A_g       2       1     A_g          (\pi,\pi \rightarrow \pi^\star,\pi^\star) 13.57         _              _            false
