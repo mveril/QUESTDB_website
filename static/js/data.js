@@ -333,7 +333,7 @@ class dataFileBase {
       // Find if there is a duplicate or not
       if (stfy.indexOf(element, i + 1) >= 0) {        
         // Find if the element is already in the result array or not
-        if (result.indexOf(element) === -1) {
+        if (double.indexOf(element) === -1) {
           double.push(dat.excitations[i])
         }
       }
