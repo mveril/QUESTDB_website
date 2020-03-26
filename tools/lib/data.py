@@ -75,10 +75,14 @@ class dataFileBase(object):
   def readFromTable(table,format=Format.LINE,default=dataType.ABS ,firstState=state(1,1,"A_1"),commands=[]):
     def getSubtableIndex(table,firstindex=2,column=0,count=1):
       subtablesindex=list()
-      for i in range(firstindex+count,np.size(table,0)):
+      i=firstindex+count
+      while i<np.size(table,0):
         if str(table[i,column])!="":
           subtablesindex.append((firstindex,i-1))
           firstindex=i
+          i+=count
+        else:
+          i+=1
       subtablesindex.append((firstindex,np.size(table,0)))
       return subtablesindex
 
@@ -138,55 +142,59 @@ class dataFileBase(object):
             datalist.append(value)
       return datalist
     elif format==Format.DOUBLECOLUMN:
-      subtablesindex=getSubtableIndex(table)
-      for first, last in subtablesindex:
-        mymolecule=table[first,0]
-        mytrans=table[first:first+1,1]
-        for i,mystr in enumerate(mytrans):
-          mystr=mytrans[i]
-          try:
-            mathsoup=TexSoup(mystr)
-          except:
-            print(f"Error when parsing latex state: {mystr}")
-            exit(-1)
-          newCommand.runAll(mathsoup,commands)
-          mytrans[i]=str(mathsoup)
-        for col in range(3,np.size(table,1)):
-          col=table[:,col]
-          mybasis=col[1]
-          for index,cell in enumerate(col[first:last+1]):
-            methodnameAT1=str(table[first+index,2])
-            PTString="($\%T_1$)"
-            HasT1=methodnameAT1.endswith(PTString)
-            if HasT1:
-              methodname=methodnameAT1[:-len(PTString)]
-            else:
-              methodname=methodnameAT1
-            mymethod=method(methodname,mybasis)
-            strcell=str(cell)
-            if strcell!="":
+      datacls=dict()
+      subtablesMol=getSubtableIndex(table)
+      for firstMol, lastMol in subtablesMol:
+        mymolecule=str(table[firstMol,0])
+        subtablestrans=getSubtableIndex(table[firstMol:lastMol+1,:],firstindex=0,column=1,count=2)
+        for firstTrans,lastTrans in subtablestrans:
+          mytrans=table[firstMol+firstTrans:firstMol+lastTrans+1,:]
+          mytransdesc=mytrans[0:2,1]
+          for i in range(2):      
+            try:
+              mathsoup=TexSoup(mytransdesc[i])
+            except:
+              print(f"Error when parsing latex state: {str(mytransdesc[i])}")
+              exit(-1)
+            newCommand.runAll(mathsoup,commands)
+            mytransdesc[i]=str(mathsoup)
+          for col in range(3,np.size(table,1)):
+            col=table[:,col]
+            mybasis=str(col[1])
+            for index,cell in enumerate(col[firstMol+firstTrans:firstMol+lastTrans+1]):
+              methodnameAT1=str(table[firstMol+firstTrans+index,2])
+              PTString=r"($\%T_1$)"
+              HasT1=methodnameAT1.endswith(PTString)
               if HasT1:
-                m=re.match(r"^(?P<value>[-+]?\d+\.?\d*)\s*\((?P<T1>\d*\.?\d+)\%\)$",strcell)
-                val,unsafe=getValFromCell(TexSoup(m.group("value")))
-                T1=m.group("T1")
+                methodname=methodnameAT1[:-len(PTString)]
               else:
-                m=re.match(r"^[-+]?\d+\.?\d*",strcell)
-                val,unsafe=getValFromCell(TexSoup(m.group(0)))
-                T1=None
-              finst=finsts[index]
-              if (mymolecule,mymethod) in datacls:
-                data=datacls[(mymolecule,mymethod)]
-              else:
-                data=AbsDataFile()
-                data.molecule=mymolecule
-                data.method=mymethod
-                infin=mytrans.split("\rightarrow")
+                methodname=str(methodnameAT1)
+              mymethod=method(methodname,mybasis)
+              strcell=str(cell)
+              if strcell!="":
+                if HasT1:
+                  m=re.match(r"^(?P<value>[-+]?\d+\.?\d*)\s*(?:\((?P<T1>\d+\.?\d*)\\\%\))?",strcell)
+                  val,unsafe=getValFromCell(TexSoup(m.group("value")))
+                  T1=m.group("T1")
+                else:
+                  m=re.match(r"^[-+]?\d+\.?\d*",strcell)
+                  val,unsafe=getValFromCell(TexSoup(m.group(0)))
+                  T1=None
+                if (mymolecule,mymethod.name,mymethod.basis) in datacls:
+                  data=datacls[(mymolecule,mymethod.name,mymethod.basis)]
+                else:
+                  data=AbsDataFile()
+                  data.molecule=mymolecule
+                  data.method=mymethod
+                  datacls[(mymolecule,mymethod.name,mymethod.basis)]=data
+                infin=mytransdesc[0].split(r"\rightarrow")
                 for i,item in enumerate(infin):
-                  m=re.match(r"^(?P<number>\d)\\[,:;\s]\s*\^(?P<multiplicity>\d)(?P<sym>\S*)",item)
+                  m=re.match(r"^(?P<number>\d)\\[,:;\s]\s*\^(?P<multiplicity>\d)(?P<sym>\S*)",item.strip())
                   infin[i]=state(m.group("number"),m.group("multiplicity"),m.group("sym"))
-              data.excitations.append(excitationValue(infin[0],infin[1],val,type=mytrans[1],isUnsafe=unsafe,T1=T1))
-          for value in datacls.values():
-            datalist.append(value)
+                data.excitations.append(excitationValue(infin[0],infin[1],val,type=mytransdesc[1],isUnsafe=unsafe,T1=T1))
+            for value in datacls.values():
+              datalist.append(value)
+      return datalist
     elif format==Format.TBE:
       subtablesindex=getSubtableIndex(table)
       for first, last in subtablesindex:
