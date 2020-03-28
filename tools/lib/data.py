@@ -185,7 +185,10 @@ class dataFileBase(object):
     subpath=datadir/self.GetFileType().name.lower()
     if not subpath.exists():
       subpath.mkdir()
-    fileName="{}_{}.dat".format(self.molecule.lower().replace(" ","_"),self.method.name) if self.method.basis==None else "{}_{}_{}.dat".format(self.molecule.lower().replace(" ","_"),self.method.name,self.method.basis)
+    fileNameComp=[self.molecule.lower().replace(" ","_"),self.method.name]
+    if self.method.basis:
+      fileNameComp.append(self.method.basis)
+    fileName="_".join(fileNameComp)+".dat"
     file=subpath/fileName
     if not file.exists():
       with file.open("w") as f:
