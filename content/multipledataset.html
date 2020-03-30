@@ -363,7 +363,7 @@ draft: false
             return -1
           }
           else if (a.isTBE && b.isTBE) {
-            if (!a.isCorrectedTBE && b.isCorrectedTBE) {
+            if (a.basis!=="CBS" && b.basis==="CBS") {
               return -1
             }
             else {
