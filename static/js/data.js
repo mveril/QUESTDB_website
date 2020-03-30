@@ -339,8 +339,10 @@ class dataFileBase {
       }
     });
     console.assert(double.length===0,"Double found",double,dat.molecule,dat.method.toString())
-    for (const ex of dat.excitations) {
-      console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1>50 | ex.isUnsafe==true,"Must be unsafe",dat,ex)
+    if (dat.DOI.string!=="10.1021/acs.jctc.8b01205") {
+      for (const ex of dat.excitations) {
+        console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1>50 | ex.isUnsafe==true,"Must be unsafe",dat,ex)
+      }
     }
     return dat
   }
