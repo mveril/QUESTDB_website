@@ -145,7 +145,7 @@ class excitationBase {
     this.initial = initial;
     this.final = final
     this.type = new excitationType(0, new description(type,true))
-    if (type !== "") {
+    if (type) {
       const tys = type.split(";")
       const arrow = String.raw`\rightarrow`
       for (const ty of tys) {
@@ -277,6 +277,9 @@ class dataFileBase {
     var end = new state(parseInt(vals[3], 10), parseInt(vals[4],10), vals[5]);
     var hasType = vals.length >= 7 && isNaN(vals[6])
     var type = ((vals.length >= 7 && hasType) ? vals[6] : null)
+    if (type==="_") {
+      type=null
+    }
     if (type) {
       const m = type.match(/^\(([^\)]*)\)$/)
       if (m) {
