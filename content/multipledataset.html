@@ -106,10 +106,16 @@ draft: false
         const subdoi = sub.filter(d => d.DOI.string === doi)
         for (mol of uniq(subdoi.map(d => d.molecule))) {
           const submol = subdoi.filter(d => d.molecule === mol)
-          const TBE = submol.find((d) => d.method.isTBE)
-          if (TBE !== undefined) {
-            for (dat of submol.filter((d) => d !== TBE)) {
-              dat.CopyExcitationsTypeFrom(TBE)
+          const source = submol.find((d) => {
+            if (d.DOI.string==="10.1021/acs.jctc.8b01205") {
+              return d.method.name==="CASPT2" && d.method.basis==="aug-cc-pVDZ"
+            } else {
+              return d.method.isTBE
+            }
+          })
+          if (source !== undefined) {
+            for (dat of submol.filter((d) => d !== source)) {
+              dat.CopyExcitationsTypeFrom(source)
             }
           }
         }
