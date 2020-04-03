@@ -232,7 +232,7 @@ draft: false
       for (const exc of d.excitations) {
         const key2 = JSON.stringify([d.molecule, exc.initial, exc.final, exc.cVertExcitationKind])
         const keydic = sdatdic.get(key)
-        if ((!exc.isUnsafe || window.filterParams[0]) && ((exc.type & window.filterParams[1]) !== 0) && ((exc.VertExcitationKind & window.filterParams[2]) !== 0)) {
+        if ((!exc.isUnsafe || window.filterParams.unsafe) && ((exc.type & window.filterParams.exType) !== 0) && ((exc.VertExcitationKind & window.filterParams.exVertKind) !== 0)) {
           if (!(keydic.has(key2))) {
             keydic.set(key2,exc.value)
           }
@@ -319,7 +319,9 @@ draft: false
   processingIndicator.isActive = false
   }
   async function reloadContent() {
-    window.filterParams = [$("#cb_unsafe").prop("checked"), Array.from(Array.from($("#cb_exTypeList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0), Array.from(Array.from($("#cb_exVertKindList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0)]
+    window.filterParams = {unsafe:$("#cb_unsafe").prop("checked"),
+     exType:Array.from(Array.from($("#cb_exTypeList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0), 
+     exVertKind:Array.from(Array.from($("#cb_exVertKindList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0)}
     doiCache.clear()
     processingIndicator.isActive = true
     const LatexInline = ['\\(', '\\)']
@@ -396,7 +398,7 @@ draft: false
           const key3 = JSON.stringify(dat.method)
           for (const ex of dat.excitations) {
             Reflect.setPrototypeOf(ex.type, excitationType.prototype)
-            if (((window.filterParams[1] & ex.type) !== 0) && ((window.filterParams[2] & ex.VertExcitationKind) !== 0)) {
+            if (((window.filterParams.exType & ex.type) !== 0) && ((window.filterParams.exVertKind & ex.VertExcitationKind) !== 0)) {
               const key2 = JSON.stringify([ex.initial, ex.final, ex.type, ex.VertExcitationKind])
               if (!datadic.get(key1).has(key2)) {
                 datadic.get(key1).set(key2, new Map())
@@ -437,7 +439,7 @@ draft: false
                 if (unsafe) {
                   td.append($("<span/>", { title: "unsafe value", role: "img", "aria-label": "Warning" }).addClass("emoji").text('⚠'))
                 }
-                if (unsafe && !$("#cb_unsafe").is(':checked')) {
+                if (unsafe && !filterParams.unsafe) {
                   td.append($("<s/>").append(val.toString()))
                 }
                 else {
