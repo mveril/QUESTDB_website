@@ -22,6 +22,7 @@ draft: false
 <script src="/js/DOICache.js"></script>
 <script src="/js/nestedCheckbox.js"></script>
 <script src="/js/selectSelectAll.js"></script>
+<script src="/js/numberRangeChange.js"></script>
 <script src="https://unpkg.com/simple-statistics@7.0.2/dist/simple-statistics.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bowser@2.5.3/es5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.13.1/js-yaml.min.js"></script>
@@ -34,7 +35,7 @@ draft: false
   window.onload = async () => {
     window.browser = bowser.getParser(window.navigator.userAgent);
     $("input[type='checkbox']:checked").trigger("change")
-
+    $("input[type='number'].range").trigger("change")
     adjustSticky();
     $(window).resize(adjustSticky)
     const LatexInline = ['\\(', '\\)']
@@ -235,10 +236,22 @@ draft: false
       if (!(sdatdic.has(key))) {
         sdatdic.set(key, new Map())
       }
+      const myT1s=T1ref.get(d.DOI.string).get(d.molecule)
       for (const exc of d.excitations) {
+        var allowT1=false
+        const T1Key=JSON.stringify((exc.initial,exc.final))
+        const T1range=filterParams.T1
+        if (T1range.min===0 && T1range.max===100) {
+          allowT1=true
+        } else if (myT1s.has(T1Key)) {
+          const T1Val=myT1s.get(T1Key)
+          if (T1range.min<=T1Val && T1Val<=T1range.max) {
+          allowT1=true
+          }
+        }
         const key2 = JSON.stringify([d.molecule, exc.initial, exc.final, exc.cVertExcitationKind])
         const keydic = sdatdic.get(key)
-        if ((!exc.isUnsafe || window.filterParams[0]) && ((exc.type & window.filterParams[1]) !== 0) && ((exc.VertExcitationKind & window.filterParams[2]) !== 0)) {
+        if ((!exc.isUnsafe || window.filterParams.unsafe) && ((exc.type & window.filterParams.exType) !== 0) && ((exc.VertExcitationKind & window.filterParams.exVertKind) !== 0) && allowT1) {
           if (!(keydic.has(key2))) {
             keydic.set(key2,exc.value)
           }
@@ -325,7 +338,14 @@ draft: false
   processingIndicator.isActive = false
   }
   async function reloadContent() {
-    window.filterParams = [$("#cb_unsafe").prop("checked"), Array.from(Array.from($("#cb_exTypeList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0), Array.from(Array.from($("#cb_exVertKindList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0)]
+    window.filterParams = {unsafe:$("#cb_unsafe").prop("checked"),
+     exType:Array.from(Array.from($("#cb_exTypeList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0), 
+     exVertKind:Array.from(Array.from($("#cb_exVertKindList>li>input[type=checkbox]:checked")).map(el => parseInt(el.value))).reduce((pv, cv) => pv + cv, 0),
+     T1:{
+       min:parseFloat($("#T1min").val()),
+       max:parseFloat($("#T1max").val())
+     }
+    }
     doiCache.clear()
     processingIndicator.isActive = true
     const LatexInline = ['\\(', '\\)']
@@ -341,7 +361,37 @@ draft: false
         delete (val)
       })
     })
-    await window.doiCache.addRange(window.filtData.map((d) => d.DOI.string))
+    window.T1ref=new Map()
+    var dois = new Set(window.filtData.map((d) => d.DOI.string))
+    var mols = new Set(window.filtData.map((d) => d.molecule))
+    await window.doiCache.addRange(dois)
+    for (const doi of dois) {
+      window.T1ref.set(doi,new Map())
+      for (const mol of mols) {
+        window.T1ref.get(doi).set(mol,new Map())
+        var TBESortdat=window.dats.filter(d=>d.DOI.string===doi && d.molecule===mol).sort((d1,d2)=>{
+          if (d1.method.isTBE && !d2.method.isTBE) {
+            return -1
+          } else if(!d1.method.isTBE && d2.method.isTBE) {
+            return 1
+          } else if (d1.method.isTBE && d2.method.isTBE) {
+            if (d1.method.name==="TBE(FC)" && d2.method.name==="TBE") {
+              return -1
+            } else if(d1.method.name==="TBE" && d2.method.name==="TBE(FC)") {
+              return 1
+            }
+            else {
+              return 0
+            }
+          }
+        })
+        if (TBESortdat.length>0 && TBESortdat[0].method.isTBE) {
+          for (const exc of TBESortdat[0].excitations) {
+            window.T1ref.get(doi).get(mol).set(JSON.stringify((exc.initial,exc.final)),exc.T1)
+          }
+        }
+      }
+    }
     $(sel_ref).empty()
     for (const el of uniq(window.filtData.map(d => [d.method, d.DOI.string]))) {
       op = $("<option/>", {
@@ -396,13 +446,25 @@ draft: false
         datadic = new Map()
         for (const dat of paperdata) {
           const key1 = dat.molecule;
+          const myT1s=T1ref.get(dat.DOI.string).get(dat.molecule)
           if (!datadic.has(key1)) {
             datadic.set(key1, new Map())
           }
           const key3 = JSON.stringify(dat.method)
           for (const ex of dat.excitations) {
             Reflect.setPrototypeOf(ex.type, excitationType.prototype)
-            if (((window.filterParams[1] & ex.type) !== 0) && ((window.filterParams[2] & ex.VertExcitationKind) !== 0)) {
+            var allowT1=false
+            const T1Key=JSON.stringify((ex.initial,ex.final))
+            const T1range=filterParams.T1
+            if (T1range.min===0 && T1range.max===100) {
+              allowT1=true
+            } else if (myT1s.has(T1Key)) {
+              const T1Val=myT1s.get(T1Key)
+              if (T1range.min<=T1Val && T1Val<=T1range.max) {
+                allowT1=true
+              }
+            }
+            if (((window.filterParams.exType & ex.type) !== 0) && ((window.filterParams.exVertKind & ex.VertExcitationKind) !== 0) && allowT1) {
               const key2 = JSON.stringify([ex.initial, ex.final, ex.type, ex.VertExcitationKind])
               if (!datadic.get(key1).has(key2)) {
                 datadic.get(key1).set(key2, new Map())
@@ -443,7 +505,7 @@ draft: false
                 if (unsafe) {
                   td.append($("<span/>", { title: "unsafe value", role: "img", "aria-label": "Warning" }).addClass("emoji").text('⚠'))
                 }
-                if (unsafe && !$("#cb_unsafe").is(':checked')) {
+                if (unsafe && !filterParams.unsafe) {
                   td.append($("<s/>").append(val.toString()))
                 }
                 else {
@@ -568,6 +630,12 @@ draft: false
         <input type="checkbox" id="cb_unsafe" name="unsafe">
         <label for="cb_unsafe">Unsafe</label>
       </li>
+  </fieldset>
+  <fieldset>
+    <legend>%T1</legend>
+    <input class="range min" airia-label="Minimum value" type="number" id="T1min" step="0.01" onchange="numberRangeChange(event)" min="0" value="0">
+    <span>\(\leq \mathrm{\%T1} \leq\)</span>
+    <input class="range max" airia-label="Maximum value" type="number" id="T1max" step="0.01" onchange="numberRangeChange(event)" max="100" value="100">
   </fieldset>
   <input type="submit" disabled=true value="Load"></input>
 </form>
