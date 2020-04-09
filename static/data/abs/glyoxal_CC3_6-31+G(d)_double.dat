@@ -9,4 +9,3 @@
 #######################  #######################  ########################################  ############# ####### ################### ##############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
   1       1     A_g        2       1     A_g          (n,n \rightarrow \pi^\star,\pi^\star)   6.74          0              _            false
-  1       1     A_g        2       1     A_g          (n,n \rightarrow \pi^\star,\pi^\star)   5.78          65             _            false
