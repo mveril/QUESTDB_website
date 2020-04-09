@@ -289,6 +289,7 @@ draft: false
     $(row).append(thdoi)
     const noNanVals = (vals.every((v) => Number.isNaN(v))) ? vals : (vals.filter((v) => !Number.isNaN(v)))
     const avals = noNanVals.map(v => Math.abs(v))
+    th.clone().text(noNanVals.length).appendTo(row)
     for (const val of [ss.min(noNanVals), ss.max(noNanVals), ss.mean(noNanVals), ss.mean(avals), ss.median(noNanVals), ss.median(avals), ss.rootMeanSquare(noNanVals), ss.variance(noNanVals), ss.standardDeviation(noNanVals)]) {
       $("<td/>").text(noNanFixed(val, 2)).appendTo(row)
     }
@@ -644,6 +645,7 @@ draft: false
     <thead class="sticky">
       <th scope="col">Method</th>
       <th scope="col">Set</th>
+      <th scope="col">Count</th>
       <th scope="col">Min</th>
       <th scope="col">Max</th>
       <th scope="col">MSE</th>
