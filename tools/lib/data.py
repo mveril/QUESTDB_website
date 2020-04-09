@@ -146,9 +146,10 @@ class dataFileBase(object):
       subtablesMol=getSubtableIndex(table)
       for firstMol, lastMol in subtablesMol:
         mymolecule=str(table[firstMol,0])
-        subtablestrans=getSubtableIndex(table[firstMol:lastMol+1,:],firstindex=0,column=1,count=2)
+        moltable=table[firstMol:lastMol+1,:]
+        subtablestrans=getSubtableIndex(moltable,firstindex=0,column=1,count=2)
         for firstTrans,lastTrans in subtablestrans:
-          mytrans=table[firstMol+firstTrans:firstMol+lastTrans+1,:]
+          mytrans=moltable[firstTrans:lastTrans+1,:]
           mytransdesc=mytrans[0:2,1]
           for i in range(2):      
             try:
@@ -158,11 +159,11 @@ class dataFileBase(object):
               exit(-1)
             newCommand.runAll(mathsoup,commands)
             mytransdesc[i]=str(mathsoup)
-          for col in range(3,np.size(table,1)):
-            col=table[:,col]
-            mybasis=str(col[1])
-            for index,cell in enumerate(col[firstMol+firstTrans:firstMol+lastTrans+1]):
-              methodnameAT1=str(table[firstMol+firstTrans+index,2])
+          for colindex in range(3,np.size(table,1)):
+            col=mytrans[:,colindex]
+            mybasis=str(table[1,colindex])
+            for index,cell in enumerate(col):
+              methodnameAT1=str(mytrans[index,2])
               PTString=r"($\%T_1$)"
               HasT1=methodnameAT1.endswith(PTString)
               if HasT1:
@@ -192,8 +193,8 @@ class dataFileBase(object):
                   m=re.match(r"^(?P<number>\d)\\[,:;\s]\s*\^(?P<multiplicity>\d)(?P<sym>\S*)",item.strip())
                   infin[i]=state(m.group("number"),m.group("multiplicity"),m.group("sym"))
                 data.excitations.append(excitationValue(infin[0],infin[1],val,type=mytransdesc[1],isUnsafe=unsafe,T1=T1))
-            for value in datacls.values():
-              datalist.append(value)
+        for value in datacls.values():
+          datalist.append(value)
       return datalist
     elif format==Format.TBE:
       subtablesindex=getSubtableIndex(table)
