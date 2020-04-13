@@ -226,10 +226,11 @@ draft: false
   }
   async function reloadStat() {
     processingIndicator.isActive = true
+    const combbasis = $("#cb_combbasis").is(":checked")
+    const refstr = $("#sel_ref option:selected").val()
     var stb = $("#stat_table > tbody")
     $("#graph_div").empty()
     $(stb).empty()
-    var refstr = $("#sel_ref option:selected").val()
     var sdatdic = new Map()
     for (const d of window.filtData) {
       const key = JSON.stringify([d.method, d.DOI.string])
@@ -258,21 +259,55 @@ draft: false
         }
       }
     }
+    if (combbasis) {
+      var sdatdic2=new Map()
+      for (const [strkey, sdat]  of sdatdic) {
+        if (refstr===strkey) {
+          sdatdic2.set(strkey,sdatdic.get(strkey))
+        }
+        else {
+          const key=JSON.parse(strkey)
+          const newkey=JSON.stringify([key[0].name,key[1]])
+          const newkeybasis=JSON.stringify(key[0].basis)
+          if (!sdatdic2.has(newkey)) {
+            sdatdic2.set(newkey,new Map())
+          }
+          if (!sdatdic2.get(newkey).has(newkeybasis)) {
+            sdatdic2.get(newkey).set(newkeybasis,new Map())
+          }
+          for (const [strkey2,exval] of sdat) {
+            sdatdic2.get(newkey).get(newkeybasis).set(strkey2,exval)
+          }
+        }
+      }
+      sdatdic=sdatdic2
+    }
     var sdic = new Map()
     for (const [key, sdat] of sdatdic) {
-      for (const [key2, exval] of sdat) {
+      if (key!==refstr) {
         if (!(sdic.has(key))) {
           sdic.set(key, [])
         }
-        sdic.get(key).push(exval - ((sdatdic.has(refstr)) ? sdatdic.get(refstr).get(key2) : NaN))
+        if (combbasis) {
+          for (const [key2, dic] of sdat) {
+            for(const [key3,exval] of dic){
+              sdic.get(key).push(exval - ((sdatdic.has(refstr)) ? sdatdic.get(refstr).get(key3) : NaN))
+            }
+          }
+        } else {
+          for (const [key2, exval] of sdat) {
+            sdic.get(key).push(exval - ((sdatdic.has(refstr)) ? sdatdic.get(refstr).get(key2) : NaN))
+          }
+        }
       }
     }
-    sdic.delete(refstr)
     var graphdat = []
     for (const [keystr, vals] of sdic) {
       row = $("<tr/>")
       key = JSON.parse(keystr)
-      Reflect.setPrototypeOf(key[0], method.prototype)
+      if (!combbasis) {
+        Reflect.setPrototypeOf(key[0], method.prototype) 
+      }
       //Reflect.setPrototypeOf(key[1], DOI.prototype)
       th = $("<th/>", { scope: "column" })
       const [meth, doi] = key
@@ -393,19 +428,6 @@ draft: false
         }
       }
     }
-    $(sel_ref).empty()
-    for (const el of uniq(window.filtData.map(d => [d.method, d.DOI.string]))) {
-      op = $("<option/>", {
-        value: JSON.stringify(el)
-      }).text(el[0])
-      if (el[0].name.includes("TBE")) {
-        $(sel_ref).prepend(op)
-      }
-      else {
-        $(sel_ref).append(op)
-      }
-    }
-    $(sel_ref).prop("selectedIndex", 0);
     var data = $("#data")
     $(data).empty();
     if (window.filtData.length > 0) {
@@ -521,7 +543,24 @@ draft: false
       }
       await MathJax.typesetPromise()
     }
-    await reloadStat()
+    await reloadRef()
+  }
+  async function reloadRef(){
+    const combbasis = $("#cb_combbasis").is(':checked')
+    $(sel_ref).empty()
+    for (const el of uniq(window.filtData.map(d =>[d.method, d.DOI.string]))) {
+      op = $("<option/>", {
+        value: JSON.stringify(el)
+      }).text(el[0])
+      if (el[0].name.includes("TBE")) {
+        $(sel_ref).prepend(op)
+      }
+      else {
+        $(sel_ref).append(op)
+      }
+    }
+    $(sel_ref).prop("selectedIndex", 0);
+    $(sel_ref).trigger("change")
   }
   async function submitdat() {
     window.onbeforeunload = () => { return ''; }
@@ -559,9 +598,14 @@ draft: false
       <li>Choose other excitation parameters you want</li>
       <ul id="exTypeList"></ul>
       <li>Choose if you want to include unsafe values in statistics</li>
+      <li>Chse the range of %T1 range using the two number box</li>
     </ul>
-    <li>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr
+    <li>Choose parameters for the statistics</li>
+    <ul>
+      <li>Choose if you want to combine basis sets in the statistics</li>
+      <li>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr
         title="Theoretical best estimate">TBE</abbr> if present- is already selected)</li>
+    </ul>
     <li>Now you can see the list of selected data and some statistics about these data</li>
   </ol>
 </p>
@@ -641,8 +685,15 @@ draft: false
   <input type="submit" disabled=true value="Load"></input>
 </form>
 <form id="form_ref">
-  <label for="sel_ref">Reference</label>
-  <select id="sel_ref" onchange="reloadStat()"></select>
+  <legend>Statistics</legend>
+  <div>
+    <input type="checkbox" id="cb_combbasis" onchange="reloadRef()">
+    <label for="cb_combbasis">Combine basis sets</label>
+  </div>
+  <div>
+    <label for="sel_ref">Reference</label>
+    <select id="sel_ref" onchange="reloadStat()"></select>
+  </div>
 </form>
 <section id="data">
 </section>
