@@ -1,0 +1,11 @@
+# Molecule : Beryllium
+# Comment  : 
+# code     : 
+# method   : TBE,CBS
+# geom     : 
+# DOI      : 10.1021/acs.jctc.8b01205
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1     S          1       1     D            _                                       7.06          34             _            false
