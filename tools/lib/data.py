@@ -224,7 +224,7 @@ class dataFileBase(object):
           vs=[val,corr]
           uns=[unsafe,unsafecorr]
           for i in range(2):
-            datamtbe[i].excitations.append(excitationValue(firstState,finst[0],vs[i],type=finst[2],T1=T1,forces=oscilatorForces,isUnsafe=uns[i]))
+            datamtbe[i].excitations.append(excitationValue(firstState,finst[0],vs[i],type=finst[2],T1=T1,oscilatorForces=oscilatorForces,isUnsafe=uns[i]))
         for value in datacls.values():
           for dat in value:
             datalist.append(dat)
@@ -359,19 +359,15 @@ class FluoDataFile(oneStateDataFileBase):
 
 
 class excitationBase:
-  def __init__(self,initial, final, **kwargs):
+  def __init__(self,initial, final,type=None, T1=None,isUnsafe=False):
     self.initial = initial
     self.final = final
-    self.type = kwargs["type"] if "type" in kwargs else None
-    self.T1 = kwargs["T1"] if "T1" in kwargs else None
-    self.isUnsafe = kwargs["isUnsafe"] if "isUnsafe" in kwargs else False
+    self.type = type
+    self.T1  = T1
+    self.isUnsafe = isUnsafe
 
 class excitationValue(excitationBase):
-  def __init__(self,initial, final, value,**kwarg):
-    supkwarg=kwarg.copy()
-    for item in ["forces","corrected"]:
-      if item in supkwarg:
-        supkwarg.pop(item)
-    super(excitationValue,self).__init__(initial, final,**supkwarg)
+  def __init__(self,initial, final, value, type=None, T1=None,isUnsafe=False,oscilatorForces=None):
+    super(excitationValue,self).__init__(initial, final,type=type,T1=T1,isUnsafe=False)
     self.value = value
-    self.oscilatorForces=kwarg["forces"] if "forces" in kwarg else None
+    self.oscilatorForces = oscilatorForces
