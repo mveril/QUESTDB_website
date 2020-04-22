@@ -2,7 +2,7 @@ from collections import OrderedDict
 from TexSoup import TexSoup
 from .LaTeX import newCommand
 from .utils import getValFromCell,checkFloat
-from TexSoup import TexNode
+from TexSoup import TexNode,TexEnv
 from enum import IntEnum,auto,unique,IntFlag
 from .Format import Format
 import re
@@ -196,6 +196,68 @@ class dataFileBase(object):
         for value in datacls.values():
           datalist.append(value)
       return datalist
+    elif format==Format.EXOTICCOLUMN:
+      import json
+      subtablesindex=getSubtableIndex(table)
+      for first, last in subtablesindex:
+        valDic=dict()
+        mymolecule=str(table[first,0])
+        for col in range(2,np.size(table,1)):
+          col=table[:,col]
+          basis=str(col[0])
+          mymethcell=list(col[1])
+          if isinstance(mymethcell[0],TexNode) and mymethcell[0].name=="$":
+            kindSoup=TexSoup("".join(list(mymethcell[0].expr.all)))
+            newCommand.runAll(kindSoup,commands)
+            kind=str(kindSoup)
+            methodnameSoup=TexSoup(mymethcell[1].value)
+            newCommand.runAll(methodnameSoup,commands)
+            methodname=str(methodnameSoup)
+          else:
+            kind=""
+            methtex=col[1]
+            newCommand.runAll(methtex,commands)
+            methodname=str(methtex)
+          mymethod=method(methodname,basis)
+          methkey=json.dumps(mymethod.__dict__)
+          finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState,commands=commands)
+          for index,cell in enumerate(col[first:last+1]):
+            if str(cell)!="":
+              val,unsafe=getValFromCell(cell)
+              finst=finsts[index]
+              dt=finst[1]
+              if dt in valDic:
+                dtDic=valDic[dt]
+              else:
+                dtDic=dict()
+                valDic[dt]=dtDic
+              if not methkey in dtDic:
+                dtDic[methkey]=dict()
+              dataDic=dtDic[methkey]
+              exkey=(json.dumps(finst[0].__dict__,),finst[2])
+              if not exkey in dataDic:
+                dataDic[exkey]=dict()
+              if kind=='':
+                dataDic[exkey][kind]=(val,unsafe)
+              else:
+                dataDic[exkey][kind]=val
+              #data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2]))
+        for dt,methdic in valDic.items():
+          for methstring,exdic in methdic.items():
+            data=switcher[dt]()
+            data.molecule=mymolecule
+            methdic=json.loads(methstring)
+            data.method=method(methdic["name"],methdic["basis"])
+            for exstr,values in exdic.items():
+              stDict=json.loads(exstr[0])
+              ty=exstr[1]
+              st=state(stDict["number"],stDict["multiplicity"],stDict["symetry"])
+              T1=values["\\%T_1"] if "\\%T_1" in values  else None
+              oF= values["f"] if "f" in values  else None
+              unsafe,val=values[""]
+              data.excitations.append(excitationValue(firstState,st,val,type=ty,T1=T1,isUnsafe=unsafe,oscilatorForces=oF))
+              datalist.append(data)
+      return datalist
     elif format==Format.TBE:
       subtablesindex=getSubtableIndex(table)
       for first, last in subtablesindex:
@@ -267,7 +329,11 @@ class dataFileBase(object):
     subpath=datadir/self.GetFileType().name.lower()
     if not subpath.exists():
       subpath.mkdir()
-    fileNameComp=[self.molecule.lower().replace(" ","_"),self.method.name]
+    molsoup=TexSoup(self.molecule)
+    molcomp=list(molsoup.contents)[0]
+    molfilename=self.molecule if isinstance(molcomp,str) else molcomp.args[0].value
+    molfilename=molfilename.lower().replace(" ","_")
+    fileNameComp=[molfilename,self.method.name]
     if self.method.basis:
       fileNameComp.append(self.method.basis)
     if prefix:
