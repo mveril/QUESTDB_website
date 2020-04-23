@@ -38,7 +38,7 @@ draft: false
     $("input[type='number'].range").trigger("change")
     adjustSticky();
     $(window).resize(adjustSticky)
-    const LatexInline = ['\\(', '\\)']
+
     var slist = $("#SelectList")
     getAllSelect().each(function () {
       $("<li/>").text($('label[for="' + $(this).attr('id') + '"]').text()).appendTo(slist)
@@ -79,7 +79,7 @@ draft: false
     for (const [name, value] of excitationTypes.All) {
       var txt = value.description.string
       if (value.description.isLaTeX) {
-        txt = LatexInline[0] + txt + LatexInline[1]
+        txt = MathJaxUtils.getMathJaxString(txt)
       }
       $("<li/>").text(txt).appendTo(extl)
       var cbli = $("<li/>")
@@ -385,7 +385,6 @@ draft: false
     }
     doiCache.clear()
     processingIndicator.isActive = true
-    const LatexInline = ['\\(', '\\)']
     window.filtData = window.dats
     $('#form_dat > fieldset > div > select').each(function () {
       const prop = $(this).attr("name")
@@ -518,7 +517,7 @@ draft: false
             if (ex[2].description.string) {
               desctex = "(" + ex[2].description.string + ")"
             }
-            $("<th/>", { scope: "rowgroup" }).text(String.raw`${LatexInline[0]}${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} ${Vertkindtext} ${desctex} ${LatexInline[1]}`).appendTo(tr)
+            $("<th/>", { scope: "rowgroup" }).text(MathJaxUtils.getMathJaxString(String.raw`${ex[0].toLaTeX()} \rightarrow ${ex[1].toLaTeX()} ${Vertkindtext} ${desctex}`)).appendTo(tr)
             var entries = Array.from(exdat.entries())
             for (const method of sortedMethods) {
               td = $("<td/>").addClass("NumberCell")
