@@ -254,7 +254,7 @@ class dataFileBase(object):
               st=state(stDict["number"],stDict["multiplicity"],stDict["symetry"])
               T1=values["\\%T_1"] if "\\%T_1" in values  else None
               oF= values["f"] if "f" in values  else None
-              unsafe,val=values[""]
+              val,unsafe=values[""]
               data.excitations.append(excitationValue(firstState,st,val,type=ty,T1=T1,isUnsafe=unsafe,oscilatorForces=oF))
               datalist.append(data)
       return datalist
