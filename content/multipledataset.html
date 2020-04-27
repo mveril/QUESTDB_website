@@ -202,12 +202,28 @@ draft: false
         return undefined
       }
     })()
+    textSelctor=function(value){
+      switch (name) {
+        case "DOI":
+            return sets.has(value) ? sets.get(value) : value.toString()
+          break;
+        case "molecule":
+          const mhchemCE=/^\\ce\{.*\}$/
+          return mhchemCE.test(value) ? "\\("+value.toString()+"\\)" : value.toString()
+          break;
+        default:
+          return value.toString()
+      }
+    }
     for (const val of vals) {
       if (val !== null) {
         $("<option/>", {
           value: val
-        }).text((name === "DOI" && sets.has(val)) ? sets.get(val) : val.toString()).appendTo(currentselect)
+        }).text(textSelctor(val)).appendTo(currentselect)
       }
+    }
+    if (name==="molecule") {
+      await MathJax.typesetPromise()
     }
   }
   function getSelectValue(data, name) {
@@ -498,6 +514,7 @@ draft: false
         }
         for (const [molecule, moldat] of datadic.entries()) {
           var printmol = true;
+          const mhchemCE=/^\\ce\{.*\}$/
           for (const [jsonex, exdat] of moldat.entries()) {
             const ex = JSON.parse(jsonex)
             Reflect.setPrototypeOf(ex[0], state.prototype)
@@ -506,7 +523,7 @@ draft: false
             Reflect.setPrototypeOf(ex[3], VertExcitationKind.prototype)
             var tr = $("<tr/>")
             if (printmol) {
-              $("<th/>", { scope: "row", rowspan: moldat.size }).text(molecule).appendTo(tr)
+              $("<th/>", { scope: "row", rowspan: moldat.size }).text((mhchemCE.test(molecule) ? MathJaxUtils.getMathJaxString(molecule.toString()) : molecule)).appendTo(tr)
               printmol = false
             }
             var Vertkindtext = ""
@@ -580,6 +597,7 @@ draft: false
 <p>
   In this page you can compare multiple dataset and have somme statistics to evaluate method or basis accuracy.
   For this follow this steps
+  \(\ce{CF2}\)
   <ol>
     <li>Add custom files</li>
     <ul>
