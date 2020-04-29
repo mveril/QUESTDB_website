@@ -208,8 +208,13 @@ draft: false
             return sets.has(value) ? sets.get(value) : value.toString()
           break;
         case "molecule":
-          const mhchemCE=/^\\ce\{.*\}$/
-          return mhchemCE.test(value) ? "\\("+value.toString()+"\\)" : value.toString()
+          const mhchemCE=/^\\ce\{(.*)\}$/
+          const m=value.match(mhchemCE)
+          if (m) {
+            return m[1]
+          } else {
+            return value
+          }
           break;
         default:
           return value.toString()
