@@ -7,6 +7,7 @@ from enum import IntEnum,auto,unique,IntFlag
 from .Format import Format
 import re
 import numpy as np
+import json
 
 class state:
   def __init__(self,number, multiplicity, symetry):
@@ -294,7 +295,7 @@ class dataFileBase(object):
             str(ex.value) if ex.value is not None else "_",
             str(ex.T1) if ex.T1 is not None else "_",
             str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_",
-            str(ex.isUnsafe).lower())
+            json.dumps(ex.isUnsafe))
           f.write(mystr)
 class method:
   def __init__(self,name, *args):
