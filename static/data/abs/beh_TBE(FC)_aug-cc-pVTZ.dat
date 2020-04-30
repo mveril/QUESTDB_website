@@ -1,0 +1,12 @@
+# Molecule : \ce{BeH}
+# Comment  : 
+# code     : 
+# method   : TBE(FC),aug-cc-pVTZ
+# geom     : 
+# DOI      : 10.1007/s10686-008-9119-4,true
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1     A_1        1       2     \Pi          _                                       2.49          _              _            false
+  1       1     A_1        2       2     \Pi          _                                       6.46          _              _            false

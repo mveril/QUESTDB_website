@@ -1,0 +1,12 @@
+# Molecule : \ce{CO+}
+# Comment  : 
+# code     : 
+# method   : RO-CC3,aug-cc-pVTZ
+# geom     : 
+# DOI      : 10.1007/s10686-008-9119-4,true
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1     A_1        1       2     \Pi          _                                       3.29          _              _            false
+  1       1     A_1        1       2     \Sigma^+     _                                       5.68          _              _            false

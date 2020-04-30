@@ -1,0 +1,11 @@
+# Molecule : \ce{HPO}
+# Comment  : 
+# code     : 
+# method   : CC3,aug-cc-pVDZ
+# geom     : 
+# DOI      : 10.1007/s10686-008-9119-4
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1     A_1        1       1     A^{\prime\prime} _                                       2.47          _              _            false
