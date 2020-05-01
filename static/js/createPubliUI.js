@@ -52,6 +52,7 @@ function createPubliUI(publi,sets=new Map(),toolTips=false) {
   }
   var datArr = publi.issued["date-parts"][0]
   var date = new Date(datArr[0], datArr[1] - 1, datArr[2])
+  journaldiv.append(" ")
   $("<span/>").text(date.getFullYear().toString()).appendTo(journaldiv)
   journaldiv.append(" ")
   $("<span/>").text(publi.volume).appendTo(journaldiv)
