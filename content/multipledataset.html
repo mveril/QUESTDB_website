@@ -124,6 +124,12 @@ draft: false
 
       window.defaultDats = window.defaultDats.concat(sub)
     }
+    await doiCache.addRange(Array.from(new Set(window.defaultDats.map(d=>d.DOI.string))))
+    window.defaultDats = window.defaultDats.sort((datfa,datfb)=>{
+      const puba = doiCache.get(datfa.DOI.string).format('data', { format: 'object' })[0]
+      const pubb = doiCache.get(datfb.DOI.string).format('data', { format: 'object' })[0]
+      return pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb)
+    })
     processingIndicator.isActive = false
     reloadCustomFiles()
   }
@@ -621,7 +627,7 @@ draft: false
       <li>Choose other excitation parameters you want</li>
       <ul id="exTypeList"></ul>
       <li>Choose if you want to include unsafe values in statistics</li>
-      <li>Chse the range of %T1 range using the two number box</li>
+      <li>Chse the range of \(\mathrm{\%T_1}\) range using the two number box</li>
     </ul>
     <li>Choose parameters for the statistics</li>
     <ul>
@@ -701,11 +707,11 @@ draft: false
       </li>
   </fieldset>
   <fieldset>
-    <legend>%T1</legend>
-    <input class="range min" airia-label="Minimum value" type="number" id="T1min" step="0.01"
+    <legend>\(\mathrm{\%T_1}\)</legend>
+    <input class="range min" airia-label="Minimum value" type="number" id="T1min"
       onchange="numberRangeChange(event)" min="0" value="0">
-    <span>\(\leq \mathrm{\%T1} \leq\)</span>
-    <input class="range max" airia-label="Maximum value" type="number" id="T1max" step="0.01"
+    <span>\(\leq \mathrm{\%T_1} \leq\)</span>
+    <input class="range max" airia-label="Maximum value" type="number" id="T1max"
       onchange="numberRangeChange(event)" max="100" value="100">
   </fieldset>
   <input type="submit" disabled=true value="Load"></input>
