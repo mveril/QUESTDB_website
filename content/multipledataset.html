@@ -124,6 +124,12 @@ draft: false
 
       window.defaultDats = window.defaultDats.concat(sub)
     }
+    await doiCache.addRange(Array.from(new Set(window.defaultDats.map(d=>d.DOI.string))))
+    window.defaultDats = window.defaultDats.sort((datfa,datfb)=>{
+      const puba = doiCache.get(datfa.DOI.string).format('data', { format: 'object' })[0]
+      const pubb = doiCache.get(datfb.DOI.string).format('data', { format: 'object' })[0]
+      return pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb)
+    })
     processingIndicator.isActive = false
     reloadCustomFiles()
   }

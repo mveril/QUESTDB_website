@@ -23,14 +23,16 @@ draft: false
     const sdois = uniq(Object.values(await loadAllData()).flat().map(d => d.DOI.string))
     const spubliscite = await Cite.async(sdois)
     const pubs = await getPublis()
-    const spublis = spubliscite.format('data', { format: 'object' })
+    const uospublis = spubliscite.format('data', { format: 'object' })
+    const spublis = uospublis.sort((puba,pubb)=>pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb))
     for (const publi of spublis) {
       art=createPubliUI(publi,pubs.sets,true)
       $(art).appendTo("#publis_sets")
     }
     const odois=Array.from(pubs.others.keys())
     const opubliscite = await Cite.async(odois)
-    const opublis = opubliscite.format('data', { format: 'object' })
+    const uoopublis = opubliscite.format('data', { format: 'object' })
+    const opublis = uoopublis.sort((puba,pubb)=>pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb))
     for (const publi of opublis) {
       art=createPubliUI(publi,pubs.others,true)
       $(art).appendTo("#publis_others")
