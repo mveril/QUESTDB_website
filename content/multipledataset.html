@@ -239,7 +239,7 @@ draft: false
     $(stb).empty()
     var sdatdic = new Map()
     for (const d of window.filtData) {
-      const key = JSON.stringify([d.method, d.DOI.string])
+      const key = JSON.stringify(d.method)
       if (!(sdatdic.has(key))) {
         sdatdic.set(key, new Map())
       }
@@ -273,8 +273,8 @@ draft: false
         }
         else {
           const key = JSON.parse(strkey)
-          const newkey = JSON.stringify([key[0].name, key[1]])
-          const newkeybasis = JSON.stringify(key[0].basis)
+          const newkey = JSON.stringify([key.name])
+          const newkeybasis = JSON.stringify(key.basis)
           if (!sdatdic2.has(newkey)) {
             sdatdic2.set(newkey, new Map())
           }
@@ -312,28 +312,11 @@ draft: false
       row = $("<tr/>")
       key = JSON.parse(keystr)
       if (!combbasis) {
-        Reflect.setPrototypeOf(key[0], method.prototype)
+        Reflect.setPrototypeOf(key, method.prototype)
       }
-      //Reflect.setPrototypeOf(key[1], DOI.prototype)
       th = $("<th/>", { scope: "column" })
-      const [meth, doi] = key
+      const meth = key
       th.clone().text(meth.toString("\n").split('-').join('\u2011')).appendTo(row)
-      var thdoi = th.clone()
-      var publi = doiCache.get(doi, true)
-      const publis = await getPublis()
-      const sets = publis.sets
-      if (sets.has(doi)) {
-        var str = sets.get(doi)
-        $(thdoi).append(str + " ")
-      }
-      $("<a/>", {
-        href: new DOI(doi).url,
-        target: "_blank"
-      }).html(publi.format('citation', {
-        format: 'html',
-        lang: 'en-US'
-      })).appendTo(thdoi)
-      $(row).append(thdoi)
       const noNanVals = (vals.every((v) => Number.isNaN(v))) ? vals : (vals.filter((v) => !Number.isNaN(v)))
       const avals = noNanVals.map(v => Math.abs(v))
       th.clone().text(noNanVals.length).appendTo(row)
@@ -344,7 +327,7 @@ draft: false
       var box = {
         x: noNanVals,
         amean: ss.mean(avals).toFixed(3),
-        name: key[0].toString() + " MAD : " + ss.mean(avals).toPrecision(4),
+        name: key.toString() + " MAD : " + ss.mean(avals).toPrecision(4),
         type: 'box',
         boxmean: 'sd'
       };
@@ -555,11 +538,11 @@ draft: false
   async function reloadRef() {
     const combbasis = $("#cb_combbasis").is(':checked')
     $(sel_ref).empty()
-    for (const el of uniq(window.filtData.map(d => [d.method, d.DOI.string]))) {
+    for (const el of uniq(window.filtData.map(d => d.method))) {
       op = $("<option/>", {
         value: JSON.stringify(el)
-      }).text(el[0])
-      if (el[0].name.includes("TBE")) {
+      }).text(el)
+      if (el.name.includes("TBE")) {
         $(sel_ref).prepend(op)
       }
       else {
@@ -711,7 +694,6 @@ draft: false
   <table id="stat_table" class="datatable">
     <thead class="sticky">
       <th scope="col">Method</th>
-      <th scope="col">Set</th>
       <th scope="col">Count</th>
       <th scope="col">Min</th>
       <th scope="col">Max</th>
