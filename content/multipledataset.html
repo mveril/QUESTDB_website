@@ -545,51 +545,32 @@ draft: false
   </p>
 </noscript>
 <p>
-  In this page you can compare multiple dataset and have somme statistics to evaluate method or basis accuracy.
+  In this page you can compare multiple dataset and have somme statistics to evaluate method accuracy.
   For this follow this steps
-  <ol>
-    <li>Add custom files</li>
-    <ul>
-      <li>Absorption</li>
-      <li>Fluorescence</li>
-    </ul>
-    <li>Choose each parameter (of course you can select multiples values for each) you can use the the <button
-        disabled>Select all</button> button to select all items <span hidden
-          data-needbrowser='{"Engine":["WebKit","Blink"],"Platform":["desktop"]}'>or use the <kbd
-            data-needbrowser='{"OS":["MacOS"]}'>⌘</kbd><kbd
-            data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd> shortcut key</span></li>
-    <ul id="SelectList"></ul>
-    <li>Choose filters:</li>
-    <ul>
-      <li>Choose what kind of vertical excitations you want</li>
-      <ul id="exVertKindList"></ul>
-      <li>Choose other excitation parameters you want</li>
-      <ul id="exTypeList"></ul>
-      <li>Choose if you want to include unsafe values in statistics</li>
-      <li>Chse the range of \(\mathrm{\%T_1}\) range using the two number box</li>
-    </ul>
-    <li>Choose parameters for the statistics</li>
-    <ul>
-      <li>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr
-          title="Theoretical best estimate">TBE</abbr> if present- is already selected)</li>
-    </ul>
-    <li>Now you can see the list of selected data and some statistics about these data</li>
-  </ol>
 </p>
 <form id="form_dat" action="javascript:submitdat()" method="post">
   <fieldset>
     <legend>Import custom files</legend>
+    <p>
+      Import custom files to compare it's data to the reference datasets.
+    </p>
     <div>
-      <label for="absFiles_input">Add custom absorption data files</label>
+      <label for="absFiles_input">Import custom absorption data files</label>
       <input type="file" multiple onchange="reloadCustomFiles()" id="absFiles_input" name="file_abs"></input>
     </div>
     <div>
-      <label for="fluoFiles_input">Add custom fluorescence data files</label>
+      <label for="fluoFiles_input">import custom fluorescence data files</label>
       <input type="file" multiple onchange="reloadCustomFiles()" id="fluoFiles_input" name="file_fluo"></input>
     </div>
   </fieldset>
   <fieldset class="table">
     <legend>Data selection</legend>
+    <p>Choose each parameter (of course you can select multiples values for each) you can use the the <button
+        disabled>Select all</button> button to select all items <span hidden
+          data-needbrowser='{"Engine":["WebKit","Blink"],"Platform":["desktop"]}'>or use the <kbd
+            data-needbrowser='{"OS":["MacOS"]}'>⌘</kbd><kbd
+            data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd> shortcut key</span>
+    </p>
     <div style="display: inline-block;">
       <label for="DOI_select">Sets</label>
       <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
@@ -614,6 +595,7 @@ draft: false
   </fieldset>
   <fieldset>
     <legend>Vertical excitation kind</legend>
+    <p>Choose what kind of vertical excitations you want</p>
     <ul class="nestedCbList" style="padding-left: 0em;">
       <li>
         <input type="checkbox" checked onchange="nestedCheckbox_change(event)" id="cb_fileType_All"></input>
@@ -632,6 +614,7 @@ draft: false
   </fieldset>
   <fieldset id="excitationFilter">
     <legend>Filters</legend>
+    <p>Choose other excitation parameters you want</p>
     <ul class="nestedCbList" style="padding-left: 0em;">
       <li>
         <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_exType_All"></input>
@@ -639,6 +622,7 @@ draft: false
       </li>
       <ul id="cb_exTypeList" class="nestedCbList">
       </ul>
+      <p>Choose if you want to include unsafe values in statistics</p>
       <li id="li_cb_unsafe">
         <input type="checkbox" id="cb_unsafe" name="unsafe">
         <label for="cb_unsafe">Unsafe</label>
@@ -646,6 +630,7 @@ draft: false
   </fieldset>
   <fieldset>
     <legend>\(\mathrm{\%T_1}\)</legend>
+    <p>Chose the range of \(\mathrm{\%T_1}\) range using the two number box</p>
     <input class="range min" airia-label="Minimum value" type="number" id="T1min"
       onchange="numberRangeChange(event)" min="0" value="0">
     <span>\(\leq \mathrm{\%T_1} \leq\)</span>
@@ -655,9 +640,13 @@ draft: false
   <input type="submit" disabled=true value="Load"></input>
 </form>
 <form id="form_ref">
+  <legend>statistics</legend>
+  <p>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr
+    title="Theoretical best estimate">TBE</abbr> if present- is already selected)</p>
   <label for="sel_ref">Reference</label>
   <select id="sel_ref" onchange="reloadStat()"></select>
 </form>
+<p>Now you can see the list of selected data and some statistics about these data</p>
 <section id="data">
 </section>
 <section>
