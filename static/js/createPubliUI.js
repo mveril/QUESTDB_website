@@ -13,9 +13,6 @@ function createPubliUI(publi,sets=new Map(),toolTips=false) {
   for (const author of authors) {
     const liauth = $("<li/>").addClass("author-item")
     const spanAuth = $("<span/>").text(String.raw`${author.given} ${author.family}`).appendTo(liauth)
-    if (author.sequence === "first") {
-      $(spanAuth).after($("<strong/>").text("*"))
-    }
     var notifycontent = $("<div/>").addClass("author-info")
     $("<h1/>").text(String.raw`${author.given} ${author.family}`).appendTo(notifycontent)
     ulaff = $("<ul/>").addClass("affiliation-list").appendTo(notifycontent)
