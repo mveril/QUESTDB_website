@@ -13,14 +13,16 @@ To run the script you must have this two elements.
 
 ```
 usage: datafileBuilder.py [-h] [--file FILE] [--defaultType {ABS,FLUO}]
-                          [--format {LINE,COLUMN,TBE}] [--debug]
+                          [--format {LINE,COLUMN,DOUBLECOLUMN,TBE,DOUBLETBE}]
+                          [--debug] [--prefix PREFIX]
 
 optional arguments:
   -h, --help            show this help message and exit
   --file FILE
   --defaultType {ABS,FLUO}
-  --format {LINE,COLUMN,TBE}
+  --format {LINE,COLUMN,DOUBLECOLUMN,TBE,DOUBLETBE}
   --debug               Debug mode
+  --prefix PREFIX
 ```
 
 The default type is `ABS` (for absorbtion).
@@ -217,6 +219,45 @@ The `TBE` format is a variant of the `COLUMN` format but made for theoretical be
 \end{tabular}
 ```
 
+###### The DOUBLECOLUMN format
+
+The DOUBLECOLUMN format is a 
+
+```latex
+\begin{tabular}
+	Molecule		&	Transition					&	Method	&	\multicolumn{3}{c}{Basis set}	\\					
+					&							&			&method#1&	method#2&	method#n\\
+	molecule#1		&	$transition#11$	 &	method#111		&	value#1111(3)		&	value#1112		&	value#111n  \\
+					&	$TranstionType#11$	&	method#112($\%T_1$)&	value#1121(T1Value#1121\%)	&	Value#1122(T1Value#1122)Value#112n(T1Value#112n\%)	\\
+					&							&	method#11k		&	value#11k1		&	value#11k2		&	value#11kn	\\
+	molecule#1		&	$transition#12$	 &	method#121		&	value#1211(3)		&	value#1212		&	value#121n  \\
+					&	$TranstionType#12$	&	method#122($\%T_1$)&	value#1221(T1Value#1221\%)	&	Value#1222(T1Value#1222)Value#122n(T1Value#122n\%)	\\
+					&							&	method#12k		&	value#12k1		&	value#12k2		&	value#12kn	\\
+	molecule#2			&	$transition#21$		&	method#211		&	value#2111		&	value#2112		 	&	value#211n	\\
+					&	$TranstionType#21$		&	method#212		&	value#2121		&	value#2122		 	&	value#212n	\\
+					&							&	method#21k($\%T_1$)&	value#21k1(T1Value#21k1\%)	&	value#21k2(T1Value#21k2\%) 	&	value#21kn(T1Value#21kn\%)	\\
+	molecule#l		&	$Transition#l1$		
+												&	method#l11		&	value#l111		&	value#l112		 	&	value#l11n	\\
+					&	$2s,2s \ra 2p,2p$			&	method#l21		&	value#l211		&	value#l212		 	&	value#l21n	\\
+\end{tabular}
+```
+
+###### The DOUBLETBE format
+
+```latex
+\begin{tabular}
+Molecule		&	Transition												&	\multicolumn{2}{c}{Reference}			&	\multicolumn{2}{c}{Correction}				&	TBE	\\
+					&															&	Level R/SB						&	$\Delta E_\text{R/SB}$			
+																				&	Level C/LB						&	$\Delta E_\text{C/LB} - \Delta E_\text{C/SB}$				&\\
+	molecule#1		&	$1\,^1A^\prime \ra 3\,^1A^\prime$				&	exFCI/6-31+G(d)					&	8.00	&	CC3/AVTZ		&	-0.13	&	7.87	\\
+	molecule#2			&	$1\,^1A_{1g} \ra 1\,^1E_{2g}$				&	exFCI/6-31+G(d)					&	8.40	&	CC3/AVTZ		&	-0.12	&	8.28	\\
+					&	$1\,^1A_{1g} \ra 2\,^1A_{1g}$				&	XMS-CASPT2/AVQZ					&	10.54	&	\cdash			&	\cdash	&	10.54	\\
+\end{tabular}
+```
+
+
+
+
 ## Output
 
 ### Directory strucure
@@ -236,6 +277,8 @@ data
 ```
 
 When the debug flag is used instead of `data/` the root of output directory is `data/test/`
+
+When the `prefix` argument is used the generated file is 
 
 ### Output file
 
