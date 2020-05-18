@@ -341,7 +341,7 @@ draft: false
     doiCache.clear()
     processingIndicator.isActive = true
     window.filtData = window.dats
-    $('#form_dat > fieldset > fieldset > div > select').each(function () {
+    getAllSelect().each(function () {
       const prop = $(this).attr("name")
       const values = $(this).val()
       window.filtData = window.filtData.filter((d) => {
