@@ -136,7 +136,7 @@ draft: false
   async function reloadCustomFiles() {
     window.dats = window.defaultDats;
     const kinds = new Map([["file_abs", VertExcitationKinds.Absorbtion], ["file_fluo", VertExcitationKinds.Fluorescence]])
-    for (const el of $('#form_dat > fieldset > div > input[type="file"')) {
+    for (const el of $('#form_dat > fieldset > fieldset > div > input[type="file"')) {
       if (kinds.has(el.name)) {
         for (const f of el.files) {
           const dat = await VertDataFile.loadAsync(f, kinds.get(this.name))
@@ -155,7 +155,7 @@ draft: false
   }
 
   function getAllSelect() {
-    return $('#form_dat > fieldset > div > select')
+    return $('#form_dat > fieldset > fieldset > div > select')
   }
 
   function getAllSelectAfter(Name, include = false) {
@@ -341,7 +341,7 @@ draft: false
     doiCache.clear()
     processingIndicator.isActive = true
     window.filtData = window.dats
-    $('#form_dat > fieldset > div > select').each(function () {
+    $('#form_dat > fieldset > fieldset > div > select').each(function () {
       const prop = $(this).attr("name")
       const values = $(this).val()
       window.filtData = window.filtData.filter((d) => {
