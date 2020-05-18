@@ -1,12 +1,23 @@
 form fieldset.table {
   display: table;
 }
+form {
+  margin-bottom: 15px;
+}
 ul.nestedCbList {
   list-style-type: none;
   padding-left: 1em;
 }
 form button.SelectAll {
   display: block;
+}
+form fieldset.main {
+  padding: 10px;
+  border-style: solid;
+  border-width: 1px;
+}
+form input[type="submit"] {
+  margin-top:10px;
 }
 form label{
   padding-left: 5px;

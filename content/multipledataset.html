@@ -549,6 +549,7 @@ draft: false
   For this, follow these steps
 </p>
 <form id="form_dat" action="javascript:submitdat()" method="post">
+  <fieldset class="main">
   <fieldset>
     <legend>Import custom files</legend>
     <p>
@@ -638,14 +639,19 @@ draft: false
     <input class="range max" airia-label="Maximum value" type="number" id="T1max"
       onchange="numberRangeChange(event)" max="100" value="100">
   </fieldset>
+</fieldset>
   <input type="submit" disabled=true value="Load"></input>
 </form>
 <form id="form_ref">
+  <fieldset class="main">
+  <fieldset>
   <legend>statistics</legend>
   <p>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr
     title="Theoretical best estimate">TBE</abbr> if present- is already selected)</p>
   <label for="sel_ref">Reference</label>
   <select id="sel_ref" onchange="reloadStat()"></select>
+</fieldset>
+</fieldset>
 </form>
 <p>Now you can see the list of selected data and some statistics about these data</p>
 <section id="data">
