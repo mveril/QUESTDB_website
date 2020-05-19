@@ -34,7 +34,7 @@ draft: false
   }
   window.onload = async () => {
     window.browser = bowser.getParser(window.navigator.userAgent);
-    $("input[type='checkbox']:checked").trigger("change")
+    $("input[type='checkbox']").trigger("change")
     $("input[type='number'].range").trigger("change")
     adjustSticky();
     $(window).resize(adjustSticky)
@@ -184,9 +184,6 @@ draft: false
     if (fillArray.includes(afters.prop("name"))) {
       selectSelectAll(afters.first())
     }
-    var submit = $(e.target.form).find(':submit')
-    submit.prop("disabled", !isLast)
-
   }
   async function reloadSelect(name) {
     clearSelect(name)
@@ -573,33 +570,34 @@ draft: false
             data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd> shortcut key</span>
     </p>
     <div style="display: inline-block;">
-      <label for="DOI_select">Sets</label>
-      <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="DOI_select" name="DOI" onchange="reloadNextSelect(event)"></select>
+      <label for="DOI_select" class="required">Sets</label>
+      <button class="SelectAll"  type="button" onclick="selectSelectAll_click(event)">Select all</button>
+      <select multiple id="DOI_select" required name="DOI" onchange="reloadNextSelect(event)"></select>
     </div>
     <div style="display:inline-block">
-      <label for="mol_select">Molecules</label>
+      <label for="mol_select" class="required">Molecules</label>
       <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="mol_select" name="molecule" onchange="reloadNextSelect(event)"></select>
+      <select multiple id="mol_select" required name="molecule" onchange="reloadNextSelect(event)"></select>
     </div>
     <br />
     <div style="display: inline-block;">
-      <label for="method_select">Methods</label>
+      <label for="method_select" class="required">Methods</label>
       <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="method_select" name="method" onchange="reloadNextSelect(event)"></select>
+      <select multiple id="method_select" required name="method" onchange="reloadNextSelect(event)"></select>
     </div>
     <div style="display: inline-block;">
-      <label for="basis_select">Basis sets</label>
+      <label for="basis_select" class="required">Basis sets</label>
       <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="basis_select" name="basis" onchange="reloadNextSelect(event)"></select>
+      <select multiple id="basis_select" required name="basis" onchange="reloadNextSelect(event)"></select>
     </div>
   </fieldset>
   <fieldset>
-    <legend>Vertical excitation kind</legend>
+    <legend class="required"
+    >Vertical excitation kind</legend>
     <p>Choose what kind of vertical excitations you want</p>
     <ul class="nestedCbList" style="padding-left: 0em;">
       <li>
-        <input type="checkbox" checked onchange="nestedCheckbox_change(event)" id="cb_fileType_All"></input>
+        <input type="checkbox" data-onerequired="true" checked onchange="nestedCheckbox_change(event)" id="cb_fileType_All"></input>
         <label for="cb_fileType_All"> All</label>
       </li>
       <ul class="nestedCbList" id="cb_exVertKindList">
@@ -615,11 +613,11 @@ draft: false
     </ul>
   </fieldset>
   <fieldset id="excitationFilter">
-    <legend>Filters</legend>
+    <legend class="required">Filters</legend>
     <p>Choose other excitation parameters you want</p>
     <ul class="nestedCbList" style="padding-left: 0em;">
       <li>
-        <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_exType_All"></input>
+        <input type="checkbox" data-onerequired="true" onchange="nestedCheckbox_change(event)" id="cb_exType_All"></input>
         <label for="cb_exType_All"> All</label>
       </li>
       <ul id="cb_exTypeList" class="nestedCbList">
@@ -640,7 +638,7 @@ draft: false
       onchange="numberRangeChange(event)" max="100" value="100">
   </fieldset>
 </fieldset>
-  <input type="submit" disabled=true value="Load"></input>
+  <input type="submit" value="Load"></input>
 </form>
 <form id="form_ref">
   <fieldset class="main">

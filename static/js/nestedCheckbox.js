@@ -7,6 +7,7 @@ function nestedCheckbox_change(e) {
       ul.children("li").children("input[type=checkbox]").prop("checked", checkbox.is(":checked"));
     }
   }
+  nestedCheckbox_refreshMainValidity(checkbox)
   //Apply parent
   var ul=checkbox.parent("li").parent("ul")
   var checkbox=$(ul).prev("li").children("input[type=checkbox]")
@@ -20,5 +21,18 @@ function nestedCheckbox_change(e) {
   else{
     checkbox.prop("indeterminate",false);
     checkbox.prop("checked",scheckeds[0]);
+  }
+  nestedCheckbox_refreshMainValidity(checkbox)
+}
+function nestedCheckbox_refreshMainValidity(checkbox) {
+  if (checkbox.data("onerequired") && !(checkbox.is(":checked") || checkbox.is(":indeterminate")) )  {
+    checkbox.first().each(function() {
+      this.setCustomValidity("Please check at least one of the checkboxes below")
+    })
+  }
+  else {
+    checkbox.first().each(function() {
+      this.setCustomValidity("")
+    })
   }
 }

@@ -23,6 +23,10 @@ form label{
   padding-left: 5px;
   padding-right: 5px;
 }
+form legend.required::after,form label.required::after {
+  content: " *";
+  color: red;
+}
 form fieldset.table div {
   display: table-row;
 }
