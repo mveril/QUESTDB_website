@@ -1,14 +1,14 @@
 function nestedCheckbox_change(e) {
-  checkbox = e.target;
+  checkbox = $(e.target);
   //Apply children
-  if (!checkbox.indeterminate) {
-    var ul = $(checkbox).parent("li").next("ul")
+  if (!checkbox.is(":indeterminate")) {
+    var ul = checkbox.parent("li").next("ul")
     if (ul.length != 0) {
-      ul.children("li").children("input[type=checkbox]").prop("checked", checkbox.checked);
+      ul.children("li").children("input[type=checkbox]").prop("checked", checkbox.is(":checked"));
     }
   }
   //Apply parent
-  var ul=$(checkbox).parent("li").parent("ul")
+  var ul=checkbox.parent("li").parent("ul")
   var checkbox=$(ul).prev("li").children("input[type=checkbox]")
   checkboxes=ul.children("li").children("input[type=checkbox]")
   var checkeds=Array.from(checkboxes).map(el=>el.checked)
