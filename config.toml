@@ -1,7 +1,7 @@
 baseURL = "localhost:8080"
 languageCode = "en-us"
 DateForm = "12-30-2006"
-title = "QuExDB"
+title = "QUEST"
 DefaultContentLanguage = "en"
 theme = "beautifulhugo"
 [markup]
@@ -76,25 +76,31 @@ theme = "beautifulhugo"
 
 [[menu.main]]
     parent="external"
+    name = "Computational Chemistry Comparison and Benchmark Database"
+    url =  "https://cccbdb.nist.gov"
+    weight = 4
+
+[[menu.main]]
+    parent="external"
     name = "Quantum Package"
     url = "https://quantumpackage.github.io/qp2"
-    weight = 4
+    weight = 5
 
 [[menu.main]]
     parent="external"
     name = "Dalton"
     url = "https://daltonprogram.org"
-    weight = 5
+    weight = 6
 
 [[menu.main]]
     parent="external"
     name = "MRCC"
     url = "https://gaussian.com"
-    weight = 6
+    weight = 7
 
 [[menu.main]]
     parent="external"
     name = "Gaussian"
     url = "https://gaussian.com"
-    weight = 7
+    weight = 8
     

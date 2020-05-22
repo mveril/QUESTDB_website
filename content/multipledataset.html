@@ -34,7 +34,7 @@ draft: false
   }
   window.onload = async () => {
     window.browser = bowser.getParser(window.navigator.userAgent);
-    $("input[type='checkbox']:checked").trigger("change")
+    $("input[type='checkbox']").trigger("change")
     $("input[type='number'].range").trigger("change")
     adjustSticky();
     $(window).resize(adjustSticky)
@@ -136,7 +136,7 @@ draft: false
   async function reloadCustomFiles() {
     window.dats = window.defaultDats;
     const kinds = new Map([["file_abs", VertExcitationKinds.Absorbtion], ["file_fluo", VertExcitationKinds.Fluorescence]])
-    for (const el of $('#form_dat > fieldset > div > input[type="file"')) {
+    for (const el of $('#form_dat > fieldset > fieldset > div > input[type="file"')) {
       if (kinds.has(el.name)) {
         for (const f of el.files) {
           const dat = await VertDataFile.loadAsync(f, kinds.get(this.name))
@@ -155,7 +155,7 @@ draft: false
   }
 
   function getAllSelect() {
-    return $('#form_dat > fieldset > div > select')
+    return $('#form_dat > fieldset > fieldset > div > select')
   }
 
   function getAllSelectAfter(Name, include = false) {
@@ -184,9 +184,6 @@ draft: false
     if (fillArray.includes(afters.prop("name"))) {
       selectSelectAll(afters.first())
     }
-    var submit = $(e.target.form).find(':submit')
-    submit.prop("disabled", !isLast)
-
   }
   async function reloadSelect(name) {
     clearSelect(name)
@@ -253,14 +250,13 @@ draft: false
   }
   async function reloadStat() {
     processingIndicator.isActive = true
-    const combbasis = $("#cb_combbasis").is(":checked")
-    const refstr = $("#sel_ref option:selected").val()
     var stb = $("#stat_table > tbody")
     $("#graph_div").empty()
     $(stb).empty()
+    var refstr = $("#sel_ref option:selected").val()
     var sdatdic = new Map()
     for (const d of window.filtData) {
-      const key = JSON.stringify([d.method, d.DOI.string])
+      const key = JSON.stringify(d.method)
       if (!(sdatdic.has(key))) {
         sdatdic.set(key, new Map())
       }
@@ -286,75 +282,25 @@ draft: false
         }
       }
     }
-    if (combbasis) {
-      var sdatdic2 = new Map()
-      for (const [strkey, sdat] of sdatdic) {
-        if (refstr === strkey) {
-          sdatdic2.set(strkey, sdatdic.get(strkey))
-        }
-        else {
-          const key = JSON.parse(strkey)
-          const newkey = JSON.stringify([key[0].name, key[1]])
-          const newkeybasis = JSON.stringify(key[0].basis)
-          if (!sdatdic2.has(newkey)) {
-            sdatdic2.set(newkey, new Map())
-          }
-          if (!sdatdic2.get(newkey).has(newkeybasis)) {
-            sdatdic2.get(newkey).set(newkeybasis, new Map())
-          }
-          for (const [strkey2, exval] of sdat) {
-            sdatdic2.get(newkey).get(newkeybasis).set(strkey2, exval)
-          }
-        }
-      }
-      sdatdic = sdatdic2
-    }
+
     var sdic = new Map()
     for (const [key, sdat] of sdatdic) {
-      if (key !== refstr) {
+      for (const [key2, exval] of sdat) {
         if (!(sdic.has(key))) {
           sdic.set(key, [])
         }
-        if (combbasis) {
-          for (const [key2, dic] of sdat) {
-            for (const [key3, exval] of dic) {
-              sdic.get(key).push(exval - ((sdatdic.has(refstr)) ? sdatdic.get(refstr).get(key3) : NaN))
-            }
-          }
-        } else {
-          for (const [key2, exval] of sdat) {
-            sdic.get(key).push(exval - ((sdatdic.has(refstr)) ? sdatdic.get(refstr).get(key2) : NaN))
-          }
-        }
+        sdic.get(key).push(exval - ((sdatdic.has(refstr)) ? sdatdic.get(refstr).get(key2) : NaN))
       }
     }
+    sdic.delete(refstr)
     var graphdat = []
     for (const [keystr, vals] of sdic) {
       row = $("<tr/>")
       key = JSON.parse(keystr)
-      if (!combbasis) {
-        Reflect.setPrototypeOf(key[0], method.prototype)
-      }
-      //Reflect.setPrototypeOf(key[1], DOI.prototype)
+      Reflect.setPrototypeOf(key, method.prototype)
       th = $("<th/>", { scope: "column" })
-      const [meth, doi] = key
+      const meth = key
       th.clone().text(meth.toString("\n").split('-').join('\u2011')).appendTo(row)
-      var thdoi = th.clone()
-      var publi = doiCache.get(doi, true)
-      const publis = await getPublis()
-      const sets = publis.sets
-      if (sets.has(doi)) {
-        var str = sets.get(doi)
-        $(thdoi).append(str + " ")
-      }
-      $("<a/>", {
-        href: new DOI(doi).url,
-        target: "_blank"
-      }).html(publi.format('citation', {
-        format: 'html',
-        lang: 'en-US'
-      })).appendTo(thdoi)
-      $(row).append(thdoi)
       const noNanVals = (vals.every((v) => Number.isNaN(v))) ? vals : (vals.filter((v) => !Number.isNaN(v)))
       const avals = noNanVals.map(v => Math.abs(v))
       th.clone().text(noNanVals.length).appendTo(row)
@@ -365,7 +311,7 @@ draft: false
       var box = {
         x: noNanVals,
         amean: ss.mean(avals).toFixed(3),
-        name: key[0].toString() + " MAD : " + ss.mean(avals).toPrecision(4),
+        name: key.toString() + " MAD : " + ss.mean(avals).toPrecision(4),
         type: 'box',
         boxmean: 'sd'
       };
@@ -413,7 +359,7 @@ draft: false
     doiCache.clear()
     processingIndicator.isActive = true
     window.filtData = window.dats
-    $('#form_dat > fieldset > div > select').each(function () {
+    getAllSelect().each(function () {
       const prop = $(this).attr("name")
       const values = $(this).val()
       window.filtData = window.filtData.filter((d) => {
@@ -455,6 +401,19 @@ draft: false
         }
       }
     }
+    $(sel_ref).empty()
+    for (const el of uniq(window.filtData.map(d => [d.method, d.DOI.string]))) {
+      op = $("<option/>", {
+        value: JSON.stringify(el)
+      }).text(el[0])
+      if (el[0].name.includes("TBE")) {
+        $(sel_ref).prepend(op)
+      }
+      else {
+        $(sel_ref).append(op)
+      }
+    }
+    $(sel_ref).prop("selectedIndex", 0);
     var data = $("#data")
     $(data).empty();
     if (window.filtData.length > 0) {
@@ -575,13 +534,12 @@ draft: false
     await reloadRef()
   }
   async function reloadRef() {
-    const combbasis = $("#cb_combbasis").is(':checked')
     $(sel_ref).empty()
-    for (const el of uniq(window.filtData.map(d => [d.method, d.DOI.string]))) {
+    for (const el of uniq(window.filtData.map(d => d.method))) {
       op = $("<option/>", {
         value: JSON.stringify(el)
-      }).text(el[0])
-      if (el[0].name.includes("TBE")) {
+      }).text(el)
+      if (el.name.includes("TBE")) {
         $(sel_ref).prepend(op)
       }
       else {
@@ -606,79 +564,61 @@ draft: false
   </p>
 </noscript>
 <p>
-  In this page you can compare multiple dataset and have somme statistics to evaluate method or basis accuracy.
-  For this follow this steps
-  <ol>
-    <li>Add custom files</li>
-    <ul>
-      <li>Absorption</li>
-      <li>Fluorescence</li>
-    </ul>
-    <li>Choose each parameter (of course you can select multiples values for each) you can use the the <buttongit
-        disabled>Select all</button> button to select all items <span hidden
-          data-needbrowser='{"Engine":["WebKit","Blink"],"Platform":["desktop"]}'>or use the <kbd
-            data-needbrowser='{"OS":["MacOS"]}'>⌘</kbd><kbd
-            data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd> shortcut key</span></li>
-    <ul id="SelectList"></ul>
-    <li>Choose filters:</li>
-    <ul>
-      <li>Choose what kind of vertical excitations you want</li>
-      <ul id="exVertKindList"></ul>
-      <li>Choose other excitation parameters you want</li>
-      <ul id="exTypeList"></ul>
-      <li>Choose if you want to include unsafe values in statistics</li>
-      <li>Chse the range of \(\mathrm{\%T_1}\) range using the two number box</li>
-    </ul>
-    <li>Choose parameters for the statistics</li>
-    <ul>
-      <li>Choose if you want to combine basis sets in the statistics</li>
-      <li>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr
-          title="Theoretical best estimate">TBE</abbr> if present- is already selected)</li>
-    </ul>
-    <li>Now you can see the list of selected data and some statistics about these data</li>
-  </ol>
+  On this page you can compare multiple dataset and have some statistics to evaluate method accuracy (All fields marked with a red asterisk (<span style="color: red;">*</span>) are mandatory).
 </p>
 <form id="form_dat" action="javascript:submitdat()" method="post">
+  <fieldset class="main">
   <fieldset>
     <legend>Import custom files</legend>
+    <p>
+      Import custom files to compare it's data to the reference datasets.
+    </p>
     <div>
-      <label for="absFiles_input">Add custom absorption data files</label>
+      <label for="absFiles_input">Import custom absorption data files</label>
       <input type="file" multiple onchange="reloadCustomFiles()" id="absFiles_input" name="file_abs"></input>
     </div>
     <div>
-      <label for="fluoFiles_input">Add custom fluorescence data files</label>
+      <label for="fluoFiles_input">import custom fluorescence data files</label>
       <input type="file" multiple onchange="reloadCustomFiles()" id="fluoFiles_input" name="file_fluo"></input>
     </div>
   </fieldset>
   <fieldset class="table">
     <legend>Data selection</legend>
+    <p>Choose each parameter (of course you can select multiple values for each) you can use the <button
+        disabled>Select all</button> button to select all items <span hidden
+          data-needbrowser='{"Engine":["WebKit","Blink"],"Platform":["desktop"]}'>or use the <kbd
+            data-needbrowser='{"OS":["MacOS"]}'>⌘</kbd><kbd
+            data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd> shortcut key</span>
+    </p>
     <div style="display: inline-block;">
-      <label for="DOI_select">Sets</label>
-      <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="DOI_select" name="DOI" onchange="reloadNextSelect(event)"></select>
+      <label for="DOI_select" class="required">Sets</label>
+      <button class="SelectAll"  type="button" onclick="selectSelectAll_click(event)">Select all</button>
+      <select multiple id="DOI_select" required name="DOI" onchange="reloadNextSelect(event)"></select>
     </div>
     <div style="display:inline-block">
-      <label for="mol_select">Molecules</label>
+      <label for="mol_select" class="required">Molecules</label>
       <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="mol_select" name="molecule" onchange="reloadNextSelect(event)"></select>
+      <select multiple id="mol_select" required name="molecule" onchange="reloadNextSelect(event)"></select>
     </div>
     <br />
     <div style="display: inline-block;">
-      <label for="method_select">Methods</label>
+      <label for="method_select" class="required">Methods</label>
       <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="method_select" name="method" onchange="reloadNextSelect(event)"></select>
+      <select multiple id="method_select" required name="method" onchange="reloadNextSelect(event)"></select>
     </div>
     <div style="display: inline-block;">
-      <label for="basis_select">Basis sets</label>
+      <label for="basis_select" class="required">Basis sets</label>
       <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="basis_select" name="basis" onchange="reloadNextSelect(event)"></select>
+      <select multiple id="basis_select" required name="basis" onchange="reloadNextSelect(event)"></select>
     </div>
   </fieldset>
   <fieldset>
-    <legend>Vertical excitation kind</legend>
+    <legend class="required"
+    >Vertical excitation kind</legend>
+    <p>Choose what kind of vertical excitations you want</p>
     <ul class="nestedCbList" style="padding-left: 0em;">
       <li>
-        <input type="checkbox" checked onchange="nestedCheckbox_change(event)" id="cb_fileType_All"></input>
+        <input type="checkbox" data-onerequired="true" checked onchange="nestedCheckbox_change(event)" id="cb_fileType_All"></input>
         <label for="cb_fileType_All"> All</label>
       </li>
       <ul class="nestedCbList" id="cb_exVertKindList">
@@ -689,18 +629,21 @@ draft: false
         <li>
           <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fluo" value="2" name="datatype">
           <label for="fluo">Fluorescence</label>
+        </li>
       </ul>
-      </li>
+    </ul>
   </fieldset>
   <fieldset id="excitationFilter">
-    <legend>Filters</legend>
+    <legend class="required">Filters</legend>
+    <p>Choose other excitation parameters you want</p>
     <ul class="nestedCbList" style="padding-left: 0em;">
       <li>
-        <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_exType_All"></input>
+        <input type="checkbox" data-onerequired="true" onchange="nestedCheckbox_change(event)" id="cb_exType_All"></input>
         <label for="cb_exType_All"> All</label>
       </li>
       <ul id="cb_exTypeList" class="nestedCbList">
       </ul>
+      <p>Choose if you want to include unsafe values in statistics</p>
       <li id="li_cb_unsafe">
         <input type="checkbox" id="cb_unsafe" name="unsafe">
         <label for="cb_unsafe">Unsafe</label>
@@ -708,32 +651,34 @@ draft: false
   </fieldset>
   <fieldset>
     <legend>\(\mathrm{\%T_1}\)</legend>
+    <p>Chose the range of \(\mathrm{\%T_1}\) range using the two number box</p>
     <input class="range min" airia-label="Minimum value" type="number" id="T1min"
       onchange="numberRangeChange(event)" min="0" value="0">
     <span>\(\leq \mathrm{\%T_1} \leq\)</span>
     <input class="range max" airia-label="Maximum value" type="number" id="T1max"
       onchange="numberRangeChange(event)" max="100" value="100">
   </fieldset>
-  <input type="submit" disabled=true value="Load"></input>
+</fieldset>
+  <input type="submit" value="Load"></input>
 </form>
 <form id="form_ref">
-  <legend>Statistics</legend>
-  <div>
-    <input type="checkbox" id="cb_combbasis" onchange="reloadRef()">
-    <label for="cb_combbasis">Combine basis sets</label>
-  </div>
-  <div>
-    <label for="sel_ref">Reference</label>
-    <select id="sel_ref" onchange="reloadStat()"></select>
-  </div>
+  <fieldset class="main">
+  <fieldset>
+  <legend>statistics</legend>
+  <p>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr
+    title="Theoretical best estimate">TBE</abbr> if present- is already selected)</p>
+  <label for="sel_ref">Reference</label>
+  <select id="sel_ref" onchange="reloadStat()"></select>
+</fieldset>
+</fieldset>
 </form>
+<p>Now you can see the list of selected data and some statistics about these data</p>
 <section id="data">
 </section>
 <section>
   <table id="stat_table" class="datatable">
     <thead class="sticky">
       <th scope="col">Method</th>
-      <th scope="col">Set</th>
       <th scope="col">Count</th>
       <th scope="col">Min</th>
       <th scope="col">Max</th>
