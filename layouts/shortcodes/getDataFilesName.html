@@ -10,7 +10,7 @@ function getAbsFilesName(){
     {{- $list = $list | append (path.Join $subdir .Name) }}
   {{- end }}
 {{- end }}
-  var files=JSON.parse({{ jsonify $list }})
+  var files={{ $list }}
  return files
 }
 {{- $subdir := "fluo" }}
@@ -23,7 +23,7 @@ function getFluoFilesName(){
     {{- $list = $list | append (path.Join $subdir .Name) }}
   {{- end }}
 {{- end }}
-  var files=JSON.parse({{ jsonify $list }})
+  var files={{ $list }}
  return files
 }
 </script>
