@@ -3,7 +3,11 @@ async function loadAllData() {
     abs: [],
     fluo: [],
   };
-  dic.abs = await Promise.all(getAbsFilesName().map((f) => VertDataFile.loadAsync(f,VertExcitationKinds.Absorbtion)))
-  dic.fluo = await Promise.all(getFluoFilesName().map((f) => VertDataFile.loadAsync(f,VertExcitationKinds.Fluorescence)))
+  for (const f of getAbsFilesName()) {
+    dic.abs.push(await VertDataFile.loadAsync(f,VertExcitationKinds.Absorbtion))
+  }
+  for (const f of getFluoFilesName()) {
+    dic.fluo.push(await VertDataFile.loadAsync(f,VertExcitationKinds.Fluorescence))
+  }
   return dic;
 }
