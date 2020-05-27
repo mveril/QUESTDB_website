@@ -2,12 +2,10 @@ async function getTextFromFileUrlAsync(url) {
   return new Promise(function (resolve, reject) {
   var req = new XMLHttpRequest();
   req.open("GET",url, true);
-  for (const item of ["no-cache","no-store","must-revalidate"]) {
-    req.setRequestHeader("Cache-Control",item)
-  }
+  req.setRequestHeader("Cache-Control", "max-age=0")
   req.onreadystatechange = function() {
     if (req.readyState == 4) {
-      if (req.status == 200) {//when a good response is given do this
+      if (req.status == 200 || req.status==304) {//when a good response is given do this
         var text = req.responseText;
         resolve(text);
       } else {

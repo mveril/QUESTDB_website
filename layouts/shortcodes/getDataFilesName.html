@@ -1,26 +1,29 @@
 <script>
-{{- $files := readDir "/static/data/abs" }}
+{{- $dir := "/static/data/" }}
+{{- $subdir := "abs" }}
+{{- $files := readDir (path.Join $dir $subdir )}}
 {{- $list := slice }}
 function getAbsFilesName(){
 {{- range $files }}
   {{- $ext := path.Ext .Name}}
   {{- if eq $ext ".dat" }}
-    {{- $list = $list | append (print "abs/" .Name) }}
+    {{- $list = $list | append (path.Join $subdir .Name) }}
   {{- end }}
 {{- end }}
-  var files=JSON.parse({{ jsonify $list }})
+  var files={{ $list }}
  return files
 }
-{{- $files := readDir "/static/data/fluo" }}
+{{- $subdir := "fluo" }}
+{{- $files := readDir (path.Join $dir $subdir )}}
 {{- $list := slice }}
 function getFluoFilesName(){
 {{- range $files }}
   {{- $ext := path.Ext .Name}}
   {{- if eq $ext ".dat" }}
-    {{- $list = $list | append (print "fluo/" .Name) }}
+    {{- $list = $list | append (path.Join $subdir .Name) }}
   {{- end }}
 {{- end }}
-  var files=JSON.parse({{ jsonify $list }})
+  var files={{ $list }}
  return files
 }
 </script>

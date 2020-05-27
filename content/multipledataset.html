@@ -97,12 +97,9 @@ draft: false
   async function loadFiles() {
     processingIndicator.isActive = true
     var chks = []
-    proms = []
-    proms.push(getAbsFilesName().map((f) => VertDataFile.loadAsync(f, VertExcitationKinds.Absorbtion)));
-    proms.push(getFluoFilesName().map((f) => VertDataFile.loadAsync(f, VertExcitationKinds.Fluorescence)))
+    var data= await loadAllData()
     window.defaultDats = []
-    for (const subproms of proms) {
-      const sub = await Promise.all(subproms)
+    for (const sub of Object.values(data)) {
       for (const doi of uniq(sub.map(d => d.DOI.string))) {
         const subdoi = sub.filter(d => d.DOI.string === doi)
         for (mol of uniq(subdoi.map(d => d.molecule))) {
