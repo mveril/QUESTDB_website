@@ -7,6 +7,7 @@ class excitationTypes {
   static get Double() { return new excitationType(1 << 6, new description("Double")) }
   static get SingletSinglet() { return new excitationType(1 << 7, new description(String.raw`\mathrm{Singlet} \rightarrow \mathrm{Singlet}`,true)) }
   static get SingletTriplet() { return new excitationType(1 << 8, new description(String.raw`\mathrm{Singlet} \rightarrow \mathrm{Triplet}`,true)) }
+  static get DoubletDoublet() { return new excitationType(1 << 9, new description(String.raw`\mathrm{Doublet} \rightarrow \mathrm{Doublet}`,true)) }
   // Max bit shifts is 31 because int are int32 So 1 << 31 are -2147483648
   static get Others() { return new excitationType(1 << 31, new description("Others"))}
   static get All() { return EnumUltils.getAll(this,excitationType)}
@@ -171,13 +172,14 @@ class excitationBase {
         }
       }
     }
-    switch (final.multiplicity) {
-      case 1:
-        this.type.Value=this.type|excitationTypes.SingletSinglet
-        break;
-      case 3:
-        this.type.Value=this.type|excitationTypes.SingletTriplet
-        break;
+    var m = new Map([
+      [JSON.stringify([1,1]), excitationTypes.SingletSinglet],
+      [JSON.stringify([2,2]), excitationTypes.DoubletDoublet],
+      [JSON.stringify([1,3]), excitationTypes.SingletTriplet],
+    ])
+    const marray=JSON.stringify([initial.multiplicity, final.multiplicity])
+    if (m.has(marray)) {
+      this.type.Value=this.type.Value|m.get(marray)
     }
     if (this.type.Value==0) {
       this.type.Value=excitationTypes.Others.Value;
