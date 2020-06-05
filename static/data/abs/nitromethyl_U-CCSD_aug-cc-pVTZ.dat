@@ -8,7 +8,7 @@
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
-  1       1     A_1        1       2     B_2          _                                       2.47          _              _            false
-  1       1     A_1        1       2     A_2          _                                       2.71          _              _            false
-  1       1     A_1        1       2     A_1          _                                       2.94          _              _            false
-  1       1     A_1        1       2     B_1          _                                       5.59          _              _            false
+  1       2     B_1        1       2     B_2          _                                       2.47          _              _            false
+  1       2     B_1        1       2     A_2          _                                       2.71          _              _            false
+  1       2     B_1        1       2     A_1          _                                       2.94          _              _            false
+  1       2     B_1        2       2     B_1           _                                       5.59          _              _            false
