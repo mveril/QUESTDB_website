@@ -32,29 +32,24 @@ theme = "beautifulhugo"
     weight = 1
 
 [[menu.main]]
-    name = "Single molecule"
-    url = "singlemolecule"
+    name = "Dataset"
+    url = "dataset"
     weight = 2
-
-[[menu.main]]
-    name = "Multiple dataset"
-    url = "multipledataset"
-    weight = 3
 
 [[menu.main]]
     name = "Publications"
     url = "publications"
-    weight = 4
+    weight = 3
 
 [[menu.main]]
     name = "About"
     url = "about"
-    weight = 5
+    weight = 4
 
 [[menu.main]]
     identifier = "external"
     name = "External links"
-    weight = 6
+    weight = 5
 
 [[menu.main]]
     parent="external"
