@@ -4,6 +4,9 @@ DateForm = "12-30-2006"
 title = "QUEST"
 DefaultContentLanguage = "en"
 theme = "beautifulhugo"
+[Params]
+#  homeTitle = ""
+  subtitle = "QUantum Excited STates database"
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
