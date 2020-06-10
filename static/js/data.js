@@ -1,21 +1,21 @@
 class excitationTypes {
-  static get Valence() { return new excitationType(1<< 1, new description("Valence")) }
+  static get Valence() { return new excitationType(1 << 1, new description("Valence")) }
   static get Rydberg() { return new excitationType(1 << 2, new description("Rydberg")) }
-  static get PiPis() { return new excitationType(1 << 3, new description(String.raw`\pi \rightarrow \pi^\star`,true)) }
-  static get nPis() { return new excitationType(1 << 4, new description(String.raw`n \rightarrow \pi^\star`,true)) }
+  static get PiPis() { return new excitationType(1 << 3, new description(String.raw`\pi \rightarrow \pi^\star`, true)) }
+  static get nPis() { return new excitationType(1 << 4, new description(String.raw`n \rightarrow \pi^\star`, true)) }
   static get Single() { return new excitationType(1 << 5, new description("Single")) }
   static get Double() { return new excitationType(1 << 6, new description("Double")) }
-  static get SingletSinglet() { return new excitationType(1 << 7, new description(String.raw`\mathrm{Singlet} \rightarrow \mathrm{Singlet}`,true)) }
-  static get SingletTriplet() { return new excitationType(1 << 8, new description(String.raw`\mathrm{Singlet} \rightarrow \mathrm{Triplet}`,true)) }
-  static get DoubletDoublet() { return new excitationType(1 << 9, new description(String.raw`\mathrm{Doublet} \rightarrow \mathrm{Doublet}`,true)) }
+  static get SingletSinglet() { return new excitationType(1 << 7, new description(String.raw`\mathrm{Singlet} \rightarrow \mathrm{Singlet}`, true)) }
+  static get SingletTriplet() { return new excitationType(1 << 8, new description(String.raw`\mathrm{Singlet} \rightarrow \mathrm{Triplet}`, true)) }
+  static get DoubletDoublet() { return new excitationType(1 << 9, new description(String.raw`\mathrm{Doublet} \rightarrow \mathrm{Doublet}`, true)) }
   // Max bit shifts is 31 because int are int32 So 1 << 31 are -2147483648
-  static get Others() { return new excitationType(1 << 31, new description("Others"))}
-  static get All() { return EnumUltils.getAll(this,excitationType)}
-  static GetFlags(value){return EnumUltils.GetFlags(value,this,excitationType)}
+  static get Others() { return new excitationType(1 << 31, new description("Others")) }
+  static get All() { return EnumUltils.getAll(this, excitationType) }
+  static GetFlags(value) { return EnumUltils.GetFlags(value, this, excitationType) }
 }
 
-class EnumUltils{
-  static getAll(enumClass,valueType) {
+class EnumUltils {
+  static getAll(enumClass, valueType) {
     var lst = []
     for (const prop of Object.getOwnPropertyNames(enumClass)) {
       if (prop != "All") {
@@ -27,15 +27,15 @@ class EnumUltils{
     }
     return lst
   }
-  static GetFlags(value,enumClass,valueType) {
-    return this.getAll(enumClass,valueType).filter((x) => { value & x[1] })
+  static GetFlags(value, enumClass, valueType) {
+    return this.getAll(enumClass, valueType).filter((x) => { value & x[1] })
   }
 }
 
 class description {
-  constructor(string,isLaTeX=false) {
+  constructor(string, isLaTeX = false) {
     this.string = string
-    this.isLaTeX=isLaTeX
+    this.isLaTeX = isLaTeX
   }
 }
 class DescribedValueBase {
@@ -48,9 +48,9 @@ class DescribedValueBase {
   }
 }
 
-class excitationType extends DescribedValueBase{
+class excitationType extends DescribedValueBase {
 }
-class VertExcitationKind extends DescribedValueBase{
+class VertExcitationKind extends DescribedValueBase {
 
 }
 class code {
@@ -88,7 +88,7 @@ class method {
       return new method(vals[0], null)
     }
   }
-  toString(separator="/") {
+  toString(separator = "/") {
     var str = this.name;
     if (this.basis) {
       str = str + separator + this.basis;
@@ -116,23 +116,23 @@ class state {
   };
 }
 class DOI {
-  constructor(doistring,IsSupporting=false) {
+  constructor(doistring, IsSupporting = false) {
     this.string = doistring
     this.IsSupporting = IsSupporting
   };
-  static fromString(str){
-    const vals=str.split(",")
-    if (vals.length==1) {
+  static fromString(str) {
+    const vals = str.split(",")
+    if (vals.length == 1) {
       return new DOI(vals[0].toString())
     }
-    else{
-      return new DOI(vals[0].toString(),(true ? vals[1]=== true.toString() : false))
+    else {
+      return new DOI(vals[0].toString(), (true ? vals[1] === true.toString() : false))
     }
   }
   toString() {
-    var str=this.string;
+    var str = this.string;
     if (this.IsSupporting) {
-      str+=" "+"(SI)"
+      str += " " + "(SI)"
     }
     return str
   };
@@ -145,7 +145,7 @@ class excitationBase {
   constructor(initial, final, type = '', T1 = null) {
     this.initial = initial;
     this.final = final
-    this.type = new excitationType(0, new description(type,true))
+    this.type = new excitationType(0, new description(type, true))
     if (type) {
       const tys = type.split(";")
       const arrow = String.raw`\rightarrow`
@@ -173,16 +173,16 @@ class excitationBase {
       }
     }
     var m = new Map([
-      [JSON.stringify([1,1]), excitationTypes.SingletSinglet],
-      [JSON.stringify([2,2]), excitationTypes.DoubletDoublet],
-      [JSON.stringify([1,3]), excitationTypes.SingletTriplet],
+      [JSON.stringify([1, 1]), excitationTypes.SingletSinglet],
+      [JSON.stringify([2, 2]), excitationTypes.DoubletDoublet],
+      [JSON.stringify([1, 3]), excitationTypes.SingletTriplet],
     ])
-    const marray=JSON.stringify([initial.multiplicity, final.multiplicity])
+    const marray = JSON.stringify([initial.multiplicity, final.multiplicity])
     if (m.has(marray)) {
-      this.type.Value=this.type.Value|m.get(marray)
+      this.type.Value = this.type.Value | m.get(marray)
     }
-    if (this.type.Value==0) {
-      this.type.Value=excitationTypes.Others.Value;
+    if (this.type.Value == 0) {
+      this.type.Value = excitationTypes.Others.Value;
     }
     this.T1 = T1
   }
@@ -230,16 +230,19 @@ class dataFileBase {
   }
   CopyExcitationsTypeFrom(data) {
     for (const ex of this.excitations) {
-      const ex2=data.excitations.find((e)=>{
-        return (JSON.stringify(e.initial)===JSON.stringify(ex.initial)) && (JSON.stringify(e.final)===JSON.stringify(ex.final))
+      const ex2 = data.excitations.find((e) => {
+        return (JSON.stringify(e.initial) === JSON.stringify(ex.initial)) && (JSON.stringify(e.final) === JSON.stringify(ex.final))
       })
-      if(ex2!==undefined){
-        console.assert(ex.type==0 || (ex2.type^(excitationTypes.Rydberg | excitationTypes.Valence)==ex.type^(excitationTypes.Rydberg | excitationTypes.Valence)),"Excitation type error",[ex,ex2,data.sourceFile])
-        ex.type=ex2.type
+      if (ex2 !== undefined) {
+        if (DebugMode.Enabled) {
+          console.assert(ex.type == 0 || (ex2.type ^ (excitationTypes.Rydberg | excitationTypes.Valence) == ex.type ^ (excitationTypes.Rydberg | excitationTypes.Valence)), "Excitation type error", [ex, ex2, data.sourceFile])
+        }
+
+        ex.type = ex2.type
       }
     }
   }
-  static async loadAsync(file,kind=undefined) {
+  static async loadAsync(file, kind = undefined) {
     switch (trueTypeOf(file)) {
       case String.name:
         file = getFullDataPath(file)
@@ -249,7 +252,7 @@ class dataFileBase {
         var str = await getTextFromUploadedFileAsync(file)
         break
     }
-    var dat = this.loadString(str,kind);
+    var dat = this.loadString(str, kind);
     dat.sourceFile = new websiteFile(file)
     return dat
   }
@@ -276,11 +279,11 @@ class dataFileBase {
   _OnReadRow(line) {
     var vals = line.match(/\([^\)]+\)|\S+/g)
     var start = new state(parseInt(vals[0], 10), parseInt(vals[1], 10), vals[2]);
-    var end = new state(parseInt(vals[3], 10), parseInt(vals[4],10), vals[5]);
+    var end = new state(parseInt(vals[3], 10), parseInt(vals[4], 10), vals[5]);
     var hasType = vals.length >= 7 && isNaN(vals[6])
     var type = ((vals.length >= 7 && hasType) ? vals[6] : null)
-    if (type==="_") {
-      type=null
+    if (type === "_") {
+      type = null
     }
     if (type) {
       const m = type.match(/^\(([^\)]*)\)$/)
@@ -294,7 +297,7 @@ class dataFileBase {
     var isUnsafe = ((vals.length >= 10 + hasType) ? vals[9 + hasType] === true.toString() : false)
     var ex = new excitationValue(start, end, type, val, oscilatorForces, T1, isUnsafe);
     if (this.VertExcitationKind) {
-      ex.VertExcitationKind=this.VertExcitationKind
+      ex.VertExcitationKind = this.VertExcitationKind
     }
     return ex;
   };
@@ -306,10 +309,10 @@ class dataFileBase {
     //if data has value
     if (match.length == 3 && match[2]) {
       var val = match[2]
-      this._OnReadMetaPair(key,val)
+      this._OnReadMetaPair(key, val)
     }
   }
-  static loadString(text,kind=null) {
+  static loadString(text, kind = null) {
     // for each line with metadata
     var ismetaArea = true;
     var dat = new VertDataFile()
@@ -325,43 +328,45 @@ class dataFileBase {
           }
         } else { //else its row
           ismetaArea = false;
-          dat.excitations.push(dat._OnReadRow(line,kind));
+          dat.excitations.push(dat._OnReadRow(line, kind));
         }
       }
     }
-    var stfy=dat.excitations.map(e=>JSON.stringify([e.initial,e.final]))
-    var double=[]
-    stfy.forEach(function(element, i) { 
-      // Find if there is a duplicate or not
-      if (stfy.indexOf(element, i + 1) >= 0) {        
-        // Find if the element is already in the result array or not
-        if (double.indexOf(element) === -1) {
-          double.push(dat.excitations[i])
+    if (DebugMode.Enabled) {
+      var stfy = dat.excitations.map(e => JSON.stringify([e.initial, e.final]))
+      var double = []
+      stfy.forEach(function (element, i) {
+        // Find if there is a duplicate or not
+        if (stfy.indexOf(element, i + 1) >= 0) {
+          // Find if the element is already in the result array or not
+          if (double.indexOf(element) === -1) {
+            double.push(dat.excitations[i])
+          }
         }
-      }
-    });
-    console.assert(double.length===0,"Double found",double,dat.molecule,dat.method.toString())
-    if (dat.DOI.string!=="10.1021/acs.jctc.8b01205") {
-      for (const ex of dat.excitations) {
-        console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1>50 | ex.isUnsafe==true,"Must be unsafe",dat,ex)
+      });
+      console.assert(double.length === 0, "Double found", double, dat.molecule, dat.method.toString())
+      if (dat.DOI.string !== "10.1021/acs.jctc.8b01205") {
+        for (const ex of dat.excitations) {
+          console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1 > 50 | ex.isUnsafe == true, "Must be unsafe", dat, ex)
+        }
       }
     }
     return dat
   }
 }
-class VertExcitationKinds{
-  static get Absorbtion() {return new VertExcitationKind(1, new description("Absorption"))}
-  static get Fluorescence() {return new VertExcitationKind(1<<1, new description("Fluorescence"))}  
-  static get All() { return EnumUltils.getAll(this,VertExcitationKind)}
-  static GetFlags(value){return EnumUltils.GetFlags(value,this,VertExcitationKind)}
+class VertExcitationKinds {
+  static get Absorbtion() { return new VertExcitationKind(1, new description("Absorption")) }
+  static get Fluorescence() { return new VertExcitationKind(1 << 1, new description("Fluorescence")) }
+  static get All() { return EnumUltils.getAll(this, VertExcitationKind) }
+  static GetFlags(value) { return EnumUltils.GetFlags(value, this, VertExcitationKind) }
 }
 class VertDataFile extends dataFileBase {
   constructor(VertExcitationKind) {
     super()
-    this.VertExcitationKind=VertExcitationKind
+    this.VertExcitationKind = VertExcitationKind
     this.geometry = null
   }
-   _OnReadMetaPair(key, value) {
+  _OnReadMetaPair(key, value) {
     if (key == "geom") {
       this.geometry = method.fromString(value)
     }
@@ -369,9 +374,9 @@ class VertDataFile extends dataFileBase {
       super._OnReadMetaPair(key, value)
     }
   }
-  _OnReadRow(line,kind) {
-    var ex=super._OnReadRow(line)
-    ex.VertExcitationKind=kind
+  _OnReadRow(line, kind) {
+    var ex = super._OnReadRow(line)
+    ex.VertExcitationKind = kind
     return ex
   }
 }
