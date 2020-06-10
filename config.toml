@@ -7,6 +7,9 @@ theme = "beautifulhugo"
 [Params]
 #  homeTitle = ""
   subtitle = "QUantum Excited STates database"
+[[Params.bigimg]]
+  src = "img/montain.jpeg"
+  desc = "A mountaineering analogy of the QUEST project"
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
