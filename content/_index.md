@@ -4,26 +4,12 @@ date: 2019-08-29 09:00
 draft: false
 ---
 
-Welcome to this website.
-On this website you can watch reference data for excitations the base data are
+The QUEST project aims to provide reference excitation energies in order to compare the precision of quantum chemistry methods by statistical calculations. This website is an integral part of this project and makes it possible to dynamically do statistical calculations to determine the best methods for a series of molecules. you can find references for the datasets in the [publication section](publications)
 
-## Data present on datafiles
+The statistics are showed as data table and as graph (using the [Plotly JavaScript Open Source Graphing Library](https://plotly.com/javascript))
 
-- Absorptions \\(E_\text{abs}\\).
-- fluorescence \\(\Delta E_\text{fluo}\\).
-- ZPE delta \\(\Delta E_\text{ZPE}\\).
+## Example of charts
+{{< figure src="/img/samplelot.png" title="Statistical results for QUEST#1 set in the aug‑cc‑pVTZ basis for all single excitations" >}}
 
-## Calculated data
 
-{{% Eadia %}}
-{{% E00 %}}
 
-<figure itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
-    <div class="img">
-      <img itemprop="thumbnail" src="/img/figure-geom-1.png" alt="Representation of transition energies and energy differences" height="500">
-    </div>
-    <a href="/img/figure-geom-1.png" itemprop="contentUrl"></a>
-      <figcaption><h4>Figure 1</h4>
-          <p>Representation of transition energies and energy differences</p>
-      </figcaption>
-  </figure>
