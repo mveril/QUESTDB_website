@@ -6,10 +6,10 @@ draft: false
 The aim of this project is to build a easy way to compare excitations data.
 the founders of this project are:
 
-- [Denis Jacquemin](mailto:denis.Jacquemin@univ-nantes.fr)
+- [Denis Jacquemin](https://www.univ-nantes.fr/denis-jacquemin-633107.kjsp)
 from the [CIESAM laboratory](http://www.sciences.univ-nantes.fr/CEISAM) of Nantes
 
-- [Mickaël Véril](mailto:mveril@irsamc.univ-tlse.fr), [Pierre-François Loos](mailto:loos@irsamc.univ-tlse.fr), [Anthony Scemama](mailto:scemama@irsamc.univ-tlse.fr) and [Martial Boggio-Pasqua](mailto:smartial.boggio@irsamc.ups-tlse.fr)
+- [Mickaël Véril](http://www.lcpq.ups-tlse.fr/spip.php?article1885), [Pierre-François Loos](http://www.lcpq.ups-tlse.fr/spip.php?article1750), [Anthony Scemama](http://www.lcpq.ups-tlse.fr/spip.php?article393) and [Martial Boggio-Pasqua](http://www.lcpq.ups-tlse.fr/spip.php?article557)
 from the [LCPQ laboratory](http://www.lcpq.ups-tlse.fr)
 
 For any problems with the website please contact [Mickaël Véril](mailto:mveril@irsamc.univ-tlse.fr).
