@@ -3,7 +3,7 @@ title: "About"
 date: 2019-09-30 11:30
 draft: false
 ---
-The aim of this project is to build a easy way to compare excitations data.
+The purpose of this project is to build a easy way to compare excitations data.
 the founders of this project are:
 
 - [Denis Jacquemin](https://www.univ-nantes.fr/denis-jacquemin-633107.kjsp)
