@@ -1,4 +1,8 @@
-function createPubliUI(publi,sets=new Map(),toolTips=false) {
+function getPubliSubDir(DOI) {
+  return DOI.split(".").join("/")
+}
+
+async function createPubliUI(publi,sets=new Map(),toolTips=false,abstract=false) {
   const art = $("<article/>").addClass("publi")
   art.className = "publi"
   if (sets.has(publi.DOI) && sets.get(publi.DOI)!==null) {
@@ -68,5 +72,16 @@ function createPubliUI(publi,sets=new Map(),toolTips=false) {
     month: "short",
     year: "numeric"
   }))).appendTo(art)
+  if (abstract) {
+   const dir = "/data/publis/"+getPubliSubDir(publi.DOI)
+   var ab = $("<section>",{id: "abstract",}).addClass("well").addClass("abstract")
+   var abfig =$("<figure>").addClass("picture")
+   abfig.appendTo(ab)
+   $("<img>",{src:dir+"/picture.jpeg"}).appendTo(abfig)
+   var htmltxt =await getTextFromFileUrlAsync(dir+"/abstract.html")
+   abtxt=$("<p>").html(htmltxt)
+   abtxt.appendTo(ab)
+   art.append(ab)
+  }
   return art
 }

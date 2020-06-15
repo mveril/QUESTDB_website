@@ -11,6 +11,12 @@
   padding: 0;
   border: 0
 }
+.publi .abstract > figure.picture{
+  width: 60%;
+  padding: 0px;
+  margin: 10px;
+  float: right;
+}
 
 .publi ul.authors-list li.author-item{
   display: inline;
