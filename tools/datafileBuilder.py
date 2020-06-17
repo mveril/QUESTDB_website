@@ -14,9 +14,8 @@ parser.add_argument('--file', type=argparse.FileType('r'))
 parser.add_argument('--defaultType', type=str, choices=[t.name for t in list(dataType)])
 parser.add_argument('--format',type=str, choices=[t.name for t in list(Format)],default=Format.LINE.name)
 parser.add_argument('--debug', action='store_true', help='Debug mode')
-parser.add_argument('--prefix',type=str,default=None)
+parser.add_argument('--suffix',type=str,default=None)
 args = parser.parse_args()
-print(args)
 lines=args.file.readlines()
 soup=TexSoup(lines)
 commands=[LaTeX.newCommand(cmd) for cmd in soup.find_all("newcommand")]
@@ -29,4 +28,4 @@ if not datapath.exists():
   datapath.mkdir()
 datalst=dataFileBase.readFromTable(dat,format=Format[args.format],default=dataType[args.defaultType],commands=commands)
 for data in datalst:
-  data.toFile(datapath,args.prefix)
+  data.toFile(datapath,args.suffix)
