@@ -326,7 +326,7 @@ class dataFileBase(object):
     dic["DOI"]="" if self.DOI is None else self.DOI
     return dic
   
-  def toFile(self,datadir,prefix=None):
+  def toFile(self,datadir,suffix=None):
     subpath=datadir/self.GetFileType().name.lower()
     if not subpath.exists():
       subpath.mkdir()
@@ -337,8 +337,8 @@ class dataFileBase(object):
     fileNameComp=[molfilename,self.method.name]
     if self.method.basis:
       fileNameComp.append(self.method.basis)
-    if prefix:
-      fileNameComp.append(prefix)
+    if suffix:
+      fileNameComp.append(suffix)
     fileName="_".join(fileNameComp)+".dat"
     file=subpath/fileName
     if not file.exists():
