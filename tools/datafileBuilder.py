@@ -16,7 +16,6 @@ parser.add_argument('--format',type=str, choices=[t.name for t in list(Format)],
 parser.add_argument('--debug', action='store_true', help='Debug mode')
 parser.add_argument('--suffix',type=str,default=None)
 args = parser.parse_args()
-print(args)
 lines=args.file.readlines()
 soup=TexSoup(lines)
 commands=[LaTeX.newCommand(cmd) for cmd in soup.find_all("newcommand")]
