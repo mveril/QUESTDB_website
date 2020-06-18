@@ -7,11 +7,11 @@ from pathlib import Path
 from lib import LaTeX
 from lib.Format import Format
 from TexSoup import TexSoup
-from lib.data import dataFileBase,dataType
+from lib.data import dataFileBase,DataType
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--file', type=argparse.FileType('r'))
-parser.add_argument('--defaultType', type=str, choices=[t.name for t in list(dataType)])
+parser.add_argument('--defaultType', type=str, choices=[t.name for t in list(DataType)])
 parser.add_argument('--format',type=str, choices=[t.name for t in list(Format)],default=Format.LINE.name)
 parser.add_argument('--debug', action='store_true', help='Debug mode')
 parser.add_argument('--suffix',type=str,default=None)
@@ -26,6 +26,6 @@ if args.debug:
   datapath=datapath/"test"
 if not datapath.exists():
   datapath.mkdir()
-datalst=dataFileBase.readFromTable(dat,format=Format[args.format],default=dataType[args.defaultType],commands=commands)
+datalst=dataFileBase.readFromTable(dat,format=Format[args.format],default=DataType[args.defaultType],commands=commands)
 for data in datalst:
   data.toFile(datapath,args.suffix)

@@ -17,7 +17,7 @@ class state:
 
 
 @unique
-class dataType(IntEnum):
+class DataType(IntEnum):
   ABS=auto()
   FLUO=auto()
 class dataFileBase(object):
@@ -38,7 +38,7 @@ class dataFileBase(object):
     pass
 
   @staticmethod
-  def convertState(StateTablelist,default=dataType.ABS,firstState=state(1,1,"A_1"),commands=[]):
+  def convertState(StateTablelist,default=DataType.ABS,firstState=state(1,1,"A_1"),commands=[]):
     tmplst=[]
     for TexState in StateTablelist:
       math=TexState.find("$")
@@ -58,7 +58,7 @@ class dataFileBase(object):
       symm=m.group("symm")
       spgrp=m.group("special")
       if spgrp is not None and spgrp=="F":
-        trsp=dataType.FLUO
+        trsp=DataType.FLUO
       else:
         trsp=default
       tygrp=m.group("type")
@@ -73,7 +73,7 @@ class dataFileBase(object):
     return lst
 
   @staticmethod
-  def readFromTable(table,format=Format.LINE,default=dataType.ABS ,firstState=state(1,1,"A_1"),commands=[]):
+  def readFromTable(table,format=Format.LINE,default=DataType.ABS ,firstState=state(1,1,"A_1"),commands=[]):
     def getSubtableIndex(table,firstindex=2,column=0,count=1):
       subtablesindex=list()
       i=firstindex+count
@@ -89,8 +89,8 @@ class dataFileBase(object):
 
     datalist=list()
     switcher={
-      dataType.ABS:AbsDataFile,
-      dataType.FLUO:FluoDataFile,
+      DataType.ABS:AbsDataFile,
+      DataType.FLUO:FluoDataFile,
     }
     if format==Format.LINE:
       for col in range(1,np.size(table,1)):
@@ -414,7 +414,7 @@ class AbsDataFile(oneStateDataFileBase):
   
   @staticmethod
   def GetFileType():
-    return dataType.ABS
+    return DataType.ABS
 
 class FluoDataFile(oneStateDataFileBase):
   def __init__(self):
@@ -422,7 +422,7 @@ class FluoDataFile(oneStateDataFileBase):
 
   @staticmethod
   def GetFileType():
-    return dataType.FLUO
+    return DataType.FLUO
 
 
 class excitationBase:
