@@ -14,8 +14,13 @@ class state:
     self.number = number
     self.multiplicity = multiplicity
     self.symetry = symetry
-
-
+  @staticmethod
+  def fromString(string):
+    m=re.match(r"^(?P<number>\d)\s*\^(?P<multiplicity>\d)(?P<sym>\S*)",string)
+    num=m.group('number')
+    mul=m.group('multiplicity')
+    sym=m.group('sym')
+    return state(num,mul,sym)
 @unique
 class DataType(IntEnum):
   ABS=auto()
@@ -38,7 +43,7 @@ class dataFileBase(object):
     pass
 
   @staticmethod
-  def convertState(StateTablelist,default=DataType.ABS,firstState=state(1,1,"A_1"),commands=[]):
+  def convertState(StateTablelist,firstState,default=DataType.ABS,commands=[]):
     tmplst=[]
     for TexState in StateTablelist:
       math=TexState.find("$")
@@ -71,9 +76,8 @@ class dataFileBase(object):
       count=countlst.count(countitem)
       lst.append((state(count,item[0],item[1]),item[2],item[3]))
     return lst
-
   @staticmethod
-  def readFromTable(table,format=Format.LINE,default=DataType.ABS ,firstState=state(1,1,"A_1"),commands=[]):
+  def readFromTable(table,firstStates,format=Format.LINE,default=DataType.ABS, commands=[]):
     def getSubtableIndex(table,firstindex=2,column=0,count=1):
       subtablesindex=list()
       i=firstindex+count
@@ -97,7 +101,8 @@ class dataFileBase(object):
         col=table[:,col]
         mymolecule=str(col[0])
         mymethod=method(str(col[2]),str(col[1]))
-        finsts=dataFileBase.convertState(table[3:,0],default=default,firstState=firstState,commands=commands)
+        firstState=firstStates[mymolecule]
+        finsts=dataFileBase.convertState(table[3:,0],firstState,default=default,commands=commands)
         datacls=dict()
         for index,cell in enumerate(col[3:]):
           if str(cell)!="":
@@ -123,8 +128,9 @@ class dataFileBase(object):
           datacls=dict()
           col=table[:,col]
           mymolecule=str(table[first,0])
+          firstState=firstStates[mymolecule]
           mymethod=method(str(col[1]),str(col[0]))
-          finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState,commands=commands)
+          finsts=dataFileBase.convertState(table[first:last+1,1],firstState,default=default,commands=commands)
           for index,cell in enumerate(col[first:last+1]):
             if str(cell)!="":
               val,unsafe=getValFromCell(cell)
@@ -203,6 +209,7 @@ class dataFileBase(object):
       for first, last in subtablesindex:
         valDic=dict()
         mymolecule=str(table[first,0])
+        firstState=firstStates[mymolecule]
         for col in range(2,np.size(table,1)):
           col=table[:,col]
           basis=str(col[0])
@@ -221,7 +228,7 @@ class dataFileBase(object):
             methodname=str(methtex)
           mymethod=method(methodname,basis)
           methkey=json.dumps(mymethod.__dict__)
-          finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState,commands=commands)
+          finsts=dataFileBase.convertState(table[first:last+1,1],firstState,default=default,commands=commands)
           for index,cell in enumerate(col[first:last+1]):
             if str(cell)!="":
               val,unsafe=getValFromCell(cell)
@@ -264,8 +271,9 @@ class dataFileBase(object):
       for first, last in subtablesindex:
         datacls=dict()
         mymolecule=str(table[first,0])
+        firstState=firstStates[mymolecule]
         mymethod=(method("TBE(FC)"),method("TBE"))
-        finsts=dataFileBase.convertState(table[first:last+1,1],default=default,firstState=firstState,commands=commands)
+        finsts=dataFileBase.convertState(table[first:last+1,1],firstState,default=default,commands=commands)
         for index,row in enumerate(table[first:last+1,]):
           oscilatorForces=checkFloat(str(row[2]))
           T1 = checkFloat(str(row[3]))
