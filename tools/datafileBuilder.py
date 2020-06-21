@@ -42,10 +42,10 @@ for node in dfbFirstStateNodes:
     vRArgs=[arg.value for arg in firstState.args if arg.type=="required"]
     vOArgs=[arg.value for arg in firstState.args if arg.type=="optional"]
     if len(vOArgs)==0:
-      defaultstate=state.fromString(vRArgs[0])
+      defaultstate=state.fromString("1 "+vRArgs[0])
       dfb_Opt["firstStates"].default_factory=lambda : defaultstate
     else:
-      mystate=state.fromString(vRArgs[0])
+      mystate=state.fromString("1 "+vRArgs[0])
       dfb_Opt["firstStates"][vOArgs[0]]=mystate
 commands=[LaTeX.newCommand(cmd) for cmd in soup.find_all("newcommand")]
 dat=LaTeX.tabularToData(soup.tabular,commands)
