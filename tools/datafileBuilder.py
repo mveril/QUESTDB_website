@@ -17,7 +17,7 @@ args = parser.parse_args()
 lines=args.file.readlines()
 soup=TexSoup(lines)
 opt=soup.dfbOptions
-dfb_Opt= {"defaultType":DataType.ABS,"format":Format.LINE,"suffix":None,"firstStates":defaultdict(lambda : state(1,1,"A_1"))}
+dfb_Opt= {"defaultType":DataType.ABS,"format":Format.LINE,"suffix":None,"initialStates":defaultdict(lambda : state(1,1,"A_1"))}
 dfbDefaultTypeNode=opt.defaultType
 if dfbDefaultTypeNode!=None:
   dfbDefaultType=dfbDefaultTypeNode.expr
@@ -35,18 +35,18 @@ if dfbSuffixNode!=None:
   dfbSuffix=dfbSuffixNode.expr
   if type(dfbSuffix) is TexCmd:
     dfb_Opt["suffix"]=dfbSuffix.args[0].value
-dfbFirstStateNodes=list(opt.find_all("firstState"))
-for node in dfbFirstStateNodes:
-  firstState=node.expr
-  if type(firstState) is TexCmd:
-    vRArgs=[arg.value for arg in firstState.args if arg.type=="required"]
-    vOArgs=[arg.value for arg in firstState.args if arg.type=="optional"]
+dfbInitialStateNodes=list(opt.find_all("initialState"))
+for node in dfbInitialStateNodes:
+  initialState=node.expr
+  if type(initialState) is TexCmd:
+    vRArgs=[arg.value for arg in initialState.args if arg.type=="required"]
+    vOArgs=[arg.value for arg in initialState.args if arg.type=="optional"]
     if len(vOArgs)==0:
       defaultstate=state.fromString("1 "+vRArgs[0])
-      dfb_Opt["firstStates"].default_factory=lambda : defaultstate
+      dfb_Opt["initialStates"].default_factory=lambda : defaultstate
     else:
       mystate=state.fromString("1 "+vRArgs[0])
-      dfb_Opt["firstStates"][vOArgs[0]]=mystate
+      dfb_Opt["initialStates"][vOArgs[0]]=mystate
 commands=[LaTeX.newCommand(cmd) for cmd in soup.find_all("newcommand")]
 dat=LaTeX.tabularToData(soup.tabular,commands)
 scriptpath=Path(sys.argv[0]).resolve()
@@ -55,6 +55,6 @@ if args.debug:
   datapath=datapath/"test"
 if not datapath.exists():
   datapath.mkdir()
-datalst=dataFileBase.readFromTable(dat,dfb_Opt["firstStates"],format=dfb_Opt["format"],default=dfb_Opt["defaultType"],commands=commands)
+datalst=dataFileBase.readFromTable(dat,dfb_Opt["initialStates"],format=dfb_Opt["format"],default=dfb_Opt["defaultType"],commands=commands)
 for data in datalst:
   data.toFile(datapath,dfb_Opt["suffix"])

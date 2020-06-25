@@ -43,7 +43,7 @@ class dataFileBase(object):
     pass
 
   @staticmethod
-  def convertState(StateTablelist,firstState,default=DataType.ABS,commands=[]):
+  def convertState(StateTablelist,initialState,default=DataType.ABS,commands=[]):
     tmplst=[]
     for TexState in StateTablelist:
       math=TexState.find("$")
@@ -70,14 +70,14 @@ class dataFileBase(object):
       tmplst.append((mul,symm,trsp,tygrp))
     lst=[]
     for index,item in enumerate(tmplst):
-      unformfirststate=(firstState.multiplicity,firstState.symetry)
-      countlst=[unformfirststate]+[(it[0],it[1]) for it in tmplst[:index+1]]
+      unforminitialstate=(initialState.multiplicity,initialState.symetry)
+      countlst=[unforminitialstate]+[(it[0],it[1]) for it in tmplst[:index+1]]
       countitem=(item[0],item[1])
       count=countlst.count(countitem)
       lst.append((state(count,item[0],item[1]),item[2],item[3]))
     return lst
   @staticmethod
-  def readFromTable(table,firstStates,format=Format.LINE,default=DataType.ABS, commands=[]):
+  def readFromTable(table,initialStates,format=Format.LINE,default=DataType.ABS, commands=[]):
     def getSubtableIndex(table,firstindex=2,column=0,count=1):
       subtablesindex=list()
       i=firstindex+count
@@ -101,8 +101,8 @@ class dataFileBase(object):
         col=table[:,col]
         mymolecule=str(col[0])
         mymethod=method(str(col[2]),str(col[1]))
-        firstState=firstStates[mymolecule]
-        finsts=dataFileBase.convertState(table[3:,0],firstState,default=default,commands=commands)
+        initialState=initialStates[mymolecule]
+        finsts=dataFileBase.convertState(table[3:,0],initialState,default=default,commands=commands)
         datacls=dict()
         for index,cell in enumerate(col[3:]):
           if str(cell)!="":
@@ -117,7 +117,7 @@ class dataFileBase(object):
               datacls[dt]=data
               data.molecule=mymolecule
               data.method=mymethod
-            data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2],isUnsafe=unsafe))
+            data.excitations.append(excitationValue(initialState,finst[0],val,type=finst[2],isUnsafe=unsafe))
         for value in datacls.values():
           datalist.append(value)
       return datalist
@@ -128,9 +128,9 @@ class dataFileBase(object):
           datacls=dict()
           col=table[:,col]
           mymolecule=str(table[first,0])
-          firstState=firstStates[mymolecule]
+          initialState=initialStates[mymolecule]
           mymethod=method(str(col[1]),str(col[0]))
-          finsts=dataFileBase.convertState(table[first:last+1,1],firstState,default=default,commands=commands)
+          finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=default,commands=commands)
           for index,cell in enumerate(col[first:last+1]):
             if str(cell)!="":
               val,unsafe=getValFromCell(cell)
@@ -144,7 +144,7 @@ class dataFileBase(object):
                 data.molecule=mymolecule
                 data.method=mymethod
                 datacls[dt]=data
-              data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2]))
+              data.excitations.append(excitationValue(initialState,finst[0],val,type=finst[2]))
           for value in datacls.values():
             datalist.append(value)
       return datalist
@@ -209,7 +209,7 @@ class dataFileBase(object):
       for first, last in subtablesindex:
         valDic=dict()
         mymolecule=str(table[first,0])
-        firstState=firstStates[mymolecule]
+        initialState=initialStates[mymolecule]
         for col in range(2,np.size(table,1)):
           col=table[:,col]
           basis=str(col[0])
@@ -228,7 +228,7 @@ class dataFileBase(object):
             methodname=str(methtex)
           mymethod=method(methodname,basis)
           methkey=json.dumps(mymethod.__dict__)
-          finsts=dataFileBase.convertState(table[first:last+1,1],firstState,default=default,commands=commands)
+          finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=default,commands=commands)
           for index,cell in enumerate(col[first:last+1]):
             if str(cell)!="":
               val,unsafe=getValFromCell(cell)
@@ -249,7 +249,7 @@ class dataFileBase(object):
                 dataDic[exkey][kind]=(val,unsafe)
               else:
                 dataDic[exkey][kind]=val
-              #data.excitations.append(excitationValue(firstState,finst[0],val,type=finst[2]))
+              #data.excitations.append(excitationValue(initialState,finst[0],val,type=finst[2]))
         for dt,methdic in valDic.items():
           for methstring,exdic in methdic.items():
             data=switcher[dt]()
@@ -263,7 +263,7 @@ class dataFileBase(object):
               T1=values["\\%T_1"] if "\\%T_1" in values  else None
               oF= values["f"] if "f" in values  else None
               val,unsafe=values[""]
-              data.excitations.append(excitationValue(firstState,st,val,type=ty,T1=T1,isUnsafe=unsafe,oscilatorForces=oF))
+              data.excitations.append(excitationValue(initialState,st,val,type=ty,T1=T1,isUnsafe=unsafe,oscilatorForces=oF))
               datalist.append(data)
       return datalist
     elif format==Format.TBE:
@@ -271,9 +271,9 @@ class dataFileBase(object):
       for first, last in subtablesindex:
         datacls=dict()
         mymolecule=str(table[first,0])
-        firstState=firstStates[mymolecule]
+        initialState=initialStates[mymolecule]
         mymethod=(method("TBE(FC)"),method("TBE"))
-        finsts=dataFileBase.convertState(table[first:last+1,1],firstState,default=default,commands=commands)
+        finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=default,commands=commands)
         for index,row in enumerate(table[first:last+1,]):
           oscilatorForces=checkFloat(str(row[2]))
           T1 = checkFloat(str(row[3]))
@@ -295,7 +295,7 @@ class dataFileBase(object):
           vs=[val,corr]
           uns=[unsafe,unsafecorr]
           for i in range(2):
-            datamtbe[i].excitations.append(excitationValue(firstState,finst[0],vs[i],type=finst[2],T1=T1,oscilatorForces=oscilatorForces,isUnsafe=uns[i]))
+            datamtbe[i].excitations.append(excitationValue(initialState,finst[0],vs[i],type=finst[2],T1=T1,oscilatorForces=oscilatorForces,isUnsafe=uns[i]))
         for value in datacls.values():
           for dat in value:
             datalist.append(dat)
