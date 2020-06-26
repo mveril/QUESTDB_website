@@ -77,7 +77,7 @@ class dataFileBase(object):
       lst.append((state(count,item[0],item[1]),item[2],item[3]))
     return lst
   @staticmethod
-  def readFromTable(table,initialStates,format=Format.LINE,default=DataType.ABS, commands=[]):
+  def readFromTable(table,TexOps, commands=[]):
     def getSubtableIndex(table,firstindex=2,column=0,count=1):
       subtablesindex=list()
       i=firstindex+count
@@ -96,13 +96,13 @@ class dataFileBase(object):
       DataType.ABS:AbsDataFile,
       DataType.FLUO:FluoDataFile,
     }
-    if format==Format.LINE:
+    if TexOps.format==Format.LINE:
       for col in range(1,np.size(table,1)):
         col=table[:,col]
         mymolecule=str(col[0])
         mymethod=method(str(col[2]),str(col[1]))
-        initialState=initialStates[mymolecule]
-        finsts=dataFileBase.convertState(table[3:,0],initialState,default=default,commands=commands)
+        initialState=TexOps.initialStates[mymolecule]
+        finsts=dataFileBase.convertState(table[3:,0],initialState,default=TexOps.defaultType,commands=commands)
         datacls=dict()
         for index,cell in enumerate(col[3:]):
           if str(cell)!="":
@@ -121,16 +121,16 @@ class dataFileBase(object):
         for value in datacls.values():
           datalist.append(value)
       return datalist
-    elif format==Format.COLUMN:
+    elif TexOps.format==Format.COLUMN:
       subtablesindex=getSubtableIndex(table)
       for first, last in subtablesindex:
         for col in range(2,np.size(table,1)):
           datacls=dict()
           col=table[:,col]
           mymolecule=str(table[first,0])
-          initialState=initialStates[mymolecule]
+          initialState=TexOps.initialStates[mymolecule]
           mymethod=method(str(col[1]),str(col[0]))
-          finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=default,commands=commands)
+          finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=TexOps.defaultType,commands=commands)
           for index,cell in enumerate(col[first:last+1]):
             if str(cell)!="":
               val,unsafe=getValFromCell(cell)
@@ -148,7 +148,7 @@ class dataFileBase(object):
           for value in datacls.values():
             datalist.append(value)
       return datalist
-    elif format==Format.DOUBLECOLUMN:
+    elif TexOps.format==Format.DOUBLECOLUMN:
       datacls=dict()
       subtablesMol=getSubtableIndex(table)
       for firstMol, lastMol in subtablesMol:
@@ -203,13 +203,13 @@ class dataFileBase(object):
         for value in datacls.values():
           datalist.append(value)
       return datalist
-    elif format==Format.EXOTICCOLUMN:
+    elif TexOps.format==Format.EXOTICCOLUMN:
       import json
       subtablesindex=getSubtableIndex(table)
       for first, last in subtablesindex:
         valDic=dict()
         mymolecule=str(table[first,0])
-        initialState=initialStates[mymolecule]
+        initialState=TexOps.initialStates[mymolecule]
         for col in range(2,np.size(table,1)):
           col=table[:,col]
           basis=str(col[0])
@@ -228,7 +228,7 @@ class dataFileBase(object):
             methodname=str(methtex)
           mymethod=method(methodname,basis)
           methkey=json.dumps(mymethod.__dict__)
-          finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=default,commands=commands)
+          finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=TexOps.default,commands=commands)
           for index,cell in enumerate(col[first:last+1]):
             if str(cell)!="":
               val,unsafe=getValFromCell(cell)
@@ -266,14 +266,14 @@ class dataFileBase(object):
               data.excitations.append(excitationValue(initialState,st,val,type=ty,T1=T1,isUnsafe=unsafe,oscilatorForces=oF))
               datalist.append(data)
       return datalist
-    elif format==Format.TBE:
+    elif TexOps.format==Format.TBE:
       subtablesindex=getSubtableIndex(table)
       for first, last in subtablesindex:
         datacls=dict()
         mymolecule=str(table[first,0])
-        initialState=initialStates[mymolecule]
+        initialState=TexOps.initialStates[mymolecule]
         mymethod=(method("TBE(FC)"),method("TBE"))
-        finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=default,commands=commands)
+        finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=TexOps.defaultType,commands=commands)
         for index,row in enumerate(table[first:last+1,]):
           oscilatorForces=checkFloat(str(row[2]))
           T1 = checkFloat(str(row[3]))
@@ -300,7 +300,7 @@ class dataFileBase(object):
           for dat in value:
             datalist.append(dat)
       return datalist
-    elif format==Format.DOUBLETBE:
+    elif TexOps.format==Format.DOUBLETBE:
       datacls=dict()
       subtablesMol=getSubtableIndex(table)
       for firstMol, lastMol in subtablesMol:
