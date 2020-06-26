@@ -1,0 +1,11 @@
+# Molecule : Thioformaldehyde
+# Comment  : 
+# code     : 
+# method   : ADC(3),aug-cc-pVTZ
+# geom     : 
+# DOI      : 10.1021/acs.jpclett.9b03652,true
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_fluo        %T1            f            is unsafe
+  1       1     A_1        2       1     A_2          (\mathrm{V};n \rightarrow \pi^\star)    1.80          _              _            false
