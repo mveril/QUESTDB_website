@@ -19,7 +19,7 @@ if args.list:
   print("The list of avalable formats are:")
   for formatName,_ in getFormatHandlers():
     print(formatName)
-else:
+elif args.file!=None:
   lines=args.file.readlines()
   soup=TexSoup(lines)
   opt=soup.dfbOptions
@@ -38,3 +38,5 @@ else:
   datalst=dataFileBase.readFromTable(dat,texOps,commands=commands)
   for data in datalst:
     data.toFile(datapath,texOps.suffix)
+else:
+  parser.print_help()
