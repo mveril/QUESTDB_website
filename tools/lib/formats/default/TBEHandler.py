@@ -1,0 +1,41 @@
+from ..formatHandlerBase import formatHandlerBase
+from ..formatName import formatName
+from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtableIndex
+from ...utils import getValFromCell, checkFloat
+@formatName("TBE")
+class TBEHandler(formatHandlerBase):
+  def readFromTable(self,table):
+    datalist=list()
+    subtablesindex=getSubtableIndex(table)
+    for first, last in subtablesindex:
+      datacls=dict()
+      mymolecule=str(table[first,0])
+      initialState=self.TexOps.initialStates[mymolecule]
+      mymethod=(method("TBE(FC)"),method("TBE"))
+      finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=TexOps.defaultType,commands=commands)
+      for index,row in enumerate(table[first:last+1,]):
+        oscilatorForces=checkFloat(str(row[2]))
+        T1 = checkFloat(str(row[3]))
+        val,unsafe = getValFromCell(row[4])
+        corr,unsafecorr = getValFromCell(row[7])
+        finst=finsts[index]
+        dt=finst[1]
+        if dt in datacls:
+          datamtbe = datacls[dt]
+        else:
+          cl=datafileSelector(dt)
+          datamtbe=[]
+          for met in mymethod:
+            data=cl()
+            data.molecule=mymolecule
+            data.method=met
+            datamtbe.append(data)
+          datacls[dt]=datamtbe
+        vs=[val,corr]
+        uns=[unsafe,unsafecorr]
+        for i in range(2):
+          datamtbe[i].excitations.append(excitationValue(initialState,finst[0],vs[i],type=finst[2],T1=T1,oscilatorForces=oscilatorForces,isUnsafe=uns[i]))
+      for value in datacls.values():
+        for dat in value:
+          datalist.append(dat)
+    return datalist
