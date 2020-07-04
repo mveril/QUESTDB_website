@@ -2,6 +2,7 @@ from ..formatHandlerBase import formatHandlerBase
 from ..formatName import formatName
 from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtableIndex
 from ...utils import getValFromCell
+import numpy as np
 @formatName("column")
 class columnHandler(formatHandlerBase):
   def readFromTable(self,table):
@@ -12,9 +13,9 @@ class columnHandler(formatHandlerBase):
         datacls=dict()
         col=table[:,col]
         mymolecule=str(table[first,0])
-        initialState=TexOps.initialStates[mymolecule]
+        initialState=self.TexOps.initialStates[mymolecule]
         mymethod=method(str(col[1]),str(col[0]))
-        finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=TexOps.defaultType,commands=commands)
+        finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=self.TexOps.defaultType,commands=self.commands)
         for index,cell in enumerate(col[first:last+1]):
           if str(cell)!="":
             val,unsafe=getValFromCell(cell)

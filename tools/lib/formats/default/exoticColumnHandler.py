@@ -1,9 +1,10 @@
 from ..formatHandlerBase import formatHandlerBase
 from ..formatName import formatName
-from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtableIndex
+from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtableIndex,state
 from ...utils import getValFromCell
-from TexSoup import TexSoup
+from TexSoup import TexSoup,TexNode
 from ...LaTeX import newCommand
+import numpy as np
 import json
 @formatName("exoticColumn")
 class exoticColumnHandler(formatHandlerBase):
@@ -13,26 +14,26 @@ class exoticColumnHandler(formatHandlerBase):
     for first, last in subtablesindex:
       valDic=dict()
       mymolecule=str(table[first,0])
-      initialState=TexOps.initialStates[mymolecule]
+      initialState=self.TexOps.initialStates[mymolecule]
       for col in range(2,np.size(table,1)):
         col=table[:,col]
         basis=str(col[0])
         mymethcell=list(col[1])
         if isinstance(mymethcell[0],TexNode) and mymethcell[0].name=="$":
           kindSoup=TexSoup("".join(list(mymethcell[0].expr.all)))
-          newCommand.runAll(kindSoup,commands)
+          newCommand.runAll(kindSoup,self.commands)
           kind=str(kindSoup)
           methodnameSoup=TexSoup(mymethcell[1].value)
-          newCommand.runAll(methodnameSoup,commands)
+          newCommand.runAll(methodnameSoup,self.commands)
           methodname=str(methodnameSoup)
         else:
           kind=""
           methtex=col[1]
-          newCommand.runAll(methtex,commands)
+          newCommand.runAll(methtex,self.commands)
           methodname=str(methtex)
         mymethod=method(methodname,basis)
         methkey=json.dumps(mymethod.__dict__)
-        finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=TexOps.default,commands=commands)
+        finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=self.TexOps.default,commands=self.commands)
         for index,cell in enumerate(col[first:last+1]):
           if str(cell)!="":
             val,unsafe=getValFromCell(cell)
@@ -56,7 +57,7 @@ class exoticColumnHandler(formatHandlerBase):
             #data.excitations.append(excitationValue(initialState,finst[0],val,type=finst[2]))
       for dt,methdic in valDic.items():
         for methstring,exdic in methdic.items():
-          data=switcher[dt]()
+          data=datafileSelector[dt]()
           data.molecule=mymolecule
           methdic=json.loads(methstring)
           data.method=method(methdic["name"],methdic["basis"])
