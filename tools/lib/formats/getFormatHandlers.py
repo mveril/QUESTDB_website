@@ -1,5 +1,4 @@
 import inspect
-import sys
 from . import default
 from . import formatHandlerBase
 
