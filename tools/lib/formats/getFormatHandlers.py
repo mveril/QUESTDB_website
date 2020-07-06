@@ -1,8 +1,8 @@
 import inspect
-from . import default
 from . import formatHandlerBase
 
 def getFormatHandlers(includeUnnamed=False):
+  from . import default
   for clsName,Cls in inspect.getmembers(default,inspect.isclass):
     if issubclass(Cls,formatHandlerBase):
       if hasattr(Cls,"__formatName__"):
