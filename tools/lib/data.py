@@ -99,7 +99,7 @@ class dataFileBase(object):
     return lst
   @staticmethod
   def readFromTable(table,TexOps, commands=[]):
-    for formatName,Cls in getFormatHandlers:
+    for formatName,Cls in getFormatHandlers():
       if formatName.lower()==TexOps.format.lower():
         handler=Cls(TexOps,commands)
         break
