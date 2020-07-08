@@ -1,22 +1,22 @@
 from ..formatHandlerBase import formatHandlerBase
 from ..formatName import formatName
-from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtableIndex
+from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtablesRange
 from ...utils import getValFromCell
 import numpy as np
 @formatName("column")
 class columnHandler(formatHandlerBase):
   def readFromTable(self,table):
     datalist=list()
-    subtablesindex=getSubtableIndex(table)
-    for first, last in subtablesindex:
+    subtablesRange=getSubtablesRange(table)
+    for myrange in subtablesRange:
       for col in range(2,np.size(table,1)):
         datacls=dict()
         col=table[:,col]
-        mymolecule=str(table[first,0])
+        mymolecule=str(table[myrange[0],0])
         initialState=self.TexOps.initialStates[mymolecule]
         mymethod=method(str(col[1]),str(col[0]))
-        finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=self.TexOps.defaultType,commands=self.commands)
-        for index,cell in enumerate(col[first:last+1]):
+        finsts=dataFileBase.convertState(table[myrange,1],initialState,default=self.TexOps.defaultType,commands=self.commands)
+        for index,cell in enumerate(col[myrange]):
           if str(cell)!="":
             val,unsafe=getValFromCell(cell)
             finst=finsts[index]

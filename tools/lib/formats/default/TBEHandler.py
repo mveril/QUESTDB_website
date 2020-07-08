@@ -1,19 +1,19 @@
 from ..formatHandlerBase import formatHandlerBase
 from ..formatName import formatName
-from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtableIndex
+from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtablesRange
 from ...utils import getValFromCell, checkFloat
 @formatName("TBE")
 class TBEHandler(formatHandlerBase):
   def readFromTable(self,table):
     datalist=list()
-    subtablesindex=getSubtableIndex(table)
-    for first, last in subtablesindex:
+    subtablesRange=getSubtablesRange(table)
+    for myrange in subtablesRange:
       datacls=dict()
-      mymolecule=str(table[first,0])
+      mymolecule=str(table[myrange[0],0])
       initialState=self.TexOps.initialStates[mymolecule]
       mymethod=(method("TBE(FC)"),method("TBE"))
-      finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=self.TexOps.defaultType,commands=self.commands)
-      for index,row in enumerate(table[first:last+1,]):
+      finsts=dataFileBase.convertState(table[myrange,1],initialState,default=self.TexOps.defaultType,commands=self.commands)
+      for index,row in enumerate(table[myrange,]):
         oscilatorForces=checkFloat(str(row[2]))
         T1 = checkFloat(str(row[3]))
         val,unsafe = getValFromCell(row[4])

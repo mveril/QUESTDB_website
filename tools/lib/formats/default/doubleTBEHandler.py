@@ -1,6 +1,6 @@
 from ..formatHandlerBase import formatHandlerBase
 from ..formatName import formatName
-from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtableIndex,AbsDataFile,state
+from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtablesRange,AbsDataFile,state
 from ...utils import getValFromCell, checkFloat
 from ...LaTeX import newCommand
 from TexSoup import TexSoup
@@ -9,12 +9,12 @@ import re
 class doubleTBEHandler(formatHandlerBase):
   def readFromTable(self,table):
     datalist=list()
-    subtablesMol=getSubtableIndex(table)
-    for firstMol, lastMol in subtablesMol:
+    subtablesMol=getSubtablesRange(table)
+    for rangeMol in subtablesMol:
       data=AbsDataFile()
-      data.molecule=str(table[firstMol,0])
+      data.molecule=str(table[rangeMol,0])
       data.method=method("TBE","CBS")
-      for mytrans in table[firstMol:lastMol+1]:
+      for mytrans in table[rangeMol]:
         try:
           mathsoup=TexSoup(mytrans[1])
         except:

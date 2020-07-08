@@ -1,6 +1,6 @@
 from ..formatHandlerBase import formatHandlerBase
 from ..formatName import formatName
-from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,AbsDataFile,getSubtableIndex
+from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,AbsDataFile,getSubtablesRange
 from ...LaTeX import newCommand
 import re
 from ...utils import getValFromCell
@@ -8,13 +8,13 @@ from ...utils import getValFromCell
 class doubleColumnHandler(formatHandlerBase):
   def readFromTable(self,table):
       datacls=dict()
-      subtablesMol=getSubtableIndex(table)
-      for firstMol, lastMol in subtablesMol:
-        mymolecule=str(table[firstMol,0])
-        moltable=table[firstMol:lastMol+1,:]
-        subtablestrans=getSubtableIndex(moltable,firstindex=0,column=1,count=2)
-        for firstTrans,lastTrans in subtablestrans:
-          mytrans=moltable[firstTrans:lastTrans+1,:]
+      subtablesMol=getSubtablesRange(table)
+      for rangeMol in subtablesMol:
+        mymolecule=str(table[rangeMol[0],0])
+        moltable=table[rangeMol,:]
+        subtablestrans=getSubtablesRange(moltable,firstindex=0,column=1,count=2)
+        for rangeTrans in subtablestrans:
+          mytrans=moltable[rangeTrans,:]
           mytransdesc=mytrans[0:2,1]
           for i in range(2):      
             try:

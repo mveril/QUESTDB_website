@@ -33,18 +33,18 @@ def datafileSelector(dataType):
   }
   return switcher[dataType]
 
-def getSubtableIndex(table,firstindex=2,column=0,count=1):
-  subtablesindex=list()
+def getSubtableRange(table,firstindex=2,column=0,count=1):
+  subtablesRange=list()
   i=firstindex+count
   while i<np.size(table,0):
     if str(table[i,column])!="":
-      subtablesindex.append((firstindex,i-1))
+      subtablesRange.append(range(firstindex,i))
       firstindex=i
       i+=count
     else:
       i+=1
-  subtablesindex.append((firstindex,np.size(table,0)))
-  return subtablesindex
+  subtablesRange.append(range(firstindex,np.size(table,0)))
+  return subtablesRange
 
 class dataFileBase(object):
   def __init__(self):

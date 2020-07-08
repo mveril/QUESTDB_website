@@ -1,6 +1,6 @@
 from ..formatHandlerBase import formatHandlerBase
 from ..formatName import formatName
-from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtableIndex,state
+from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtablesRange,state
 from ...utils import getValFromCell
 from TexSoup import TexSoup,TexNode
 from ...LaTeX import newCommand
@@ -10,10 +10,10 @@ import json
 class exoticColumnHandler(formatHandlerBase):
   def readFromTable(self,table):
     datalist=list()
-    subtablesindex=getSubtableIndex(table)
-    for first, last in subtablesindex:
+    subtablesRange=getSubtablesRange(table)
+    for myrange in subtablesRange:
       valDic=dict()
-      mymolecule=str(table[first,0])
+      mymolecule=str(table[myrange[0],0])
       initialState=self.TexOps.initialStates[mymolecule]
       for col in range(2,np.size(table,1)):
         col=table[:,col]
@@ -33,8 +33,8 @@ class exoticColumnHandler(formatHandlerBase):
           methodname=str(methtex)
         mymethod=method(methodname,basis)
         methkey=json.dumps(mymethod.__dict__)
-        finsts=dataFileBase.convertState(table[first:last+1,1],initialState,default=self.TexOps.default,commands=self.commands)
-        for index,cell in enumerate(col[first:last+1]):
+        finsts=dataFileBase.convertState(table[myrange,1],initialState,default=self.TexOps.default,commands=self.commands)
+        for index,cell in enumerate(col[myrange]):
           if str(cell)!="":
             val,unsafe=getValFromCell(cell)
             finst=finsts[index]
