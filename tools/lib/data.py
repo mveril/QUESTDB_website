@@ -33,7 +33,7 @@ def datafileSelector(dataType):
   }
   return switcher[dataType]
 
-def getSubtableRange(table,firstindex=2,column=0,count=1):
+def getSubtablesRange(table,firstindex=2,column=0,count=1):
   subtablesRange=list()
   i=firstindex+count
   while i<np.size(table,0):
