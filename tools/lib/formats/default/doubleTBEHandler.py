@@ -20,7 +20,7 @@ class doubleTBEHandler(formatHandlerBase):
         except:
           print(f"Error when parsing latex state: {str(mytransdesc[i])}")
           exit(-1)
-        newCommand.runAll(mathsoup,commands)
+        newCommand.runAll(mathsoup,self.commands)
         mytransdesc=str(mathsoup)
         infin=mytransdesc.split(r"\rightarrow")
         for i,item in enumerate(infin):
