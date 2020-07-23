@@ -1,0 +1,30 @@
+# Molecule : Naphthalene
+# Comment  : 
+# code     : 
+# method   : CCSD,aug-cc-pVTZ
+# geom     : 
+# DOI      : 
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1     A_g        1       1     B_3u         (\mathrm{V};\pi \rightarrow \pi^\star)  0.18          _              _            false
+  1       1     A_g        1       1     B_2u         (\mathrm{V};\pi \rightarrow \pi^\star)  0.15          _              _            false
+  1       1     A_g        1       1     A_u          (\mathrm{R};\pi \rightarrow 3p)         0.05          _              _            false
+  1       1     A_g        1       1     B_1g         (\mathrm{V};\pi \rightarrow \pi^\star)  0.27          _              _            false
+  1       1     A_g        1       1     A_g          (\mathrm{V};\pi \rightarrow \pi^\star)  6.17          _              _            false
+  1       1     A_g        1       1     B_3g         (\mathrm{R};\pi \rightarrow 3p)         0.07          _              _            false
+  1       1     A_g        1       1     B_2g         (\mathrm{R};\pi \rightarrow 3p)         0.01          _              _            false
+  1       1     A_g        2       1     B_3u         (\mathrm{V};\pi \rightarrow \pi^\star)  6.36          _              _            false
+  1       1     A_g        1       1     B_1u         (\mathrm{R};\pi \rightarrow 3p)         0.05          _              _            false
+  1       1     A_g        2       1     B_2u         (\mathrm{V};\pi \rightarrow \pi^\star)  0.18          _              _            false
+  1       1     A_g        2       1     B_1g         (\mathrm{V};\pi \rightarrow \pi^\star)  0.30          _              _            false
+  1       1     A_g        2       1     A_g          (\mathrm{V};\pi \rightarrow \pi^\star)  0.54          _              _            false
+  1       1     A_g        3       1     B_2u         (\mathrm{V};\pi \rightarrow \pi^\star)  3.07          _              _            false
+  1       1     A_g        3       1     B_3u         (\mathrm{V};\pi \rightarrow \pi^\star)  4.24          _              _            false
+  1       1     A_g        3       1     B_1g         (\mathrm{V};\pi \rightarrow \pi^\star)  4.44          _              _            false
+  1       1     A_g        4       1     B_2u         (\mathrm{V};\pi \rightarrow \pi^\star)  4.67          _              _            false
+  1       1     A_g        4       1     B_3u         (\mathrm{V};\pi \rightarrow \pi^\star)  4.94          _              _            false
+  1       1     A_g        3       1     A_g          (\mathrm{V};\pi \rightarrow \pi^\star)  5.53          _              _            false
+  1       1     A_g        4       1     B_1g         (\mathrm{V};\pi \rightarrow \pi^\star)  6.40          _              _            false
+  1       1     A_g        4       1     A_g          (\mathrm{V};\pi \rightarrow \pi^\star)  6.56          _              _            false
