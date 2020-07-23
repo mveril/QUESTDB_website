@@ -4,3 +4,4 @@ from .doubleColumnHandler import doubleColumnHandler
 from .TBEHandler import TBEHandler
 from .doubleTBEHandler import doubleTBEHandler
 from .exoticColumnHandler import exoticColumnHandler
+from .fromXLSToLaTeXHandler import fromXLSToLaTeXHandler
