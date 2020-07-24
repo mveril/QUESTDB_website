@@ -169,6 +169,8 @@ class excitationBase {
           this.type.Value = this.type | excitationTypes.Rydberg
         } else if (ty.includes(String.raw`\mathrm{V}`)) {
           this.type.Value = this.type | excitationTypes.Valence
+        } else if (ty.toLowerCase()===excitationTypes.Double.description.string.toLowerCase()){
+          this.type.Value = this.type | excitationTypes.Double
         }
       }
     }
