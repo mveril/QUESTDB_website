@@ -8,22 +8,22 @@
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
-  1       1     A_g        1       1     B_3u         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
-  1       1     A_g        1       1     B_2u         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        1       1     B_{3u}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        1       1     B_{2u}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
   1       1     A_g        1       1     A_u          (\mathrm{R};\pi \rightarrow 3p)         #NOM ?        _              _            false
-  1       1     A_g        1       1     B_1g         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        1       1     B_{1g}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
   1       1     A_g        1       1     A_g          (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
-  1       1     A_g        1       1     B_3g         (\mathrm{R};\pi \rightarrow 3p)         #NOM ?        _              _            false
-  1       1     A_g        1       1     B_2g         (\mathrm{R};\pi \rightarrow 3p)         #NOM ?        _              _            false
-  1       1     A_g        2       1     B_3u         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
-  1       1     A_g        1       1     B_1u         (\mathrm{R};\pi \rightarrow 3p)         #NOM ?        _              _            false
-  1       1     A_g        2       1     B_2u         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
-  1       1     A_g        2       1     B_1g         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
-  1       1     A_g        3       1     B_2u         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
-  1       1     A_g        3       1     B_3u         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
-  1       1     A_g        3       1     B_1g         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
-  1       1     A_g        4       1     B_2u         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
-  1       1     A_g        4       1     B_3u         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        1       1     B_{3g}       (\mathrm{R};\pi \rightarrow 3p)         #NOM ?        _              _            false
+  1       1     A_g        1       1     B_{2g}       (\mathrm{R};\pi \rightarrow 3p)         #NOM ?        _              _            false
+  1       1     A_g        2       1     B_{3u}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        1       1     B_{1u}       (\mathrm{R};\pi \rightarrow 3p)         #NOM ?        _              _            false
+  1       1     A_g        2       1     B_{2u}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        2       1     B_{1g}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        3       1     B_{2u}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        3       1     B_{3u}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        3       1     B_{1g}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        4       1     B_{2u}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        4       1     B_{3u}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
   1       1     A_g        3       1     A_g          (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
-  1       1     A_g        4       1     B_1g         (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
+  1       1     A_g        4       1     B_{1g}       (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
   1       1     A_g        4       1     A_g          (\mathrm{V};\pi \rightarrow \pi^\star)  #NOM ?        _              _            false
