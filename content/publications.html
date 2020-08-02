@@ -20,7 +20,7 @@ draft: false
   window.onload = async function () {
     var div = document.getElementById("publis_div")
     const Cite = require("citation-js")
-    const sdois = uniq(Object.values(await loadAllData()).flat().map(d => d.DOI.string))
+    const sdois = uniq(Object.values(await loadAllData()).flat().filter(d => d.DOI !== null).map(d => d.DOI.string))
     const spubliscite = await Cite.async(sdois)
     const pubs = await getPublis()
     const uospublis = spubliscite.format('data', { format: 'object' })
