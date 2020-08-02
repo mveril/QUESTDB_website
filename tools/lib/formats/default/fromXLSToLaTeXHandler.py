@@ -2,7 +2,7 @@ from .. import *
 from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtablesRange,state
 from ...utils import getValFromCell
 from TexSoup import TexSoup,TexNode
-from ...LaTeX import newCommand
+from ...LaTeX import newCommand,extractMath
 import numpy as np
 import json
 import itertools
@@ -21,8 +21,9 @@ def GetTypeFromAcronym(acronym):
     return None
   else:
     raise ValueError("acronym not recognised")
-def GetMathState(statestr,datatype=DataType.ABS,VR=None,typeAcronym=None,Soup=True):
-  resultstr=statestr
+def GetFullState(TexState,datatype=DataType.ABS,VR=None,typeAcronym=None,Soup=True):
+  statemath=str(extractMath(TexState))
+  resultstr=statemath
   fulltype=[]
   if datatype==DataType.FLUO:
     resultstr+=r"[\mathrm{F}]"
@@ -69,7 +70,7 @@ class fromXLSToLaTeXHandler(formatHandlerBase):
           methodname=str(methtex)
         mymethod=method(methodname,basis)
         methkey=json.dumps(mymethod.__dict__)
-        mathstates=[GetMathState(str(table[i,4]),VR=str(table[i,6]),typeAcronym=str(table[i,7]),Soup=True) for i in myrange]
+        mathstates=[GetFullState(table[i,4],VR=str(table[i,6]),typeAcronym=str(table[i,7]),Soup=True) for i in myrange]
         finsts=dataFileBase.convertState(mathstates,initialState,default=self.TexOps.defaultType,commands=self.commands)
         for index,cell in enumerate(col[myrange]):
           if str(cell)!="":
