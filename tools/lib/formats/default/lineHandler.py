@@ -2,6 +2,7 @@ from ..formatHandlerBase import formatHandlerBase
 from ..formatName import formatName
 from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector
 from ...utils import getValFromCell
+import numpy as np
 @formatName("line")
 class lineHandler(formatHandlerBase):
   def readFromTable(self,table):
@@ -11,7 +12,7 @@ class lineHandler(formatHandlerBase):
       mymolecule=str(col[0])
       mymethod=method(str(col[2]),str(col[1]))
       initialState=self.TexOps.initialStates[mymolecule]
-      finsts=dataFileBase.convertState(table[3:,0],initialState,default=TexOps.defaultType,commands=commands)
+      finsts=dataFileBase.convertState(table[3:,0],initialState,default=self.TexOps.defaultType,commands=self.commands)
       datacls=dict()
       for index,cell in enumerate(col[3:]):
         if str(cell)!="":
