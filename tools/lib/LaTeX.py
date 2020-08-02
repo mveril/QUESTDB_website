@@ -139,3 +139,19 @@ def tabularToData(table,commands=None):
     return table
   else:
     raise ValueError("Only tabular LaTeX environment is supported")
+  
+def extractMath(TexMath,Soup=False,commands=[]):
+  if not Soup and len(commands)>0:
+    raise ValueError("Commandw are only usable when Soup is True")
+  math=TexMath.find("$")
+  lst=list(math.contents)
+  mystr=str(lst[0])
+  if not Soup:
+    return mystr
+  mathsoup=None
+  try:
+    mathsoup=TexSoup(mystr)
+  except:
+    raise ValueError(f"Error when parsing latex math: {mystr}")
+  newCommand.runAll(mathsoup,commands)
+  return mathsoup
