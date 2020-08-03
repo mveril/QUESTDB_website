@@ -33,7 +33,7 @@ class exoticColumnHandler(formatHandlerBase):
           methodname=str(methtex)
         mymethod=method(methodname,basis)
         methkey=json.dumps(mymethod.__dict__)
-        finsts=dataFileBase.convertState(table[myrange,1],initialState,default=self.TexOps.default,commands=self.commands)
+        finsts=dataFileBase.convertState(table[myrange,1],initialState,default=self.TexOps.defaultType,commands=self.commands)
         for index,cell in enumerate(col[myrange]):
           if str(cell)!="":
             val,unsafe=getValFromCell(cell)
@@ -57,7 +57,7 @@ class exoticColumnHandler(formatHandlerBase):
             #data.excitations.append(excitationValue(initialState,finst[0],val,type=finst[2]))
       for dt,methdic in valDic.items():
         for methstring,exdic in methdic.items():
-          data=datafileSelector[dt]()
+          data=datafileSelector(dt)()
           data.molecule=mymolecule
           methdic=json.loads(methstring)
           data.method=method(methdic["name"],methdic["basis"])
