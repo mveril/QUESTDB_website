@@ -1,12 +1,12 @@
 from TexSoup import TexSoup,TexCmd
-from .Format import Format
+from . import formats
 from .data import dataFileBase,DataType,state
 from collections import defaultdict
 
 class dfbOptions(object):
   def __init__(self):
     self.defaultType=DataType.ABS
-    self.format=Format.LINE
+    self.format="line"
     self.suffix=None
     self.initialStates=defaultdict(lambda : state(1,1,"A_1"))
     
@@ -23,7 +23,7 @@ class dfbOptions(object):
     if dfbFormatNode!=None:
       dfbFormat=dfbFormatNode.expr
       if type(dfbFormat) is TexCmd:
-        dfb_Opt.format=Format[dfbFormat.args[0].value.upper()]
+        dfb_Opt.format=dfbFormat.args[0].value
 
     dfbSuffixNode=lateEnv.suffix
     if dfbSuffixNode!=None:
