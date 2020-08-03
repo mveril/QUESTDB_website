@@ -12,7 +12,7 @@ class doubleTBEHandler(formatHandlerBase):
     subtablesMol=getSubtablesRange(table)
     for rangeMol in subtablesMol:
       data=AbsDataFile()
-      data.molecule=str(table[rangeMol,0])
+      data.molecule=str(table[rangeMol[0],0])
       data.method=method("TBE","CBS")
       for mytrans in table[rangeMol]:
         try:
