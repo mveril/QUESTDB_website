@@ -24,7 +24,7 @@ class columnHandler(formatHandlerBase):
             if dt in datacls:
               data=datacls[dt]
             else:
-              cl=datafileSelector[dt]
+              cl=datafileSelector(dt)
               data=cl()
               data.molecule=mymolecule
               data.method=mymethod
