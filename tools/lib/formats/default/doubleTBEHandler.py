@@ -2,7 +2,7 @@ from ..formatHandlerBase import formatHandlerBase
 from ..formatName import formatName
 from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,getSubtablesRange,AbsDataFile,state
 from ...utils import getValFromCell, checkFloat
-from ...LaTeX import newCommand
+from ...LaTeX import newCommand,extractMath
 from TexSoup import TexSoup
 import re
 @formatName("doubleTBE")
@@ -15,12 +15,7 @@ class doubleTBEHandler(formatHandlerBase):
       data.molecule=str(table[rangeMol[0],0])
       data.method=method("TBE","CBS")
       for mytrans in table[rangeMol]:
-        try:
-          mathsoup=TexSoup(mytrans[1])
-        except:
-          print(f"Error when parsing latex state: {str(mytransdesc[i])}")
-          exit(-1)
-        newCommand.runAll(mathsoup,self.commands)
+        mathsoup=extractMath(mytrans[1],Soup=True,commands=self.commands)
         mytransdesc=str(mathsoup)
         infin=mytransdesc.split(r"\rightarrow")
         for i,item in enumerate(infin):

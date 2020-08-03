@@ -1,7 +1,7 @@
 from ..formatHandlerBase import formatHandlerBase
 from ..formatName import formatName
 from ...data import dataFileBase,DataType,method,excitationValue,datafileSelector,AbsDataFile,getSubtablesRange,state
-from ...LaTeX import newCommand
+from ...LaTeX import newCommand,extractMath
 import re
 from TexSoup import TexSoup
 import numpy as np
@@ -19,13 +19,9 @@ class doubleColumnHandler(formatHandlerBase):
       for rangeTrans in subtablestrans:
         mytrans=moltable[rangeTrans,:]
         mytransdesc=mytrans[0:2,1]
-        for i in range(2):      
-          try:
-            mathsoup=TexSoup(mytransdesc[i])
-          except:
-            print(f"Error when parsing latex state: {str(mytransdesc[i])}")
-            exit(-1)
-          newCommand.runAll(mathsoup,self.commands)
+
+        for i in range(2):
+          mathsoup=extractMath(mytransdesc[i],Soup=True,commands=self.commands)
           mytransdesc[i]=str(mathsoup)
         for colindex in range(3,np.size(table,1)):
           col=mytrans[:,colindex]
