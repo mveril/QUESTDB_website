@@ -561,7 +561,9 @@ draft: false
     $(sel_ref).trigger("change")
   }
   async function submitdat() {
-    window.onbeforeunload = () => { return ''; }
+    if (!DebugMode.Enabled) {
+ window.onbeforeunload = () => { return ''; }           
+    }
     await reloadContent();
   }
 </script>

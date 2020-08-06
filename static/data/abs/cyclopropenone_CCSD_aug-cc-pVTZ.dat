@@ -11,7 +11,7 @@
   1       1     A_1        1       1     B_1          (\mathrm{V}; n \rightarrow \pi^\star)   4.53          _              _            false
   1       1     A_1        1       1     A_2          (\mathrm{V}; n \rightarrow \pi^\star)   5.40          _              _            false
   1       1     A_1        1       1     B_2          (\mathrm{R}; n \rightarrow 3s)          6.44          _              _            false
-  1       1     A_1        2       1     B_2          _                                       6.82          _              _            false
+  1       1     A_1        2       1     B_2          (\mathrm{V}; \pi \rightarrow \pi^\star) 6.82          _              _            false
   1       1     A_1        3       1     B_2          (\mathrm{R}; n \rightarrow 3p)          7.09          _              _            false
   1       1     A_1        2       1     A_1          (\mathrm{R}; n \rightarrow 3p)          7.12          _              _            false
   1       1     A_1        3       1     A_1          (\mathrm{V}; \pi \rightarrow \pi^\star) 8.35          _              _            false
