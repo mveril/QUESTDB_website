@@ -214,6 +214,6 @@ class excitationBase:
 
 class excitationValue(excitationBase):
   def __init__(self,initial, final, value, type=None, T1=None,isUnsafe=False,oscilatorForces=None):
-    super(excitationValue,self).__init__(initial, final,type=type,T1=T1,isUnsafe=False)
+    super(excitationValue,self).__init__(initial, final,type=type,T1=T1,isUnsafe=isUnsafe)
     self.value = value
     self.oscilatorForces = oscilatorForces

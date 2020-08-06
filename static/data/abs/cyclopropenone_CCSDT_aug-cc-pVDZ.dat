@@ -1,9 +1,9 @@
 # Molecule : Cyclopropenone
 # Comment  : 
-# code     : CFOUR
+# code     : 
 # method   : CCSDT,aug-cc-pVDZ
-# geom     : CC3,aug-cc-pVTZ 
-# DOI      : 10.1021/acs.jctc.9b01216
+# geom     : 
+# DOI      : 
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############
@@ -11,7 +11,7 @@
   1       1     A_1        1       1     B_1          (n \rightarrow \pi^\star)               4.23          _              _            false
   1       1     A_1        1       1     A_2          (n \rightarrow \pi^\star)               5.56          _              _            false
   1       1     A_1        1       1     B_2          (n \rightarrow 3s)                      6.19          _              _            false
-  1       1     A_1        2       1     B_2          _                                       6.54          _              _            false
+  1       1     A_1        2       1     B_2          (\pi \rightarrow \pi^\star)             6.54          _              _            false
   1       1     A_1        3       1     B_2          (n \rightarrow 3p)                      6.86          _              _            false
   1       1     A_1        2       1     A_1          (n \rightarrow 3p)                      6.87          _              _            false
   1       1     A_1        3       1     A_1          (\pi \rightarrow \pi^\star)             8.29          _              _            false
