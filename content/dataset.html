@@ -111,7 +111,7 @@ draft: false
             }
           })
           if (source !== undefined) {
-            for (dat of submol.filter((d) => d !== source)) {
+            for (const dat of submol.filter((d) => d !== source)) {
               dat.CopyExcitationsTypeFrom(source)
             }
           }
