@@ -112,13 +112,13 @@ class dataFileBase(object):
     molsoup=TexSoup(self.molecule)
     molcomp=list(molsoup.contents)[0]
     molfilename=self.molecule if isinstance(molcomp,str) else molcomp.args[0].value
-    molfilename=molfilename.lower().replace(" ","_")
+    molfilename=molfilename.lower()
     fileNameComp=[molfilename,self.method.name]
     if self.method.basis:
       fileNameComp.append(self.method.basis)
     if suffix:
       fileNameComp.append(suffix)
-    fileName="_".join(fileNameComp)+".dat"
+    fileName="_".join(fileNameComp).replace(" ","_")+".dat"
     file=subpath/fileName
     if not file.exists():
       with file.open("w") as f:
