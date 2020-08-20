@@ -23,6 +23,7 @@ draft: false
 <script src="/js/numberRangeChange.js"></script>
 <script src="/js/DebugMode.js"></script>
 <script src="/js/numberUtils.js"></script>
+<script src="/js/PubliDB.js"></script>
 <script>
   function adjustSticky() {
     const height = $("nav").height()
@@ -79,7 +80,7 @@ draft: false
       }
       $("<li/>").text(txt).appendTo(extl)
       var cbli = $("<li/>")
-      if(!DebugMode.Enabled && value==(1 << 31)){
+      if (!DebugMode.Enabled && value == (1 << 31)) {
         cbli.hide()
       }
       $("<input/>", { type: "checkbox", id: "cb_" + name, name: name, value: Number(value) }).change(nestedCheckbox_change).appendTo(cbli);
@@ -96,7 +97,7 @@ draft: false
   async function loadFiles() {
     processingIndicator.isActive = true
     var chks = []
-    var data= await loadAllData()
+    var data = await loadAllData()
     window.defaultDats = []
     for (const sub of Object.values(data)) {
       for (const doi of uniq(sub.map(d => (d.DOI == null ? "" : d.DOI.string)))) {
@@ -120,23 +121,23 @@ draft: false
 
       window.defaultDats = window.defaultDats.concat(sub)
     }
-    await doiCache.addRange(Array.from(new Set(window.defaultDats.filter(d=>d.DOI!==null).map(d=>d.DOI.string))))
-    window.defaultDats = window.defaultDats.sort((datfa,datfb)=>{
-      const DOIa=datfa.DOI
-      const DOIb=datfb.DOI
+    await doiCache.addRange(Array.from(new Set(window.defaultDats.filter(d => d.DOI !== null).map(d => d.DOI.string))))
+    window.defaultDats = window.defaultDats.sort((datfa, datfb) => {
+      const DOIa = datfa.DOI
+      const DOIb = datfb.DOI
       if (DOIa == null && DOIb == null) {
         return 0
       }
-      else if (DOIa == null){
+      else if (DOIa == null) {
         return 1
       }
-      else if (DOIb == null){
+      else if (DOIb == null) {
         return -1
       }
       else {
         const puba = doiCache.get(DOIa.string).format('data', { format: 'object' })[0]
         const pubb = doiCache.get(DOIb.string).format('data', { format: 'object' })[0]
-        return pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb)   
+        return pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb)
       }
     })
     processingIndicator.isActive = false
@@ -194,35 +195,56 @@ draft: false
       selectSelectAll(afters.first())
     }
   }
+  function getAllVals(select) {
+    var baseval = $(select).val()
+    switch (select.name) {
+      case "DOI":
+        vals=baseval.reduce((accumulator,currentValue)=>accumulator.concat(JSON.parse(currentValue)),[])
+        return vals
+        break;
+      default:
+        return baseval
+    }
+  }
   async function reloadSelect(name) {
     clearSelect(name)
     var selects = getAllSelectBefore(name, true)
     var currentselect = selects.last()
     selects = selects.slice(0, selects.length - 1)
-    const vals = uniq(window.dats.filter(d => {
+    var vals = uniq(window.dats.filter(d => {
       return Array.from(selects).every((el) => {
-        return $(el).val().includes(getSelectValue(d, el.name))
+        return getAllVals(el).includes(getSelectValue(d, el.name))
       })
     }).map((d) => getSelectValue(d, name)))
-    const sets = await (async () => {
+    const publis = await (async () => {
       if (name === "DOI") {
-        const publis = await getPublis()
-        var sets = publis.sets
-        sets.set("","Unknow set")
-        return sets
+        const publis = await publiDB.loadAsync()
+        return publis
       }
       else {
         return undefined
       }
     })()
-    textSelctor=function(value){
+    if (name === "DOI") {
+      let newvals = []
+      for (const val of vals) {
+        for (const set of publis.sets.values()) {
+          if (set.includes(val)) {
+            newvals.push(set)
+          }
+        }
+      }
+      vals = newvals
+    }
+    textSelctor = function (value) {
       switch (name) {
         case "DOI":
-            return sets.has(value) ? sets.get(value) : value.toString()
+          setname = publis.findNameFromSet(value, true)
+          return setname === null ? value.toString() : setname
           break;
         case "molecule":
-          const mhchemCE=/^\\ce\{(.*)\}$/
-          const m=value.match(mhchemCE)
+          const mhchemCE = /^\\ce\{(.*)\}$/
+          const m = value.match(mhchemCE)
           if (m) {
             return m[1]
           } else {
@@ -233,15 +255,23 @@ draft: false
           return value.toString()
       }
     }
+    valueSelector = function (value) {
+      if (typeof value === 'object') {
+        return JSON.stringify(value)
+      }
+      else {
+        return value
+      }
+    }
     for (const val of vals) {
       if (val !== null) {
         $("<option/>", {
-          value: val
+          value: valueSelector(val)
         }).text(textSelctor(val)).appendTo(currentselect)
       }
-    }
-    if (name==="molecule") {
-      await MathJax.typesetPromise()
+      if (name === "molecule") {
+        await MathJax.typesetPromise()
+      }
     }
   }
   function getSelectValue(data, name) {
@@ -371,7 +401,7 @@ draft: false
     window.filtData = window.dats
     getAllSelect().each(function () {
       const prop = $(this).attr("name")
-      const values = $(this).val()
+      const values = getAllVals(this)
       window.filtData = window.filtData.filter((d) => {
         if (typeof values == "undefined" || values == null) {
           return false
@@ -381,7 +411,7 @@ draft: false
       })
     })
     window.T1ref = new Map()
-    var dois = new Set(window.filtData.map((d) =>d.DOI===null ? "" : d.DOI.string))
+    var dois = new Set(window.filtData.map((d) => d.DOI === null ? "" : d.DOI.string))
     var mols = new Set(window.filtData.map((d) => d.molecule))
     await window.doiCache.addRange(dois)
     for (const doi of dois) {
@@ -427,8 +457,9 @@ draft: false
     var data = $("#data")
     $(data).empty();
     if (window.filtData.length > 0) {
-      var sets = (await getPublis()).sets
-      sets.set("","Unknow set")
+      var publis = await publiDB.loadAsync()
+      var PreviousSetName = undefined
+      var CurrentsetName = undefined
       for (const doi of doiCache.keys()) {
         paperdata = window.filtData.filter((d) => {
           return (d.DOI === null ? "" : d.DOI.string) == doi
@@ -454,7 +485,11 @@ draft: false
           }
         })
         var div = $('<div/>').appendTo(data)
-        $("<h1/>").text(sets.get(doi)).appendTo(div)
+        CurrentsetName = publis.findSetNameFromDOI(doi, true)
+        if (PreviousSetName !== CurrentsetName) {
+          $("<h1/>").text(CurrentsetName).appendTo(div)
+        }
+        $("<h2/>").text(doiCache.get(doi).format('data', { format: 'object' })[0].title).appendTo(div)
         var table = $("<table/>").addClass("datatable").appendTo(div)
         var head = $("<tr/>")
         $("<thead/>").addClass("sticky").append(head).appendTo(table)
@@ -495,7 +530,7 @@ draft: false
         }
         for (const [molecule, moldat] of datadic.entries()) {
           var printmol = true;
-          const mhchemCE=/^\\ce\{.*\}$/
+          const mhchemCE = /^\\ce\{.*\}$/
           for (const [jsonex, exdat] of moldat.entries()) {
             const ex = JSON.parse(jsonex)
             Reflect.setPrototypeOf(ex[0], state.prototype)
@@ -511,7 +546,7 @@ draft: false
             if (ex[3].Value == VertExcitationKinds.Fluorescence.Value) {
               Vertkindtext = String.raw`[\mathrm{F}]`
             }
-            desctex=""
+            desctex = ""
             if (ex[2].description.string) {
               desctex = "(" + ex[2].description.string + ")"
             }
@@ -539,6 +574,7 @@ draft: false
             tbody.append(tr)
           }
         }
+        PreviousSetName === CurrentsetName
       }
       await MathJax.typesetPromise()
     }
@@ -562,7 +598,9 @@ draft: false
   }
   async function submitdat() {
     if (!DebugMode.Enabled) {
- window.onbeforeunload = () => { return ''; }           
+      window.onbeforeunload = () => { return ''; }
+      window.onbeforeunload = () => { return ''; }
+      window.onbeforeunload = () => { return ''; }
     }
     await reloadContent();
   }
@@ -577,113 +615,115 @@ draft: false
   </p>
 </noscript>
 <p>
-  On this page you can compare multiple dataset and have some statistics to evaluate method accuracy (All fields marked with a red asterisk (<span style="color: red;">*</span>) are mandatory).
+  On this page you can compare multiple dataset and have some statistics to evaluate method accuracy (All fields marked
+  with a red asterisk (<span style="color: red;">*</span>) are mandatory).
 </p>
 <form id="form_dat" action="javascript:submitdat()" method="post">
   <fieldset class="main">
-  <fieldset>
-    <legend>Import custom files</legend>
-    <p>
-      Import custom files to compare it's data to the reference datasets.
-    </p>
-    <div>
-      <label for="absFiles_input">Import custom absorption data files</label>
-      <input type="file" multiple onchange="reloadCustomFiles()" id="absFiles_input" name="file_abs"></input>
-    </div>
-    <div>
-      <label for="fluoFiles_input">import custom fluorescence data files</label>
-      <input type="file" multiple onchange="reloadCustomFiles()" id="fluoFiles_input" name="file_fluo"></input>
-    </div>
-  </fieldset>
-  <fieldset class="table">
-    <legend>Data selection</legend>
-    <p>Choose each parameter (of course you can select multiple values for each) you can use the <button
-        disabled>Select all</button> button to select all items <span hidden
+    <fieldset>
+      <legend>Import custom files</legend>
+      <p>
+        Import custom files to compare it's data to the reference datasets.
+      </p>
+      <div>
+        <label for="absFiles_input">Import custom absorption data files</label>
+        <input type="file" multiple onchange="reloadCustomFiles()" id="absFiles_input" name="file_abs"></input>
+      </div>
+      <div>
+        <label for="fluoFiles_input">import custom fluorescence data files</label>
+        <input type="file" multiple onchange="reloadCustomFiles()" id="fluoFiles_input" name="file_fluo"></input>
+      </div>
+    </fieldset>
+    <fieldset class="table">
+      <legend>Data selection</legend>
+      <p>Choose each parameter (of course you can select multiple values for each) you can use the <button
+          disabled>Select all</button> button to select all items <span hidden
           data-needbrowser='{"Engine":["WebKit","Blink"],"Platform":["desktop"]}'>or use the <kbd
             data-needbrowser='{"OS":["MacOS"]}'>⌘</kbd><kbd
             data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd> shortcut key</span>
-    </p>
-    <div style="display: inline-block;">
-      <label for="DOI_select" class="required">Sets</label>
-      <button class="SelectAll"  type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="DOI_select" required name="DOI" onchange="reloadNextSelect(event)"></select>
-    </div>
-    <div style="display:inline-block">
-      <label for="mol_select" class="required">Molecules</label>
-      <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="mol_select" required name="molecule" onchange="reloadNextSelect(event)"></select>
-    </div>
-    <br />
-    <div style="display: inline-block;">
-      <label for="method_select" class="required">Methods</label>
-      <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="method_select" required name="method" onchange="reloadNextSelect(event)"></select>
-    </div>
-    <div style="display: inline-block;">
-      <label for="basis_select" class="required">Basis sets</label>
-      <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-      <select multiple id="basis_select" required name="basis" onchange="reloadNextSelect(event)"></select>
-    </div>
-  </fieldset>
-  <fieldset>
-    <legend class="required"
-    >Vertical excitation kind</legend>
-    <p>Choose what kind of vertical excitations you want</p>
-    <ul class="nestedCbList" style="padding-left: 0em;">
-      <li>
-        <input type="checkbox" data-onerequired="true" checked onchange="nestedCheckbox_change(event)" id="cb_fileType_All"></input>
-        <label for="cb_fileType_All"> All</label>
-      </li>
-      <ul class="nestedCbList" id="cb_exVertKindList">
+      </p>
+      <div style="display: inline-block;">
+        <label for="DOI_select" class="required">Sets</label>
+        <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
+        <select multiple id="DOI_select" required name="DOI" onchange="reloadNextSelect(event)"></select>
+      </div>
+      <div style="display:inline-block">
+        <label for="mol_select" class="required">Molecules</label>
+        <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
+        <select multiple id="mol_select" required name="molecule" onchange="reloadNextSelect(event)"></select>
+      </div>
+      <br />
+      <div style="display: inline-block;">
+        <label for="method_select" class="required">Methods</label>
+        <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
+        <select multiple id="method_select" required name="method" onchange="reloadNextSelect(event)"></select>
+      </div>
+      <div style="display: inline-block;">
+        <label for="basis_select" class="required">Basis sets</label>
+        <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
+        <select multiple id="basis_select" required name="basis" onchange="reloadNextSelect(event)"></select>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend class="required">Vertical excitation kind</legend>
+      <p>Choose what kind of vertical excitations you want</p>
+      <ul class="nestedCbList" style="padding-left: 0em;">
         <li>
-          <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_abs" value="1" name="datatype">
-          <label for="cb_abs">Absorption</label>
+          <input type="checkbox" data-onerequired="true" checked onchange="nestedCheckbox_change(event)"
+            id="cb_fileType_All"></input>
+          <label for="cb_fileType_All"> All</label>
         </li>
+        <ul class="nestedCbList" id="cb_exVertKindList">
+          <li>
+            <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_abs" value="1" name="datatype">
+            <label for="cb_abs">Absorption</label>
+          </li>
+          <li>
+            <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fluo" value="2" name="datatype">
+            <label for="fluo">Fluorescence</label>
+          </li>
+        </ul>
+      </ul>
+    </fieldset>
+    <fieldset id="excitationFilter">
+      <legend class="required">Filters</legend>
+      <p>Choose other excitation parameters you want</p>
+      <ul class="nestedCbList" style="padding-left: 0em;">
         <li>
-          <input type="checkbox" onchange="nestedCheckbox_change(event)" id="cb_fluo" value="2" name="datatype">
-          <label for="fluo">Fluorescence</label>
+          <input type="checkbox" data-onerequired="true" onchange="nestedCheckbox_change(event)"
+            id="cb_exType_All"></input>
+          <label for="cb_exType_All"> All</label>
         </li>
-      </ul>
-    </ul>
+        <ul id="cb_exTypeList" class="nestedCbList">
+        </ul>
+        <p>Choose if you want to include unsafe values in statistics</p>
+        <li id="li_cb_unsafe">
+          <input type="checkbox" id="cb_unsafe" name="unsafe">
+          <label for="cb_unsafe">Unsafe</label>
+        </li>
+    </fieldset>
+    <fieldset>
+      <legend>\(\mathrm{\%T_1}\)</legend>
+      <p>Chose the range of \(\mathrm{\%T_1}\) range using the two number box</p>
+      <input class="range min" airia-label="Minimum value" type="number" id="T1min" onchange="numberRangeChange(event)"
+        min="0" value="0">
+      <span>\(\leq \mathrm{\%T_1} \leq\)</span>
+      <input class="range max" airia-label="Maximum value" type="number" id="T1max" onchange="numberRangeChange(event)"
+        max="100" value="100">
+    </fieldset>
   </fieldset>
-  <fieldset id="excitationFilter">
-    <legend class="required">Filters</legend>
-    <p>Choose other excitation parameters you want</p>
-    <ul class="nestedCbList" style="padding-left: 0em;">
-      <li>
-        <input type="checkbox" data-onerequired="true" onchange="nestedCheckbox_change(event)" id="cb_exType_All"></input>
-        <label for="cb_exType_All"> All</label>
-      </li>
-      <ul id="cb_exTypeList" class="nestedCbList">
-      </ul>
-      <p>Choose if you want to include unsafe values in statistics</p>
-      <li id="li_cb_unsafe">
-        <input type="checkbox" id="cb_unsafe" name="unsafe">
-        <label for="cb_unsafe">Unsafe</label>
-      </li>
-  </fieldset>
-  <fieldset>
-    <legend>\(\mathrm{\%T_1}\)</legend>
-    <p>Chose the range of \(\mathrm{\%T_1}\) range using the two number box</p>
-    <input class="range min" airia-label="Minimum value" type="number" id="T1min"
-      onchange="numberRangeChange(event)" min="0" value="0">
-    <span>\(\leq \mathrm{\%T_1} \leq\)</span>
-    <input class="range max" airia-label="Maximum value" type="number" id="T1max"
-      onchange="numberRangeChange(event)" max="100" value="100">
-  </fieldset>
-</fieldset>
   <input type="submit" value="Load"></input>
 </form>
 <form id="form_ref">
   <fieldset class="main">
-  <fieldset>
-  <legend>statistics</legend>
-  <p>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr
-    title="Theoretical best estimate">TBE</abbr> if present- is already selected)</p>
-  <label for="sel_ref">Reference</label>
-  <select id="sel_ref" onchange="reloadStat()"></select>
-</fieldset>
-</fieldset>
+    <fieldset>
+      <legend>statistics</legend>
+      <p>Select a reference from <strong>already selected data</strong> (by default first is selected -it's the <abbr
+          title="Theoretical best estimate">TBE</abbr> if present- is already selected)</p>
+      <label for="sel_ref">Reference</label>
+      <select id="sel_ref" onchange="reloadStat()"></select>
+    </fieldset>
+  </fieldset>
 </form>
 <p>Now you can see the list of selected data and some statistics about these data</p>
 <section id="data">
