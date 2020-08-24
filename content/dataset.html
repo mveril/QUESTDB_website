@@ -211,9 +211,14 @@ draft: false
     var selects = getAllSelectBefore(name, true)
     var currentselect = selects.last()
     selects = selects.slice(0, selects.length - 1)
+    var AllValsCache = new Map()
+    selects.each(function() {
+      AllValsCache.set(this.name,getAllVals(this))
+    })
+    var AAllValsCache = Array.from(AllValsCache)
     var vals = uniq(window.dats.filter(d => {
-      return Array.from(selects).every((el) => {
-        return getAllVals(el).includes(getSelectValue(d, el.name))
+      return AAllValsCache.every(([k,v]) => {
+        return v.indexOf(getSelectValue(d, k)) !== -1
       })
     }).map((d) => getSelectValue(d, name)))
     const publis = await (async () => {
