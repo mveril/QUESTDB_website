@@ -496,7 +496,7 @@ draft: false
         }
         if (doi!=="") {
           const doiDat = doiCache.get(doi).format('data', { format: 'object' })[0]
-          $("<h2/>").append($("<a>",{href:doiDat.URL,target"_blank"}).text(doiDat.title)).appendTo(div)          
+          $("<h2/>").append($("<a>",{href:doiDat.URL,target:"_blank"}).text(doiDat.title)).appendTo(div)          
         }
         var table = $("<table/>").addClass("datatable").appendTo(div)
         var head = $("<tr/>")
