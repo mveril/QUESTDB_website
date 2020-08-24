@@ -494,7 +494,8 @@ draft: false
         if (PreviousSetName !== CurrentsetName) {
           $("<h1/>").text(CurrentsetName).appendTo(div)
         }
-        $("<h2/>").text(doiCache.get(doi).format('data', { format: 'object' })[0].title).appendTo(div)
+        const doiDat = doiCache.get(doi).format('data', { format: 'object' })[0]
+        $("<h2/>").append($("<a>",{href:doiDat.URL,target:"_blank"}).text(doiDat.title)).appendTo(div)
         var table = $("<table/>").addClass("datatable").appendTo(div)
         var head = $("<tr/>")
         $("<thead/>").addClass("sticky").append(head).appendTo(table)
