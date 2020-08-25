@@ -15,6 +15,7 @@ draft: false
 <script src="/js/numberUtils.js"></script>
 <script src="/js/DebugMode.js"></script>
 <script src="/js/createPubliUI.js"></script>
+<script src="/js/PubliDB.js"></script>
 {{< getDataFilesName >}}
 <script>
   window.onload = async function () {
@@ -22,30 +23,37 @@ draft: false
     const Cite = require("citation-js")
     const sdois = uniq(Object.values(await loadAllData()).flat().filter(d => d.DOI !== null).map(d => d.DOI.string))
     const spubliscite = await Cite.async(sdois)
-    const pubs = await getPublis()
     const uospublis = spubliscite.format('data', { format: 'object' })
-    const spublis = uospublis.sort((puba,pubb)=>pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb))
+    const spublis = uospublis.sort((puba, pubb) => pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb))
+    var myDB = await publiDB.loadAsync()
     for (const publi of spublis) {
-      art= await createPubliUI(publi,pubs.sets,true,true)
-      $(art).appendTo("#publis_sets")
+      var art = await createPubliUI(publi, true, true)
+      var setName = myDB.findSetNameFromDOI(publi.DOI, true)
+      setsSec = $('#publis_sets')
+      var mySetSec = setsSec.find(`section.publiSet[data-setName="${setName}"]`)
+      if (mySetSec.length === 0) {
+        mySetSec = $('<section>').addClass('publiSet').attr("data-setName", setName).appendTo(setsSec)
+        $("<h1>").text(setName).appendTo(mySetSec)
+      }
+      $(art).appendTo(mySetSec)
     }
-    const odois=Array.from(pubs.others.keys())
+    const odois = myDB.others
     const opubliscite = await Cite.async(odois)
     const uoopublis = opubliscite.format('data', { format: 'object' })
-    const opublis = uoopublis.sort((puba,pubb)=>pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb))
+    const opublis = uoopublis.sort((puba, pubb) => pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb))
     for (const publi of opublis) {
-      art= await createPubliUI(publi,pubs.others,true,true)
+      art = await createPubliUI(publi, true, true)
       $(art).appendTo("#publis_others")
     }
   }
 </script>
 <section class="publis-list" id="publis_sets">
   <header>
-    <h2>Sets</h2>
+    <h1>Sets</h2>
   </header>
 </section>
 <section class="publis" id="publis_others">
   <header>
-    <h2>Others</h2>
+    <h1>Others</h2>
   </header>
 </section>

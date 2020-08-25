@@ -2,16 +2,13 @@ function getPubliSubDir(DOI) {
   return DOI.split(".").join("/")
 }
 
-async function createPubliUI(publi,sets=new Map(),toolTips=false,abstract=false) {
+async function createPubliUI(publi,toolTips=false,abstract=false) {
   const art = $("<article/>").addClass("publi")
   art.className = "publi"
-  if (sets.has(publi.DOI) && sets.get(publi.DOI)!==null) {
-    $("<header/>").append($("<h1/>").text(sets.get(publi.DOI))).appendTo(art)  
-  }
   $("<a/>", {
     href: publi.URL,
     target: "_blank"
-  }).html($("<h2/>").text(publi.title)).appendTo(art)
+  }).html($("<h1/>").text(publi.title)).appendTo(art)
   const authors = publi.author
   const ulauthors = $("<ul/>").addClass("authors-list").appendTo(art)
   for (const author of authors) {
