@@ -235,7 +235,9 @@ draft: false
       for (const val of vals) {
         for (const set of publis.sets.values()) {
           if (set.includes(val)) {
-            newvals.push(set)
+            if (!newvals.some(v=>JSON.stringify(v)===JSON.stringify(set))) {
+              newvals.push(set)
+            }
           }
         }
       }
