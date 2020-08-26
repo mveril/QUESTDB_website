@@ -27,7 +27,7 @@ class publiDB {
         return setname
     }
     if (supportUnknow && doi === "") {
-      return UnknowSetName
+      return publiDB.UnknowSetName
     }
     return null
   }

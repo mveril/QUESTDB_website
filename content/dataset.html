@@ -215,6 +215,7 @@ draft: false
     selects.each(function() {
       AllValsCache.set(this.name,getAllVals(this))
     })
+    
     var AAllValsCache = Array.from(AllValsCache)
     var vals = uniq(window.dats.filter(d => {
       return AAllValsCache.every(([k,v]) => {
@@ -233,13 +234,18 @@ draft: false
     if (name === "DOI") {
       let newvals = []
       for (const val of vals) {
-        for (const set of publis.sets.values()) {
-          if (set.includes(val)) {
-            if (!newvals.some(v=>JSON.stringify(v)===JSON.stringify(set))) {
-              newvals.push(set)
+        if (val==="") {
+          newvals.push([""])
+        }
+        else {
+          for (const set of publis.sets.values()) {
+            if (set.includes(val)) {
+              if (!newvals.some(v=>JSON.stringify(v)===JSON.stringify(set))) {
+                newvals.push(set)
+              }
             }
           }
-        }
+        }  
       }
       vals = newvals
     }
