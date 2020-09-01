@@ -2,7 +2,7 @@
 # Comment  : 
 # code     : 
 # method   : ADC(3),aug-cc-pVTZ
-# geom     : 
+# geom     : CC3/cc-pVTZ
 # DOI      : 
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
