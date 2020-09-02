@@ -281,9 +281,6 @@ draft: false
           value: valueSelector(val)
         }).text(textSelctor(val)).appendTo(currentselect)
       }
-      if (name === "molecule") {
-        await MathJax.typesetPromise()
-      }
     }
   }
   function getSelectValue(data, name) {
