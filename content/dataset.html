@@ -322,7 +322,7 @@ draft: false
             allowT1 = true
           }
         }
-        const key2 = JSON.stringify([d.molecule, exc.initial, exc.final, exc.cVertExcitationKind])
+        const key2 = JSON.stringify([d.molecule, exc.initial, exc.final, exc.VertExcitationKind])
         const keydic = sdatdic.get(key)
         if ((!exc.isUnsafe || window.filterParams.unsafe) && ((exc.type & window.filterParams.exType) !== 0) && ((exc.VertExcitationKind & window.filterParams.exVertKind) !== 0) && allowT1) {
           if (!(keydic.has(key2))) {
