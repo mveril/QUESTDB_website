@@ -189,8 +189,7 @@ draft: false
     if (!isLast) {
       await reloadSelect(afters.prop("name"))
     }
-    const fillArray = ["molecule"]
-    if (fillArray.includes(afters.prop("name"))) {
+    if (afters.prop("name") ==="molecule"){
       selectSelectAll(afters.first())
     }
   }
