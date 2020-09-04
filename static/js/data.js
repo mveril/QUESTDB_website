@@ -116,18 +116,11 @@ class state {
   };
 }
 class DOI {
-  constructor(doistring, IsSupporting = false) {
+  constructor(doistring) {
     this.string = doistring
-    this.IsSupporting = IsSupporting
   };
   static fromString(str) {
-    const vals = str.split(",")
-    if (vals.length == 1) {
-      return new DOI(vals[0].toString())
-    }
-    else {
-      return new DOI(vals[0].toString(), (true ? vals[1] === true.toString() : false))
-    }
+      return new DOI(str)
   }
   toString() {
     var str = this.string;
