@@ -115,24 +115,6 @@ class state {
     return tex;
   };
 }
-class DOI {
-  constructor(doistring) {
-    this.string = doistring
-  };
-  static fromString(str) {
-      return new DOI(str)
-  }
-  toString() {
-    var str = this.string;
-    if (this.IsSupporting) {
-      str += " " + "(SI)"
-    }
-    return str
-  };
-  get url() {
-    return new URL(this.string, 'https://doi.org').toString()
-  }
-}
 
 class excitationBase {
   constructor(initial, final, type = '', T1 = null) {
@@ -247,7 +229,7 @@ class dataFileBase {
         this.method = method.fromString(value)
         break;
       case "doi":
-        this.DOI = DOI.fromString(value);
+        this.DOI = value
         break;
     }
   }
@@ -320,7 +302,7 @@ class dataFileBase {
         }
       });
       console.assert(double.length === 0, "Double found", double, dat.molecule, dat.method.toString())
-      if (dat.DOI!== null && dat.DOI.string !== "10.1021/acs.jctc.8b01205") {
+      if (dat.DOI!== null && dat.DOI !== "10.1021/acs.jctc.8b01205") {
         for (const ex of dat.excitations) {
           console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1 > 50 | ex.isUnsafe == true, "Must be unsafe", dat, ex)
         }
