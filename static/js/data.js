@@ -198,24 +198,6 @@ class excitationValue extends excitationBase {
   }
 }
 
-class excitation extends excitationBase {
-  constructor(initial, final, Eabs, Efluo, EZPE) {
-    super(initial, final)
-    this.Eabs = Eabs
-    this.Efluo = Efluo
-    this.EZPE = EZPE
-  }
-  get Eadia() {
-    return (this.Eabs + this.Efluo) / 2
-  }
-  get Ezz() {
-    return this.Eadia - this.EZPE
-  }
-  toString() {
-    return this.start + ', ' + this.end + ', ' + noNanPrecision(this.Eabs, 3);
-  }
-}
-
 class dataFileBase {
   constructor() {
     this.molecule = ''
@@ -380,64 +362,5 @@ class VertDataFile extends dataFileBase {
     var ex = super._OnReadRow(line)
     ex.VertExcitationKind = kind
     return ex
-  }
-}
-
-class CombinedData {
-  constructor() {
-    this.Abs = null
-    this.Fluo = null
-    this.ZPE = null
-  }
-  get excitations() {
-    var exs = []
-    var dic = new Map()
-    if (this.Abs != null) {
-      for (const el of this.Abs.excitations) {
-        var key = JSON.stringify([el.initial, el.final])
-        if (!dic.has(key)) {
-          dic.set(key, {})
-        }
-        dic.get(key)["abs"] = el.value
-      }
-      if (this.Fluo != null) {
-        for (const el of this.Fluo.excitations) {
-          var key = JSON.stringify([el.initial, el.final])
-          if (!dic.has(key)) {
-            dic.set(key, {})
-          }
-          dic.get(key)["fluo"] = el.value
-        }
-      }
-      if (this.ZPE != null) {
-        for (const el of this.ZPE.excitations) {
-          var key = JSON.stringify([el.initial, el.final])
-          if (!dic.has(key)) {
-            dic.set(key, {})
-          }
-          dic.get(key)["ZPE"] = el.value
-        }
-      }
-      dic.forEach((value, key) => {
-        var eabs = NaN
-        var efluo = NaN
-        var eZPE = NaN
-        var mykey = JSON.parse(key)
-        for (var el of mykey) {
-          Reflect.setPrototypeOf(el, state.prototype)
-        }
-        if ("abs" in value) {
-          eabs = value["abs"]
-        }
-        if ("fluo" in value) {
-          efluo = value["fluo"]
-        }
-        if ("ZPE" in value) {
-          eZPE = value["ZPE"]
-        }
-        exs.push(new excitation(mykey[0], mykey[1], eabs, efluo, eZPE))
-      })
-      return exs
-    }
   }
 }
