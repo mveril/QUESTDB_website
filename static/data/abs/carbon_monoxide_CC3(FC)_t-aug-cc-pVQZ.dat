@@ -3,7 +3,7 @@
 # code     : Dalton
 # method   : CC3(FC),t-aug-cc-pVQZ
 # geom     : CC3,aug-cc-pVTZ 
-# DOI      : 10.1021/acs.jctc.8b00406,true
+# DOI      : 10.1021/acs.jctc.8b00406
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############
