@@ -516,7 +516,7 @@ draft: false
         datadic = new Map()
         for (const dat of paperdata) {
           const doi = (dat.DOI == null ? "" : dat.DOI)
-          const setName = publis.findSetNameFromDOI(doi)
+          const setName = publis.findSetNameFromDOI(doi,true)
           const key1 = dat.molecule;
           const myT1s = T1ref.get(setName).get(dat.molecule)
           if (!datadic.has(key1)) {
