@@ -297,6 +297,7 @@ draft: false
     }
   }
   async function reloadStat() {
+    const publis = await publiDB.loadAsync()
     processingIndicator.isActive = true
     var stb = $("#stat_table > tbody")
     $("#graph_div").empty()
@@ -305,10 +306,12 @@ draft: false
     var sdatdic = new Map()
     for (const d of window.filtData) {
       const key = JSON.stringify(d.method)
+      const doi = (d.DOI == null ? "" : d.DOI.string)
+      const SetName = publis.findSetNameFromDOI(doi,true)
       if (!(sdatdic.has(key))) {
         sdatdic.set(key, new Map())
       }
-      const myT1s = T1ref.get(d.DOI == null ? "" : d.DOI.string).get(d.molecule)
+      const myT1s = T1ref.get(SetName).get(d.molecule)
       for (const exc of d.excitations) {
         var allowT1 = false
         const T1Key = JSON.stringify((exc.initial, exc.final))
@@ -405,6 +408,7 @@ draft: false
       }
     }
     doiCache.clear()
+    const publis = await publiDB.loadAsync()
     processingIndicator.isActive = true
     window.filtData = window.dats
     getAllSelect().each(function () {
@@ -423,9 +427,10 @@ draft: false
     var mols = new Set(window.filtData.map((d) => d.molecule))
     await window.doiCache.addRange(dois)
     for (const doi of dois) {
-      window.T1ref.set(doi, new Map())
+      const setName = publis.findSetNameFromDOI(doi,true)
+      window.T1ref.set(setName, new Map())
       for (const mol of mols) {
-        window.T1ref.get(doi).set(mol, new Map())
+        window.T1ref.get(setName).set(mol, new Map())
         var TBESortdat = window.dats.filter(d => (d.DOI === null ? "" : d.DOI.string) === doi && d.molecule === mol).sort((d1, d2) => {
           if (d1.method.isTBE && !d2.method.isTBE) {
             return -1
@@ -444,7 +449,7 @@ draft: false
         })
         if (TBESortdat.length > 0 && TBESortdat[0].method.isTBE) {
           for (const exc of TBESortdat[0].excitations) {
-            window.T1ref.get(doi).get(mol).set(JSON.stringify((exc.initial, exc.final)), exc.T1)
+            window.T1ref.get(setName).get(mol).set(JSON.stringify((exc.initial, exc.final)), exc.T1)
           }
         }
       }
@@ -465,7 +470,6 @@ draft: false
     var data = $("#data")
     $(data).empty();
     if (window.filtData.length > 0) {
-      var publis = await publiDB.loadAsync()
       var PreviousSetName = undefined
       var CurrentsetName = undefined
       for (const doi of doiCache.keys()) {
@@ -511,8 +515,10 @@ draft: false
         adjustSticky();
         datadic = new Map()
         for (const dat of paperdata) {
+          const doi = (dat.DOI == null ? "" : dat.DOI.string)
+          const setName = publis.findSetNameFromDOI(doi)
           const key1 = dat.molecule;
-          const myT1s = T1ref.get(dat.DOI == null ? "" : dat.DOI.string).get(dat.molecule)
+          const myT1s = T1ref.get(setName).get(dat.molecule)
           if (!datadic.has(key1)) {
             datadic.set(key1, new Map())
           }
