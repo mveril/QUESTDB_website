@@ -221,7 +221,6 @@ class dataFileBase {
         if (DebugMode.Enabled) {
           console.assert(ex.type == 0 || (ex2.type ^ (excitationTypes.Rydberg | excitationTypes.Valence) == ex.type ^ (excitationTypes.Rydberg | excitationTypes.Valence)), "Excitation type error", [ex, ex2, data.sourceFile])
         }
-
         ex.type = ex2.type
       }
     }
@@ -257,7 +256,6 @@ class dataFileBase {
       case "doi":
         this.DOI = DOI.fromString(value);
         break;
-      default:
     }
   }
   _OnReadRow(line) {
