@@ -115,31 +115,6 @@ class state {
     return tex;
   };
 }
-class DOI {
-  constructor(doistring, IsSupporting = false) {
-    this.string = doistring
-    this.IsSupporting = IsSupporting
-  };
-  static fromString(str) {
-    const vals = str.split(",")
-    if (vals.length == 1) {
-      return new DOI(vals[0].toString())
-    }
-    else {
-      return new DOI(vals[0].toString(), (true ? vals[1] === true.toString() : false))
-    }
-  }
-  toString() {
-    var str = this.string;
-    if (this.IsSupporting) {
-      str += " " + "(SI)"
-    }
-    return str
-  };
-  get url() {
-    return new URL(this.string, 'https://doi.org').toString()
-  }
-}
 
 class excitationBase {
   constructor(initial, final, type = '', T1 = null) {
@@ -198,24 +173,6 @@ class excitationValue extends excitationBase {
   }
 }
 
-class excitation extends excitationBase {
-  constructor(initial, final, Eabs, Efluo, EZPE) {
-    super(initial, final)
-    this.Eabs = Eabs
-    this.Efluo = Efluo
-    this.EZPE = EZPE
-  }
-  get Eadia() {
-    return (this.Eabs + this.Efluo) / 2
-  }
-  get Ezz() {
-    return this.Eadia - this.EZPE
-  }
-  toString() {
-    return this.start + ', ' + this.end + ', ' + noNanPrecision(this.Eabs, 3);
-  }
-}
-
 class dataFileBase {
   constructor() {
     this.molecule = ''
@@ -239,7 +196,6 @@ class dataFileBase {
         if (DebugMode.Enabled) {
           console.assert(ex.type == 0 || (ex2.type ^ (excitationTypes.Rydberg | excitationTypes.Valence) == ex.type ^ (excitationTypes.Rydberg | excitationTypes.Valence)), "Excitation type error", [ex, ex2, data.sourceFile])
         }
-
         ex.type = ex2.type
       }
     }
@@ -273,9 +229,8 @@ class dataFileBase {
         this.method = method.fromString(value)
         break;
       case "doi":
-        this.DOI = DOI.fromString(value);
+        this.DOI = value
         break;
-      default:
     }
   }
   _OnReadRow(line) {
@@ -347,7 +302,7 @@ class dataFileBase {
         }
       });
       console.assert(double.length === 0, "Double found", double, dat.molecule, dat.method.toString())
-      if (dat.DOI!== null && dat.DOI.string !== "10.1021/acs.jctc.8b01205") {
+      if (dat.DOI!== null && dat.DOI !== "10.1021/acs.jctc.8b01205") {
         for (const ex of dat.excitations) {
           console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1 > 50 | ex.isUnsafe == true, "Must be unsafe", dat, ex)
         }
@@ -380,64 +335,5 @@ class VertDataFile extends dataFileBase {
     var ex = super._OnReadRow(line)
     ex.VertExcitationKind = kind
     return ex
-  }
-}
-
-class CombinedData {
-  constructor() {
-    this.Abs = null
-    this.Fluo = null
-    this.ZPE = null
-  }
-  get excitations() {
-    var exs = []
-    var dic = new Map()
-    if (this.Abs != null) {
-      for (const el of this.Abs.excitations) {
-        var key = JSON.stringify([el.initial, el.final])
-        if (!dic.has(key)) {
-          dic.set(key, {})
-        }
-        dic.get(key)["abs"] = el.value
-      }
-      if (this.Fluo != null) {
-        for (const el of this.Fluo.excitations) {
-          var key = JSON.stringify([el.initial, el.final])
-          if (!dic.has(key)) {
-            dic.set(key, {})
-          }
-          dic.get(key)["fluo"] = el.value
-        }
-      }
-      if (this.ZPE != null) {
-        for (const el of this.ZPE.excitations) {
-          var key = JSON.stringify([el.initial, el.final])
-          if (!dic.has(key)) {
-            dic.set(key, {})
-          }
-          dic.get(key)["ZPE"] = el.value
-        }
-      }
-      dic.forEach((value, key) => {
-        var eabs = NaN
-        var efluo = NaN
-        var eZPE = NaN
-        var mykey = JSON.parse(key)
-        for (var el of mykey) {
-          Reflect.setPrototypeOf(el, state.prototype)
-        }
-        if ("abs" in value) {
-          eabs = value["abs"]
-        }
-        if ("fluo" in value) {
-          efluo = value["fluo"]
-        }
-        if ("ZPE" in value) {
-          eZPE = value["ZPE"]
-        }
-        exs.push(new excitation(mykey[0], mykey[1], eabs, efluo, eZPE))
-      })
-      return exs
-    }
   }
 }

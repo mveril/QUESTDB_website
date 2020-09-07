@@ -3,7 +3,7 @@
 # code     : CFOUR
 # method   : CC3(FC),d-aug-cc-pVQZ
 # geom     : CC3,aug-CC-pVTZ
-# DOI      : 10.1021/acs.jctc.9b01216,true
+# DOI      : 10.1021/acs.jctc.9b01216
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############

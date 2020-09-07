@@ -245,7 +245,7 @@ When the debug flag is used instead of `data/` the root of output directory is `
 # code     : codename,[version]
 # method   : method,[basis]
 # geom     : method,[basis]
-# DOI      : DOI,[isSupporting]
+# DOI      : DOI
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############
@@ -255,6 +255,6 @@ When the debug flag is used instead of `data/` the root of output directory is `
 
 When each value are number spin value are integer symmetry and excitation type are standard LaTeX
 
-isSupporting and isUnsafe are boolean corrresponded to  `JavaScript`  boolean values `true` or  `false`
+isUnsafe is boolean corrresponded to  `JavaScript`  boolean values `true` or  `false`
 
 
