@@ -95,7 +95,6 @@ draft: false
   }
   async function loadFiles() {
     processingIndicator.isActive = true
-    var chks = []
     var data = await loadAllData()
     window.defaultDats = []
     for (const sub of Object.values(data)) {
