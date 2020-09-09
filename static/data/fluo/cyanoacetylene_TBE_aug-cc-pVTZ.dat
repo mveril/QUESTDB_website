@@ -1,7 +1,7 @@
 # Molecule : Cyanoacetylene
 # Comment  : 
 # code     : 
-# method   : TBE(Full),CBS
+# method   : TBE,aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.9b01216
 

@@ -1,7 +1,7 @@
 # Molecule : Cyanogen
 # Comment  : 
 # code     : 
-# method   : TBE,CBS
+# method   : TBE(Full),CBS
 # geom     : CC3,aug-cc-pVTZ 
 # DOI      : 10.1021/acs.jctc.9b01216
 
