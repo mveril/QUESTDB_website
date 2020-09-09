@@ -439,9 +439,9 @@ draft: false
           } else if (!d1.method.isTBE && d2.method.isTBE) {
             return 1
           } else if (d1.method.isTBE && d2.method.isTBE) {
-            if (d1.method.name === "TBE(FC)" && d2.method.name === "TBE") {
+            if (d1.method.name === "TBE" && d2.method.name === "TBE(Full)") {
               return -1
-            } else if (d1.method.name === "TBE" && d2.method.name === "TBE(FC)") {
+            } else if (d1.method.name === "TBE(Full)" && d2.method.name === "TBE") {
               return 1
             }
             else {
