@@ -23,14 +23,14 @@ draft: false
     processingIndicator.isActive = true
     var div = document.getElementById("publis_div")
     const Cite = require("citation-js")
-    const sdois = uniq(Object.values(await loadAllData()).flat().filter(d => d.DOI !== null).map(d => d.DOI))
-    const spubliscite = await Cite.async(sdois)
+    const sarticles = uniq(Object.values(await loadAllData()).flat().filter(d => d.article !== null).map(d => d.article))
+    const spubliscite = await Cite.async(sarticles)
     const uospublis = spubliscite.format('data', { format: 'object' })
     const spublis = uospublis.sort((puba, pubb) => pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb))
     var myDB = await publiDB.loadAsync()
     for (const publi of spublis) {
       var art = await createPubliUI(publi, true, true)
-      var setName = myDB.findSetNameFromDOI(publi.DOI, true)
+      var setName = myDB.findSetNameFromArticle(publi.DOI, true)
       setsSec = $('#publis_sets')
       var mySetSec = setsSec.find(`section.publiSet[data-setName="${setName}"]`)
       if (mySetSec.length === 0) {

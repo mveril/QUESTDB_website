@@ -180,7 +180,7 @@ class dataFileBase {
     this.code = null
     this.method = null
     this.excitations = []
-    this.DOI = null
+    this.article = null
     this.sourceFile = null
   }
   static _GetMetaRexEx() {
@@ -228,8 +228,8 @@ class dataFileBase {
       case "method":
         this.method = method.fromString(value)
         break;
-      case "doi":
-        this.DOI = value
+      case "article":
+        this.article = value
         break;
     }
   }
@@ -302,7 +302,7 @@ class dataFileBase {
         }
       });
       console.assert(double.length === 0, "Double found", double, dat.molecule, dat.method.toString())
-      if (dat.DOI!== null && dat.DOI !== "10.1021/acs.jctc.8b01205") {
+      if (dat.article!== null && dat.article !== "10.1021/acs.jctc.8b01205") {
         for (const ex of dat.excitations) {
           console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1 > 50 | ex.isUnsafe == true, "Must be unsafe", dat, ex)
         }

@@ -6,7 +6,7 @@ class DOICache{
   clear(){
     this._doimap.clear()
   }
-  delete(doi){
+  delete(article){
     return this._doimap.delete(doi)
   }
   forEach(callbackfn, thisArg=None){
@@ -24,11 +24,23 @@ class DOICache{
       this._doimap.set(doi,publi)
     }
   }
+  async tryAdd(doi){
+    const publi = await this._Cite.async(doi)
+    if (publi.data.length === 0) {
+      return false
+    }
+    this._doimap.set(doi,publi)
+    return true
+  }
   async addRange(dois){
     const set=new Set(dois)
     for(const doi of set){
      await this.add(doi)
     }
+  }
+  async tryAddRange(dois){
+    const set = new Set(dois)
+    return Promise.all(Array.from(set).map(doi=>this.tryAdd(doi)))
   }
   get size(){
     return this._doimap.size()
