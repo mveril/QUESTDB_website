@@ -66,7 +66,7 @@ If the program crach of if the result is not correct please:
 \newcommand{\CCSDTQP}{CCSDTQP}
 \newcommand{\CI}{CI}
 \newcommand{\sCI}{sCI}
-\newcommand{\exCI}{exFCI}
+\newcommand{\exCI}{FCI}
 \newcommand{\FCI}{FCI}
 
 
