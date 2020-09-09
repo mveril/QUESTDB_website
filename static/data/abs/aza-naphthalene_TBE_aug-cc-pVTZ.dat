@@ -1,7 +1,7 @@
 # Molecule : Aza-naphthalene
 # Comment  : 
 # code     : 
-# method   : TBE(FC),aug-cc-pVTZ
+# method   : TBE,aug-cc-pVTZ
 # geom     : CC3/cc-pVTZ
 # article  : QUEST5-1
 
