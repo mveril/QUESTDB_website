@@ -123,7 +123,8 @@ draft: false
     window.defaultDats = window.defaultDats.sort((datfa, datfb) => {
       const articleA = datfa.article
       const articleB = datfb.article
-      if ([articleA,articleB].every(art=>!doiCache.has(art))) {
+      const artArr = [articleA,articleB]
+      if (artArr.every(art=>!doiCache.has(art))) {
         return 0
       }
       else if (!doiCache.has(articleA)) {
@@ -133,9 +134,11 @@ draft: false
         return -1
       }
       else {
-        const puba = doiCache.get(articleA).format('data', { format: 'object' })[0]
-        const pubb = doiCache.get(articleB).format('data', { format: 'object' })[0]
-        return pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb)
+        const dateArr = artArr.map((art)=>{
+          const pub = doiCache.get(art).format('data', { format: 'object' })[0]
+          return pubUtils.getIssuedDate(pub)
+        })
+        return dateArr[0] - dateArr[1]
       }
     })
     processingIndicator.isActive = false
