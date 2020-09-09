@@ -4,6 +4,7 @@ date: 2019-09-30 11:30
 draft: false
 ---
 <link rel="stylesheet" type="text/css" href="/css/publi.css" />
+<link rel="stylesheet" type="text/css" href="/css/modal.css" />
 <script src="/js/data.js" type="text/javascript"></script>
 <script src="/js/loadAllData.js" type="text/javascript"></script>
 <script src="/js/getFullDataPath.js" type="text/javascript"></script>
@@ -14,10 +15,12 @@ draft: false
 <script src="/js/numberUtils.js"></script>
 <script src="/js/DebugMode.js"></script>
 <script src="/js/createPubliUI.js"></script>
+<script src="/js/processingIndicator.js"></script>
 <script src="/js/PubliDB.js"></script>
 {{< getDataFilesName >}}
 <script>
   window.onload = async function () {
+    processingIndicator.isActive = true
     var div = document.getElementById("publis_div")
     const Cite = require("citation-js")
     const sdois = uniq(Object.values(await loadAllData()).flat().filter(d => d.DOI !== null).map(d => d.DOI))
@@ -44,6 +47,7 @@ draft: false
       art = await createPubliUI(publi, true, true)
       $(art).appendTo("#publis_others")
     }
+    processingIndicator.isActive = false
   }
 </script>
 <section class="publis-list" id="publis_sets">
@@ -56,3 +60,4 @@ draft: false
     <h1>Others</h2>
   </header>
 </section>
+{{< waitModal >}}
