@@ -14,19 +14,19 @@ class publiDB {
     if (supportUnknow && JSON.stringify(set) === JSON.stringify([""])) {
       return publiDB.UnknowSetName
     }
-    for (let [setname, dois] of this.sets.entries()) {
-      if (JSON.stringify(set.sort()) === JSON.stringify(dois.sort())) {
+    for (let [setname, articles] of this.sets.entries()) {
+      if (JSON.stringify(set.sort()) === JSON.stringify(articles.sort())) {
         return setname
       }
     }
     return null
   }
-  findSetNameFromDOI(doi, supportUnknow = false) {
-    for (let [setname, dois] of this.sets.entries()) {
-      if (dois.includes(doi))
+  findSetNameFromArticle(article, supportUnknow = false) {
+    for (let [setname, articles] of this.sets.entries()) {
+      if (articles.includes(article))
         return setname
     }
-    if (supportUnknow && doi === "") {
+    if (supportUnknow && article === "") {
       return publiDB.UnknowSetName
     }
     return null

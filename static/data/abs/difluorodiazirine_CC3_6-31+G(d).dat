@@ -3,7 +3,7 @@
 # code     : 
 # method   : CC3,6-31+G(d)
 # geom     : CC3,aug-cc-pVTZ
-# DOI      : 10.1021/acs.jctc.0c00227
+# article  : 10.1021/acs.jctc.0c00227
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############

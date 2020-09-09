@@ -1,0 +1,16 @@
+# Molecule : Difluorodiazirine
+# Comment  : 
+# code     : 
+# method   : TBE(Full),CBS
+# geom     : CC3,aug-cc-pVTZ
+# article  : 10.1021/acs.jctc.0c00227
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1     A_1        1       1     B_1          _                                       3.73          _              _            false
+  1       1     A_1        1       1     A_2          _                                       6.98          _              _            false
+  1       1     A_1        1       1     B_2          _                                       8.54          _              _            false
+  1       1     A_1        1       3     B_1          _                                       3.03          _              _            false
+  1       1     A_1        1       3     B_2          _                                       5.46          _              _            false
+  1       1     A_1        2       3     B_1          _                                       5.81          _              _            false
