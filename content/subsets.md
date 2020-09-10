@@ -8,9 +8,9 @@ The QUEST database provides theoretical best estimates (TBEs) for more than 470 
 The molecules included in the QUEST dataset have been systematically optimized at the CC3/aug-cc-pVTZ level of theory, except for a very few cases.
 The QUEST dataset of vertical excitations is composed by 5 subsets:
 
-{{< figure src="/img/subsets.pdf" title="Composition of each of the five subsets making up the present QUEST dataset of highly-accurate vertical excitation energies" >}}
+{{< figure src="/img/subsets.png" title="Composition of each of the five subsets making up the present QUEST dataset of highly-accurate vertical excitation energies" >}}
 
-{{< figure src="/img/molecules.pdf" title="Molecules each of the five subsets making up the present QUEST dataset of highly-accurate vertical excitation energies: QUEST#1 (red), QUEST#2 (magenta and/or underlined), QUEST#3 (black), QUEST#4 (green), and QUEST#5 (blue)." >}}
+{{< figure src="/img/molecules.png" title="Molecules each of the five subsets making up the present QUEST dataset of highly-accurate vertical excitation energies: QUEST#1 (red), QUEST#2 (magenta and/or underlined), QUEST#3 (black), QUEST#4 (green), and QUEST#5 (blue)." >}}
 
 ### [QUEST#1](https://doi.org/10.1021/acs.jctc.8b00406)
 The QUEST#1 benchmark set consists of 110 vertical excitation energies (as well as oscillator strengths) from 18 molecules with sizes ranging from one to three non-hydrogen atoms (water, hydrogen sulfide, ammonia, hydrogen chloride, dinitrogen, carbon monoxide, acetylene, ethylene, formaldehyde, methanimine, thioformaldehyde, acetaldehyde, cyclopropene, diazomethane, formamide, ketene, nitrosomethane, and the smallest
