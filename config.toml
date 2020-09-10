@@ -53,9 +53,14 @@ theme = "beautifulhugo"
     weight = 4
 
 [[menu.main]]
+    name = "Funding"
+    url = "funding"
+    weight = 5
+
+[[menu.main]]
     identifier = "external"
     name = "External links"
-    weight = 5
+    weight = 6
 
 [[menu.main]]
     parent="external"
