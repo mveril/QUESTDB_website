@@ -53,7 +53,7 @@ class dataFileBase(object):
     self.code = None
     self.method = None
     self.excitations = []
-    self.DOI = ''
+    self.article = ''
 
   @property
   def IsTBE(self):
@@ -102,7 +102,7 @@ class dataFileBase(object):
     dic["Comment"]=self.comment
     dic["code"]="" if self.code is None else self.code.toDataString()
     dic["method"]="" if self.method is None else self.method.toDataString()
-    dic["DOI"]="" if self.DOI is None else self.DOI
+    dic["article"]="" if self.article is None else self.article
     return dic
   
   def toFile(self,datadir,suffix=None):
