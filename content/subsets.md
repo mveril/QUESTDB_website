@@ -4,7 +4,7 @@ date: 2020-09-10 15:00
 draft: false
 ---
 
-The QUEST database provides theoretical best estimates (TBEs) for more than 470 highly-accurate excitation energies of various natures (valence, Rydberg, {{< tex "n \ra \pis" >}}, {{< tex "\pi \ra \pis" >}}, singlet, doublet, triplet, and double excitations) for molecules ranging from diatomics to molecules as large as naphthalene.
+The QUEST database provides theoretical best estimates (TBEs) for more than 470 highly-accurate excitation energies of various natures (valence, Rydberg, {{< tex "n \rightarrow \pi^\star" >}}, {{< tex "\pi \rightarrow \pi^\star" >}}, singlet, doublet, triplet, and double excitations) for molecules ranging from diatomics to molecules as large as naphthalene.
 The molecules included in the QUEST dataset have been systematically optimized at the CC3/aug-cc-pVTZ level of theory, except for a very few cases.
 The QUEST dataset of vertical excitations is composed by 5 subsets:
 
