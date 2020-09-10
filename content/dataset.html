@@ -632,58 +632,60 @@ draft: false
   </p>
 </noscript>
 <p>
-  On this page you can compare multiple dataset and have some statistics to evaluate method accuracy (All fields marked
-  with a red asterisk (<span style="color: red;">*</span>) are mandatory).
+  This page allows you to compare multiple dataset and perform statistical analyses to evaluate the accuracy of a given method.
+  All fields marked with an asterisk (<span style="color: red;">*</span>) are mandatory).
 </p>
 <form id="form_dat" action="javascript:submitdat()">
   <fieldset class="main">
     <fieldset>
       <legend>Import custom files</legend>
       <p>
-        Import custom files to compare it's data to the reference datasets.
+        Import a custom file to compare its data to the reference dataset.
       </p>
       <div>
         <label for="absFiles_input">Import custom absorption data files</label>
         <input type="file" multiple onchange="reloadCustomFiles()" id="absFiles_input" name="file_abs"></input>
       </div>
       <div>
-        <label for="fluoFiles_input">import custom fluorescence data files</label>
+        <label for="fluoFiles_input">Import custom fluorescence data files</label>
         <input type="file" multiple onchange="reloadCustomFiles()" id="fluoFiles_input" name="file_fluo"></input>
       </div>
     </fieldset>
+    <br>
     <fieldset class="table">
       <legend>Data selection</legend>
-      <p>Choose each parameter (of course you can select multiple values for each) you can use the <button
-          disabled>Select all</button> button to select all items <span hidden
-          data-needbrowser='{"Engine":["WebKit","Blink"],"Platform":["desktop"]}'>or use the <kbd
+      <p>Select parameters. You can use <button
+          disabled>Select all</button> to select all items <span hidden
+          data-needbrowser='{"Engine":["WebKit","Blink"],"Platform":["desktop"]}'> or the shortcut key <kbd
             data-needbrowser='{"OS":["MacOS"]}'>⌘</kbd><kbd
-            data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd> shortcut key</span>
+            data-neednotbrowser='{"OS":["MacOS"]}'>Ctrl</kbd>+<kbd>A</kbd></span>
       </p>
       <div style="display: inline-block;">
-        <label for="DOI_select" class="required">Sets</label>
+        <label for="DOI_select" class="required">Set</label>
         <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
         <select multiple id="DOI_select" required name="article" onchange="reloadNextSelect(event)"></select>
       </div>
       <div style="display:inline-block">
-        <label for="mol_select" class="required">Molecules</label>
+        <label for="mol_select" class="required">Molecule</label>
         <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
         <select multiple id="mol_select" required name="molecule" onchange="reloadNextSelect(event)"></select>
       </div>
       <br />
       <div style="display: inline-block;">
-        <label for="method_select" class="required">Methods</label>
+        <label for="method_select" class="required">Method</label>
         <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
         <select multiple id="method_select" required name="method" onchange="reloadNextSelect(event)"></select>
       </div>
       <div style="display: inline-block;">
-        <label for="basis_select" class="required">Basis sets</label>
+        <label for="basis_select" class="required">Basis set</label>
         <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
         <select multiple id="basis_select" required name="basis" onchange="reloadNextSelect(event)"></select>
       </div>
     </fieldset>
+    <br>
     <fieldset>
-      <legend class="required">Vertical excitation kind</legend>
-      <p>Choose what kind of vertical excitations you want</p>
+      <legend class="required">Nature of vertical excitations</legend>
+      <p>Select the kind of vertical excitations you want to consider</p>
       <ul class="nestedCbList" style="padding-left: 0em;">
         <li>
           <input type="checkbox" data-onerequired="true" checked onchange="nestedCheckbox_change(event)"
@@ -702,9 +704,10 @@ draft: false
         </ul>
       </ul>
     </fieldset>
+    <br>
     <fieldset id="excitationFilter">
       <legend class="required">Filters</legend>
-      <p>Choose other excitation parameters you want</p>
+      <p>Select nature of the excited states and/or transitions</p>
       <ul class="nestedCbList" style="padding-left: 0em;">
         <li>
           <input type="checkbox" data-onerequired="true" onchange="nestedCheckbox_change(event)"
@@ -713,36 +716,39 @@ draft: false
         </li>
         <ul id="cb_exTypeList" class="nestedCbList">
         </ul>
-        <p>Choose if you want to include unsafe values in statistics</p>
+        <p>Select if you want to include unsafe reference values in the statistics</p>
         <li id="li_cb_unsafe">
           <input type="checkbox" id="cb_unsafe" name="unsafe">
           <label for="cb_unsafe">Unsafe</label>
         </li>
     </fieldset>
+    <br>
     <fieldset>
       <legend>\(\mathrm{\%T_1}\)</legend>
-      <p>Chose the range of \(\mathrm{\%T_1}\) range using the two number box</p>
+      <p>Select the range of single-excitation percentage \(\mathrm{\%T_1}\) of the transitions </p>
       <input class="range min" airia-label="Minimum value" type="number" id="T1min" onchange="numberRangeChange(event)"
         min="0" value="0">
       <span>\(\leq \mathrm{\%T_1} \leq\)</span>
       <input class="range max" airia-label="Maximum value" type="number" id="T1max" onchange="numberRangeChange(event)"
         max="100" value="100">
     </fieldset>
+    <br>
   </fieldset>
   <input type="submit" value="Load"></input>
 </form>
 <form id="form_ref">
   <fieldset class="main">
     <fieldset>
-      <legend>statistics</legend>
-      <p>Select a reference from <strong>already selected data</strong> (by default first -it's the <abbr
-          title="Theoretical best estimate">TBE</abbr> if present- is already selected)</p>
+      <legend>Reference data for statistical analyses</legend>
+      <p>Select a reference from <strong>already selected data</strong> (by default <abbr
+          title="Theoretical best estimate">TBE</abbr> if selected)</p>
       <label for="sel_ref">Reference</label>
       <select id="sel_ref" onchange="reloadStat()"></select>
     </fieldset>
+    <br>
   </fieldset>
 </form>
-<p>Now you can see the list of selected data and some statistics about these data</p>
+<p>List of selected data and their corresponding statistical analysis</p>
 <section id="data">
 </section>
 <section>
