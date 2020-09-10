@@ -184,7 +184,7 @@ class oneStateDataFileBase(dataFileBase):
   def getMetadata(self):
     dic=super(oneStateDataFileBase,self).getMetadata()
     dic["geom"]= "" if self.geometry is None else self.geometry.toDataString()
-    dic.move_to_end("DOI")
+    dic.move_to_end("article")
     return dic
 
 class AbsDataFile(oneStateDataFileBase):
