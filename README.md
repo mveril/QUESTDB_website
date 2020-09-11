@@ -14,7 +14,7 @@ cd exdatabaseLCPQ
 hugo serve
 ```
 
-Now you car use your favorite browser to navigate to the website using the URL showed by hugo in your terminal (normally <localhost:1313>)
+Now you car use your favorite browser to navigate to the website using the URL showed by Hugo in your terminal (normally <localhost:1313>)
 
 ## Repository content
 
@@ -30,9 +30,9 @@ The second part is the  [tools](exdatabaseLCPQ/src/branch/master/tools/) a serie
 
 #### datafileBuilder
 
-A python script to generate data from custom \LaTeX input file see  [examples](exdatabaseLCPQ/src/branch/master/docs/examples).
+A python script to generate data from custom LaTeX input file see  [examples](exdatabaseLCPQ/src/branch/master/docs/examples).
 
 #### metarecover
 
-the metarecover bash script is used to regenerate the metadata from the previous git history state.
-So you can remove a data file to regenerate it from a LaTeX input file with datafileBuilder and recover the metadata from the previous version using metarecover.
+the `metarecover` bash script is used to regenerate the metadata from the previous git history state.
+So you can remove a data file to regenerate it from a LaTeX input file with `datafileBuilder` and recover the metadata from the previous version using `metarecover`.
