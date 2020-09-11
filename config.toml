@@ -40,32 +40,32 @@ theme = "beautifulhugo"
 [[menu.main]]
     name = "Subsets"
     url = "subsets"
-    weight = 3
+    weight = 2
 
 [[menu.main]]
     name = "Dataset"
     url = "dataset"
-    weight = 4
+    weight = 3
 
 [[menu.main]]
     name = "Publications"
     url = "publications"
-    weight = 5
+    weight = 4
 
 [[menu.main]]
     name = "About"
     url = "about"
-    weight = 6
+    weight = 5
 
 [[menu.main]]
     name = "Funding"
     url = "funding"
-    weight = 7
+    weight = 6
 
 [[menu.main]]
     identifier = "external"
     name = "External links"
-    weight = 8
+    weight = 7
 
 [[menu.main]]
     parent="external"
