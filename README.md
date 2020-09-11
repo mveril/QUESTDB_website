@@ -22,15 +22,15 @@ Now you car use your favorite browser to navigate to the website using the URL s
 
 The main part of this repository is the website. It is build using the [hugo](https://gohugo.io/) static website generator with the [beautifulhugo](https://themes.gohugo.io/beautifulhugo/) theme.
 
-All the data are stored in the [data](static/data) directory.
+All the data are stored in the [data](exdatabaseLCPQ/src/branch/master/static/data) directory.
 
 ### The tools.
 
-The second part is the  [tools](tools/) a series of python and bash scripts used to generate data.
+The second part is the  [tools](exdatabaseLCPQ/src/branch/master/tools/) a series of python and bash scripts used to generate data.
 
 #### datafileBuilder
 
-A python script to generate data from custom \LaTeX input file see  [examples](docs/examples).
+A python script to generate data from custom \LaTeX input file see  [examples](exdatabaseLCPQ/src/branch/master/docs/examples).
 
 #### metarecover
 
