@@ -1,5 +1,8 @@
 baseURL = "localhost:8080"
+canonifyurls  = true
+
 languageCode = "en-us"
+metaDataFormat = "yaml"
 DateForm = "12-30-2006"
  title = "QUEST: a database of highly-accurate excitation energies"
 DefaultContentLanguage = "en"
