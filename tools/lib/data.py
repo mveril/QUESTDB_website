@@ -86,6 +86,18 @@ class dataFileBase(object):
       count=countlst.count(countitem)
       lst.append((state(count,item[0],item[1]),item[2],item[3]))
     return lst
+  def _OnReadMetaPair(self, key, value):
+      if key == "molecule":
+        self.molecule = value
+      elif key == "comment":
+        self.comment = value
+      elif key == "code":
+        self.code = code.fromString(value)
+      elif key == "method":
+        self.method = method.fromString(value)
+      elif key == "article":
+        self.article = value
+
   @staticmethod
   def readFromTable(table,TexOps, commands=[]):
     for formatName,Cls in getFormatHandlers():
@@ -104,6 +116,59 @@ class dataFileBase(object):
     dic["article"]="" if self.article is None else self.article
     return dic
   
+  def _OnReadMeta(self,line,dataType):
+    #get key value
+    match = dataFileBase._GetMetaRexEx().match(line)
+    # normalize key to lower
+    key = match.group(1).lower()
+    # if data has value
+    if match.group(2):
+      val = match.group(2)
+      self._OnReadMetaPair(key, val)
+  @staticmethod
+  def _OnReadRow(line):
+    vals = re.findall(r"\([^\)]+\)|\S+",line)
+    start = state(int(vals[0]), int(vals[1]), vals[2])
+    end = state(int(vals[3]), int(vals[4]), vals[5])
+    Type = vals[6] if (len(vals) >= 7) else None
+    if Type == "_":
+      Type = None
+    if Type:
+      m = re.match(r"^\(([^\)]*)\)$",Type)
+      if m:
+        Type = m[1]
+    val = vals[7] if len(vals) >= 8 else str(np.NaN)
+    T1 = vals[8] if len(vals) >= 9  else str(np.NaN)
+    oscilatorForces = vals[9] if len(vals) >= 10 else str(np.NaN)
+    isUnsafe = vals[10] == json.dumps(True) if  len(vals) >= 11 else False
+    ex = excitationValue(start, end, val, Type,T1,isUnsafe,oscilatorForces)
+    return ex
+
+  @staticmethod
+  def _GetMetaRexEx():
+    #metadata RegExp (start with #; maybe somme spaces; : ; maybe somme space; datas)
+    return re.compile(r"^#\s*([A-Za-z_]+)\s*:\s*(.*)$")
+
+  @staticmethod
+  def readFile(stream,dataType):
+    lines = stream.readlines()
+    # for each line with metadata
+    ismetaArea = True
+    dat = datafileSelector(dataType)()
+    for line in lines:
+      #if it's not empty line
+      line = line.strip()
+      if line:
+        # if # may be metadata or comment
+        if line[0] == "#":
+          # if it's metadata
+          if ismetaArea and dataFileBase._GetMetaRexEx().match(line):
+            dat._OnReadMeta(line,dataType)
+        else: # else its row
+          ismetaArea = False
+          dat.excitations.append(dat._OnReadRow(line))
+    return dat
+    
   def toFile(self,datadir,suffix=None):
     subpath=datadir/self.GetFileType().name.lower()
     if not subpath.exists():
@@ -169,6 +234,11 @@ class code:
     self.name = name
     self.version = version
   
+  @staticmethod
+  def fromString(string):
+    vals = string.split(",")
+    return method(*vals)
+
   def toDataString(self):
     string=self.name
     if (self.version):
@@ -179,6 +249,12 @@ class oneStateDataFileBase(dataFileBase):
   def __init__(self):
     super(oneStateDataFileBase,self).__init__()
     self.geometry = None
+
+  def _OnReadMetaPair(self, key, value):
+    if key == "geom":
+      self.geometry = method.fromString(value)
+    else:
+      super(oneStateDataFileBase,self)._OnReadMetaPair(key, value)
   
   def getMetadata(self):
     dic=super(oneStateDataFileBase,self).getMetadata()
