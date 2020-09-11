@@ -69,7 +69,6 @@ class dataFileBase(object):
     for TexState in StateTablelist:
       st=str(extractMath(TexState,Soup=True,commands=commands))
       m=re.match(r"^\^(?P<multiplicity>\d)(?P<symm>[^\s\[(]*)\s*(?:\[(?:\\mathrm{)?(?P<special>\w)(?:})\])?\s*(:?\((?P<type>[^\)]*)\))?",st)
-      seq=m.group("multiplicity","symm")
       mul=int(m.group("multiplicity"))
       symm=m.group("symm")
       spgrp=m.group("special")
