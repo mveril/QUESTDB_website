@@ -8,5 +8,7 @@ sets:
     - 10.1021/acs.jpclett.9b03652
   QUEST#4:
     - 10.1021/acs.jctc.0c00227
+  QUEST#5:
+    - QUEST5-1
 others:
   - 10.1021/acs.jpclett.0c00014

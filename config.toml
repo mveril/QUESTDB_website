@@ -8,7 +8,7 @@ theme = "beautifulhugo"
 #  homeTitle = ""
   subtitle = "QUantum Excited STates database"
 [[Params.bigimg]]
-  src = "data/publis/10/1021/acs/jctc/8b00406/picture.jpeg"
+  src = "img/QUEST-home.png"
   desc = "A mountaineering strategy to excited states"
 [markup]
   [markup.goldmark]
@@ -38,29 +38,34 @@ theme = "beautifulhugo"
     weight = 1
 
 [[menu.main]]
+    name = "Subsets"
+    url = "subsets"
+    weight = 2
+
+[[menu.main]]
     name = "Dataset"
     url = "dataset"
-    weight = 2
+    weight = 3
 
 [[menu.main]]
     name = "Publications"
     url = "publications"
-    weight = 3
+    weight = 4
 
 [[menu.main]]
     name = "About"
     url = "about"
-    weight = 4
+    weight = 5
 
 [[menu.main]]
     name = "Funding"
     url = "funding"
-    weight = 5
+    weight = 6
 
 [[menu.main]]
     identifier = "external"
     name = "External links"
-    weight = 6
+    weight = 7
 
 [[menu.main]]
     parent="external"
