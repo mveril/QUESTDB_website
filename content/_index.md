@@ -15,7 +15,7 @@ The corresponding literature references associated with the QUEST dataset can be
 
 The statistics are represented as data table and graphs (using the [Plotly JavaScript Open Source Graphing Library](https://plotly.com/javascript)).
 
-## Example of statistical analysis charts
+## Example of statistical analysis 
 {{< figure src="/img/samplelot.png" title="Statistical results for QUEST#1 for single excitations computed with the aug‑cc‑pVTZ basis" >}}
 
 
