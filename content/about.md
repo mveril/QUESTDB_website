@@ -23,4 +23,5 @@ from the [LCPQ laboratory](http://www.lcpq.ups-tlse.fr) in Toulouse (France).
  <img class="funding" height="100" src="/img/UPS.png" alt="UPS logo" hspace="5" vspace="5" />
  <img class="funding" height="100" src="/img/CNRS.png" alt="CNRS logo" hspace="5" vspace="5" />
 </div>
+
 For any problem concerning the website, please contact [Mickaël Véril](mailto:mveril@irsamc.univ-tlse.fr).
