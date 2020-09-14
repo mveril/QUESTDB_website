@@ -237,8 +237,7 @@ class dataFileBase {
     var vals = line.match(/\([^\)]+\)|\S+/g)
     var start = new state(parseInt(vals[0], 10), parseInt(vals[1], 10), vals[2]);
     var end = new state(parseInt(vals[3], 10), parseInt(vals[4], 10), vals[5]);
-    var hasType = vals.length >= 7 && isNaN(vals[6])
-    var type = ((vals.length >= 7 && hasType) ? vals[6] : null)
+    var type = ((vals.length >= 7) ? vals[6] : null)
     if (type === "_") {
       type = null
     }
@@ -248,10 +247,10 @@ class dataFileBase {
         type = m[1]
       }
     }
-    var val = ((vals.length >= 7 + hasType) ? new stringNumber(vals[6 + hasType]) : NaN)
-    var T1 = ((vals.length >= 8 + hasType) ? new stringNumber(vals[7 + hasType]) : NaN)
-    var oscilatorForces = ((vals.length >= 9 + hasType) ? new stringNumber(vals[8 + hasType]) : NaN)
-    var isUnsafe = ((vals.length >= 10 + hasType) ? vals[9 + hasType] === true.toString() : false)
+    var val = ((vals.length >= 8) ? new stringNumber(vals[7]) : NaN)
+    var T1 = ((vals.length >= 9) ? new stringNumber(vals[8]) : NaN)
+    var oscilatorForces = ((vals.length >= 10) ? new stringNumber(vals[9]) : NaN)
+    var isUnsafe = ((vals.length >= 11) ? vals[10] === true.toString() : false)
     var ex = new excitationValue(start, end, type, val, oscilatorForces, T1, isUnsafe);
     if (this.VertExcitationKind) {
       ex.VertExcitationKind = this.VertExcitationKind

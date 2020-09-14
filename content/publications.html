@@ -29,7 +29,7 @@ draft: false
       const publiscite = await Cite.async(publis)
       const uopublis = publiscite.format('data', { format: 'object' })
       if (uopublis.length !== 0) {
-        const mySetSec = $('<section>').addClass('publiSet').attr("data-setName", setName).appendTo(setsSec)
+        const mySetSec = $('<section>').addClass('publiSet').attr("data-setName", setName).attr("id",setName).appendTo(setsSec)
         $("<h1>").text(setName).appendTo(mySetSec)
         const spublis = uopublis.sort((puba, pubb) => pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb))
         for (const publi of spublis) { 
@@ -47,6 +47,17 @@ draft: false
       $(art).appendTo("#publis_others")
     }
     processingIndicator.isActive = false
+    const hash=window.location.hash
+    if (hash.length>1 && hash.startsWith("#")) {
+      sec=document.getElementById(decodeURIComponent(hash.substring(1)))
+      if (sec) {
+        sec.scrollIntoView({
+		block: 'start',
+		behavior: 'smooth',
+		inline: 'nearest'
+	})
+      }
+    }
   }
 </script>
 <section class="publis-list" id="publis_sets">
