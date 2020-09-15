@@ -1,6 +1,6 @@
 # Molecule : \ce{HPS}
 # Comment  : 
-# code     : 
+# code     : Q-CHEM
 # method   : ADC(2.5),aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ
 # article  : 10.1021/acs.jctc.0c00227
