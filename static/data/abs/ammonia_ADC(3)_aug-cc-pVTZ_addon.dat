@@ -1,6 +1,6 @@
 # Molecule : Ammonia
 # Comment  : 
-# code     : 
+# code     : Q-CHEM
 # method   : ADC(3),aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ
 # article  : 10.1021/acs.jpclett.9b03652
