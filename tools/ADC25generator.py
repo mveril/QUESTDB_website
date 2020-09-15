@@ -2,7 +2,7 @@
 import os
 import re
 import sys
-import copy
+from copy import deepcopy
 from statistics import mean
 from math import nan,isnan
 from pathlib import Path
@@ -35,31 +35,43 @@ if args.articles is not None or args.sets is not None:
             articles.add(article)
 outputdir=datadir/"test" if args.debug else datadir
 ADC23re=re.compile(r"ADC\(([23])\)")
-def getValue(ADC2,ADC3,parametername):
-  vals = [getattr(x,parametername) for x in [ADC2,ADC3]]
-  isObject=hasattr(vals[0], '__dict__')
-  if isObject:
-    if vars(vals[0]) == vars(vals[1]):
-      return copy.deepcopy(vals[0])
-  else:
-    if vals[0] == vals[1]:
-      return vals[0]
+def getValue(ADC2,ADC3,parametername,exADC2=None,exADC3=None):
+  def isObject(x):
+    return hasattr(x, '__dict__')
+  def extractVals(x):
+    if isObject(x):
+      return vars(x)
+    else:
+      return x
+  def copy(x):
+    if isObject(x):
+      return deepcopy(x)
+    else:
+      return x
+      
+  def isSame(a,b):
+    return extractVals(a)==extractVals(b)
+
+  objs=[ADC2,ADC3]
+  exs=[exADC2,exADC3]
+  if all([x!=None for x in exs]):
+    objs=exs
+  vals = [getattr(x,parametername) for x in objs]
+  if isSame(*vals):
+    return copy(vals[0])
   d=OrderedDict()
   for i in range(2):
     key=f"ADC({i+2})"
-    if isObject:
-      d[key]=copy.deepcopy(vals[i])
-    else:
-      d[key]=vals[i]
+    d[key]=copy(vals[i])
   index=-1
   while len(vals)<index or index<0:
     if index==0:
-      raise ValueError()
+      raise ValueError("Operation canceled with ADC {ADC2File.moleucle},{ADC2File.method.basis} with {parametername}")
     print("The Two values are different")
     i=0
     for k in d:
       i+=1
-      print(f"{i}){k} value: {vars(d[k]) if isObject else d[k]}")        
+      print(f"{i}){k} value: {extractVals(d[k])}")        
     index=int(input("Select value from the menu:"))
   return vals[index-1]
   
@@ -97,9 +109,9 @@ for t in DataType:
               f = "_"
               isUnsafe = exADC2.isUnsafe or exADC3.isUnsafe
               Type=getValue(exADC2,exADC3,"type")
-              exADC25=excitationValue(copy.deepcopy(exADC2.initial),copy.deepcopy(exADC2.final),value,Type,T1,isUnsafe,f)
+              exADC25=excitationValue(deepcopy(exADC2.initial),deepcopy(exADC2.final),value,Type,T1,isUnsafe,f)
               ADC25File.excitations.append(exADC25)
           ADC25File.toFile(outputdir)
 
         except ValueError as ex:
-          pass
+           print(ex,file=sys.stderr)

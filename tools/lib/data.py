@@ -6,6 +6,7 @@ from TexSoup import TexNode,TexEnv
 from enum import IntEnum,auto,unique,IntFlag
 from .formats import getFormatHandlers
 import re
+import os
 import numpy as np
 import json
 
@@ -172,7 +173,7 @@ class dataFileBase(object):
   def toFile(self,datadir,suffix=None):
     subpath=datadir/self.GetFileType().name.lower()
     if not subpath.exists():
-      subpath.mkdir()
+      os.makedirs(str(subpath))
     molsoup=TexSoup(self.molecule)
     molcomp=list(molsoup.contents)[0]
     molfilename=self.molecule if isinstance(molcomp,str) else molcomp.args[0].value
