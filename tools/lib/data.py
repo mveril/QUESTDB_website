@@ -238,7 +238,7 @@ class code:
   @staticmethod
   def fromString(string):
     vals = string.split(",")
-    return method(*vals)
+    return code(*vals)
 
   def toDataString(self):
     string=self.name
