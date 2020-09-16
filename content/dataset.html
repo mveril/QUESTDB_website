@@ -374,7 +374,7 @@ draft: false
       var box = {
         x: noNanVals,
         amean: ss.mean(avals).toFixed(3),
-        name: key.toString() + " MAE : " + ss.mean(avals).toPrecision(4),
+        name: `${key.toString()} MAE : ${ss.mean(avals).toPrecision(4)} eV` ,
         type: 'box',
         marker:{
           color: colors[keystr]
@@ -392,15 +392,15 @@ draft: false
       },
       xaxis: {
         title: {
-          text: 'Energy (eV)',
+          text: 'Error (eV)',
         }
       },
       bgcolor: '#E2E2E2',
       bordercolor: '#FFFFFF',
       borderwidth: 2,
       // autosize: false,
-      width: 850,
-      height: 500,
+      width: 1275,
+      height: 750,
       margin: {
         l: 0,
         r: 10,
