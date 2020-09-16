@@ -347,6 +347,16 @@ draft: false
     }
     sdic.delete(refstr)
     var graphdat = []
+    var colors = new Map()
+    for (let i = 0; i < sdic.size; i++) {
+      let a=0
+      let n=sdic.size
+      let b=360
+      color=a+i*(b-a)/(n-1)
+      color = 'hsl('+ color +',50%'+',50%)'
+      key=Array.from(sdic.keys())[i]
+      colors.set(key,color)
+    }
     for (const [keystr, vals] of sdic) {
       row = $("<tr/>")
       key = JSON.parse(keystr)
@@ -366,6 +376,9 @@ draft: false
         amean: ss.mean(avals).toFixed(3),
         name: key.toString() + " MAE : " + ss.mean(avals).toPrecision(4),
         type: 'box',
+        marker:{
+          color: colors[keystr]
+        },
         boxmean: 'sd'
       };
       graphdat.push(box)
