@@ -1,9 +1,9 @@
-# Molecule : Carbon monoxyde
+# Molecule : Carbon monoxide
 # Comment  : 
 # code     : 
 # method   : CC3,aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ
-# article  : 10.1021/acs.jpclett.9b03652
+# set      : QUEST#1,1
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############

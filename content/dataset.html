@@ -22,7 +22,7 @@ draft: false
 <script src="/js/numberRangeChange.js"></script>
 <script src="/js/DebugMode.js"></script>
 <script src="/js/numberUtils.js"></script>
-<script src="/js/PubliDB.js"></script>
+<script src="/js/indexDB.js"></script>
 <script>
   function adjustSticky() {
     const height = $("nav").height()
@@ -98,12 +98,12 @@ draft: false
     var data = await loadAllData()
     window.defaultDats = []
     for (const sub of Object.values(data)) {
-      for (const article of new Set(sub.map(d => d.article))) {
-        const subdoi = sub.filter(d => (d.article == null ? "" : d.article) === article)
-        for (mol of uniq(subdoi.map(d => d.molecule))) {
-          const submol = subdoi.filter(d => d.molecule === mol)
-          const source = submol.find((d) => {
-            if ((d.article == null ? "" : d.article) === "10.1021/acs.jctc.8b01205") {
+      for (const exSet of uniq(sub.map(d => d.set))) {
+        const subset = sub.filter(d => d.set.isSameSet(exSet))
+        for (mol of uniq(subset.map(d => d.molecule))) {
+          const submol = subset.filter(d => d.molecule === mol)
+          const source = submol.find(async (d) => {
+            if (await d.set.getDOIAsync() === "10.1021/acs.jctc.8b01205") {
               return d.method.name === "CASPT2" && d.method.basis === "aug-cc-pVDZ"
             } else {
               return d.method.isTBE
@@ -119,26 +119,16 @@ draft: false
 
       window.defaultDats = window.defaultDats.concat(sub)
     }
-    await doiCache.tryAddRange(Array.from(new Set(window.defaultDats.filter(d => d.article !== null).map(d => d.article))))
-    window.defaultDats = window.defaultDats.sort((datfa, datfb) => {
-      const articleA = datfa.article
-      const articleB = datfb.article
-      const artArr = [articleA,articleB]
-      if (artArr.every(art=>!doiCache.has(art))) {
-        return 0
-      }
-      else if (!doiCache.has(articleA)) {
-        return 1
-      }
-      else if (!doiCache.has(articleB)) {
-        return -1
+    window.indexDB = await indexDB.loadAsync()
+    window.defaultDats = window.defaultDats.sort((datfA, datfB) => {
+      const exSetA = datfA.set
+      const exSetB = datfB.set
+      if (exSetA.isSameSet(exSetB)) {
+        return exSetA.index-exSetB.index
       }
       else {
-        const dateArr = artArr.map((art)=>{
-          const pub = doiCache.get(art).format('data', { format: 'object' })[0]
-          return pubUtils.getIssuedDate(pub)
-        })
-        return dateArr[0] - dateArr[1]
+        setNames = Array.from(window.indexDB.sets.keys())
+        return setNames.indexOf(exSetA.name)-setNames.indexOf(exSetB.name)
       }
     })
     processingIndicator.isActive = false
@@ -155,7 +145,7 @@ draft: false
         }
       }
     }
-    reloadSelect("article")
+    reloadSelect("sets")
   }
   async function clearSelect(BeforeName = null) {
     var selects = ((BeforeName == null) ? getAllSelect() : getAllSelectAfter(BeforeName, true))
@@ -196,15 +186,7 @@ draft: false
     }
   }
   function getAllVals(select) {
-    var baseval = $(select).val()
-    switch (select.name) {
-      case "article":
-        vals=baseval.reduce((accumulator,currentValue)=>accumulator.concat(JSON.parse(currentValue)),[])
-        return vals
-        break;
-      default:
-        return baseval
-    }
+    return $(select).val()
   }
   async function reloadSelect(name) {
     clearSelect(name)
@@ -222,39 +204,12 @@ draft: false
         return v.indexOf(getSelectValue(d, k)) !== -1
       })
     }).map((d) => getSelectValue(d, name)))
-    const publis = await (async () => {
-      if (name === "article") {
-        const publis = await publiDB.loadAsync()
-        return publis
-      }
-      else {
-        return undefined
-      }
-    })()
-    if (name === "article") {
-      let newvals = []
-      for (const val of vals) {
-        if (val==="") {
-          newvals.push([""])
-        }
-        else {
-          for (const set of publis.sets.values()) {
-            if (set.includes(val)) {
-              if (!newvals.some(v=>JSON.stringify(v)===JSON.stringify(set))) {
-                newvals.push(set)
-              }
-            }
-          }
-        }  
-      }
-      vals = newvals
-    }
     textSelctor = function (value) {
       switch (name) {
-        case "article":
-          setname = publis.findNameFromSet(value, true)
-          return setname === null ? value.toString() : setname
-          break;
+        case "sets":
+          if (value==="") {
+            return "Unnamed set"
+          }
         case "molecule":
           const mhchemCE = /^\\ce\{(.*)\}$/
           const m = value.match(mhchemCE)
@@ -291,15 +246,16 @@ draft: false
         break;
       case "basis":
         return data.method.basis
-      case "article":
-        return data.article === null ? "" : data.article
+        break;
+      case "sets":
+        return data.set.name
+        break;
       default:
         return data[name]
         break;
     }
   }
   async function reloadStat() {
-    const publis = await publiDB.loadAsync()
     processingIndicator.isActive = true
     var stb = $("#stat_table > tbody")
     $("#graph_div").empty()
@@ -308,8 +264,7 @@ draft: false
     var sdatdic = new Map()
     for (const d of window.filtData) {
       const key = JSON.stringify(d.method)
-      const article = (d.article == null ? "" : d.article)
-      const SetName = publis.findSetNameFromArticle(article,true)
+      const SetName = d.set.name
       if (!(sdatdic.has(key))) {
         sdatdic.set(key, new Map())
       }
@@ -409,8 +364,7 @@ draft: false
         max: parseFloat($("#T1max").val())
       }
     }
-    doiCache.clear()
-    const publis = await publiDB.loadAsync()
+    window.doiCache.clear()
     processingIndicator.isActive = true
     window.filtData = window.dats
     getAllSelect().each(function () {
@@ -425,15 +379,15 @@ draft: false
       })
     })
     window.T1ref = new Map()
-    var articles = new Set(window.filtData.map((d) => d.article === null ? "" : d.article))
+    var exSets = new uniq(window.filtData.map((d) => d.set))
     var mols = new Set(window.filtData.map((d) => d.molecule))
-    await window.doiCache.tryAddRange(articles)
-    for (const article of articles) {
-      const setName = publis.findSetNameFromArticle(article,true)
+    for (const exSet of exSets) {
+      await doiCache.tryAdd(await exSet.getDOIAsync())
+      const setName = exSet.name
       window.T1ref.set(setName, new Map())
       for (const mol of mols) {
         window.T1ref.get(setName).set(mol, new Map())
-        var TBESortdat = window.dats.filter(d => (d.article === null ? "" : d.article) === article && d.molecule === mol).sort((d1, d2) => {
+        var TBESortdat = window.dats.filter((d)=>exSet.name === d.set.name && d.molecule === mol).sort((d1, d2) => {
           if (d1.method.isTBE && !d2.method.isTBE) {
             return -1
           } else if (!d1.method.isTBE && d2.method.isTBE) {
@@ -457,11 +411,11 @@ draft: false
       }
     }
     $(sel_ref).empty()
-    for (const el of uniq(window.filtData.map(d => [d.method, (d.article === null ? null : d.article)]))) {
+    for (const me of uniq(window.filtData.map(d => d.method))) {
       op = $("<option/>", {
-        value: JSON.stringify(el)
-      }).text(el[0])
-      if (el[0].name.includes("TBE")) {
+        value: JSON.stringify(me)
+      }).text(me)
+      if (me.name.includes("TBE")) {
         $(sel_ref).prepend(op)
       }
       else {
@@ -474,9 +428,9 @@ draft: false
     if (window.filtData.length > 0) {
       var PreviousSetName = undefined
       var CurrentsetName = undefined
-      for (const article of articles) {
+      for (const exSet of exSets) {
         paperdata = window.filtData.filter((d) => {
-          return (d.article === null ? "" : d.article) == article
+          return d.set.name === exSet.name && d.set.index === exSet.index
         })
         var methods = uniq(paperdata.map(d => d.method))
         const sortedMethods = methods.sort((a, b) => {
@@ -499,12 +453,13 @@ draft: false
           }
         })
         var div = $('<div/>').appendTo(data)
-        CurrentsetName = publis.findSetNameFromArticle(article, true)
+        CurrentsetName = exSet.name
         if (PreviousSetName !== CurrentsetName) {
           $("<h1/>").text(CurrentsetName).appendTo(div)
         }
-        if (doiCache.has(article)) {
-          const doiDat = doiCache.get(article).format('data', { format: 'object' })[0]
+        var doi= await exSet.getDOIAsync()
+        if (doiCache.has(doi)) {
+          const doiDat = doiCache.get(doi).format('data', { format: 'object' })[0]
           $("<h2/>").append($("<a>",{href:doiDat.URL,target:"_blank"}).text(doiDat.title)).appendTo(div)          
         }
         var table = $("<table/>").addClass("datatable").appendTo(div)
@@ -517,8 +472,7 @@ draft: false
         adjustSticky();
         datadic = new Map()
         for (const dat of paperdata) {
-          const article = (dat.article == null ? "" : dat.article)
-          const setName = publis.findSetNameFromArticle(article,true)
+          const setName = dat.set.name
           const key1 = dat.molecule;
           const myT1s = T1ref.get(setName).get(dat.molecule)
           if (!datadic.has(key1)) {
@@ -663,7 +617,7 @@ draft: false
       <div style="display: inline-block;">
         <label for="DOI_select" class="required">Set</label>
         <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-        <select multiple id="DOI_select" required name="article" onchange="reloadNextSelect(event)"></select>
+        <select multiple id="DOI_select" required name="sets" onchange="reloadNextSelect(event)"></select>
       </div>
       <div style="display:inline-block">
         <label for="mol_select" class="required">Molecule</label>

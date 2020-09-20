@@ -115,7 +115,48 @@ class state {
     return tex;
   };
 }
+class exSet{ 
+  constructor(name,index)
+  {
+    this.name = name
+    this.index = index
+  }
 
+  static fromString(str) {
+    var vals = str.split(",")
+    var myset
+    if (vals.length >= 2) {
+      return new exSet(vals[0], parseInt(vals[1],10));
+    } else {
+      return new exSet(vals[0], 0);
+    }
+  }
+  async getDOIAsync()
+  {
+    let db = await indexDB.loadAsync()
+    if (db.sets.has(this.name)) {
+      return db.sets.get(this.name)[this.index]       
+    }
+  }
+  toString()
+  {
+    return `${this.name},${this.index}`
+  }
+  isSameSet(set)
+  {
+    return this.name == set.name
+  }
+  async isSameArticleAsync(set)
+  {
+    if (this.name===set.name && this.index===set.index) {
+      return true
+    }
+    else
+    {
+      return await this.getDOIAsync() === await set.getDOIAsync()
+    }
+  }
+}
 class excitationBase {
   constructor(initial, final, type = '', T1 = null) {
     this.initial = initial;
@@ -180,7 +221,7 @@ class dataFileBase {
     this.code = null
     this.method = null
     this.excitations = []
-    this.article = null
+    this.set = null
     this.sourceFile = null
   }
   static _GetMetaRexEx() {
@@ -228,8 +269,8 @@ class dataFileBase {
       case "method":
         this.method = method.fromString(value)
         break;
-      case "article":
-        this.article = value
+      case "set":
+        this.set = exSet.fromString(value)
         break;
     }
   }
@@ -301,7 +342,7 @@ class dataFileBase {
         }
       });
       console.assert(double.length === 0, "Double found", double, dat.molecule, dat.method.toString())
-      if (dat.article!== null && dat.article !== "10.1021/acs.jctc.8b01205") {
+      if (dat.set!== null && dat.set !== "10.1021/acs.jctc.8b01205") {
         for (const ex of dat.excitations) {
           console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1 > 50 | ex.isUnsafe == true, "Must be unsafe", dat, ex)
         }

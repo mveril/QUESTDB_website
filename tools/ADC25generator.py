@@ -9,30 +9,39 @@ from pathlib import Path
 from collections import defaultdict,OrderedDict
 from lib.data import dataFileBase,DataType,method,state,excitationValue
 import argparse
+class SetsAction(argparse.Action):
+  def __init__(self, option_strings, dest, nargs=None, **kwargs):
+    if nargs is not None:
+      raise ValueError("nargs not allowed")
+    super(SetsAction, self).__init__(option_strings, dest, **kwargs)
+  def __call__(self, parser, namespace, values, option_string=None):
+    print('%r %r %r' % (namespace, values, option_string))
+    setattr(namespace, self.dest, values)
 parser = argparse.ArgumentParser()
 parser.add_argument('--debug', action='store_true', help='Debug mode')
-parser.add_argument("--sets",nargs="*")
-parser.add_argument("--articles",nargs="*")
+parser.add_argument("--set",nargs="*",type=str)
 args=parser.parse_args()
 scriptpath=Path(sys.argv[0]).resolve()
 datadir=scriptpath.parents[1]/"static"/"data"
-articles=None
-if args.articles is not None or args.sets is not None:
-  articles=set()
-  if args.articles is not None:
-    for article in args.articles:
-      articles.add(article)
-  if args.sets is not None:
-    import yaml
-    pubindex=datadir/"publis"/"index.yaml"
-    with pubindex.open("r") as pubindexstream:
-      pubindexdata = yaml.load(pubindexstream,Loader=yaml.loader.FullLoader)
-      pubsetsdata=pubindexdata["sets"]
-      for myset in args.sets:
-        if myset in pubsetsdata:
-          artset=pubsetsdata[myset]
-          for article in artset:
-            articles.add(article)
+sets=None
+if args.sets is not None:
+  setregex = re.compile(r"^(?P<name>[^\[]+)(?:\[(?P<indexes>(?:[[\d\-;]+))])?$")
+  sets=dict()
+  for myset in args.sets:
+    m=setregex.match(myset)
+    if m:
+      name=m.group("name")
+      indexes=m.group("indexes")
+      if indexes:
+        s=set()
+        for myindexes in indexes.split(";"):
+          ir=myindexes.split("-",2)
+          if len(ir)==2:
+            for i in range(int(ir[0]),int(ir[1])):
+              s.add(i)
+          else:
+            s.add(int(ir))
+        sets[name]=s
 outputdir=datadir/"test" if args.debug else datadir
 ADC23re=re.compile(r"ADC\(([23])\)")
 def getValue(ADC2,ADC3,parametername,exADC2=None,exADC3=None):
@@ -84,7 +93,7 @@ for t in DataType:
     with file.open('r') as f: # open in readonly mode
       dFile = dataFileBase.readFile(f,DataType.ABS)
       m=ADC23re.match(dFile.method.name)
-      if m and (articles == None or dFile.article in articles):
+      if m and (sets == None or dFile.set.name in sets and (len(sets[dFile.set.name])==0 or dFile.set.index in sets[dFile.set.name])):
         dFiles[int(m.group(1))][dFile.molecule][dFile.method.basis]=dFile
   for molecule in dFiles[2]:
     for basis in dFiles[2][molecule]:

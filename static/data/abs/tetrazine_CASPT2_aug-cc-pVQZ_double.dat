@@ -3,7 +3,7 @@
 # code     : 
 # method   : CASPT2,aug-cc-pVQZ
 # geom     : CC3,aug-cc-pVTZ
-# article  : 10.1021/acs.jctc.8b01205
+# set      : QUEST#2,0
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############

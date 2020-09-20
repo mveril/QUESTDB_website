@@ -3,7 +3,7 @@
 # code     : 
 # method   : SOS-ADC(2) [TM],aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ
-# article  : QUEST5-1
+# set      : QUEST#5,0
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############

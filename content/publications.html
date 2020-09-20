@@ -16,14 +16,14 @@ draft: false
 <script src="/js/DebugMode.js"></script>
 <script src="/js/createPubliUI.js"></script>
 <script src="/js/processingIndicator.js"></script>
-<script src="/js/PubliDB.js"></script>
+<script src="/js/indexDB.js"></script>
 {{< getDataFilesName >}}
 <script>
   window.onload = async function () {
     processingIndicator.isActive = true
     const setsSec = $('#publis_sets')
     const Cite = require("citation-js")
-    var myDB = await publiDB.loadAsync()
+    var myDB = await indexDB.loadAsync()
     const sets = myDB.sets
     for (const [setName,publis] of sets) {
       const publiscite = await Cite.async(publis)

@@ -47,6 +47,38 @@ def getSubtablesRange(table,firstindex=2,column=0,count=1):
   subtablesRange.append(range(firstindex,np.size(table,0)))
   return subtablesRange
 
+class exSet(object):
+  def __init__(self,name,index=0):
+    self.name=name
+    self.index=index
+  
+  def __str__(self):
+    return f"{self.name},${self.index}"
+
+  @staticmethod
+  def fromString(string):
+    vals = string.split(",")
+    return exSet(*vals)
+
+  def getDOI(self):
+    import yaml
+    from pathlib import Path
+    yamlpath=Path(__file__)/"../../statics/data/index.yaml"
+    with yamlpath.open("r") as f:
+      db = yaml.load(f,yaml.loader.FullLoader)
+      sets=db[sets]
+      if self.name in db["sets"]:
+        return sets[this.name][this.index]       
+
+  def isSameSet(self,otherSet):
+    return this.name == otherSet.name
+
+  def isSameArticle(self,otherSet):
+    if (self.name==otherSet.name and self.index==otherSet.index):
+      return True
+    else:
+      return self.getDOI() == self.getDOI()
+
 class dataFileBase(object):
   def __init__(self):
     self.molecule = ''
@@ -54,7 +86,7 @@ class dataFileBase(object):
     self.code = None
     self.method = None
     self.excitations = []
-    self.article = ''
+    self.set = ''
 
   @property
   def IsTBE(self):
@@ -96,8 +128,8 @@ class dataFileBase(object):
         self.code = code.fromString(value)
       elif key == "method":
         self.method = method.fromString(value)
-      elif key == "article":
-        self.article = value
+      elif key == "set":
+        self.set = exSet.fromString(value)
 
   @staticmethod
   def readFromTable(table,TexOps, commands=[]):
@@ -114,7 +146,7 @@ class dataFileBase(object):
     dic["Comment"]=self.comment
     dic["code"]="" if self.code is None else self.code.toDataString()
     dic["method"]="" if self.method is None else self.method.toDataString()
-    dic["article"]="" if self.article is None else self.article
+    dic["set"]="" if self.set is None else self.set
     return dic
   
   def _OnReadMeta(self,line,dataType):
@@ -231,7 +263,7 @@ class method:
     return string
 
 class code:
-  def __init__(self,name, version):
+  def __init__(self,name, version=None):
     self.name = name
     self.version = version
   
@@ -260,7 +292,7 @@ class oneStateDataFileBase(dataFileBase):
   def getMetadata(self):
     dic=super(oneStateDataFileBase,self).getMetadata()
     dic["geom"]= "" if self.geometry is None else self.geometry.toDataString()
-    dic.move_to_end("article")
+    dic.move_to_end("set")
     return dic
 
 class AbsDataFile(oneStateDataFileBase):
