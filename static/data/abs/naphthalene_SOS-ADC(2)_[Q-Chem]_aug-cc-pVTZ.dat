@@ -12,7 +12,7 @@
   1       1     A_g        1       1     B_{2u}       (\mathrm{V};\pi \rightarrow \pi^\star)  4.74          _              _            false
   1       1     A_g        1       1     A_u          (\mathrm{R};\pi \rightarrow 3p)         5.69          _              _            false
   1       1     A_g        1       1     B_{1g}       (\mathrm{V};\pi \rightarrow \pi^\star)  5.93          _              _            false
-  1       1     A_g        1       1     A_g          (\mathrm{V};\pi \rightarrow \pi^\star)  5.81          _              _            true
+  1       1     A_g        2       1     A_g          (\mathrm{V};\pi \rightarrow \pi^\star)  5.81          _              _            true
   1       1     A_g        1       1     B_{3g}       (\mathrm{R};\pi \rightarrow 3p)         6.11          _              _            false
   1       1     A_g        1       1     B_{2g}       (\mathrm{R};\pi \rightarrow 3p)         6.10          _              _            false
   1       1     A_g        2       1     B_{3u}       (\mathrm{V};\pi \rightarrow \pi^\star)  6.07          _              _            true

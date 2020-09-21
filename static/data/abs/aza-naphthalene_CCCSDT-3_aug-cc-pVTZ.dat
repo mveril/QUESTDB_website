@@ -16,6 +16,6 @@
   1       1     A_g        2       1     B_{1u}       (\mathrm{V};n \rightarrow \pi^\star)    5.40          _              _            true
   1       1     A_g        1       1     A_u          (\mathrm{V};n \rightarrow \pi^\star)    5.45          _              _            false
   1       1     A_g        1       1     B_{3u}       (\mathrm{V};\pi \rightarrow \pi^\star)  5.70          _              _            true
-  1       1     A_g        1       1     A_g          (\mathrm{V};\pi \rightarrow \pi^\star)  5.90          _              _            false
+  1       1     A_g        2       1     A_g          (\mathrm{V};\pi \rightarrow \pi^\star)  5.90          _              _            false
   1       1     A_g        2       1     A_u          (\mathrm{V};n \rightarrow \pi^\star)    6.06          _              _            false
-  1       1     A_g        2       1     A_g          (\mathrm{R};n \rightarrow 3s)           6.61          _              _            false
+  1       1     A_g        3       1     A_g          (\mathrm{R};n \rightarrow 3s)           6.61          _              _            false

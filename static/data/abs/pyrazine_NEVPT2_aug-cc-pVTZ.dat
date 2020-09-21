@@ -12,7 +12,7 @@
   1       1     A_g        1       1     A_u          (n \rightarrow \pi^\star)               4.77          _              _            false
   1       1     A_g        1       1     B_{2u}       (\pi \rightarrow \pi^\star)             5.32          _              _            false
   1       1     A_g        1       1     B_{2g}       (n \rightarrow \pi^\star)               5.88          _              _            false
-  1       1     A_g        1       1     A_g          (n \rightarrow 3s)                      6.70          _              _            false
+  1       1     A_g        2       1     A_g          (n \rightarrow 3s)                      6.70          _              _            false
   1       1     A_g        1       1     B_{1g}       (n \rightarrow \pi^\star)               6.75          _              _            false
   1       1     A_g        1       1     B_{1u}       (\pi \rightarrow \pi^\star)             6.81          _              _            false
   1       1     A_g        2       1     B_{1g}       (\pi \rightarrow 3s)                    7.33          _              _            false

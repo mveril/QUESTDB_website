@@ -10,7 +10,7 @@
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
   1       1     A_g        1       1     B_{1g}       (\mathrm{V};n \rightarrow \pi^\star)    2.82          85.3           _            false
   1       1     A_g        1       1     A_u          (\mathrm{V};n \rightarrow \pi^\star)    2.96          84.1           _            false
-  1       1     A_g        1       1     A_g          (\mathrm{V};double)                     4.57          0.0            _            true
+  1       1     A_g        2       1     A_g          (\mathrm{V};double)                     4.57          0.0            _            true
   1       1     A_g        1       1     B_{3g}       (\mathrm{V};\pi \rightarrow \pi^\star)  4.58          88.6           _            true
   1       1     A_g        1       1     B_{1u}       (\mathrm{V};\pi \rightarrow \pi^\star)  5.62          88.4           0.471        true
   1       1     A_g        1       1     B_{3u}       (\mathrm{V};n \rightarrow \pi^\star)    5.79          79.8           0.001        true
