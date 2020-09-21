@@ -23,6 +23,7 @@ draft: false
 <script src="/js/DebugMode.js"></script>
 <script src="/js/numberUtils.js"></script>
 <script src="/js/indexDB.js"></script>
+<script src="/js/ArrayExtensions.js"></script>
 <script>
   function adjustSticky() {
     const height = $("nav").height()
@@ -102,7 +103,7 @@ draft: false
         const subset = sub.filter(d => d.set.isSameSet(exSet))
         for (mol of uniq(subset.map(d => d.molecule))) {
           const submol = subset.filter(d => d.molecule === mol)
-          const source = submol.find(async (d) => {
+          const source = await submol.findAsync(async (d) => {
             if (await d.set.getDOIAsync() === "10.1021/acs.jctc.8b01205") {
               return d.method.name === "CASPT2" && d.method.basis === "aug-cc-pVDZ"
             } else {
