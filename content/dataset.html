@@ -204,6 +204,47 @@ draft: false
         return v.indexOf(getSelectValue(d, k)) !== -1
       })
     }).map((d) => getSelectValue(d, name)))
+    if (name!="sets") {
+      vals = vals.sort((a,b)=>{
+        a = textSelctor(a)
+        b = textSelctor(b)
+        if (a === b) {
+          return 0
+        }
+        else {
+          switch (name) {
+            case "method":
+              if (a.startsWith("TBE") && b.startsWith("TBE")) {
+                return (a === "TBE" ? -1 : 1)
+              }
+              else if(a.startsWith("TBE")) {
+                return -1
+              }
+              else if (b.startsWith("TBE")) {
+                return 1
+              }
+              else {
+                return a.localeCompare(b)
+              }
+              break;
+              case "basis":
+                if (a === "aug-cc-pVTZ") {
+                  return -1
+                }
+                else if (b === "aug-cc-pVTZ") {
+                  return -1
+                }
+                else {
+                  return a.localeCompare(b)
+                }
+              case "sets":
+                return 0
+            default:
+              return a.localeCompare(b)
+          }
+        }
+      })
+    }
     textSelctor = function (value) {
       switch (name) {
         case "sets":
