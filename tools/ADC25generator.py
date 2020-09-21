@@ -20,6 +20,7 @@ class SetsAction(argparse.Action):
 parser = argparse.ArgumentParser()
 parser.add_argument('--debug', action='store_true', help='Debug mode')
 parser.add_argument("--set",nargs="*",type=str)
+parser.add_argument("--suffix",type=str)
 args=parser.parse_args()
 scriptpath=Path(sys.argv[0]).resolve()
 datadir=scriptpath.parents[1]/"static"/"data"
@@ -120,7 +121,7 @@ for t in DataType:
               Type=getValue(exADC2,exADC3,"type")
               exADC25=excitationValue(deepcopy(exADC2.initial),deepcopy(exADC2.final),value,Type,T1,isUnsafe,f)
               ADC25File.excitations.append(exADC25)
-          ADC25File.toFile(outputdir)
+          ADC25File.toFile(outputdir,args.sufix)
 
         except ValueError as ex:
            print(ex,file=sys.stderr)
