@@ -1,7 +1,7 @@
 # Molecule : Water
 # Comment  : 
 # code     : 
-# method   : TBE
+# method   : TBE(Full),CBS
 # geom     : CC3,aug-cc-pVTZ 
 # set      : QUEST#1,0
 
