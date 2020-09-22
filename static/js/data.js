@@ -346,7 +346,7 @@ class dataFileBase {
       console.assert(double.length === 0, "Double found", double, dat.molecule, dat.method.toString())
       if (dat.set!== null && dat.set !== "10.1021/acs.jctc.8b01205") {
         for (const ex of dat.excitations) {
-          console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1 > 50 | ex.isUnsafe == true, "Must be unsafe", dat, ex)
+          console.assert(Number.isNaN(ex.T1.valueOf()) | ex.T1 > 50 | ex.isUnsafe == true, "should be unsafe", dat, ex)
         }
         for (const ex of dat.excitations) {
           console.assert(JSON.stringify(ex.initial)!==JSON.stringify(ex.final),"Final must be different to initial" dat, ex)
