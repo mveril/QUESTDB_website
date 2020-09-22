@@ -223,7 +223,7 @@ class dataFileBase(object):
           if value is not None:
             f.write("# {:9s}: {}\n".format(key,value))
         f.write("""
-# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator forces     unsafe
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator strenght   unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_{:5s}       %T1            f            is unsafe\n""".format(self.GetFileType().name.lower()))
         for ex in self.excitations:
