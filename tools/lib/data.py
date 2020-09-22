@@ -113,7 +113,7 @@ class dataFileBase(object):
       tmplst.append((mul,symm,trsp,tygrp))
     lst=[]
     for index,item in enumerate(tmplst):
-      unforminitialstate=(initialState.multiplicity,initialState.symetry)
+      unforminitialstate=(int(initialState.multiplicity),initialState.symetry)
       countlst=[unforminitialstate]+[(it[0],it[1]) for it in tmplst[:index+1]]
       countitem=(item[0],item[1])
       count=countlst.count(countitem)
