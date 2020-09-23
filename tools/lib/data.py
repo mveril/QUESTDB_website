@@ -58,7 +58,10 @@ class exSet(object):
   @staticmethod
   def fromString(string):
     vals = string.split(",")
-    return exSet(*vals)
+    if len(vals)>1:
+      return exSet(vals[0],int(vals[1]))
+    else:
+      return exSet(vals[0])
 
   def getDOI(self):
     import yaml
