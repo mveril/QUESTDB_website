@@ -9,14 +9,6 @@ from pathlib import Path
 from collections import defaultdict,OrderedDict
 from lib.data import dataFileBase,DataType,method,state,excitationValue
 import argparse
-class SetsAction(argparse.Action):
-  def __init__(self, option_strings, dest, nargs=None, **kwargs):
-    if nargs is not None:
-      raise ValueError("nargs not allowed")
-    super(SetsAction, self).__init__(option_strings, dest, **kwargs)
-  def __call__(self, parser, namespace, values, option_string=None):
-    print('%r %r %r' % (namespace, values, option_string))
-    setattr(namespace, self.dest, values)
 parser = argparse.ArgumentParser()
 parser.add_argument('--debug', action='store_true', help='Debug mode')
 parser.add_argument("--set",nargs="*",type=str)
