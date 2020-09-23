@@ -84,7 +84,7 @@ for t in DataType:
   currdir=datadir/t.name.lower()
   for file in currdir.glob("*.dat"):
     with file.open('r') as f: # open in readonly mode
-      dFile = dataFileBase.readFile(f,DataType.ABS)
+      dFile = dataFileBase.readFile(f,t)
       m=ADC23re.match(dFile.method.name)
       if m and (sets == None or dFile.set.name in sets and (len(sets[dFile.set.name])==0 or dFile.set.index in sets[dFile.set.name])):
         dFiles[int(m.group(1))][dFile.molecule][dFile.method.basis]=dFile
