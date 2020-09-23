@@ -25,10 +25,10 @@ args=parser.parse_args()
 scriptpath=Path(sys.argv[0]).resolve()
 datadir=scriptpath.parents[1]/"static"/"data"
 sets=None
-if args.sets is not None:
+if args.set is not None:
   setregex = re.compile(r"^(?P<name>[^\[]+)(?:\[(?P<indexes>(?:[[\d\-;]+))])?$")
   sets=dict()
-  for myset in args.sets:
+  for myset in args.set:
     m=setregex.match(myset)
     if m:
       name=m.group("name")
@@ -121,7 +121,7 @@ for t in DataType:
               Type=getValue(exADC2,exADC3,"type")
               exADC25=excitationValue(deepcopy(exADC2.initial),deepcopy(exADC2.final),value,Type,T1,isUnsafe,f)
               ADC25File.excitations.append(exADC25)
-          ADC25File.toFile(outputdir,args.sufix)
+          ADC25File.toFile(outputdir,args.suffix)
 
         except ValueError as ex:
            print(ex,file=sys.stderr)
