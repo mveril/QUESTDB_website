@@ -8,35 +8,6 @@ from math import nan,isnan
 from pathlib import Path
 from collections import defaultdict,OrderedDict
 from lib.data import dataFileBase,DataType,method,state,excitationValue
-import argparse
-parser = argparse.ArgumentParser()
-parser.add_argument('--debug', action='store_true', help='Debug mode')
-parser.add_argument("--set",nargs="*",type=str)
-parser.add_argument("--suffix",type=str)
-args=parser.parse_args()
-scriptpath=Path(sys.argv[0]).resolve()
-datadir=scriptpath.parents[1]/"static"/"data"
-sets=None
-if args.set is not None:
-  setregex = re.compile(r"^(?P<name>[^\[]+)(?:\[(?P<indexes>[\d\-;]+)\])?$")
-  sets=dict()
-  for myset in args.set:
-    m=setregex.match(myset)
-    if m:
-      name=m.group("name")
-      indexes=m.group("indexes")
-      if indexes:
-        s=set()
-        for myindexes in indexes.split(";"):
-          ir=myindexes.split("-",2)
-          if len(ir)==2:
-            for i in range(int(ir[0]),int(ir[1])+1):
-              s.add(i)
-          else:
-            s.add(int(ir[0]))
-        sets[name]=s
-outputdir=datadir/"test" if args.debug else datadir
-ADC23re=re.compile(r"ADC\(([23])\)")
 def getValue(ADC2,ADC3,parametername,exADC2=None,exADC3=None):
   def isObject(x):
     return hasattr(x, '__dict__')
@@ -76,7 +47,36 @@ def getValue(ADC2,ADC3,parametername,exADC2=None,exADC3=None):
       print(f"{i}){k} value: {extractVals(d[k])}")        
     index=int(input("Select value from the menu:"))
   return vals[index-1]
-  
+
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--debug', action='store_true', help='Debug mode')
+parser.add_argument("--set",nargs="*",type=str)
+parser.add_argument("--suffix",type=str)
+args=parser.parse_args()
+scriptpath=Path(sys.argv[0]).resolve()
+datadir=scriptpath.parents[1]/"static"/"data"
+sets=None
+if args.set is not None:
+  setregex = re.compile(r"^(?P<name>[^\[]+)(?:\[(?P<indexes>[\d\-;]+)\])?$")
+  sets=dict()
+  for myset in args.set:
+    m=setregex.match(myset)
+    if m:
+      name=m.group("name")
+      indexes=m.group("indexes")
+      if indexes:
+        s=set()
+        for myindexes in indexes.split(";"):
+          ir=myindexes.split("-",2)
+          if len(ir)==2:
+            for i in range(int(ir[0]),int(ir[1])+1):
+              s.add(i)
+          else:
+            s.add(int(ir[0]))
+        sets[name]=s
+outputdir=datadir/"test" if args.debug else datadir
+ADC23re=re.compile(r"ADC\(([23])\)")  
 for t in DataType:
   dFiles=dict()
   for i in range(2,4):
