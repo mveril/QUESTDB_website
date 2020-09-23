@@ -26,7 +26,7 @@ scriptpath=Path(sys.argv[0]).resolve()
 datadir=scriptpath.parents[1]/"static"/"data"
 sets=None
 if args.set is not None:
-  setregex = re.compile(r"^(?P<name>[^\[]+)(?:\[(?P<indexes>(?:[[\d\-;]+))])?$")
+  setregex = re.compile(r"^(?P<name>[^\[]+)(?:\[(?P<indexes>[\d\-;]+)\])?$")
   sets=dict()
   for myset in args.set:
     m=setregex.match(myset)
@@ -38,10 +38,10 @@ if args.set is not None:
         for myindexes in indexes.split(";"):
           ir=myindexes.split("-",2)
           if len(ir)==2:
-            for i in range(int(ir[0]),int(ir[1])):
+            for i in range(int(ir[0]),int(ir[1])+1):
               s.add(i)
           else:
-            s.add(int(ir))
+            s.add(int(ir[0]))
         sets[name]=s
 outputdir=datadir/"test" if args.debug else datadir
 ADC23re=re.compile(r"ADC\(([23])\)")
