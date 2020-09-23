@@ -53,7 +53,7 @@ class exSet(object):
     self.index=index
   
   def __str__(self):
-    return f"{self.name},${self.index}"
+    return f"{self.name},{self.index}"
 
   @staticmethod
   def fromString(string):
@@ -66,12 +66,12 @@ class exSet(object):
     yamlpath=Path(__file__)/"../../statics/data/index.yaml"
     with yamlpath.open("r") as f:
       db = yaml.load(f,yaml.loader.FullLoader)
-      sets=db[sets]
+      sets=db["sets"]
       if self.name in db["sets"]:
-        return sets[this.name][this.index]       
+        return sets[self.name][self.index]       
 
   def isSameSet(self,otherSet):
-    return this.name == otherSet.name
+    return self.name == otherSet.name
 
   def isSameArticle(self,otherSet):
     if (self.name==otherSet.name and self.index==otherSet.index):
