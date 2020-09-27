@@ -246,7 +246,7 @@ class dataFileBase {
     return molsstr.map((molstr) => {
       var params = molstr.split("\n")[1].split(",")
       var regex=/^\^(\d+)(.+)$/
-      var m=params[0].match(regex)
+      var m=params[1].match(regex)
       return {
         name: this.molecule,
         multiplicity:m[1],
