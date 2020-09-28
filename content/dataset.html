@@ -27,6 +27,9 @@ draft: false
 <script src="/js/mhchemCE.js"></script>
 <link rel="stylesheet" href="/css/ChemDoodleWeb.css" type="text/css">
 <script type="text/javascript" src="/js/ChemDoodleWeb.js"></script>
+<script src="/js/Geometry.js"></script>
+<script src="/js/GeometriesLoader.js"></script>
+<script src="/js/GeometryParseMetadataExtension.js"></script>
 <script>
   function adjustSticky() {
     const height = $("nav").height()
@@ -137,6 +140,15 @@ draft: false
     })
     processingIndicator.isActive = false
     reloadCustomFiles()
+    reloadGeoms()
+  }
+  async function reloadGeoms(){
+    window.geoms = await GeometriesLoader.loadForAsync(uniq(window.defaultDats.map(d=>{
+    return {
+      set:d.set.name,
+      molecule:d.molecule
+    }
+    })))
   }
   async function reloadCustomFiles() {
     window.dats = window.defaultDats;
