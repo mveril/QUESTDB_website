@@ -24,6 +24,7 @@ draft: false
 <script src="/js/numberUtils.js"></script>
 <script src="/js/indexDB.js"></script>
 <script src="/js/ArrayExtensions.js"></script>
+<script src="/js/mhchemCE.js"></script>
 <link rel="stylesheet" href="/css/ChemDoodleWeb.css" type="text/css">
 <script type="text/javascript" src="/js/ChemDoodleWeb.js"></script>
 <script>
@@ -255,13 +256,7 @@ draft: false
             return "Unnamed set"
           }
         case "molecule":
-          const mhchemCE = /^\\ce\{(.*)\}$/
-          const m = value.match(mhchemCE)
-          if (m) {
-            return m[1]
-          } else {
-            return value
-          }
+          return mhchemCE.extract(value)
           break;
         default:
           return value.toString()
@@ -547,7 +542,6 @@ draft: false
         }
         for (const [molecule, moldat] of datadic.entries()) {
           var printmol = true;
-          const mhchemCE = /^\\ce\{.*\}$/
           for (const [jsonex, exdat] of moldat.entries()) {
             const ex = JSON.parse(jsonex)
             Reflect.setPrototypeOf(ex[0], state.prototype)
