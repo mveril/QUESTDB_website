@@ -228,6 +228,34 @@ class dataFileBase {
     //metadata RegExp (start with #; maybe somme spaces; : ; maybe somme space; datas)
     return /^#\s*([A-Za-z_]+)\s*:\s*(.*)$/;
   }
+  async getGeometryAsync(state = null) {
+    var text = await getTextFromFileUrlAsync(`/data/structures/${this.set.name.replace("#", "")}/${this.molecule.toLowerCase()}.xyz`)
+    var lines = text.split("\n")
+    var indexes = lines.findAllIndexes((line) => {
+      return line.match(/^\d+$/)
+    })
+    indexes.push(lines.length)
+    var molsstr = []
+    for (let i = 0; i < indexes.length - 1; i++) {
+      molsstr.push(lines.slice(indexes[i], indexes[i + 1]).join('\n'))
+    }
+    molsstr.filter((molstr) => {
+      var params = molstr.split("\n")[1].split(",")
+      return (state === null || params[0] === `^${state.multiplicity}${state.symetry}`) && params[1] == `${this.method.name},${this.method.basis}`
+    })
+    return molsstr.map((molstr) => {
+      var params = molstr.split("\n")[1].split(",")
+      var regex=/^\^(\d+)(.+)$/
+      var m=params[1].match(regex)
+      return {
+        name: this.molecule,
+        multiplicity:m[1],
+        symmetry:m[2],
+        method:this.geometry,
+        geometry:ChemDoodle.readXYZ(molstr)
+      }
+    })
+  }
   CopyExcitationsTypeFrom(data) {
     for (const ex of this.excitations) {
       const ex2 = data.excitations.find((e) => {

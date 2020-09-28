@@ -6,4 +6,13 @@ if (!Array.prototype.findAsync) {
       }
     }
   }
+  if (!Array.prototype.findAllIndexes) {
+    Array.prototype.findAllIndexes = function (Callback) {
+      return this.reduce(function(a, e, i) {
+        if (Callback(e))
+          a.push(i)
+        return a
+    }, [])
+    }
+  }
 }
