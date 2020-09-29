@@ -149,6 +149,18 @@ draft: false
       molecule:d.molecule
     }
     })))
+    const nHnums=window.geoms.map((g)=>{
+      return g.molecule.atoms.count((a)=>a.label!=="H")
+    })
+    var nHmin = ss.min(nHnums)
+    $("#nHmin").attr("min",nHmin).val(nHmin)
+    var nHmax = ss.max(nHnums)
+    $("#nHmax").attr("max",nHmax).val(nHmax)
+    const mols = uniq(window.geoms.map(g=>g.parseMetadata().molecule))
+    const shownHunknow=window.dats.some((d)=>!mols.includes(d.molecule))
+    if (shownHunknow) {
+      $("#cb_nHUnknow").parent().show()
+    }   
   }
   async function reloadCustomFiles() {
     window.dats = window.defaultDats;
@@ -413,11 +425,17 @@ draft: false
       T1: {
         min: parseFloat($("#T1min").val()),
         max: parseFloat($("#T1max").val())
+      },
+      nHnum: {
+        min: parseInt($("#nHmin").val(),10),
+        max: parseInt($("#nHmax").val(),10),
+        allowUnknow:$("#cb_nHUnknow").is(':checked')
       }
     }
     window.doiCache.clear()
     processingIndicator.isActive = true
     window.filtData = window.dats
+    //Filter with select
     getAllSelect().each(function () {
       const prop = $(this).attr("name")
       const values = getAllVals(this)
@@ -428,6 +446,21 @@ draft: false
         return values.includes(getSelectValue(d, prop))
         delete (val)
       })
+    })
+    // Filter with molSize
+    const allowednHSize=window.filterParams.nHnum
+    window.filtData=window.filtData.filter((d)=>{
+      const geom=window.geoms.find((g)=>{
+        const met=g.parseMetadata()
+        return met.molecule === d.molecule && JSON.stringify(met.method) === JSON.stringify(d.geometry)
+      })
+      if (geom) {
+        const size = geom.molecule.atoms.count(a=>a.label!=="H")
+        return (allowednHSize.min <= size && size <= allowednHSize.max)
+      }
+      else {
+        return allowednHSize.allowUnknow
+      }
     })
     window.T1ref = new Map()
     var exSets = new uniq(window.filtData.map((d) => d.set))
@@ -725,6 +758,18 @@ draft: false
           <input type="checkbox" id="cb_unsafe" name="unsafe">
           <label for="cb_unsafe">Unsafe</label>
         </li>
+    </fieldset>
+    <br>
+    <fieldset>
+      <legend>Molecule Size</legend>
+      <p>Select the molecule size (by the number of non H atoms)</p>
+      <input class="range min" airia-label="Minimum value" type="number" id="nHmin" onchange="numberRangeChange(event)">
+      <span>\(\leq \text{non-H atoms} \leq\)</span>
+      <input class="range max" airia-label="Maximum value" type="number" id="nHmax" onchange="numberRangeChange(event)">
+      <div hidden=true>
+        <input type="checkbox" id="cb_nHUnknow" name="nHUnknoww">
+        <label for="cb_nHUnknow">Unknow Size</label>
+      </div>
     </fieldset>
     <br>
     <fieldset>
