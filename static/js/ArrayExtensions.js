@@ -15,4 +15,23 @@ if (!Array.prototype.findAsync) {
     }, [])
     }
   }
+  if (!Array.prototype.count) {
+    Array.prototype.count = function (o) {
+      var callback
+      var item
+      if (typeof o==="function") {
+        callback=o
+      }
+      else {
+        callback=(e)=>item==e
+      }
+      return this.reduce(function(c, e, i) {
+        if (callback) {
+          if (callback(e))
+            c++
+          return c
+        }
+    },0)
+    }
+  }
 }
