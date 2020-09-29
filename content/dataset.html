@@ -158,10 +158,24 @@ draft: false
       const nHnums=window.geoms.map((g)=>{
         return g.molecule.atoms.count((a)=>a.label!=="H")
       })
-      var nHmin = ss.min(nHnums)
-      $("#nHmin").attr("min",nHmin).val(nHmin)
-      var nHmax = ss.max(nHnums)
-      $("#nHmax").attr("max",nHmax).val(nHmax)
+      const nHmin = ss.min(nHnums)
+      const nMin=$("#nHmin")
+      nMin.attr("min",nHmin)
+      const nHmax = ss.max(nHnums)
+      const nMax=$("#nHmax")
+      nMax.attr("max",nHmax)
+      var init = nMin.attr("data-init")
+      if (typeof init !== undefined && init !== false) {
+        nMin.removeAttr("data-init")
+        nMin.val(nHmin)
+        updateNumberRange(nMin[0])
+      }
+      init = nMax.attr("data-init")
+      if (typeof init !== undefined && init !== false) {
+        nMin.removeAttr("data-init")
+        nMax.val(nHmax)
+        updateNumberRange(nMax[0])
+      }
       const mols = uniq(window.geoms.map(g=>g.parseMetadata().molecule))
       const shownHunknow=window.dats.some((d)=>!mols.includes(d.molecule))
       const nHUnknowDiv = $("#cb_nHUnknow").parent()
@@ -777,9 +791,9 @@ draft: false
     <fieldset>
       <legend>Molecule Size</legend>
       <p>Select the molecule size (by the number of non H atoms)</p>
-      <input class="range min" airia-label="Minimum value" type="number" id="nHmin" onchange="numberRangeChange(event)">
+      <input class="range min" airia-label="Minimum value" data-init type="number" id="nHmin" onchange="numberRangeChange(event)">
       <span>\(\leq \text{non-H atoms} \leq\)</span>
-      <input class="range max" airia-label="Maximum value" type="number" id="nHmax" onchange="numberRangeChange(event)">
+      <input class="range max" airia-label="Maximum value" data-init type="number" id="nHmax" onchange="numberRangeChange(event)">
       <div hidden=true>
         <input type="checkbox" id="cb_nHUnknow" name="nHUnknoww">
         <label for="cb_nHUnknow">Unknow size</label>
