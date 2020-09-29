@@ -143,6 +143,7 @@ draft: false
     reloadCustomFiles()
   }
   async function reloadGeoms(){
+    processingIndicator.isActive = true
     window.geoms = await GeometriesLoader.loadForAsync(uniq(window.defaultDats.map(d=>{
     return {
       set:d.set.name,
@@ -160,9 +161,11 @@ draft: false
     const shownHunknow=window.dats.some((d)=>!mols.includes(d.molecule))
     if (shownHunknow) {
       $("#cb_nHUnknow").parent().show()
-    }   
+    }
+    processingIndicator.isActive = false   
   }
   async function reloadCustomFiles() {
+    processingIndicator.isActive = true
     window.dats = window.defaultDats;
     const kinds = new Map([["file_abs", VertExcitationKinds.Absorbtion], ["file_fluo", VertExcitationKinds.Fluorescence]])
     for (const el of $('#form_dat > fieldset > fieldset > div > input[type="file"')) {
@@ -173,6 +176,7 @@ draft: false
         }
       }
     }
+    processingIndicator.isActive = false
     reloadSelect("sets")
   }
   async function clearSelect(BeforeName = null) {
