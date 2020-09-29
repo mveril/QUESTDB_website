@@ -139,8 +139,8 @@ draft: false
       }
     })
     processingIndicator.isActive = false
-    reloadCustomFiles()
     reloadGeoms()
+    reloadCustomFiles()
   }
   async function reloadGeoms(){
     window.geoms = await GeometriesLoader.loadForAsync(uniq(window.defaultDats.map(d=>{
