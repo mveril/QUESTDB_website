@@ -139,7 +139,7 @@ draft: false
       }
     })
     processingIndicator.isActive = false
-    reloadGeoms()
+    await reloadGeoms()
     reloadCustomFiles()
   }
   async function reloadGeoms(){
@@ -150,19 +150,28 @@ draft: false
       molecule:d.molecule
     }
     })))
-    const nHnums=window.geoms.map((g)=>{
-      return g.molecule.atoms.count((a)=>a.label!=="H")
-    })
-    var nHmin = ss.min(nHnums)
-    $("#nHmin").attr("min",nHmin).val(nHmin)
-    var nHmax = ss.max(nHnums)
-    $("#nHmax").attr("max",nHmax).val(nHmax)
-    const mols = uniq(window.geoms.map(g=>g.parseMetadata().molecule))
-    const shownHunknow=window.dats.some((d)=>!mols.includes(d.molecule))
-    if (shownHunknow) {
-      $("#cb_nHUnknow").parent().show()
+    processingIndicator.isActive = false
+    reloadSizeSelector()
+  }
+  function reloadSizeSelector() {
+    if (window.geoms && window.dats) {
+      const nHnums=window.geoms.map((g)=>{
+        return g.molecule.atoms.count((a)=>a.label!=="H")
+      })
+      var nHmin = ss.min(nHnums)
+      $("#nHmin").attr("min",nHmin).val(nHmin)
+      var nHmax = ss.max(nHnums)
+      $("#nHmax").attr("max",nHmax).val(nHmax)
+      const mols = uniq(window.geoms.map(g=>g.parseMetadata().molecule))
+      const shownHunknow=window.dats.some((d)=>!mols.includes(d.molecule))
+      const nHUnknowDiv = $("#cb_nHUnknow").parent()
+      if (shownHunknow) {
+        nHUnknowDiv.show()
+      }
+      else{
+        nHUnknowDiv.hide()
+      }
     }
-    processingIndicator.isActive = false   
   }
   async function reloadCustomFiles() {
     processingIndicator.isActive = true
@@ -177,6 +186,7 @@ draft: false
       }
     }
     processingIndicator.isActive = false
+    reloadSizeSelector()
     reloadSelect("sets")
   }
   async function clearSelect(BeforeName = null) {
