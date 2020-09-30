@@ -151,7 +151,7 @@ that set the unsafe boolean value to  `true ` in the output data file
 $^m s[\mathrm{F}](T)$
 ```
 
-Where `m` is the multiplicity `s` is the symetry and `\mathrm{F}` if it is present specifies that the vertical transition is fluorescence
+Where `m` is the multiplicity `s` is the symmetry and `\mathrm{F}` if it is present specifies that the vertical transition is fluorescence
 
 T is transition type and must be in the format
 

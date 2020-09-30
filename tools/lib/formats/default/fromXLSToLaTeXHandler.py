@@ -109,7 +109,7 @@ class fromXLSToLaTeXHandler(formatHandlerBase):
           for exstr,values in exdic.items():
             stDict=json.loads(exstr[0])
             ty=exstr[1]
-            st=state(stDict["number"],stDict["multiplicity"],stDict["symetry"])
+            st=state(stDict["number"],stDict["multiplicity"],stDict["symmetry"])
             T1=values["\\%T_1"] if "\\%T_1" in values  else None
             oF= values["f"] if "f" in values  else None
             val,unsafe= values[""] if "" in values  else [None,False]

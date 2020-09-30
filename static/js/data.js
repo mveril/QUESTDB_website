@@ -101,17 +101,17 @@ class method {
 }
 
 class state {
-  constructor(number, multiplicity, symetry) {
+  constructor(number, multiplicity, symmetry) {
     this.number = number;
     this.multiplicity = multiplicity;
-    this.symetry = symetry;
+    this.symmetry = symmetry;
   };
   toString() {
-    var str = this.number + ' ^' + this.multiplicity + this.symetry;
+    var str = this.number + ' ^' + this.multiplicity + this.symmetry;
     return str;
   };
   toLaTeX() {
-    var tex = String.raw`${this.number}\:^{${this.multiplicity}}\mathrm{${this.symetry}}`;
+    var tex = String.raw`${this.number}\:^{${this.multiplicity}}\mathrm{${this.symmetry}}`;
     return tex;
   };
 }
@@ -241,7 +241,7 @@ class dataFileBase {
     }
     molsstr.filter((molstr) => {
       var params = molstr.split("\n")[1].split(",")
-      return (state === null || params[0] === `^${state.multiplicity}${state.symetry}`) && params[1] == `${this.method.name},${this.method.basis}`
+      return (state === null || params[0] === `^${state.multiplicity}${state.symmetry}`) && params[1] == `${this.method.name},${this.method.basis}`
     })
     return molsstr.map((molstr) => {
       var params = molstr.split("\n")[1].split(",")

@@ -11,10 +11,10 @@ import numpy as np
 import json
 
 class state:
-  def __init__(self,number, multiplicity, symetry):
+  def __init__(self,number, multiplicity, symmetry):
     self.number = number
     self.multiplicity = multiplicity
-    self.symetry = symetry
+    self.symmetry = symmetry
   @staticmethod
   def fromString(string):
     m=re.match(r"^(?P<number>\d)\s*\^(?P<multiplicity>\d)(?P<sym>\S*)",string)
@@ -116,7 +116,7 @@ class dataFileBase(object):
       tmplst.append((mul,symm,trsp,tygrp))
     lst=[]
     for index,item in enumerate(tmplst):
-      unforminitialstate=(int(initialState.multiplicity),initialState.symetry)
+      unforminitialstate=(int(initialState.multiplicity),initialState.symmetry)
       countlst=[unforminitialstate]+[(it[0],it[1]) for it in tmplst[:index+1]]
       countitem=(item[0],item[1])
       count=countlst.count(countitem)
@@ -233,10 +233,10 @@ class dataFileBase(object):
           mystr="  {:7s} {:5s} {:10s} {:7s} {:5s} {:12s} {:39s} {:13s} {:14s} {:13s}{}\n".format(
             str(ex.initial.number),
             str(ex.initial.multiplicity),
-            ex.initial.symetry,
+            ex.initial.symmetry,
             str(ex.final.number),
             str(ex.final.multiplicity),
-            ex.final.symetry,"("+str(ex.type)+")" if ex.type is not None else "_",
+            ex.final.symmetry,"("+str(ex.type)+")" if ex.type is not None else "_",
             str(ex.value) if ex.value is not None else "_",
             str(ex.T1) if ex.T1 is not None else "_",
             str(ex.oscilatorForces) if ex.oscilatorForces is not None else "_",
