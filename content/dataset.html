@@ -179,6 +179,22 @@ draft: false
       const mols = uniq(window.geoms.map(g=>g.parseMetadata().molecule))
       const shownHunknow=window.dats.some((d)=>!mols.includes(d.molecule))
       const nHUnknowDiv = $("#cb_nHUnknow").parent()
+      if (DebugMode.Enabled) {
+        const metadata=window.geoms.map(g=>g.parseMetadata())
+        const dexs = uniq(window.defaultDats.map(d => {
+          return d.excitations.map(ex => {
+            return {
+              molecule: d.molecule,
+              geometry: d.geometry,
+              symmetry: ex.initial.symmetry,
+              multiplicity: ex.initial.multiplicity
+            }
+          })
+        }).flat())
+        for (const dex of dexs) {
+          console.assert(metadata.find(m=>m.molecule === dex.molecule && JSON.stringify(dex.geometry) === JSON.stringify(m.method) && m.multiplicity === dex.multiplicity && m.symmetry === dex.symmetry),"Geometry not found",{molecule:dex.molecule,method:dex.geometry,symmetry:dex.symmetry,multiplicity:dex.multiplicity})  
+        }
+      }
       if (shownHunknow) {
         nHUnknowDiv.show()
       }
