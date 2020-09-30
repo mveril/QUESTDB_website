@@ -4,7 +4,7 @@ if (!Geometry.prototype.parseMetadata) {
     const molecule = Ametadata[0]
     const stateRegExp = /^\^(\d+)(.+)$/
     const m = Ametadata[1].match(stateRegExp)
-    const mul = m[1]
+    const mul = parseInt(m[1],10)
     const sym = m[2]
     var meth = null
     if (Ametadata.length>2) {
