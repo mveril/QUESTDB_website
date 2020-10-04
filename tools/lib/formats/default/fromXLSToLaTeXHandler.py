@@ -21,8 +21,12 @@ def GetTypeFromAcronym(acronym):
     return None
   else:
     raise ValueError("acronym not recognised")
-def GetFullState(TexState,datatype=DataType.ABS,VR=None,typeAcronym=None,Soup=True):
-  statemath=str(extractMath(TexState))
+def GetFullState(TexState,defaultDatatype=DataType.ABS,VR=None,typeAcronym=None,Soup=True):
+  datatype=defaultDatatype
+  lst=list(TexState)
+  if len(lst)>1 and lst[1].value=="F":
+    datatype=DataType.FLUO
+  statemath=str(list(lst[0].contents)[0])
   resultstr=statemath
   fulltype=[]
   if datatype==DataType.FLUO:
