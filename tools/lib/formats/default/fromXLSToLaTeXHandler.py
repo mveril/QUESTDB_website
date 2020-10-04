@@ -99,7 +99,6 @@ class fromXLSToLaTeXHandler(formatHandlerBase):
               dataDic[exkey][kind]=(val,unsafe)
             else:
               dataDic[exkey][kind]=val
-            #data.excitations.append(excitationValue(initialState,finst[0],val,type=finst[2]))
       for dt,methdic in valDic.items():
         for methstring,exdic in methdic.items():
           data=datafileSelector(dt)()
