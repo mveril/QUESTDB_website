@@ -1,0 +1,12 @@
+# Molecule : \ce{CCl2}
+# Comment  : 
+# code     : 
+# method   : CCCSDT-3,aug-cc-pVTZ
+# geom     : 
+# set      : QUEST#4,1
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator strenght   unsafe
+#######################  #######################  ########################################  ############# ####### ################### ##############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1     A_1        1       1     B_1          (\mathrm{V};\pi \rightarrow 3p)         2.61          _              _            false
+  1       1     A_1        1       1     A_2          (\mathrm{V};\pi \rightarrow 3p)         4.41          _              _            false
