@@ -1,7 +1,5 @@
-from abc import ABCMeta
-from abc import abstractmethod
-class formatHandlerBase(object):
-  __metaclass__ = ABCMeta
+from abc import ABCMeta, abstractmethod
+class formatHandlerBase(object, metaclass=ABCMeta):
   def __init__(self,TexOps, commands=[]):
     self.TexOps=TexOps
     self.commands=commands
