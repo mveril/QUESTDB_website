@@ -3,7 +3,7 @@
 # code     : 
 # method   : CCSD(2),aug-cc-pVTZ
 # geom     : 
-# set      : 
+# set      : QUEST#4,1
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator strenght   unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############

@@ -3,7 +3,7 @@
 # code     : 
 # method   : SOS-ADC(2) [Q-Chem],aug-cc-pVTZ
 # geom     : 
-# set      : 
+# set      : QUEST#3,2
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator strenght   unsafe
 #######################  #######################  ########################################  ############# ####### ################### ##############
