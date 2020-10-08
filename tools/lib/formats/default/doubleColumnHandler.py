@@ -21,7 +21,7 @@ class doubleColumnHandler(formatHandlerBase):
         mytransdesc=mytrans[0:2,1]
 
         for i in range(2):
-          mathsoup=extractMath(mytransdesc[i],Soup=True,commands=self.commands)
+          mathsoup=extractMath(mytransdesc[i],Soup=True,commands=self.Commands)
           mytransdesc[i]=str(mathsoup)
         for colindex in range(3,np.size(table,1)):
           col=mytrans[:,colindex]

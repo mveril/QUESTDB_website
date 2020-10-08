@@ -15,7 +15,7 @@ class columnHandler(formatHandlerBase):
         mymolecule=str(table[myrange[0],0])
         initialState=self.TexOps.initialStates[mymolecule]
         mymethod=method(str(col[1]),str(col[0]))
-        finsts=dataFileBase.convertState(table[myrange,1],initialState,default=self.TexOps.defaultType,commands=self.commands)
+        finsts=dataFileBase.convertState(table[myrange,1],initialState,default=self.TexOps.defaultType,commands=self.Commands)
         for index,cell in enumerate(col[myrange]):
           if str(cell)!="":
             val,unsafe=getValFromCell(cell)

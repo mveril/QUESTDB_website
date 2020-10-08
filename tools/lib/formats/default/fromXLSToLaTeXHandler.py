@@ -62,20 +62,20 @@ class fromXLSToLaTeXHandler(formatHandlerBase):
           continue
         if isinstance(mymethcell[0],TexNode) and mymethcell[0].name=="$":
           kindSoup=TexSoup("".join(list(mymethcell[0].expr.all)))
-          newCommand.runAll(kindSoup,self.commands)
+          newCommand.runAll(kindSoup,self.Commands)
           kind=str(kindSoup)
           methodnameSoup=TexSoup(mymethcell[1].value)
-          newCommand.runAll(methodnameSoup,self.commands)
+          newCommand.runAll(methodnameSoup,self.Commands)
           methodname=str(methodnameSoup)
         else:
           kind=""
           methtex=col[0]
-          newCommand.runAll(methtex,self.commands)
+          newCommand.runAll(methtex,self.Commands)
           methodname=str(methtex)
         mymethod=method(methodname,basis)
         methkey=json.dumps(mymethod.__dict__)
         mathstates=[GetFullState(table[i,4],VR=str(table[i,6]),typeAcronym=str(table[i,7]),Soup=True) for i in myrange]
-        finsts=dataFileBase.convertState(mathstates,initialState,default=self.TexOps.defaultType,commands=self.commands)
+        finsts=dataFileBase.convertState(mathstates,initialState,default=self.TexOps.defaultType,commands=self.Commands)
         for index,cell in enumerate(col[myrange]):
           if str(cell)!="":
             val=str(cell)
