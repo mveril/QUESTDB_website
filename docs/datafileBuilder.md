@@ -247,8 +247,8 @@ When the debug flag is used instead of `data/` the root of output directory is `
 # geom     : method,[basis]
 # DOI      : DOI
 
-# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator strenght   unsafe
-#######################  #######################  ########################################  ############# ####### ################### ##############
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscillator strength    unsafe
+#######################  #######################  ########################################  ############# ####### ##################### #############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
   n       s      symm      n       s     symm         (excitationType)                        value         %T1val         forceval     isUnsafe
 ```

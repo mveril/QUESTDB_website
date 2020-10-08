@@ -5,8 +5,8 @@
 # geom     : CC3,aug-cc-pVTZ
 # set      : QUEST#1,0
 
-# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator strenght   unsafe
-#######################  #######################  ########################################  ############# ####### ################### ##############
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscillator strength    unsafe
+#######################  #######################  ########################################  ############# ####### ##################### #############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
   1       1     A_1        1       1     A_2          (\mathrm{R};n \rightarrow 3s)           6.40          _              _            false
   1       1     A_1        1       1     E            (\mathrm{R};n \rightarrow 3p)           7.87          _              _            false
