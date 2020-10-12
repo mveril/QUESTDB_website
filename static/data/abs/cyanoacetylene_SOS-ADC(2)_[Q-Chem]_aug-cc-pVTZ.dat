@@ -5,8 +5,8 @@
 # geom     : 
 # set      : QUEST#3,2
 
-# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscilator strenght   unsafe
-#######################  #######################  ########################################  ############# ####### ################### ##############
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscillator strength    unsafe
+#######################  #######################  ########################################  ############# ####### ##################### #############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
   1       1     \Sigma^+   1       1     \Sigma^-     (\mathrm{V};\pi \rightarrow \pi^\star)  6.01          _              _            false
   1       1     \Sigma^+   1       1     \Delta       (\mathrm{V};\pi \rightarrow \pi^\star)  6.18          _              _            false
