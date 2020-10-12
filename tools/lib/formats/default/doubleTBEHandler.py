@@ -15,7 +15,7 @@ class doubleTBEHandler(formatHandlerBase):
       data.molecule=str(table[rangeMol[0],0])
       data.method=method("TBE","CBS")
       for mytrans in table[rangeMol]:
-        mathsoup=extractMath(mytrans[1],Soup=True,commands=self.commands)
+        mathsoup=extractMath(mytrans[1],Soup=True,commands=self.Commands)
         mytransdesc=str(mathsoup)
         infin=mytransdesc.split(r"\rightarrow")
         for i,item in enumerate(infin):

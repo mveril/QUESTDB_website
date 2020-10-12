@@ -12,7 +12,7 @@ class TBEHandler(formatHandlerBase):
       mymolecule=str(table[myrange[0],0])
       initialState=self.TexOps.initialStates[mymolecule]
       mymethod=(method("TBE","aug-cc-pVTZ"),method("TBE(Full)","CBS"))
-      finsts=dataFileBase.convertState(table[myrange,1],initialState,default=self.TexOps.defaultType,commands=self.commands)
+      finsts=dataFileBase.convertState(table[myrange,1],initialState,default=self.TexOps.defaultType,commands=self.Commands)
       for index,row in enumerate(table[myrange,]):
         oscilatorForces=checkFloat(str(row[2]))
         T1 = checkFloat(str(row[3]))

@@ -12,7 +12,7 @@ class lineHandler(formatHandlerBase):
       mymolecule=str(col[0])
       mymethod=method(str(col[2]),str(col[1]))
       initialState=self.TexOps.initialStates[mymolecule]
-      finsts=dataFileBase.convertState(table[3:,0],initialState,default=self.TexOps.defaultType,commands=self.commands)
+      finsts=dataFileBase.convertState(table[3:,0],initialState,default=self.TexOps.defaultType,commands=self.Commands)
       datacls=dict()
       for index,cell in enumerate(col[3:]):
         if str(cell)!="":
