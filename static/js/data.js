@@ -28,7 +28,7 @@ class EnumUltils {
     return lst
   }
   static GetFlags(value, enumClass, valueType) {
-    return this.getAll(enumClass, valueType).filter((x) => { value & x[1] })
+    return this.getAll(enumClass, valueType).filter(x => value & x[1])
   }
 }
 
