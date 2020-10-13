@@ -265,7 +265,7 @@ class dataFileBase {
         if (DebugMode.Enabled) {
           const restflag=ex.type.Value & ex2.type.Value
           const result=restflag==ex.type.Value
-          console.assert(result, "Excitation type error", [ex, ex2, this.sourceFile])
+          console.assert(result, "Excitation type error", data.molecule, ex, ex2, this.sourceFile)
         }
         ex.type = ex2.type
       }
