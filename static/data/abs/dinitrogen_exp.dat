@@ -11,9 +11,9 @@
   1       1     \Sigma_g   1       1     \Pi_g        (n \rightarrow \pi^\star)               9.31          _              _            false
   1       1     \Sigma_g   1       1     \Sigma_u^-   (\pi \rightarrow \pi^\star)             9.92          _              _            false
   1       1     \Sigma_g   1       1     \Delta_u     (\pi \rightarrow \pi^\star)             10.27         _              _            false
-  1       1     \Sigma_g   1       1     \Pi_u        (\mathrm{R})                            12.78         _              _            false
+  1       1     \Sigma_g   1       1     \Pi_u        (\mathrm{R};\pi \rightarrow 3p)         12.78         _              _            false
   1       1     \Sigma_g   1       1     \Sigma_u^+   (\mathrm{R})                            12.96         _              _            false
-  1       1     \Sigma_g   2       1     \Pi_u        (\mathrm{R})                            13.10         _              _            false
+  1       1     \Sigma_g   2       1     \Pi_u        (\mathrm{R};\pi \rightarrow 3p)         13.10         _              _            false
   1       1     \Sigma_g   1       3     \Sigma_u^+   (\pi \rightarrow \pi^\star)             7.75          _              _            false
   1       1     \Sigma_g   1       3     \Pi_g        (n \rightarrow \pi^\star)               8.04          _              _            false
   1       1     \Sigma_g   1       3     \Delta_u     (\pi \rightarrow \pi^\star)             8.88          _              _            false
