@@ -202,6 +202,9 @@ class excitationBase {
     if (this.type.Value == 0) {
       this.type.Value = excitationTypes.Others.Value;
     }
+    else (!(this.type & (excitationTypes.Single.Value | excitationTypes.Double.Value))){
+      this.type.Value = excitationTypes.Single
+    }
     this.T1 = T1
   }
 }
