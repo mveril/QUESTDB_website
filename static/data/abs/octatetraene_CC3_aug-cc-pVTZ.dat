@@ -2,7 +2,7 @@
 # Comment  : 
 # code     : 
 # method   : CC3,aug-cc-pVTZ
-# geom     : 
+# geom     : CC3,cc-pVTZ
 # set      : QUEST#5,0
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscillator strength    unsafe
