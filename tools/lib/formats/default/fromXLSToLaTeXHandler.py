@@ -17,6 +17,8 @@ def GetTypeFromAcronym(acronym):
     return "double"
   elif "p3p":
     return r"\pi \rightarrow 3p"
+  elif acronym=="spi":
+    return r"\sigma \rightarrow \pi^\star"
   elif acronym=="non-d":
     return None
   else:
