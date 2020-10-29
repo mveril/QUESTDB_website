@@ -22,15 +22,15 @@ Now you car use your favorite browser to navigate to the website using the URL s
 
 The main part of this repository is the website. It is build using the [hugo](https://gohugo.io/) static website generator with the [beautifulhugo](https://themes.gohugo.io/beautifulhugo/) theme.
 
-All the data are stored in the [data](QUESTDB_website/src/branch/master/static/data) directory.
+All the data are stored in the [data](static/data) directory.
 
 ### The tools.
 
-The second part is the  [tools](QUESTDB_website/src/branch/master/tools/) a series of python and bash scripts used to generate data.
+The second part is the  [tools](tools/) a series of python and bash scripts used to generate data.
 
 #### datafileBuilder
 
-A python script to generate data from custom LaTeX input file see  [examples](QUESTDB_website/src/branch/master/docs/examples).
+A python script to generate data from custom LaTeX input file see  [examples](docs/examples).
 
 #### metarecover
 
