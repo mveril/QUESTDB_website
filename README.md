@@ -9,7 +9,7 @@ The QUEST website is the website build to analyze the date from the [QUEST proje
 To clone this website and use it locally please run the following commands.
 
 ```bash
-git clone --recurse-submodules https://git.irsamc.ups-tlse.fr/mveril/QUESTDB_website
+git clone --recurse-submodules https://github.com/mveril/QUESTDB_website/
 cd QUESTDB_website
 hugo serve
 ```
