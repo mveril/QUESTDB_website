@@ -2,7 +2,12 @@
 
 ## Introduction
 
-The QUEST website is the website build to analyze the date from the [QUEST project](https://doi.org/10.1021/acs.jpclett.0c00014). it provide statistics for the QUEST vertical excitations set by targeting data corresponding to the parameters which the user has selected.
+The QUEST website has been designed to gather and analyze the highly-accurate vertical excitation energies produced by the [QUEST project](https://doi.org/10.1021/acs.jpclett.0c00014). 
+The QUEST database contains more than 470 accurate vertical excitation energies of various natures ($\pi \to \pis$, $n \to \pis$, double excitation, Rydberg, singlet, doublet, triplet, etc) for small- and medium-sized molecules.
+These values have been obtained using a combination of high-order coupled cluster and selected configuration interaction calculations using increasingly large diffuse basis sets.
+One of the key aspect of the QUEST dataset is that it does not rely on any experimental values, avoiding potential biases inherently linked to experiments and facilitating in the process theoretical cross comparisons.
+Following this composite protocol, we have been able to produce theoretical best estimate (TBEs) with the aug-cc-pVTZ basis set, as well as basis set corrected TBEs (i.e., near the complete basis set limit) for each of these transitions.
+Thanks to the present website, one can easily test and compare the accuracy of a given method with respect to various variables such as the molecule size or its family, the nature of the excited states, the size of the basis set, etc.
 
 ## Quick start
 
@@ -26,7 +31,7 @@ All the data are stored in the [data](static/data) directory.
 
 ### The tools.
 
-The second part is the  [tools](tools/) a series of python and bash scripts used to generate data.
+The second part is the [tools](tools/) a series of python and bash scripts used to generate data.
 
 #### datafileBuilder
 
