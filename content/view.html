@@ -28,7 +28,7 @@ draft: false
     var key = ["file", "fileBase64"]
     if (params.has(key[0])) {
       var filename = params.get(key[0]);
-      var text = await getTextFromFileUrlAsync(filename)
+      var text = await getTextFromFileUrlAsync(filename,{"Cache-Control":"max-age=0"})
       $("#btn_download").click(function () {
         var b = new Blob([text],{type:"text/plain;charset=utf-8"});
         saveAs(b, filename.substring(filename.lastIndexOf('/')+1))

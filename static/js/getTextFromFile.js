@@ -1,8 +1,10 @@
-async function getTextFromFileUrlAsync(url) {
+async function getTextFromFileUrlAsync(url,header={}) {
   return new Promise(function (resolve, reject) {
   var req = new XMLHttpRequest();
   req.open("GET",url, true);
-  req.setRequestHeader("Cache-Control", "max-age=0")
+  for (const [key, val] of Object.entries(header)) {
+    req.setRequestHeader(key,val)
+  }
   req.onreadystatechange = function() {
     if (req.readyState == 4) {
       if (req.status == 200 || req.status==304) {//when a good response is given do this
