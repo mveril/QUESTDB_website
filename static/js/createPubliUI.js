@@ -1,14 +1,10 @@
-function getPubliSubDir(DOI) {
-  return DOI.split(".").join("/")
-}
-
 async function createPubliUI(publi,toolTips=false,abstract=false) {
   const art = $("<article/>").addClass("publi")
   art.className = "publi"
   $("<a/>", {
     href: publi.URL,
     target: "_blank"
-  }).html($("<h1/>").text(publi.title)).appendTo(art)
+  }).html($("<h1/>").text(publi.title[0])).appendTo(art)
   const authors = publi.author
   const ulauthors = $("<ul/>").addClass("authors-list").appendTo(art)
   for (const author of authors) {
@@ -35,18 +31,18 @@ async function createPubliUI(publi,toolTips=false,abstract=false) {
     ulauthors.append(liauth)
   }
   journaldiv = $("<div/>").appendTo(art)
-  if ("container-title-short" in publi) {
-    var title_short = $("<span/>").text(publi["container-title-short"])
+  if ("container-title-short" in publi && publi["container-title-short"].length>0) {
+    var title_short = $("<span/>").text(publi["container-title-short"][0])
     journaldiv.append(title_short)
     if (toolTips) {
       tippy(title_short[0], {
-        content: publi["container-title"],
+        content: publi["container-title"][0],
         theme: 'light',
       });
     }
   }
   else {
-    $("<span/>").text(publi["container-title"]).appendTo(journaldiv)
+    $("<span/>").text(publi["container-title"][0]).appendTo(journaldiv)
   }
   var date = pubUtils.getIssuedDate(publi)
   journaldiv.append(" ")
@@ -70,12 +66,11 @@ async function createPubliUI(publi,toolTips=false,abstract=false) {
     year: "numeric"
   }))).appendTo(art)
   if (abstract) {
-   const dir = "/data/publis/"+getPubliSubDir(publi.DOI)
    var ab = $("<section>",{id: "abstract",}).addClass("well").addClass("abstract")
    var abfig =$("<figure>").addClass("picture")
    abfig.appendTo(ab)
-   $("<img>",{src:dir+"/picture.jpeg"}).appendTo(abfig)
-   var htmltxt =await getTextFromFileUrlAsync(dir+"/abstract.html")
+   $("<img>",{src:publi.PictureURL}).appendTo(abfig)
+   var htmltxt = await publi.getAbstractTextAsync()
    abtxt=$("<p>").html(htmltxt)
    abtxt.appendTo(ab)
    art.append(ab)

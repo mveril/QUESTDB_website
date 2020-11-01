@@ -14,6 +14,7 @@ draft: false
 <script src="/js/websiteFile.js"></script>
 <script src="/js/numberUtils.js"></script>
 <script src="/js/DebugMode.js"></script>
+<script src="/js/PubliData.js"></script>
 <script src="/js/createPubliUI.js"></script>
 <script src="/js/processingIndicator.js"></script>
 <script src="/js/indexDB.js"></script>
@@ -26,8 +27,7 @@ draft: false
     var myDB = await indexDB.loadAsync()
     const sets = myDB.sets
     for (const [setName,publis] of sets) {
-      const publiscite = await Cite.async(publis)
-      const uopublis = publiscite.format('data', { format: 'object' })
+      const uopublis = await PubliData.loadManyAsync(publis)
       if (uopublis.length !== 0) {
         const mySetSec = $('<section>').addClass('publiSet').attr("data-setName", setName).attr("id",setName).appendTo(setsSec)
         $("<h1>").text(setName).appendTo(mySetSec)
@@ -39,8 +39,7 @@ draft: false
       }
     }
     const odois = myDB.others
-    const opubliscite = await Cite.async(odois)
-    const uoopublis = opubliscite.format('data', { format: 'object' })
+    const uoopublis =  await PubliData.loadManyAsync(odois)
     const opublis = uoopublis.sort((puba, pubb) => pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb))
     for (const publi of opublis) {
       art = await createPubliUI(publi, true, true)

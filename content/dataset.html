@@ -16,7 +16,7 @@ draft: false
 <script src="/js/processingIndicator.js"></script>
 <script src="/js/noNan.js"></script>
 <script src="/js/websiteFile.js"></script>
-<script src="/js/DOICache.js"></script>
+<script src="/js/PubliData.js"></script>
 <script src="/js/nestedCheckbox.js"></script>
 <script src="/js/selectSelectAll.js"></script>
 <script src="/js/numberRangeChange.js"></script>
@@ -97,7 +97,7 @@ draft: false
     delete (cbextl)
     delete (extl)
     delete (vertkindtl)
-    window.doiCache = new DOICache()
+    window.publiCache = new Map()
     await loadFiles()
   }
   async function loadFiles() {
@@ -460,7 +460,7 @@ draft: false
         allowUnknow:$("#cb_nHUnknow").is(':checked')
       }
     }
-    window.doiCache.clear()
+    window.publiCache.clear()
     processingIndicator.isActive = true
     window.filtData = window.dats
     //Filter with select
@@ -494,7 +494,10 @@ draft: false
     var exSets = new uniq(window.filtData.map((d) => d.set))
     var mols = new Set(window.filtData.map((d) => d.molecule))
     for (const exSet of exSets) {
-      await doiCache.tryAdd(await exSet.getDOIAsync())
+      const DOI= await exSet.getDOIAsync()
+      if (DOI!=null) {
+        publiCache.set(DOI,await PubliData.loadAsync(DOI))
+      }      
       const setName = exSet.name
       window.T1ref.set(setName, new Map())
       for (const mol of mols) {
@@ -570,9 +573,9 @@ draft: false
           $("<h1/>").text(CurrentsetName).appendTo(div)
         }
         var doi= await exSet.getDOIAsync()
-        if (doiCache.has(doi)) {
-          const doiDat = doiCache.get(doi).format('data', { format: 'object' })[0]
-          $("<h2/>").append($("<a>",{href:doiDat.URL,target:"_blank"}).text(doiDat.title)).appendTo(div)          
+        if (publiCache.has(doi)) {
+          const publiDat = publiCache.get(doi)
+          $("<h2/>").append($("<a>",{href:publiDat.URL,target:"_blank"}).text(publiDat.title)).appendTo(div)
         }
         var table = $("<table/>").addClass("datatable").appendTo(div)
         var head = $("<tr/>")
