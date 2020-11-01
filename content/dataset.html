@@ -126,7 +126,7 @@ draft: false
 
       window.defaultDats = window.defaultDats.concat(sub)
     }
-    window.indexDB = await indexDB.loadAsync()
+    await indexDB.loadAsync()
     window.defaultDats = window.defaultDats.sort((datfA, datfB) => {
       const exSetA = datfA.set
       const exSetB = datfB.set
