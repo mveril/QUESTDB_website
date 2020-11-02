@@ -21,7 +21,7 @@ class Geometry {
   static loadXYZString(text) {
     var lines = text.split("\n")
     var indexes = lines.findAllIndexes((line) => {
-      return line.match(/^\d+$/)
+      return line.match(/^\d+\s*$/)
     })
     indexes.push(lines.length)
     var geoms = []
