@@ -23,7 +23,6 @@ draft: false
   window.onload = async function () {
     processingIndicator.isActive = true
     const setsSec = $('#publis_sets')
-    const Cite = require("citation-js")
     var myDB = await indexDB.loadAsync()
     const sets = myDB.sets
     for (const [setName,publis] of sets) {
