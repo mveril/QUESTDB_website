@@ -22,7 +22,7 @@ def GetTypeFromAcronym(acronym):
   elif acronym=="non-d":
     return None
   else:
-    raise ValueError("acronym not recognised")
+    raise ValueError("Unrecognized acronym")
 def GetFullState(TexState,defaultDatatype=DataType.ABS,VR=None,typeAcronym=None,Soup=True):
   datatype=defaultDatatype
   lst=list(TexState)
