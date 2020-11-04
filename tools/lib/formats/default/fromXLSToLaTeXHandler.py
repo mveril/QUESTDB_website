@@ -11,7 +11,9 @@ def GetTypeFromAcronym(acronym):
     "npi":r"n \rightarrow \pi^\star",
     "ppi":r"\pi \rightarrow \pi^\star",
     "n3s":r"n \rightarrow 3s",
+    "n3p":r"n \rightarrow 3p",
     "dou":"double",
+    "p3s":r"\pi \rightarrow 3s",
     "p3p":r"\pi \rightarrow 3p",
     "spi":r"\sigma \rightarrow \pi^\star",
     "non-d":None
