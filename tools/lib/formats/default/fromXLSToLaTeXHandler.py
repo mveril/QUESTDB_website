@@ -7,22 +7,19 @@ import numpy as np
 import json
 import itertools
 def GetTypeFromAcronym(acronym):
-  if acronym=="npi":
-    return r"n \rightarrow \pi^\star"
-  elif acronym=="ppi":
-    return r"\pi \rightarrow \pi^\star"
-  elif acronym=="n3s":
-    return  r"n \rightarrow 3s"
-  elif acronym=="dou":
-    return "double"
-  elif acronym=="p3p":
-    return r"\pi \rightarrow 3p"
-  elif acronym=="spi":
-    return r"\sigma \rightarrow \pi^\star"
-  elif acronym=="non-d":
-    return None
-  else:
-    raise ValueError("Unrecognized acronym")
+  acroDict={
+    "npi":r"n \rightarrow \pi^\star",
+    "ppi":r"\pi \rightarrow \pi^\star",
+    "n3s":r"n \rightarrow 3s",
+    "dou":"double",
+    "p3p":r"\pi \rightarrow 3p",
+    "spi":r"\sigma \rightarrow \pi^\star",
+    "non-d":None
+  }
+  try:
+    return acroDict[acronym]
+  except KeyError  as ex:
+    raise ValueError("Unrecognized acronym") from ex
 def GetFullState(TexState,defaultDatatype=DataType.ABS,VR=None,typeAcronym=None,Soup=True):
   datatype=defaultDatatype
   lst=list(TexState)
