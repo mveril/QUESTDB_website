@@ -16,12 +16,13 @@ def GetTypeFromAcronym(acronym):
     "p3s":r"\pi \rightarrow 3s",
     "p3p":r"\pi \rightarrow 3p",
     "spi":r"\sigma \rightarrow \pi^\star",
+    "CT":None,
     "non-d":None
   }
   try:
     return acroDict[acronym]
   except KeyError  as ex:
-    raise ValueError("Unrecognized acronym") from ex
+    raise ValueError(f"Unrecognized acronym: {acronym}") from ex
 def GetFullState(TexState,defaultDatatype=DataType.ABS,VR=None,typeAcronym=None,Soup=True):
   datatype=defaultDatatype
   lst=list(TexState)
