@@ -1,7 +1,7 @@
 # Molecule : Hexatriene
 # Comment  : 
 # code     : 
-# method   : CCSD(2),aug-cc-pVTZ
+# method   : EOM-MP2,aug-cc-pVTZ
 # geom     : CCSD(T),aug-cc-pVTZ
 # set      : QUEST#5,0
 

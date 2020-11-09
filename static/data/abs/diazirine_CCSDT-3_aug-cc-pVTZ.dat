@@ -1,7 +1,7 @@
 # Molecule : Diazirine
 # Comment  : 
 # code     : 
-# method   : CCCSDT-3,aug-cc-pVTZ
+# method   : CCSDT-3,aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ
 # set      : QUEST#5,0
 
