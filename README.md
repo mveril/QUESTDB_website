@@ -31,7 +31,7 @@ All the data are stored in the [data](static/data) directory.
 
 ### The tools.
 
-The second part is the [tools](tools/) a series of python and bash scripts used to generate data.
+The second part is the [tools](tools/) a series of python scripts used to generate data.
 
 #### datafileBuilder
 
@@ -39,7 +39,7 @@ A python script to generate data from custom LaTeX input file see  [examples](do
 
 #### metarecover
 
-The `metarecover` bash script is used to regenerate the metadata from the previous git history state.
+The `metarecover` python script is used to regenerate the metadata from the previous git history state.
 So you can remove a data file to regenerate it from a LaTeX input file with `datafileBuilder` and recover the metadata from the previous version using `metarecover`.
 
 ### ADC25generator
