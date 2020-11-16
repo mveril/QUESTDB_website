@@ -1,30 +1,15 @@
 var fileCache = function () {
   var json_url = "/data/database.json";
   var req = new XMLHttpRequest();
-  req.open("GET",json_url, true);
-  req.responseType = 'json';
-  return new Promise(function (resolve, reject) {
-  req.onreadystatechange = function() {
-    if (req.readyState == 4) {
-      if (req.status == 200 || req.status==304) {//when a good response is given do this
-        resolve(req.response);
-      } else {
-        reject({
-          status: req.status,
-          statusText: req.statusText
-        });
-      }
-    }
-  }
+  req.open("GET",json_url, false);
   req.send();
-  });
+  return JSON.parse(req.responseText);
 }
 
 
 _cache = fileCache();
-async function getTextFromFileUrl(url,header={}) {
-  var cache = await _cache;
-  return cache[url];
+function getTextFromFileUrl(url,header={}) {
+  return _cache[url];
 }
 
 
