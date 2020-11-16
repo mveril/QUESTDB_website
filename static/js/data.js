@@ -232,7 +232,8 @@ class dataFileBase {
     return /^#\s*([A-Za-z_]+)\s*:\s*(.*)$/;
   }
   async getGeometryAsync(state = null) {
-    var text = await getTextFromFileUrlAsync(`/data/structures/${this.set.name.replace("#", "")}/${this.molecule.toLowerCase()}.xyz`)
+    // var text = await getTextFromFileUrlAsync(`/data/structures/${this.set.name.replace("#", "")}/${this.molecule.toLowerCase()}.xyz`)
+    var text = getTextFromFileUrl(`/data/structures/${this.set.name.replace("#", "")}/${this.molecule.toLowerCase()}.xyz`)
     var lines = text.split("\n")
     var indexes = lines.findAllIndexes((line) => {
       return line.match(/^\d+$/)
@@ -279,7 +280,8 @@ class dataFileBase {
       case String.name:
         file = getFullDataPath(file)
         const maxAge= (DebugMode.Enabled,0,600)
-        var str = await getTextFromFileUrlAsync(file,{"Cache-Control":`max-age=${maxAge}`})
+        // var str = await getTextFromFileUrlAsync(file,{"Cache-Control":`max-age=${maxAge}`})
+        var str = await getTextFromFileUrl(file)
         break;
       case File.name:
         var str = await getTextFromUploadedFileAsync(file)

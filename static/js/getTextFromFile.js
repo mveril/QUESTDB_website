@@ -1,3 +1,18 @@
+var fileCache = function () {
+  var json_url = "/data/database.json";
+  var req = new XMLHttpRequest();
+  req.open("GET",json_url, false);
+  req.send();
+  return JSON.parse(req.responseText);
+}
+
+
+_cache = fileCache();
+function getTextFromFileUrl(url,header={}) {
+  return _cache[url];
+}
+
+
 async function getTextFromFileUrlAsync(url,header={}) {
   return new Promise(function (resolve, reject) {
   var req = new XMLHttpRequest();
@@ -21,7 +36,6 @@ async function getTextFromFileUrlAsync(url,header={}) {
   req.send();
   });
 }
-
 async function getTextFromUploadedFileAsync(inputFile){
   const temporaryFileReader = new FileReader();
 
