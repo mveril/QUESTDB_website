@@ -1,3 +1,33 @@
+var fileCache = function () {
+  var json_url = "/data/database.json";
+  var req = new XMLHttpRequest();
+  req.open("GET",json_url, true);
+  req.responseType = 'json';
+  return new Promise(function (resolve, reject) {
+  req.onreadystatechange = function() {
+    if (req.readyState == 4) {
+      if (req.status == 200 || req.status==304) {//when a good response is given do this
+        resolve(req.response);
+      } else {
+        reject({
+          status: req.status,
+          statusText: req.statusText
+        });
+      }
+    }
+  }
+  req.send();
+  });
+}
+
+
+_cache = fileCache();
+async function getTextFromFileUrl(url,header={}) {
+  var cache = await _cache;
+  return cache[url];
+}
+
+
 async function getTextFromFileUrlAsync(url,header={}) {
   return new Promise(function (resolve, reject) {
   var req = new XMLHttpRequest();
@@ -21,7 +51,6 @@ async function getTextFromFileUrlAsync(url,header={}) {
   req.send();
   });
 }
-
 async function getTextFromUploadedFileAsync(inputFile){
   const temporaryFileReader = new FileReader();
 
