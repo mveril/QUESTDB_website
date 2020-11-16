@@ -4,5 +4,5 @@ public
 *.DS_Store
 *.swp
 *.out
-public
+static/data/database.json
 __pycache__
