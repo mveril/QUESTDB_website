@@ -16,7 +16,7 @@ To clone this website and use it locally please run the following commands.
 ```bash
 git clone --recurse-submodules https://github.com/mveril/QUESTDB_website/
 cd QUESTDB_website
-hugo serve
+make serve
 ```
 
 Now you can use your favorite browser to navigate to the website using the URL showed by Hugo in your terminal (normally http://localhost:1313)
@@ -46,3 +46,6 @@ So you can remove a data file to regenerate it from a LaTeX input file with `dat
 
 The `ADC25generator` is used to build  `ADC(2.5)` data files from  `ADC(2)` and `ADC(3)` data files.
 
+### generate_data
+
+The `generate_data` script is used to wrap all data file into one `database.json` file.
