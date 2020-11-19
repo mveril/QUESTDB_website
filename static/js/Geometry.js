@@ -6,9 +6,8 @@ class Geometry {
   static async loadXYZAsync(file) {
     switch (trueTypeOf(file)) {
       case String.name:
-        file = getFullDataPath("/structures/"+file)
-        const maxAge= (DebugMode.Enabled,0,600)
-        var str = await getTextFromFileUrlAsync(file,{"Cache-Control":`max-age=${maxAge}`})
+        file = getFullDataPath("structures"+file)
+        var str = getTextFromFileUrl(file)
         break;
       case File.name:
         var str = await getTextFromUploadedFileAsync(file)
