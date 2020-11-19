@@ -261,17 +261,20 @@ class dataFileBase {
     })
   }
   CopyExcitationsTypeFrom(data) {
+    var exc_strings = data.excitations.map( e => [e, JSON.stringify(e.initial), JSON.stringify(e.final) ] )
     for (const ex of this.excitations) {
-      const ex2 = data.excitations.find((e) => {
-        return (JSON.stringify(e.initial) === JSON.stringify(ex.initial)) && (JSON.stringify(e.final) === JSON.stringify(ex.final))
+      const exi = JSON.stringify(ex.initial)
+      const exf = JSON.stringify(ex.final)
+      const ex2 = exc_strings.find((e) => {
+        return (e[1]=== exi) && (e[2]=== exf)
       })
       if (ex2 !== undefined) {
         if (DebugMode.Enabled) {
-          const restflag=ex.type.Value & ex2.type.Value
+          const restflag=ex.type.Value & ex2[0].type.Value
           const result=restflag==ex.type.Value
-          console.assert(result, "Excitation type error", data.molecule, ex, ex2, this.sourceFile)
+          console.assert(result, "Excitation type error", data.molecule, ex, ex2[0], this.sourceFile)
         }
-        ex.type = ex2.type
+        ex.type = ex2[0].type
       }
     }
   }

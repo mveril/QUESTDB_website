@@ -101,9 +101,9 @@ draft: false
     await loadFiles()
   }
   async function loadFiles() {
+    const db = await indexDB.loadAsync()                                                        
+    const data = await loadAllData()
     processingIndicator.isActive = true
-    var data = await loadAllData()
-    let db = await indexDB.loadAsync()                                                        
 
     window.defaultDats = []
     for (const sub of Object.values(data)) {

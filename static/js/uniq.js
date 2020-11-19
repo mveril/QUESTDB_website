@@ -1,7 +1,7 @@
 function uniq(array)
 {
    if (array.length == 0) return [];
-   var sortedArray = array.sort().map( x => [x, JSON.stringify(x)] );
+   const sortedArray = array.sort().map( x => [x, JSON.stringify(x)] );
    var uniqueArray = [ sortedArray[0][0] ];
    for (let i=1 ; i<sortedArray.length ; i++) {
      if ( sortedArray[i][1] != sortedArray[i-1][1])
