@@ -112,6 +112,7 @@ draft: false
         for (mol of uniq(subset.map(d => d.molecule))) {
           const submol = subset.filter(d => d.molecule === mol)
           const source = await submol.findAsync(async (d) => {
+//          const source = submol.find((d) => {
             if (db.sets.get(d.set.name)[d.set.index] === "10.1021/acs.jctc.8b01205") {
               return d.method.name === "CASPT2" && d.method.basis === "aug-cc-pVDZ"
             } else {

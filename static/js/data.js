@@ -279,12 +279,26 @@ class dataFileBase {
     switch (trueTypeOf(file)) {
       case String.name:
         file = getFullDataPath(file)
-        const maxAge= (DebugMode.Enabled,0,600)
+        // const maxAge= (DebugMode.Enabled,0,600)
         // var str = await getTextFromFileUrlAsync(file,{"Cache-Control":`max-age=${maxAge}`})
-        var str = await getTextFromFileUrl(file)
+        var str = await getTextFromFileUrl(file) //TODO
         break;
       case File.name:
         var str = await getTextFromUploadedFileAsync(file)
+        break
+    }
+    var dat = this.loadString(str, kind);
+    dat.sourceFile = new websiteFile(file)
+    return dat
+  }
+  static load(file, kind = undefined) {
+    switch (trueTypeOf(file)) {
+      case String.name:
+        file = getFullDataPath(file)
+        var str = getTextFromFileUrl(file)
+        break;
+      case File.name:
+        var str = (async () => await getTextFromUploadedFileAsync(file))().then(x=>x)
         break
     }
     var dat = this.loadString(str, kind);
