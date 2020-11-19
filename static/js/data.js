@@ -281,7 +281,7 @@ class dataFileBase {
         file = getFullDataPath(file)
         // const maxAge= (DebugMode.Enabled,0,600)
         // var str = await getTextFromFileUrlAsync(file,{"Cache-Control":`max-age=${maxAge}`})
-        var str = await getTextFromFileUrl(file) //TODO
+        var str = await getTextFromFileUrl(file)
         break;
       case File.name:
         var str = await getTextFromUploadedFileAsync(file)
