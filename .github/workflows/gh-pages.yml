@@ -16,7 +16,10 @@ jobs:
         run: sudo apt-get update
 
       - name: install dependencies
-        run: sudo apt-get install hugo
+        run: sudo apt-get install snap
+
+      - name: install hugo
+        run: snap install hugo --channel=extended
 
       - name: install theme
         run: git submodule update --init --recursive
