@@ -13,13 +13,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: refresh apt
-        run: sudo apt-get update
+        run: sudo apt update
 
       - name: install dependencies
-        run: sudo apt-get install snap
+        run: sudo apt install snap
 
       - name: install hugo
-        run: snap install hugo --channel=extended
+        run: sudo snap install hugo --channel=extended
 
       - name: install theme
         run: git submodule update --init --recursive
