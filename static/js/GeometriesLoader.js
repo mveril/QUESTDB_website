@@ -6,10 +6,10 @@ class GeometriesLoader{
       const myset=item.set.split("#").join("")
       try {
         const mol=await Geometry.loadXYZAsync(`/${myset}/${mymol}.xyz`)
-        xyzs.push(mol)  
+        xyzs.push(mol)
       } catch (error) {
         console.error("Geometry not found",item)
-      } 
+      }
     }
     return xyzs.flat()
   }

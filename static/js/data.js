@@ -261,17 +261,20 @@ class dataFileBase {
     })
   }
   CopyExcitationsTypeFrom(data) {
+    var exc_strings = data.excitations.map( e => [e, JSON.stringify(e.initial), JSON.stringify(e.final) ] )
     for (const ex of this.excitations) {
-      const ex2 = data.excitations.find((e) => {
-        return (JSON.stringify(e.initial) === JSON.stringify(ex.initial)) && (JSON.stringify(e.final) === JSON.stringify(ex.final))
+      const exi = JSON.stringify(ex.initial)
+      const exf = JSON.stringify(ex.final)
+      const ex2 = exc_strings.find((e) => {
+        return (e[1]=== exi) && (e[2]=== exf)
       })
       if (ex2 !== undefined) {
         if (DebugMode.Enabled) {
-          const restflag=ex.type.Value & ex2.type.Value
+          const restflag=ex.type.Value & ex2[0].type.Value
           const result=restflag==ex.type.Value
-          console.assert(result, "Excitation type error", data.molecule, ex, ex2, this.sourceFile)
+          console.assert(result, "Excitation type error", data.molecule, ex, ex2[0], this.sourceFile)
         }
-        ex.type = ex2.type
+        ex.type = ex2[0].type
       }
     }
   }
@@ -279,12 +282,26 @@ class dataFileBase {
     switch (trueTypeOf(file)) {
       case String.name:
         file = getFullDataPath(file)
-        const maxAge= (DebugMode.Enabled,0,600)
+        // const maxAge= (DebugMode.Enabled,0,600)
         // var str = await getTextFromFileUrlAsync(file,{"Cache-Control":`max-age=${maxAge}`})
-        var str = await getTextFromFileUrl(file)
+        var str = getTextFromFileUrl(file)
         break;
       case File.name:
         var str = await getTextFromUploadedFileAsync(file)
+        break
+    }
+    var dat = this.loadString(str, kind);
+    dat.sourceFile = new websiteFile(file)
+    return dat
+  }
+  static load(file, kind = undefined) {
+    switch (trueTypeOf(file)) {
+      case String.name:
+        file = getFullDataPath(file)
+        var str = getTextFromFileUrl(file)
+        break;
+      case File.name:
+        var str = (async () => await getTextFromUploadedFileAsync(file))().then(x=>x)
         break
     }
     var dat = this.loadString(str, kind);
