@@ -1,4 +1,5 @@
 baseURL = "/"
+#baseURL = "http://lcpq.github.io/QUESTDB_website/"
 canonifyurls  = true
 
 languageCode = "en-us"
