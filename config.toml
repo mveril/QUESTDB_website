@@ -85,7 +85,7 @@ theme = "beautifulhugo"
 
 [[menu.main]]
     parent="external"
-    name = "EMSL Basis set"
+    name = "Basis set exchange"
     url = "https://www.basissetexchange.org"
     weight = 3
 
@@ -110,7 +110,7 @@ theme = "beautifulhugo"
 [[menu.main]]
     parent="external"
     name = "MRCC"
-    url = "https://gaussian.com"
+    url = "https://www.mrcc.hu/"
     weight = 7
 
 [[menu.main]]
