@@ -14,7 +14,7 @@ Thanks to the present website, one can easily test and compare the accuracy of a
 To clone this website and use it locally please run the following commands.
 
 ```bash
-git clone --recurse-submodules https://github.com/mveril/QUESTDB_website/
+git clone --recurse-submodules https://github.com/LCPQ/QUESTDB_website/
 cd QUESTDB_website
 make serve
 ```

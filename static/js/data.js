@@ -115,7 +115,7 @@ class state {
     return tex;
   };
 }
-class exSet{ 
+class exSet{
   constructor(name,index)
   {
     this.name = name
@@ -135,7 +135,7 @@ class exSet{
   {
     let db = await indexDB.loadAsync()
     if (db.sets.has(this.name)) {
-      return db.sets.get(this.name)[this.index]       
+      return db.sets.get(this.name)[this.index]
     }
   }
   toString()

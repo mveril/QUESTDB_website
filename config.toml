@@ -21,7 +21,7 @@ theme = "beautifulhugo"
 [Author]
   name = "M. Véril"
   email = "mveril@irsamc.ups-tlse.fr"
-  github = "mveril/QUESTDB_website"
+  github = "LCPQ/QUESTDB_website"
   twitter = "LCPQ_UMR5626"
 #  reddit = "username"
 #  linkedin = "username"
