@@ -4,9 +4,9 @@ index 88ba656e..5d97890c 100644
 +++ b/config.toml
 @@ -1,5 +1,5 @@
 -baseURL = "/"
--#baseURL = "http://lcpq.github.io/QUESTDB_website/"
+-#baseURL = "https://lcpq.github.io/QUESTDB_website/"
 +#baseURL = "/"
-+baseURL = "http://lcpq.github.io/QUESTDB_website/"
++baseURL = "https://lcpq.github.io/QUESTDB_website/"
  canonifyurls  = true
  
  languageCode = "en-us"
