@@ -24,6 +24,9 @@ jobs:
       - name: install theme
         run: git submodule update --init --recursive
 
+      - name: patch config
+        run: git apply .github/workflows/config.patch
+
       - name: make
         run: make
 
