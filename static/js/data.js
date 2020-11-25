@@ -232,8 +232,9 @@ class dataFileBase {
     return /^#\s*([A-Za-z_]+)\s*:\s*(.*)$/;
   }
   async getGeometryAsync(state = null) {
+    var site_url = "/"+window.location.pathname.split('/')[1];
     // var text = await getTextFromFileUrlAsync(`/data/structures/${this.set.name.replace("#", "")}/${this.molecule.toLowerCase()}.xyz`)
-    var text = getTextFromFileUrl(`/data/structures/${this.set.name.replace("#", "")}/${this.molecule.toLowerCase()}.xyz`)
+    var text = getTextFromFileUrl(site_url+`/data/structures/${this.set.name.replace("#", "")}/${this.molecule.toLowerCase()}.xyz`)
     var lines = text.split("\n")
     var indexes = lines.findAllIndexes((line) => {
       return line.match(/^\d+$/)

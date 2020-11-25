@@ -28,7 +28,8 @@ class PubliData{
   }
 
   static GetPathForDOI(DOI){
-    return `/data/publis/${DOI.replaceAll(".","/")}`
+    var site_url = window.location.origin;                                                        
+    return site_url + `/data/publis/${DOI.replaceAll(".","/")}`
   }
   static GetAbstractURLForDOI(DOI){
     return `${PubliData.GetPathForDOI(DOI)}/abstract.html`

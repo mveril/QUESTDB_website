@@ -1,5 +1,6 @@
 var fileCache = function () {
-  var json_url = "/data/database.json";
+  var site_url = "/"+window.location.pathname.split('/')[1];
+  var json_url = site_url+"/data/database.json";
   var req = new XMLHttpRequest();
   req.open("GET",json_url, false);
   req.send();

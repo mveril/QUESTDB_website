@@ -5,7 +5,18 @@ import os.path
 import json
 
 
+
 def main():
+
+    baseURL = "/"
+    with open("config.toml","r") as f:
+      for line in f.readlines():
+        if line.startswith("baseURL"):
+          baseURL = line.split('=')[1].strip()[1:-1]
+          break
+    if baseURL.startswith("http"):
+        baseURL = '/'+baseURL.split('/')[3]+'/'
+    print (baseURL)
 
     d = {}
     os.chdir("static")
@@ -18,7 +29,7 @@ def main():
             filename = os.path.join(root,name)
             with open(filename,'r',encoding="utf8") as f:
                 try:
-                    d["/"+filename] = f.read()
+                    d[baseURL+filename] = f.read()
                 except UnicodeDecodeError:
                     pass
 
