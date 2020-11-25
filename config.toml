@@ -24,18 +24,6 @@ theme = "beautifulhugo"
   email = "mveril@irsamc.ups-tlse.fr"
   github = "LCPQ/QUESTDB_website"
   twitter = "LCPQ_UMR5626"
-#  reddit = "username"
-#  linkedin = "username"
-#  xing = "username"
-#  stackoverflow = "users/XXXXXXX/username"
-#  snapchat = "username"
-#  instagram = "username"
-#  youtube = "channel/UC3a7Yakg9gk36G3HKDIFaYw"
-#  soundcloud = "username"
-#  spotify = "username"
-#  bandcamp = "username"
-#  itchio = "username"
-#  keybase = "username"
 
 [[menu.main]]
     name = "Home"
@@ -43,110 +31,17 @@ theme = "beautifulhugo"
     weight = 1
 
 [[menu.main]]
-    name = "Subsets"
-    url = "subsets"
-    weight = 2
-
-[[menu.main]]
     name = "Dataset"
     url = "dataset"
-    weight = 3
-
-[[menu.main]]
-    name = "Publications"
-    url = "publications"
-    weight = 4
-
-[[menu.main]]
-    name = "About"
-    url = "about"
-    weight = 5
-
-[[menu.main]]
-    name = "Funding"
-    url = "funding"
-    weight = 6
-
-[[menu.main]]
-    identifier = "external"
-    name = "External links"
-    weight = 7
-
-[[menu.main]]
-    parent="external"
-    name = "Laboratoire de Chimie et Physique Quantique"
-    url = "http://www.lcpq.ups-tlse.fr"
-    weight = 1
-
-[[menu.main]]
-    parent="external"
-    name = "CIESAM"
-    url = "http://www.sciences.univ-nantes.fr/CEISAM"
     weight = 2
 
 [[menu.main]]
-    parent="external"
-    name = "Basis set exchange"
-    url = "https://www.basissetexchange.org"
+    name = "Subsets"
+    url = "subsets"
     weight = 3
 
 [[menu.main]]
-    parent="external"
-    name = "Computational Chemistry Comparison and Benchmark Database"
-    url =  "https://cccbdb.nist.gov"
+    name = "References"
+    url = "references"
     weight = 4
 
-[[menu.main]]
-    parent="external"
-    name = "Quantum Package"
-    url = "https://quantumpackage.github.io/qp2"
-    weight = 5
-
-[[menu.main]]
-    parent="external"
-    name = "Dalton"
-    url = "https://daltonprogram.org"
-    weight = 6
-
-[[menu.main]]
-    parent="external"
-    name = "MRCC"
-    url = "https://www.mrcc.hu/"
-    weight = 7
-
-[[menu.main]]
-    parent="external"
-    name = "Gaussian"
-    url = "https://gaussian.com"
-    weight = 8
-    
-[[menu.main]]
-    parent="external"
-    name = "Q-Chem"
-    url = "https://q-chem.com"
-    weight = 9
-    
-[[menu.main]]
-    parent="external"
-    name = "Psi4"
-    url = "http://www.psicode.org"
-    weight = 10
-
-[[menu.main]]
-    parent="external"
-    name = "Turbomole"
-    url = "https://www.turbomole.org"
-    weight = 11
-
-[[menu.main]]
-    parent="external"
-    name = "CFOUR"
-    url = "http://www.cfour.de"
-    weight = 12
-
-[[menu.main]]
-    parent="external"
-    name = "Molpro"
-    url = "https://www.molpro.net"
-    weight = 13
-    

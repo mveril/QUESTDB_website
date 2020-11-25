@@ -5,7 +5,7 @@ plot  statistical  indicators.   The  web   app  is  built  using  the
 [hugo](https://gohugo.io/)   static   website   generator   with   the
 [beautifulhugo](https://themes.gohugo.io/beautifulhugo/) theme.
 
-All the data are stored in the [data](static/data) directory.
+All the data are stored in the [static/data](static/data) directory.
 
 ## Requirements
 
@@ -46,4 +46,24 @@ website,  one can  easily test  and compare  the accuracy  of a  given
 method with respect to various variables  such as the molecule size or
 its family,  the nature of the  excited states, the size  of the basis
 set, etc.
+
+
+## Bug reports
+
+Please report problems/bugs on the [GitHub issue tracker](https://github.com/LCPQ/QUESTDB_website/issues).
+
+## Licenses
+
+This QUESTDB database is made available under the Open Database License:
+http://opendatacommons.org/licenses/odbl/1.0/. Any rights in individual
+contents of the database are licensed under the Database Contents License:
+http://opendatacommons.org/licenses/dbcl/1.0/
+
+The web application is made available under the BSD 3-clause license.
+
+-----------
+![Logo](./static/img/ERC.jpg)
+This project has received funding from the [European Research Council (ERC)](https://erc.europa.eu)
+under the European Union's Horizon 2020 research and innovation programme (Grant agreement No. 863481).
+
 
