@@ -61,8 +61,8 @@ http://opendatacommons.org/licenses/dbcl/1.0/
 
 The web application is made available under the BSD 3-clause license.
 
------------
-![Logo](./static/img/ERC.jpg)
+----------
+<img src="./static/img/ERC.jpg" width="200">
 This project has received funding from the [European Research Council (ERC)](https://erc.europa.eu)
 under the European Union's Horizon 2020 research and innovation programme (Grant agreement No. 863481).
 
