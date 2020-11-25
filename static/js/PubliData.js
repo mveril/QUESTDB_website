@@ -28,7 +28,7 @@ class PubliData{
   }
 
   static GetPathForDOI(DOI){
-    var site_url = window.location.origin;                                                        
+    var site_url = "/"+window.location.pathname.split('/')[1];
     return site_url + `/data/publis/${DOI.replaceAll(".","/")}`
   }
   static GetAbstractURLForDOI(DOI){
