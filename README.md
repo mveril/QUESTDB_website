@@ -22,7 +22,7 @@ make serve
 ```
 
 Now you can use your browser to  navigate to the website using the URL
-given by Hugo in your terminal (usually http://localhost:1313)
+given by Hugo in your terminal (http://localhost:1313/QUESTDB_website/)
 
 ## The QUEST database
 
