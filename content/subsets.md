@@ -4,7 +4,8 @@ date: 2020-09-10 15:00
 draft: false
 ---
 
-The QUEST database provides theoretical best estimates (TBEs) for more than 470 highly-accurate excitation energies of various natures (valence, Rydberg, {{< tex "n \rightarrow \pi^\star" >}}, {{< tex "\pi \rightarrow \pi^\star" >}}, singlet, doublet, triplet, and double excitations) for molecules ranging from diatomics to molecules as large as naphthalene.
+The QUEST database provides theoretical best estimates (TBEs) for more than 500 highly-accurate excitation energies of various natures (valence, Rydberg, {{< tex "n \rightarrow \pi^\star" >}}, {{< tex "\pi \rightarrow \pi^\star" >}}, singlet, doublet, triplet, and double excitations) for molecules ranging from diatomics to molecules as large as naphthalene.
+This set is also chemically diverse, with organic and inorganic systems, open- and closed-shell compounds, acyclic and cyclic systems, pure hydrocarbons and various heteroatomic structures, etc.
 The molecules included in the QUEST dataset have been systematically optimized at the CC3/aug-cc-pVTZ level of theory, except for a very few cases.
 The QUEST dataset of vertical excitations is composed by 5 subsets:
 
@@ -39,9 +40,9 @@ We further performed high-order CC calculations to ascertain these estimates.
 
 ### [QUEST#5](/references#QUEST%235)
 
-The QUEST#5 subset is composed by additional accurate excitation energies that we have produced for the present website.
-This new set gathers small molecules as well as larger molecules (aza-naphthalene, benzoquinone, cyclopentadienone, cyclopentadienethione, hexatriene, maleimide, naphthalene, nitroxyl, streptocyanine-C3, streptocyanine-C5, and thioacrolein).
-QUEST#5 does also provide additional FCI/6-31+G* estimates of the lowest singlet and triplet transitions for the five- and six-membered rings considered in QUEST#3.
+The QUEST#5 subset is composed by additional accurate excitation energies that we have produced for the present article. This new set gathers 13 new systems composed by small molecules as well as larger molecules: aza-naphthalene, benzoquinone, cyclopentadienone, cyclopentadienethione, diazirine, hexatriene, maleimide, naphthalene, nitroxyl, octatetraene, streptocyanine-C3, streptocyanine-C5, and thioacrolein. For these new transitions, we generated quality vertical energies, the vast majority being obtained at the CCSDT level, and we consider that, out of these 80 new transitions, 55 of them can be labeled 
+as "safe", i.e., considered as chemically accurate or within 0.05 eV of the FCI limit for the given geometry and basis set.
+are made with literature data.
 
 
 
