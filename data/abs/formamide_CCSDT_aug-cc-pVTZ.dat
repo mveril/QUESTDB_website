@@ -1,0 +1,13 @@
+# Molecule : Formamide
+# Comment  : 
+# code     : MRCC
+# method   : CCSDT,aug-cc-pVTZ
+# geom     : CC3,aug-cc-pVTZ 
+# set      : QUEST#1,0
+
+# Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscillator strength    unsafe
+#######################  #######################  ########################################  ############# ####### ##################### #############
+# Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
+  1       1     A^\prime   1       1     A^{\prime\prime} (n \rightarrow \pi^\star)               5.63          _              _            false
+  1       1     A^\prime   2       1     A^\prime     (n \rightarrow 3s)                      6.74          _              _            true
+  1       1     A^\prime   3       1     A^\prime     (n \rightarrow 3p)                      7.38          _              _            true
