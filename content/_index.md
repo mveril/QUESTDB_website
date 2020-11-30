@@ -5,7 +5,7 @@ draft: false
 ---
 
 ## The QUEST database of excitation energies
-The purpose of the [QUEST](about) project is to provide reference (i.e. highly accurate) vertical excitation energies for small- and medium-sized molecules in order to compare the precision of computational quantum chemistry methods thanks to reliable and fair statistical analyses.
+The purpose of the QUEST project is to provide reference (i.e. highly accurate) vertical excitation energies for small- and medium-sized molecules in order to compare the precision of computational quantum chemistry methods thanks to reliable and fair statistical analyses.
 One of the key aspect of the QUEST dataset is that it does not rely on any experimental values, avoiding potential biases inherently linked to experiments and facilitating in the process theoretical cross comparisons.
 The QUEST dataset of vertical excitations is composed by 5 subsets which are described in the [SUBSETS section](subsets).
 The corresponding literature references associated with the QUEST dataset can be found in the [REFERENCES section](references).
