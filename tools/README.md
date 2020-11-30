@@ -1,7 +1,7 @@
 This directory contains a series of Python scripts used to generate data:
 
 - `datafileBuilder`: A python  script to  generate data  from custom LaTeX input
-  file. See [examples](docs/examples).
+  file. See [examples](/docs/examples).
 - `metarecover`: A python script  is used  to regenerate  the metadata from the
   previous git history state.  So you can remove a data file to regenerate  it
   from  a  LaTeX input  file  with `datafileBuilder`  and recover the metadata
