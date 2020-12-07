@@ -713,13 +713,13 @@ draft: false
         const molecule =geom.parseMetadata().molecule
         if (mols.has(molecule)) {
           if (!geomDic.has(molecule)) {
-            geomDic.set(molecule,[])
+            geomDic.set(molecule,new Set())
           }
-          geomDic.get(molecule).push(geom.toXYZ())
+          geomDic.get(molecule).add(geom.toXYZ())
         }
       }
       for (const [molecule,geometries] of geomDic) {
-        const xyz=geometries.join("\n\n")
+        const xyz=Array.from(geometries).join("\n\n")
         var blob=new Blob([xyz],{type: 'chemical/x-xyz'})
         zip.file(`${mhchemCE.extract(molecule).toLowerCase().replace(" ","_")}.xyz`,blob)
       }
