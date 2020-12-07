@@ -204,6 +204,7 @@ draft: false
     processingIndicator.isActive = false
     reloadSizeSelector()
     reloadSelect("sets")
+    refreshExportGeoms()
   }
   async function clearSelect(BeforeName = null) {
     var selects = ((BeforeName == null) ? getAllSelect() : getAllSelectAfter(BeforeName, true))
@@ -691,6 +692,41 @@ draft: false
     }
     await reloadContent();
   }
+
+  function refreshExportGeoms() {
+    const vals=$("#mol_select").val()
+    const disable = vals === null || vals.length===0
+    $("#btn_export_geoms").prop("disabled",disable)
+  }
+  async function moleculeSelectionChanged(event) {
+    refreshExportGeoms()
+    await reloadNextSelect(event)
+  }
+
+  async function exportGeoms() {
+    var mols = new Set($("#mol_select").val())
+    
+    if (mols.size!==0) {
+      const zip = JSZip();
+      const geomDic=new Map()
+      for (const geom of window.geoms) {
+        const molecule =geom.parseMetadata().molecule
+        if (mols.has(molecule)) {
+          if (!geomDic.has(molecule)) {
+            geomDic.set(molecule,[])
+          }
+          geomDic.get(molecule).push(geom.toXYZ())
+        }
+      }
+      for (const [molecule,geometries] of geomDic) {
+        const xyz=geometries.join("\n\n")
+        var blob=new Blob([xyz],{type: 'chemical/x-xyz'})
+        zip.file(`${mhchemCE.extract(molecule).toLowerCase().replace(" ","_")}.xyz`,blob)
+      }
+      const zipFile = await zip.generateAsync({type: 'blob'})
+      saveAs(zipFile, "molecules.zip")
+    }
+  }
 </script>
 {{< getDataFilesName >}}
 <noscript>
@@ -732,23 +768,24 @@ draft: false
       </p>
       <div style="display: inline-block;">
         <label for="DOI_select" class="required">Set</label>
-        <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
+        <button class="selectButton" type="button" onclick="selectSelectAll_click(event)">Select all</button>
         <select multiple id="DOI_select" required name="sets" onchange="reloadNextSelect(event)"></select>
       </div>
       <div style="display:inline-block">
         <label for="mol_select" class="required">Molecule</label>
-        <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
-        <select multiple id="mol_select" required name="molecule" onchange="reloadNextSelect(event)"></select>
+        <button class="selectButton" type="button" onclick="selectSelectAll_click(event)">Select all</button>
+        <select multiple id="mol_select" required name="molecule" onchange="moleculeSelectionChanged(event)"></select>
+        <button id="btn_export_geoms" class="selectButton" type="button" disabled onclick="exportGeoms()">Export geometries</button>
       </div>
       <br />
       <div style="display: inline-block;">
         <label for="method_select" class="required">Method</label>
-        <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
+        <button class="selectButton" type="button" onclick="selectSelectAll_click(event)">Select all</button>
         <select multiple id="method_select" required name="method" onchange="reloadNextSelect(event)"></select>
       </div>
       <div style="display: inline-block;">
         <label for="basis_select" class="required">Basis set</label>
-        <button class="SelectAll" type="button" onclick="selectSelectAll_click(event)">Select all</button>
+        <button class="selectButton" type="button" onclick="selectSelectAll_click(event)">Select all</button>
         <select multiple id="basis_select" required name="basis" onchange="reloadNextSelect(event)"></select>
       </div>
     </fieldset>
@@ -850,7 +887,7 @@ draft: false
     </thead>
     <tbody>
     </tbody>
-    <div id="graph_div"></div>
   </table>
+  <div id="graph_div"></div>
 </section>
 {{< waitModal >}}
