@@ -30,6 +30,7 @@ draft: false
 <script src="/js/Geometry.js"></script>
 <script src="/js/GeometriesLoader.js"></script>
 <script src="/js/GeometryParseMetadataExtension.js"></script>
+<script src="/js/tableToCSV.js"></script>
 <script>
   function adjustSticky() {
     const height = $("nav").height()
@@ -581,6 +582,7 @@ draft: false
           $("<h2/>").append($("<a>",{href:publiDat.URL,target:"_blank"}).text(publiDat.title)).appendTo(div)
         }
         var table = $("<table/>").addClass("datatable").appendTo(div)
+        $(table).before($("#stat_table").prevAll("button:first").clone())
         var head = $("<tr/>")
         $("<thead/>").addClass("sticky").append(head).appendTo(table)
         var tbody = $("<tbody/>").appendTo(table)
@@ -650,7 +652,7 @@ draft: false
               if (kv !== undefined) {
                 const [val, unsafe] = kv[1]
                 if (unsafe) {
-                  td.append($("<span/>", { title: "unsafe value", role: "img", "aria-label": "Warning" }).addClass("emoji").text('⚠'))
+                  td.append($("<span/>", { title: "unsafe value", role: "img", "aria-label": "Warning", "data-csvtext":"(Unsafe)"}).addClass("emoji").text('⚠'))
                 }
                 if (unsafe && !filterParams.unsafe) {
                   td.append($("<s/>").append(val.toString()))
@@ -693,11 +695,26 @@ draft: false
     await reloadContent();
   }
 
+  function exportTableToCSV(table,title = null,allowTitleOverride = false) {
+    const tableCaption = $(table).find('caption').text()
+    if (tableCaption !== "" && (title === null || allowTitleOverride)) {
+      title = tableCaption
+    }
+    const csv = tableToCSV(table)
+    const blob = new Blob([csv],{type:"text/csv"})
+    saveAs(blob,`${title}.csv`)
+  }
+  function OnExportTable(event) {
+    const table=$(event.target).nextAll('table:first')
+    exportTableToCSV(table,"table")
+  }
+
   function refreshExportGeoms() {
     const vals=$("#mol_select").val()
     const disable = vals === null || vals.length===0
     $("#btn_export_geoms").prop("disabled",disable)
   }
+  
   async function moleculeSelectionChanged(event) {
     refreshExportGeoms()
     await reloadNextSelect(event)
@@ -871,6 +888,7 @@ draft: false
 <section id="data">
 </section>
 <section>
+  <button onclick="OnExportTable(event)">Export as CSV</button>
   <table id="stat_table" class="datatable">
     <thead class="sticky">
       <th scope="col">Method</th>
