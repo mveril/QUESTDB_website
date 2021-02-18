@@ -327,14 +327,14 @@ function getFluoFilesName(){
       }
       odois=Array.from(sodois)
       const uoopublis =  await PubliData.loadManyAsync(odois)
-      const opublis = uoopublis.sort((puba, pubb) => pubUtils.parseDate(puba.issued) - pubUtils.parseDate(pubb.issued))
+      const opublis = uoopublis.sort((puba, pubb) => pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb))
       for (const publi of opublis) {
         const art = await createPubliUI(publi, true, !myDB.others.includes(publi.DOI))
         $(art).appendTo("#publis_other")
       }
       const rdois = myDB.reviews
       const uorpublis =  await PubliData.loadManyAsync(rdois)
-      const rpublis = uorpublis.sort((puba, pubb) => pubUtils.parseDate(puba.issued) - pubUtils.parseDate(pubb.issued))
+      const rpublis = uorpublis.sort((puba, pubb) => pubUtils.getIssuedDate(puba) - pubUtils.getIssuedDate(pubb))
       for (const publi of rpublis) {
         art = await createPubliUI(publi, true, true)
         $(art).appendTo("#publis_review")

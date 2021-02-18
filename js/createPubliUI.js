@@ -1,8 +1,4 @@
 async function createPubliUI(publi,toolTips=false,abstract=false) {
-  var DayAndMothsFormat ={
-    minimumIntegerDigits: 2,
-    useGrouping: false
-  }
   const art = $("<article/>").addClass("publi")
   art.className = "publi"
   $("<a/>", {
@@ -17,10 +13,8 @@ async function createPubliUI(publi,toolTips=false,abstract=false) {
     var notifycontent = $("<div/>").addClass("author-info")
     $("<h1/>").text(String.raw`${author.given} ${author.family}`).appendTo(notifycontent)
     ulaff = $("<ul/>").addClass("affiliation-list").appendTo(notifycontent)
-    if (author.affiliation) {
-      for (const a of author.affiliation) {
-        $("<li/>").text(a.name).appendTo(ulaff)
-      }
+    for (const a of author.affiliation) {
+      $("<li/>").text(a.name).appendTo(ulaff)
     }
     if (author["authenticated-orcid"]) {
       const html = String.raw`<div class="orcid-id"><a href="https://orcid.org" target="_blank"><img alt="ORCID logo" src="https://orcid.org/sites/default/files/images/orcid_16x16.png" width="16" height="16"/></a> <a href="${author.ORCID}" target="_blank">${author.ORCID} </a></div>`
@@ -50,11 +44,9 @@ async function createPubliUI(publi,toolTips=false,abstract=false) {
   else {
     $("<span/>").text(publi["container-title"][0]).appendTo(journaldiv)
   }
-  var date = pubUtils.parseDate(publi.issued)
-  if (date) {
-    journaldiv.append(" ")
-    $("<span/>").text(date.getFullYear().toString()).appendTo(journaldiv)
-  }
+  var date = pubUtils.getIssuedDate(publi)
+  journaldiv.append(" ")
+  $("<span/>").text(date.getFullYear().toString()).appendTo(journaldiv)
   journaldiv.append(" ")
   $("<span/>").text(publi.volume).appendTo(journaldiv)
   if (publi.issue) {
@@ -66,15 +58,13 @@ async function createPubliUI(publi,toolTips=false,abstract=false) {
     href: publi.URL,
     target: "_blank"
   }).text(String.raw`DOI: ${publi.DOI}`).appendTo(art)
-  if (date) {    
-    $("<p/>").append("Published on ").append($("<time/>", {
-      datetime: date.toISOString().substring(0, 10)
-    }).text(date.toLocaleDateString("en-us", {
-      day: "numeric",
-      month: "short",
-      year: "numeric"
-    }))).appendTo(art)
-  }
+  $("<p/>").append("Published on ").append($("<time/>", {
+    datetime: JSON.stringify(date)
+  }).text(date.toLocaleDateString("en-us", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  }))).appendTo(art)
   if (abstract) {
    var ab = $("<section>",{id: "abstract",}).addClass("well").addClass("abstract")
    var abfig =$("<figure>").addClass("picture")
