@@ -1,16 +1,16 @@
 import itertools
 import sys
-from TexSoup import TexEnv,TexNode, RArg
+from TexSoup.data import TexEnv,TexNode, BraceGroup
 from collections.abc import Iterable
 def nodify(TexArray,envName="[tex]",parent=None):  
-  env=TexEnv(envName,TexArray)
+  env=TexEnv(envName,"","",TexArray)
   node=TexNode(env)
   node.parent=parent
   return node
 def desarg(tex):
   lst=[]
   for item in tex.contents:
-    if type(item) is RArg:
+    if type(item) is BraceGroup:
       myitem=item.contents
       if type(myitem) is list:
         for myit in myitem:

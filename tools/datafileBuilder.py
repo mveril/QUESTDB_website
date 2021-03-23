@@ -6,7 +6,8 @@ import numpy as np
 from pathlib import Path
 from lib import LaTeX,formats,dfbOptions
 from lib.formats import getFormatHandlers
-from TexSoup import TexSoup,TexNode,TexCmd,TexEnv
+from TexSoup import TexSoup
+from TexSoup.data import TexNode,TexCmd,TexEnv
 from lib.data import dataFileBase,DataType,state
 from collections import defaultdict
 import argparse

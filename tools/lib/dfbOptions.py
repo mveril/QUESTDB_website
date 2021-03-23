@@ -1,4 +1,5 @@
-from TexSoup import TexSoup,TexCmd
+from TexSoup import TexSoup
+from TexSoup.data import TexCmd
 from . import formats
 from .data import dataFileBase,DataType,state
 from collections import defaultdict

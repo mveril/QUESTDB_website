@@ -1,5 +1,6 @@
 import re
-from TexSoup import TexSoup,TexCmd,TexNode
+from TexSoup import TexSoup
+from TexSoup.data import TexCmd,TexNode
 from .utils import *
 import itertools
 from enum import Enum

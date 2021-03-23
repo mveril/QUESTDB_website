@@ -2,7 +2,7 @@ from collections import OrderedDict
 from TexSoup import TexSoup
 from .LaTeX import newCommand,extractMath
 from .utils import getValFromCell,checkFloat
-from TexSoup import TexNode,TexEnv
+from TexSoup.data import TexNode,TexEnv
 from enum import IntEnum,auto,unique,IntFlag
 from .formats import getFormatHandlers
 import re
