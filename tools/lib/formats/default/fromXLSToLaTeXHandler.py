@@ -16,8 +16,9 @@ def GetTypeFromAcronym(acronym):
     "p3s":r"\pi \rightarrow 3s",
     "p3p":r"\pi \rightarrow 3p",
     "spi":r"\sigma \rightarrow \pi^\star",
-    "CT":None,
-    "non-d":None
+    "CT":r"CT",
+    "non-d":None,
+    "n.d.":None
   }
   try:
     return acroDict[acronym]
