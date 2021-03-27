@@ -219,6 +219,8 @@ class dataFileBase(object):
     if suffix:
       fileNameComp.append(suffix)
     fileName="_".join(fileNameComp).replace(" ","_")+".dat"
+    if os.sep in fileName:
+      raise ValueError(f"fileName must be a pure file name not a path: {fileName}")
     file=subpath/fileName
     if not file.exists():
       with file.open("w") as f:
