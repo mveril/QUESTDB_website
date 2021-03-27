@@ -1,8 +1,8 @@
+#!/usr/bin/env python3
 from git import Repo,Git
 import io
 r=Repo(path=".")
-l=[item for item in r.index.diff(None) if item.a_path.endswith(".dat") and item.change_type=="M"]
-len(l)
+l=[item for item in r.index.diff("HEAD") if item.a_path.endswith(".dat") and item.change_type=="M"]
 for i in l:
   print(i.a_path)
   g=Git(Repo.git_dir)
