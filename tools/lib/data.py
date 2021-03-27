@@ -80,7 +80,7 @@ class exSet(object):
     if (self.name==otherSet.name and self.index==otherSet.index):
       return True
     else:
-      return self.getDOI() == self.getDOI()
+      return self.getDOI() == otherSet.getDOI()
 
 class dataFileBase(object):
   def __init__(self):
