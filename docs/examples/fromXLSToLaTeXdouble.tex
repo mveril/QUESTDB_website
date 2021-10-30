@@ -1,0 +1,42 @@
+\begin{dfbOptions}
+  \format{fromXLSToLaTeX}
+  \initialState[Acrolein]{^1A^\prime}
+  \initialState[Beryllium]{^1S}
+  \initialState[Benzene]{^1A_{1g}}
+  \initialState[Butadiene]{^1A_g}
+  \initialState[Carbon dimer]{^1\Sigma_g^+}
+  \initialState[Carbon drimer]{^1\Sigma_g^+}
+  \initialState[Ethylene]{^1A_g}
+  \initialState[Glyoxal]{^1A_g}
+  \initialState[Hexatriene]{^1A_g}
+  \initialState[Nitrosomethane]{^1A^\prime}
+  \initialState[Nitroxyl]{^1A^\prime}
+  \initialState[Pyrazine]{^1A_g}
+  \initialState[Tetrazine]{^1A_g}
+  \suffix{double}
+  \isDouble
+\end{dfbOptions}
+
+\begin{tabular}
+  & Molecule & Size & Group & State & S/T & V/R & Type & $\%T_1$ [TBE] & $f$ [TBE] & TBE & Method & Safe ? & & CIS(D) & CC2 & EOM-MP2 & STEOM-CCSD & CCSD & CCSD(T)(a)* & CCSDR(3) & CCSDT-3 & CC3 & CCSDT & SOS-ADC(2) [TM] & SOS-CC2 & SCS-CC2 & SOS-ADC(2) [QC] & ADC(2) & ADC(3) & ADC(2.5) \\
+  1 & Acrolein & 4 & 4 & $^1A^\prime$  & 1 & V & dou & 75.0 & n.d. & 7.87 & exFCI/6-31+G(d) + [CC3/AVTZ - CC3/6-31+G(d)] & Y & & & & & & & & & & 8.08 & & & & & & & & \\
+  2 & Beryllium & 1 & 13 & $^1D$ & 1 & R & dou & 32.0 & & 7.15 & exFCI/AVTZ & Y & & & & & & & & & & 7.17 & 7.15 & & & & & & & \\
+  3 & Benzene & 6 & 56 & $^1E_{2g}$   & 1 & V & ppi & 73.0 & & 8.28 & exFCI/6-31+G(d) + [CC3/AVTZ - CC3/6-31+G(d)] & Y & & & & & & & & & & 8.38 & & & & & & & & \\
+  4 & & 6 & 56 & $^1A_{1g}$   & 1 & V & dou & n.d. & & 10.55 & XMS-CASPT2/AVTZ & N & & & & & & & & & & & & & & & & & & \\
+  5 & Butadiene & 4 & 4 & $^1A_g$   & 1 & V & ppi & 75.1 & & 6.50 & exFCI/AVDZ + [CCSDT/AVTZ - CCSDT/AVDZ] & Y & & 7.35 & 7.09 & 7.14 & & 7.12 & 6.89 & 6.86 & 6.76 & 6.67 & 6.60 & 7.37 & 7.34 & 7.26 & 7.23 & 7.14 & 5.86 & 6.50 \\
+  6 & Carbon dimer & 2 & 13 & $^1\Delta_g$ & 1 & R & dou & 0.0 & & 2.09 & exFCI/AVTZ & Y & & & & & & & & & & 3.05 & 2.57 & & & & & & & \\
+  7 & & 2 & 13 & $^1\Sigma_g^+$  & 1 & R & dou & 0.0 & & 2.42 & exFCI/AVTZ & Y & & & & & & & & & & 3.26 & 2.86 & & & & & & & \\
+  8 & Carbon trimer & 2 & 13 & $^1\Delta_g$ & 1 & R & dou & 1.0 & & 5.22 & exFCI/AVTZ & Y & & & & & & & & & & 6.68 & 5.90 & & & & & & & \\
+  9 & & 2 & 13 & $^1\Sigma_g^+$  & 1 & R & dou & 1.0 & & 5.91 & exFCI/AVTZ & Y & & & & & & & & & & 7.24 & 6.57 & & & & & & & \\
+  10 & Ethylene & 2 & 13 & $^1A_g$ & 1 & V & dou & 20.0 & & 12.92 & exFCI/AVTZ & Y & & & & & & & & & & 13.42 & & & & & & & & \\
+  11 & Formaldehyde & 2 & 13 & $^1A_1$  & 1 & V & dou & 5.0 & n.d. & 10.35 & exFCI/AVTZ & Y & & & & & & & & & & 11.20 & 10.79 & & & & & & & \\
+  12 & Glyoxal & 4 & 4 & $^1A_g$ & 1 & V & dou & 0.5 & 0.000 & 5.61 & exFCI/AVDZ + [CCSDT/AVTZ - CCSDT/AVDZ] & Y & & & & & & & & & 7.26 & 6.76 & 6.35 & & & & & & 5.26 & \\
+  13 & Hexatriene & 6 & 56 & $^1A_g$ & 1 & V & ppi & 65.3 & & 5.62 & CCSDT/AVDZ + [CC3/AVTZ - CC3/AVDZ] & N & & 6.77 & 6.46 & 6.65 & & 6.57 & 6.27 & 6.14 & 5.91 & 5.75 & & 6.84 & 6.82 & 6.70 & 6.68 & 6.53 & 4.66 & 5.60 \\
+  14 & Nitrosomethane & 3 & 13 & $^1A^\prime$   & 1 & V & dou & 2.5 & 0.000 & 4.76 & exFCI/AVTZ & Y & & & & & & & & & 6.02 & 5.76 & 5.29 & & & & & & 3.00 & \\
+  15 & Nitroxyl & 2 & 13 & $^1A^\prime$   & 1 & V & dou & 0.3 & 0.000 & 4.33 & exFCI/AVTZ & Y & & & & & & & & & 5.51 & 5.26 & 4.79 & & & & & & 2.55 & \\
+  16 & Pyrazine & 6 & 56 & $^1A_g$   & 1 & V & dou & 12.0 & & 8.04 & NEVPT2/AVTZ & N & & & & & & & & & & 9.17 & & & & & & & & \\
+  17 & & 6 & 56 & $^1A_g$   & 1 & V & ppi & 71.0 & & 8.69 & CC3/AVTZ & N & & & & & & & & & & 8.69 & & & & & & & & \\
+  18 & Tetrazine & 6 & 56 & $^1A_g$   & 1 & V & dou & 0.7 & & 4.61 & NEVPT2/AVTZ & N & & & & & & & & & 6.77 & 6.21 & & & & & & & 4.54 & \\
+  19 & & 6 & 56 & $^1B_{3g}$   & 1 & V & dou & 0.7 & & 6.15 & NEVPT2/AVTZ & N & & & & & & & & & & 7.62 & & & & & & & 6.54 & \\
+  20 & & 6 & 56 & $^3B_{3g}$   & 3 & V & dou & 5.7 & & 5.51 & NEVPT2/AVTZ & N & & & & & & & & & & 7.35 & & & & & & & 6.34 &
+\end{tabular}
