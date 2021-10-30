@@ -1,11 +1,11 @@
-# Molecule : Formaldehyde
+# Molecule : Nitroxyl
 # Comment  : 
 # code     : 
-# method   : FCI,aug-cc-pVTZ
+# method   : CCSDT-3,aug-cc-pVTZ
 # geom     : CC3,aug-cc-pVTZ
-# set      : QUEST#2,0
+# set      : QUEST#2,1
 
 # Initial state            Final state                        Transition                    Energies (eV)   %T1    Oscillator strength    unsafe
 #######################  #######################  ########################################  ############# ####### ##################### #############
 # Number  Spin  Symm       Number  Spin  Symm         type                                    E_abs         %T1            f            is unsafe
-  1       1     A_1        3       1     A_1          (n,n \rightarrow \pi^\star,\pi^\star)   10.35         _              _            false
+  1       1     A^\prime   2       1     A^\prime     (\mathrm{V};double)                     5.51          _              _            false
