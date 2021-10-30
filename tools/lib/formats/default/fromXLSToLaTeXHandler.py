@@ -6,50 +6,56 @@ from ...LaTeX import newCommand,extractMath
 import numpy as np
 import json
 import itertools
-def GetTypeFromAcronym(acronym):
-  acroDict={
-    "npi":r"n \rightarrow \pi^\star",
-    "ppi":r"\pi \rightarrow \pi^\star",
-    "n3s":r"n \rightarrow 3s",
-    "n3p":r"n \rightarrow 3p",
-    "dou":"double",
-    "p3s":r"\pi \rightarrow 3s",
-    "p3p":r"\pi \rightarrow 3p",
-    "spi":r"\sigma \rightarrow \pi^\star",
-    "CT":r"CT",
-    "non-d":None,
-    "n.d.":None
-  }
-  try:
-    return acroDict[acronym]
-  except KeyError  as ex:
-    raise ValueError(f"Unrecognized acronym: {acronym}") from ex
-def GetFullState(TexState,defaultDatatype=DataType.ABS,VR=None,typeAcronym=None,Soup=True):
-  datatype=defaultDatatype
-  lst=list(TexState)
-  if len(lst)>1 and lst[1].value=="F":
-    datatype=DataType.FLUO
-  statemath=str(list(lst[0].contents)[0])
-  resultstr=statemath
-  fulltype=[]
-  if datatype==DataType.FLUO:
-    resultstr+=r"[\mathrm{F}]"
-  if VR!=None:
-    fulltype.append(r"\mathrm{"+VR+"}")
-  if typeAcronym!=None:
-    _type=GetTypeFromAcronym(typeAcronym)
-    if _type!=None:
-      fulltype.append(_type)
-    if len(fulltype)>0:
-      resultstr+=" ("+";".join(fulltype)+")"
-  resultstr="$"+resultstr+"$"
-  if Soup:
-    return TexSoup(resultstr)
-  else:
-    return resultstr
-
 @formatName("fromXLSToLaTeX")
 class fromXLSToLaTeXHandler(formatHandlerBase):
+  def GetTypeFromAcronym(self,acronym):
+    ra = r'\rightarrow'
+    acroDict={
+      "npi":rf'n {ra} \pi^\star',
+      "ppi":rf'\pi {ra} \pi^\star',
+      "n3s":rf'n {ra} 3s',
+      "n3p":rf'n {ra} 3p',
+      "dou":"double",
+      "p3s":rf'\pi {ra} 3s',
+      "p3p":rf'\pi {ra} 3p',
+      "spi":rf'\sigma {ra} \pi^\star',
+      "CT":r'CT',
+      "non-d":None,
+      "n.d.":None
+    }
+    try:
+      value = acroDict[acronym]
+      if self.TexOps.isDouble and ra in value:
+        lr = [i.strip() for i in value.split(ra)]
+        return f'{lr[0]},{lr[0]} {ra} {lr[1]},{lr[1]}'
+      else:
+       return value
+    except KeyError  as ex:
+      raise ValueError(f"Unrecognized acronym: {acronym}") from ex
+  def GetFullState(self,TexState,defaultDatatype=DataType.ABS,VR=None,typeAcronym=None,Soup=True):
+    datatype=defaultDatatype
+    lst=list(TexState)
+    if len(lst)>1 and lst[1].value=="F":
+      datatype=DataType.FLUO
+    statemath=str(list(lst[0].contents)[0])
+    resultstr=statemath
+    fulltype=[]
+    if datatype==DataType.FLUO:
+      resultstr+=r"[\mathrm{F}]"
+    if VR!=None:
+      fulltype.append(r"\mathrm{"+VR+"}")
+    if typeAcronym!=None:
+      _type=self.GetTypeFromAcronym(typeAcronym)
+      if _type!=None:
+        fulltype.append(_type)
+      if len(fulltype)>0:
+        resultstr+=" ("+";".join(fulltype)+")"
+    resultstr="$"+resultstr+"$"
+    if Soup:
+      return TexSoup(resultstr)
+    else:
+      return resultstr
+
   def readFromTable(self,table):
     datalist=list()
     subtablesRange=getSubtablesRange(table,firstindex=1,column=1)
@@ -77,7 +83,7 @@ class fromXLSToLaTeXHandler(formatHandlerBase):
           methodname=str(methtex)
         mymethod=method(methodname,basis)
         methkey=json.dumps(mymethod.__dict__)
-        mathstates=[GetFullState(table[i,4],VR=str(table[i,6]),typeAcronym=str(table[i,7]),Soup=True) for i in myrange]
+        mathstates=[self.GetFullState(table[i,4],VR=str(table[i,6]),typeAcronym=str(table[i,7]),Soup=True) for i in myrange]
         finsts=dataFileBase.convertState(mathstates,initialState,default=self.TexOps.defaultType,commands=self.Commands)
         for index,cell in enumerate(col[myrange]):
           if str(cell)!="":

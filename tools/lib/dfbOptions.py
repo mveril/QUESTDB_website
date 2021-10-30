@@ -9,7 +9,7 @@ class dfbOptions(object):
     self.format="line"
     self.suffix=None
     self.initialStates=defaultdict(lambda : state(1,1,"A_1"))
-    
+    self.isDouble=False
   @staticmethod
   def readFromEnv(lateEnv):
     dfb_Opt=dfbOptions()
@@ -42,4 +42,20 @@ class dfbOptions(object):
         else:
           mystate=state.fromString("1 "+vRArgs[0])
           dfb_Opt.initialStates[vOArgs[0]]=mystate
-    return dfb_Opt    
+    dfbIsDouble=lateEnv.isDouble
+    if dfbIsDouble!=None:
+      dfbIsDouble=dfbIsDouble.expr
+      if type(dfbIsDouble) is TexCmd:
+        if len(dfbIsDouble.args)==0:
+          dfb_Opt.isDouble = True
+        elif len(dfbIsDouble.args)==1 and dfbIsDouble.args[0].type=="optional":
+          isDoubleStr=dfbIsDouble.args[0].value
+          if isDoubleStr == "true":
+            dfb_Opt.isDouble = True
+          elif isDoubleStr == "false":
+            isDouble = False
+          else:
+            raise ValueError("\isDouble must be 'true' or 'false'.")
+        else:
+          raise ValueError("Arguments error on '\isDouble'. Only one optional argument is supported.")
+    return dfb_Opt
