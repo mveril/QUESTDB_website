@@ -1,0 +1,64 @@
+\newcommand{\DZ}{cc-pVDZ}
+\newcommand{\TZ}{cc-pVTZ}
+\newcommand{\QZ}{cc-pVQZ}
+
+\newcommand{\AVDZ}{aug-cc-pVDZ}
+\newcommand{\AVTZ}{aug-cc-pVTZ}
+\newcommand{\AVQZ}{aug-cc-pVQZ}
+
+\begin{dfbOptions}
+	\format{CT2}
+	\initialState[Dipeptide]{^1A^\prime}
+	\initialState[$\beta$-Dipeptide]{^1A^\prime}
+	\set{QUEST#6}{0}
+	\geometry{CC3}{aug-cc-pVQZ}
+	\geometry[Dimethylaminobenzonitrile]{CCSD(T)}{cc-pVTZ}
+	\geometry[Dimethylaniline]{CCSD(T)}{cc-pVTZ}
+	\geometry[Dipeptide]{MP2}{6-31G*}
+	\geometry[$\beta$-Dipeptide]{MP2}{6-31G*}
+	\geometry[Hydrogen Chloride]{CC3}{aug-cc-pVTZ}
+	\geometry[Nitrodimethylaniline]{CCSD(T)}{cc-pVTZ}
+	\geometry[Nitropyridine]{CCSD(T)}{cc-pVTZ}
+	\geometry[N-Phenylpyrrole]{CCSD(T)}{cc-pVTZ}
+	\geometry[Twisted Dimethylaniline]{CCSD(T)}{cc-pVTZ}
+	\geometry[Twisted N-Phenylpyrrole]{CCSD(T)}{cc-pVTZ}
+	\defaultBasis{cc-pVQZ}
+\end{dfbOptions}
+
+
+
+\begin{tabular}
+	Molecule 	& State								&TBE	&CIS(D)	&EOM-MP2&SOPPA&RPA(D)	&CC2	&CCSD	&CCSD(T)(a)*	&CCSDR(3)	&CCSDT-3	&CC3	&ADC(2)	&ADC(3)	&ADC(2.5)	& BSE@HF	& BSE@PBE0	\\
+	Aminobenzonitrile& 2 $A_1$ ($\pi \rightarrow \pi^\star$)	&5.26	&5.57	&5.61	&4.62	&5.21	&5.26	&5.41	&5.32		&5.31		&5.30		&5.25	&5.16	&5.09	&5.12		&5.22	&5.11	\\
+	Aniline	&2 $A_1$ ($\pi \rightarrow \pi^\star$)			&5.87	&6.19	&6.12	&5.27	&5.85 &5.86	&5.99	&5.91		&5.90		&5.90		&5.86	&5.79	&5.74	&5.76		&5.80	&5.64	\\
+	Azulene	&2 $A_1$ ($\pi \rightarrow \pi^\star$)			&3.89	&4.14	&4.37	&3.27	&3.93	&3.94	&4.02	&3.98		&3.98		&3.92		&3.88	&3.86	&3.65	&3.75		&3.57	&3.45	\\
+			&2 $B_2$ ($\pi \rightarrow \pi^\star$)			&4.55	&4.78	&5.23	&4.05	&5.14	&4.69	&4.82	&4.69		&4.68		&4.61		&4.52	&4.67	&4.45	&4.56		&4.64	&4.40	\\
+	Benzonitrile&1 $A_2$ ($\pi_{\text{CN}} \rightarrow \pi^\star$)
+												&7.10	&7.85	&7.52	&6.76	&7.69	&7.32	&7.33	&7.17 		&7.16		&7.15		&7.08	&7.28	&6.77	&7.03		&7.03	&6.58	\\		
+	Benzothiadiazole&1 $B_2$ ($\pi \rightarrow \pi^\star$)	&4.37	&4.74	&5.03	&3.79	&4.37	&4.47	&4.63	&4.45 		&4.44		&4.40		&4.30	&4.46	&4.04	&4.25		&4.16	&3.89	\\
+	Dimethylaminobenzonitrile	
+			&2 $A_1$ ($\pi \rightarrow \pi^\star$)			&4.94	&5.26	&5.33	&4.20 	&4.92	&4.85	&5.10	&5.00		&4.99		&4.99		&4.93	&4.73	&4.87	&4.80		&4.97	&4.89	\\
+	Dimethylaniline&1 $B_2$ ($\pi \rightarrow \pi^\star$)		&4.47	&4.67	&4.90	&3.92	&4.22	&4.49	&4.66	&4.54		&4.55		&4.53		&4.48	&4.47	&4.51	&4.49		&4.78	&4.56	\\
+				&2 $A_1$ ($\pi \rightarrow \pi^\star$)		&5.54	&5.95	&5.85	&4.85	&5.63	&5.44	&5.68	&5.59		&5.58		&5.58		&5.53	&5.35	&5.52	&5.44		&5.58	&5.42	\\
+	Dipeptide	& 7 $A^{\prime\prime}$	($n_1 \rightarrow \pi_2^\star$)		&8.15	&9.51	&9.01	&7.48	&9.37	&7.89	&8.92	&8.37		&8.33		&8.31		&8.04	&7.82	&9.22	&8.52		&9.03	&8.59	\\
+	$\beta$-Dipeptide&7 $A^\prime$ ($\pi_1 \rightarrow \pi_2^\star$)	&8.51	&8.60	&9.00	&7.96	&8.44	&8.34	&8.90	&8.63		&8.59$^a$	&8.59		&8.46$^b$&8.30	&8.88	&8.59		&9.12	&8.84	\\
+			&10 $A^{\prime\prime}$($n_1 \rightarrow \pi_2^\star$)		&8.90	&9.71	&9.63	&8.16	&9.67	&8.52	&9.58	&9.14		&9.08$^a$	&9.02		&8.78$^b$&8.45	&9.76$^c$&9.10		&9.67	&9.38	\\
+	Hydrogen Chloride&1 $\Pi$ ($n  \rightarrow \sigma^\star$)	&8.10	&8.32	&7.98	&8.05	&8.07	&8.28	&8.18	&8.10 		&8.10		&8.12		&8.11	&8.30	&8.02	&8.16		&8.41	&7.72	\\
+	Nitroaniline	& 2 $A_1$ ($\pi \rightarrow \pi^\star$)	&4.57	&4.75	&5.15	&3.85	&4.36	&4.55	&4.80	&4.67 		&4.65		&4.61		&4.51	&4.44	&4.42	&4.43		&4.55	&4.47	\\		
+	Nitrobenzene& 2 $A_1$ ($\pi \rightarrow \pi^\star$)		&5.57	&5.93	&6.11	&4.95	&5.57	&5.63	&5.77	&5.67 		&5.64		&5.59		&5.52	&5.55	&5.31	&5.43		&5.47	&5.25	\\	
+	Nitrodimethylaniline&2 $A_1$ ($\pi \rightarrow \pi^\star$)	&4.28	&4.44	&4.89	&3.47	&4.06	&4.18	&4.53	&4.39 		&4.37		&4.33		&4.22	&4.05	&4.21	&4.13		&4.30	&4.28	\\
+	Nitropyridine N-Oxide&2 $A_1$ ($\pi \rightarrow \pi^\star$)&4.24	&4.26	&4.71	&2.88	&4.52	&4.10	&4.46	&4.31 		&4.28		&4.24$^d$	&4.13$^d$&3.62	&4.17	&3.90		&3.85	&4.05	\\	
+	N-Phenylpyrrole&2 $B_2$  ($\pi \rightarrow \pi^\star$)	&5.53	&5.98	&6.06	&5.08	&5.62	&5.55	&5.84	&5.62 		&5.61		&5.60		&5.50	&5.57	&5.46	&5.52		&5.59	&5.29	\\
+				&3 $A_1$ ($\pi \rightarrow \pi^\star$)		&6.04	&6.35	&6.76	&5.66	&6.23	&6.02	&6.52	&6.18 		&6.16		&6.14		&5.97	&6.07	&6.16	&6.11		&6.35	&6.03	\\
+	Phthalazine	&1 $A_2$ ($n \rightarrow \pi^\star$)		&3.93	&4.31	&4.47	&3.24	&3.91	&3.78	&4.26	&4.05 		&4.04		&4.03		&3.89	&3.79	&4.19	&3.99		&4.39	&3.92	\\
+				&1 $B_1$ ($n \rightarrow \pi^\star$)		&4.34	&4.75	&4.93	&3.61	&4.27	&4.22	&4.64	&4.46 		&4.46		&4.43		&4.32	&4.23	&4.49	&4.36		&4.73	&4.28	\\
+	Quinoxaline	&1 $B_2$ ($\pi \rightarrow \pi^\star$)		&4.74	&5.17	&5.32	&4.05	&4.92	&4.66	&5.00	&4.82 		&4.81		&4.79		&4.69	&4.65	&4.64	&4.64		&4.53	&4.28	\\
+				&3  $A_1$ ($\pi \rightarrow \pi^\star$)	&5.75	&5.90	&6.36	&5.23	&5.43	&5.83	&6.01	&5.86 		&5.86		&5.84		&5.76	&5.82	&5.59	&5.71		&6.83	&5.70	\\
+				&2 $B_1$ ($n \rightarrow \pi^\star$)		&6.33	&6.81	&7.13	&5.79	&6.45	&6.17	&6.87	&6.50 		&6.49		&6.48		&6.26	&6.25	&6.79	&6.52		&6.88	&6.42	\\
+	Twisted DMABN&1 $A_2$($n \rightarrow \pi^\star$)		&4.17	&3.82	&4.55	&3.36	&3.49	&3.89	&4.41	&4.23 		&4.23		&4.25		&4.15	&3.84	&4.56	&4.20		&4.61	&4.32	\\
+				&1 $B_1$($n \rightarrow \pi^\star$)		&4.84	&4.38	&5.33	&4.07	&4.12	&4.50	&5.19	&4.91 		&4.91		&4.95		&4.81	&4.50	&5.40	&4.95		&5.34	&5.05	\\
+	Twisted PP	&2 $B_2$  ($\pi \rightarrow \pi^\star$)	&5.73	&5.55	&6.37	&5.23	&5.35	&5.64	&6.10	&5.79 		&5.79		&5.80		&5.67	&5.67	&5.87	&5.77		&6.04	&5.65	\\
+				&2 $A_1$  ($\pi \rightarrow \pi^\star$)	&5.82	&6.09	&6.41	&5.41	&5.81	&5.78	&6.18	&5.92 		&5.91		&5.89		&5.76	&5.82	&5.93	&5.87		&6.07	&5.80	\\
+				&1 $A_2$  ($\pi \rightarrow \pi^\star$)	&6.04	&5.90	&6.63	&5.43	&5.56	&5.92	&6.35	&6.11 		&6.11		&6.12		&6.01	&5.90	&6.24	&6.07		&6.41	&6.04	\\
+				&1 $B_1$  ($\pi \rightarrow \pi^\star$)	&6.28	&6.16	&6.86	&5.69	&5.91	&6.14	&6.61	&6.41 		&6.38		&6.36		&6.24	&6.13	&6.57	&6.35		&6.60	&6.27	\\
+	\end{tabular}

@@ -1,0 +1,24 @@
+\newcommand{\DZ}{cc-pVDZ}
+\newcommand{\TZ}{cc-pVTZ}
+\newcommand{\QZ}{cc-pVQZ}
+
+\newcommand{\AVDZ}{aug-cc-pVDZ}
+\newcommand{\AVTZ}{aug-cc-pVTZ}
+\newcommand{\AVQZ}{aug-cc-pVQZ}
+
+\begin{dfbOptions}
+	\format{CT1}
+	\excludecolumns{2,3,4,5,6,7,8,9,10,11,12,16,18,19,21}
+	\set{QUEST#6}{0}
+	\geometry{CC3}{aug-cc-pVTZ}
+	\suffix{CT}
+\end{dfbOptions}
+
+
+
+\begin{tabular}
+		&								& \multicolumn{3}{c}{{\TZ}}	& \multicolumn{4}{c}{{\DZ}} & \multicolumn{4}{c}{{\TZ}}		& \multicolumn{3}{c}{{\AVTZ}}							& \multicolumn{2}{c}{{\AVQZ}}		& \multicolumn{4}{c}{Litt.}   \\
+Molecule 	& State					&$d^{\text{CT}}_{\text{CAM}}$&$r^{\text{eh}}_{\text{ADC}}$ &$r^{\text{eh}}_{\text{BSE}}$
+														& CCSD	& CCSDT-3 	& CC3	& CCSDT		& CCSD	& CCSDT-3 	& CC3	& TBE		& CCSD& CCSDT-3& TBE	&$\Delta\Delta E^{\text{CC2}}_{\text{AQZ}} $	& TBE	& Th.	& Th.	& Exp.	& Exp.\\
+Hydrogen Chloride & 1 $\Pi$ ($n  \rightarrow \sigma^\star$)	& 1.05 & 0.95 & 1.66 & 8.29	& 8.24		& 8.23	& 8.23		& 8.18	& 8.12		& 8.11	& 8.10$^v$& 7.91& 7.85	& 7.84$^v$&	& 7.88$^w$& 7.86$^x$& 8.23$^y$ & &\\
+\end{tabular}
