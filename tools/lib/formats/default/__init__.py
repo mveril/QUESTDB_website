@@ -5,3 +5,4 @@ from .TBEHandler import TBEHandler
 from .doubleTBEHandler import doubleTBEHandler
 from .exoticColumnHandler import exoticColumnHandler
 from .fromXLSToLaTeXHandler import fromXLSToLaTeXHandler
+from .CTHandlers import CT1Handler, CT2Handler
