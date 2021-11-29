@@ -1,0 +1,18 @@
+{{ define "main" }}
+<link rel="stylesheet" type="text/css" href="/css/faq.css" />
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    {{ .Content }}
+    {{ range .Site.Data.faq }}
+    <details>
+      <summary>
+        <h2 class="faq-u">{{ .question | markdownify }}</h2>
+      </summary>
+      <p class="faq-a">{{ .anser  | markdownify }}</p>
+    </details>
+    {{end}}
+    </div>
+  </div>
+</div>
+{{ end }}

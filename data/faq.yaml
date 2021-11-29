@@ -1,0 +1,4 @@
+- question: How to export geometry data?
+  anser: You need to use the export geometries button below the geometry select box. this button allow to export geometries as a ZIP file containing all the selected molecular geometries in xyz format
+- question: how to export values?
+  anser: Above each table there is an `Export table` button which allow to export the data of the choosen table as [CSV](https://wikipedia.org/wiki/Comma-separated_values) file.
