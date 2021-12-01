@@ -17,6 +17,14 @@ class PubliData{
   get Path(){
     return PubliData.GetPathForDOI(this.DOI)
   }
+  
+  get PictureExist(){
+    return PubliData.PictureExistForDOI(this.DOI)
+  }
+  get AbstractExist(){
+    return PubliData.AbstractExistForDOI(this.DOI)
+  }
+
   get PictureURL(){
     return PubliData.GetPictureURLForDOI(this.DOI)
   }
@@ -37,6 +45,14 @@ class PubliData{
 
   static GetPictureURLForDOI(DOI){
     return `${PubliData.GetPathForDOI(DOI)}/picture.jpeg`
+  }
+
+  static AbstractExistForDOI(DOI){
+    return FileExist(PubliData.GetAbstractURLForDOI(DOI))
+  }
+
+  static PictureExistForDOI(DOI){
+    return FileExist(PubliData.GetPictureURLForDOI(DOI))
   }
 
   static async getAbstractTexForDOIAsync(DOI){

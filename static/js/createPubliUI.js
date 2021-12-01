@@ -70,14 +70,17 @@ async function createPubliUI(publi,toolTips=false,abstract=false) {
     year: "numeric"
   }))).appendTo(art)
   if (abstract) {
-   var ab = $("<section>",{id: "abstract",}).addClass("well").addClass("abstract")
-   var abfig =$("<figure>").addClass("picture")
-   abfig.appendTo(ab)
-   $("<img>",{src:publi.PictureURL}).appendTo(abfig)
-   var htmltxt = await publi.getAbstractTextAsync()
-   abtxt=$("<p>").html(htmltxt)
-   abtxt.appendTo(ab)
-   art.append(ab)
+    if (publi.AbstractExist) 
+     var ab = $("<section>",{id: "abstract",}).addClass("well").addClass("abstract")
+     if (publi.PictureExist) {       
+       var abfig =$("<figure>").addClass("picture")
+       abfig.appendTo(ab)
+       $("<img>",{src:publi.PictureURL}).appendTo(abfig)
+     }
+     var htmltxt = await publi.getAbstractTextAsync()
+     abtxt=$("<p>").html(htmltxt)
+     abtxt.appendTo(ab)
+     art.append(ab)
   }
   return art
 }
