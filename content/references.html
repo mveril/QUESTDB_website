@@ -56,7 +56,7 @@ draft: false
       const uoopublis =  await PubliData.loadManyAsync(odois)
       const opublis = uoopublis.sort((puba, pubb) => pubUtils.parseDate(pubUtils.bestDate(puba).dateInfo) - pubUtils.parseDate(pubUtils.bestDate(pubb).dateInfo))
       for (const publi of opublis) {
-        const art = await createPubliUI(publi, true, !myDB.others.includes(publi.DOI))
+        const art = await createPubliUI(publi, true, true)
         $(art).appendTo("#publis_other")
       }
       const rdois = myDB.reviews
