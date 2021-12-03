@@ -4,7 +4,7 @@ date: 2020-09-10 15:00
 draft: false
 ---
 
-The QUEST database provides theoretical best estimates (TBEs) for more than 500 highly-accurate excitation energies of various natures (valence, Rydberg, {{< tex "n \rightarrow \pi^\star" >}}, {{< tex "\pi \rightarrow \pi^\star" >}}, singlet, doublet, triplet, and double excitations) for molecules ranging from diatomics to molecules as large as naphthalene.
+The QUEST database provides theoretical best estimates (TBEs) for more than 600 highly-accurate excitation energies of various natures (valence, Rydberg, {{< tex "n \rightarrow \pi^\star" >}}, {{< tex "\pi \rightarrow \pi^\star" >}}, singlet, doublet, triplet, and double excitations) for molecules ranging from diatomics to molecules as large as naphthalene.
 This set is also chemically diverse, with organic and inorganic systems, open- and closed-shell compounds, acyclic and cyclic systems, pure hydrocarbons and various heteroatomic structures, etc.
 The molecules included in the QUEST dataset have been systematically optimized at the CC3/aug-cc-pVTZ level of theory, except for a very few cases.
 The QUEST dataset of vertical excitations is composed by 5 subsets:
@@ -48,7 +48,12 @@ are made with literature data.
 This set provides a series of highly accurate vertical excitation energies for 30 (mild or strong) charge-transfer transitions obtained in 17 compounds (aminobenzonitrile, aniline, azulene, benzonitrile, benzothiadiazole, dimethylaminobenzonitrile, dimethylaniline, dipeptide, $\beta$-dipeptide, hydrogen chloride, nitroaniline, nitrobenzene,
 nitrodimethylaniline, nitropyridine N-oxide, N-phenylpyrrole, phthalazine, and quinoxaline] computed from CCSDT/cc-pVDZ excitation energies determined corrected by CC3/CCSDT-3 energies obtained with the cc-pVTZ basis with further basis set corrections (up to aug-cc-pVQZ) obtained at the CCSD and CC2 levels.
 
+{{< figure src="/img/subsets.png" title="Composition of first five subsets making up the present QUEST dataset of highly-accurate vertical excitation energies" >}}
+
 ### [QUEST#7](/references#QUEST%237)
 
 The QUEST#7 subset is composed by 91 vertical excitation energies of 10 bicyclic molecules (azulene, benzoxadiazole, benzothiadiazole, diketopyrrolopyrrole, furofuran, phthalazine, pyrrolopyrrole, quinoxaline, tetrathiafulvalene, and thienothiophene). 
 In total, we provide aug-cc-pVTZ reference vertical excitation energies for these 91 excited states of these relatively large systems using CC3 and CCSDT.
+
+{{< figure src="/img/CT.png" title="Molecules of the QUEST#6 of QUEST#7 subsets" >}}
+
