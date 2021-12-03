@@ -45,7 +45,7 @@ as "safe", i.e., considered as chemically accurate or within 0.05 eV of the FCI 
 are made with literature data.
 
 ### [QUEST#6](/references#QUEST%236)
-This set provides a series of highly accurate vertical excitation energies for 30 (mild or strong) charge-transfer transitions obtained in 17 compounds (aminobenzonitrile, aniline, azulene, benzonitrile, benzothiadiazole, dimethylaminobenzonitrile, dimethylaniline, dipeptide, {{< tex "\beta">-dipeptide, hydrogen chloride, nitroaniline, nitrobenzene,
+This set provides a series of highly accurate vertical excitation energies for 30 (mild or strong) charge-transfer transitions obtained in 17 compounds (aminobenzonitrile, aniline, azulene, benzonitrile, benzothiadiazole, dimethylaminobenzonitrile, dimethylaniline, dipeptide, {{< tex "\beta">}}-dipeptide, hydrogen chloride, nitroaniline, nitrobenzene,
 nitrodimethylaniline, nitropyridine N-oxide, N-phenylpyrrole, phthalazine, and quinoxaline] computed from CCSDT/cc-pVDZ excitation energies determined corrected by CC3/CCSDT-3 energies obtained with the cc-pVTZ basis with further basis set corrections (up to aug-cc-pVQZ) obtained at the CCSD and CC2 levels.
 
 ### [QUEST#7](/references#QUEST%237)
