@@ -4,7 +4,7 @@ date: 2020-09-10 15:00
 draft: false
 ---
 
-The QUEST database provides theoretical best estimates (TBEs) for more than 600 highly-accurate excitation energies of various natures (valence, Rydberg, {{< tex "n \rightarrow \pi^\star" >}}, {{< tex "\pi \rightarrow \pi^\star" >}}, singlet, doublet, triplet, charge transfer, and double excitations) for molecules ranging from diatomics to bicyclic molecules (see below).
+The QUEST database provides theoretical best estimates (TBEs) for more than 600 highly-accurate excitation energies of various natures (valence, Rydberg, {{< tex "n \rightarrow \pi^\star" >}}, {{< tex "\pi \rightarrow \pi^\star" >}}, singlet, doublet, triplet, charge transfer, and double excitations) for molecules ranging from diatomics to bicyclic compounds (see below).
 This set is also chemically diverse, with organic and inorganic systems, open- and closed-shell compounds, acyclic and cyclic systems, pure hydrocarbons and various heteroatomic structures, etc.
 The molecules included in the QUEST dataset have been systematically optimized at the CC3/aug-cc-pVTZ level of theory, except for a very few cases.
 The QUEST dataset of vertical excitations is composed by 7 subsets:
