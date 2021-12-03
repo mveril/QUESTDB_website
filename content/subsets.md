@@ -48,8 +48,6 @@ are made with literature data.
 This set provides a series of highly accurate vertical excitation energies for 30 (mild or strong) charge-transfer transitions obtained in 17 compounds (aminobenzonitrile, aniline, azulene, benzonitrile, benzothiadiazole, dimethylaminobenzonitrile, dimethylaniline, dipeptide, $\beta$-dipeptide, hydrogen chloride, nitroaniline, nitrobenzene,
 nitrodimethylaniline, nitropyridine N-oxide, N-phenylpyrrole, phthalazine, and quinoxaline] computed from CCSDT/cc-pVDZ excitation energies determined corrected by CC3/CCSDT-3 energies obtained with the cc-pVTZ basis with further basis set corrections (up to aug-cc-pVQZ) obtained at the CCSD and CC2 levels.
 
-{{< figure src="/img/subsets.png" title="Composition of first five subsets making up the present QUEST dataset of highly-accurate vertical excitation energies" >}}
-
 ### [QUEST#7](/references#QUEST%237)
 
 The QUEST#7 subset is composed by 91 vertical excitation energies of 10 bicyclic molecules (azulene, benzoxadiazole, benzothiadiazole, diketopyrrolopyrrole, furofuran, phthalazine, pyrrolopyrrole, quinoxaline, tetrathiafulvalene, and thienothiophene). 
