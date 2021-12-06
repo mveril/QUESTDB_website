@@ -1,9 +1,10 @@
 function selectFilter_Click(e) {
   const target=$(e.target)
   const ctrl = target.nextAll("select").first()
-  selectFilter(ctrl,target.val())
+  selectFilter(ctrl)
 }
-function selectFilter(target,text) {
+function selectFilter(target) {
+  const text=$(target).prevAll("input.selectSearch").first().val()
   target.find("option").each(function () {
     if (text==='' || $(this).text().toLowerCase().includes(text.toLowerCase())) {
       $(this).show()
@@ -12,4 +13,8 @@ function selectFilter(target,text) {
       $(this).hide()
     }
   });
+}
+
+function clearSelectFilter(target) {
+  $(target).prevAll("input.selectSearch").val("")
 }
