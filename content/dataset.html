@@ -224,6 +224,7 @@ draft: false
     selects.add($('#sel_ref'))
     selects.each(function () {
       $(this).empty()
+      clearSelectFilter(this)
     })
   }
 
@@ -345,7 +346,6 @@ draft: false
         }).text(textSelctor(val)).appendTo(currentselect)
       }
     }
-    clearSelectFilter(currentselect)
   }
   function getSelectValue(data, name) {
     switch (name) {
