@@ -44,4 +44,8 @@ theme = "beautifulhugo"
     name = "References"
     url = "references"
     weight = 4
+[[menu.main]]
+    name = "FAQ"
+    url = "faq"
+    weight = 5
 
