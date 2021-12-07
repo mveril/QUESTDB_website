@@ -11,6 +11,6 @@ This button allows to export geometries as a {{< newtabref  href="https://en.wik
 
 # How to export values of excitation energies?
 
-Above each table there is an `Export table` button which allows to export the data of the chosen table as {{< newtabref  href="https://wikipedia.org/wiki/Comma-separated_values" title="CSV" >}} file.
+In the [DATASET section](dataset), above each table there is an `Export table` button which allows to export the data of the chosen table as {{< newtabref  href="https://wikipedia.org/wiki/Comma-separated_values" title="CSV" >}} file.
 
 ***
