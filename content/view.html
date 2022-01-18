@@ -15,8 +15,8 @@ draft: false
       var browsers = {};
       browsers["Chromium"] = "https://chromium.woolyss.com/download";
       browsers["Firefox"] = "https://www.mozilla.org/fr/firefox";
-      var recomsting = "We recomend to use Firefox or a Chromium based browser like Google Chrome";
-      btn_clip.title = 'This feature is not supported in this bowser\n' + recomsting;
+      var recomstring = "We recommend to use Firefox or a Chromium based browser like Google Chrome".;
+      btn_clip.title = 'This feature is not supported in this browser.\n' + recomsting;
       var mystr = 'navigator.clipboard.writeText() not supported in this browser\n' + recomsting;
       for (var key in browsers) {
         mystr += "\n" + String.raw`Download ${key} : ${browsers[key]}`;
@@ -27,7 +27,7 @@ draft: false
     var key = ["file", "fileBase64"]
     if (params.has(key[0])) {
       var filename = params.get(key[0]);
-      var text = await getTextFromFileUrlAsync(filename,{"Cache-Control":"max-age=0"})
+      var text = await getTextFromFileUrlAsync(filename, {"Cache-Control":"max-age=0"})
       $("#btn_download").click(function () {
         var b = new Blob([text],{type:"text/plain;charset=utf-8"});
         saveAs(b, filename.substring(filename.lastIndexOf('/')+1))
