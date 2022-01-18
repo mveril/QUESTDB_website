@@ -2,6 +2,7 @@ from TexSoup import TexSoup,TexCmd
 from . import formats
 from .data import dataFileBase,DataType, method, state, exSet
 from collections import defaultdict
+from pagerange import PageRange
 
 class dfbOptions(object):
   def __init__(self):
@@ -96,7 +97,7 @@ class dfbOptions(object):
     for node in dfbexcludeColumnsNodes:
       excludeColumns=node.expr
       if type(excludeColumns) is TexCmd:
-        commas_string=excludeColumns.args[0].value
-        ints=[int(x.strip()) for x in commas_string.split(",")]
-        dfb_Opt.excludeColumns.update(ints)
+        range_string=excludeColumns.args[0].value
+        PageRangeParser=PageRange(range_string)
+        dfb_Opt.excludeColumns.update(PageRangeParser.pages)
     return dfb_Opt
