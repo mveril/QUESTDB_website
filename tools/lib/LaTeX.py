@@ -75,7 +75,6 @@ class newCommand(commandBase):
       for cmd in cmds:
         if not cmd.run(tex):
           cmds.remove(cmd)
-          collection.remove(cmd)
       newCommand.runAll(tex,collection)
 class columnAlignment(Enum):
   Left = "l"
