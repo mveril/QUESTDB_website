@@ -15,6 +15,19 @@ class state:
     self.number = number
     self.multiplicity = multiplicity
     self.symmetry = symmetry
+  
+  def __eq__(self, __o: object) -> bool:
+      return type(__o) is state and __o.number == self.number and __o.multiplicity == self.multiplicity and __o.symmetry == self.symmetry
+
+  def __str__(self) -> str:
+      return f'{self.number} ^{self.multiplicity}{self.symmetry}'
+
+  def __repr__(self) -> str:
+    return f'{self.__class__.__name__}: {self.__str__()}'
+
+  def __hash__(self) -> int:
+      return hash((self.number, self.multiplicity, self.symmetry))
+
   @staticmethod
   def fromString(string):
     m=re.match(r"^(?P<number>\d)\s*\^(?P<multiplicity>\d)(?P<sym>\S*)",string)
@@ -52,9 +65,18 @@ class exSet(object):
     self.name=name
     self.index=index
   
-  def __str__(self):
+  def __eq__(self, __o: object) -> bool:
+    return type(__o) is exSet and __o.name == self.name and __o.index == self.index
+
+  def __str__(self) -> str:
     return f"{self.name},{self.index}"
 
+  def __repr__(self) -> str:
+    return f'{self.__class__.__name__}: {self.__str__()}'
+
+  def __hash__(self) -> int:
+      return hash((self.name, self.index))
+      
   @staticmethod
   def fromString(string):
     vals = string.split(",")
@@ -143,6 +165,7 @@ class dataFileBase(object):
     else:
       raise ValueError()
     return handler.readFromTable(table)
+    
   def getMetadata(self):
     dic=OrderedDict()
     dic["Molecule"]=self.molecule
@@ -248,6 +271,18 @@ class method:
     self.name = name
     self.basis=args[0] if len(args)>0 else None
 
+  def __eq__(self, __o: object) -> bool:
+    return type(__o) is method and __o.name == self.name and __o.basis == self.basis
+
+  def __str__(self) -> str:
+      return self.name + f'/{self.basis}' if self.basis!=None else ''
+
+  def __repr__(self) -> str:
+    return f'{self.__class__.__name__}: {self.__str__()}'
+
+  def __hash__(self) -> int:
+      return hash((self.name, self.basis))
+
   @staticmethod
   def fromString(string):
     vals = string.split(",")
@@ -271,6 +306,18 @@ class code:
     self.name = name
     self.version = version
   
+  def __eq__(self, __o: object) -> bool:
+    return type(__o) is method and __o.name == self.name and __o.version == self.version
+
+  def __str__(self) -> str:
+      return self.name + f'/{self.version}' if self.version!=None else ''
+
+  def __repr__(self) -> str:
+    return f'{self.__class__.__name__}: {self.__str__()}'
+
+  def __hash__(self) -> int:
+      return hash((self.name, self.basis))
+
   @staticmethod
   def fromString(string):
     vals = string.split(",")
